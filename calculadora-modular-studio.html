@@ -1,0 +1,2087 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#07090e" />
+  <meta name="color-scheme" content="dark" />
+  <title>Calculadora MODULAR STUDIO by Rubén Sbarsky (2026)</title>
+  <style>
+    :root {
+      --bg-base: #07090e;
+      --bg-surface: #0f1420;
+      --bg-elevated: #161d2e;
+      --bg-glass: rgba(18, 25, 40, 0.92);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-highlight: rgba(245, 158, 11, 0.45);
+      --text-main: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent-gold: #f59e0b;
+      --accent-gold-hover: #fbbf24;
+      --accent-gold-soft: rgba(245, 158, 11, 0.14);
+      --accent-cyan: #0ea5e9;
+      --accent-cyan-soft: rgba(14, 165, 233, 0.14);
+      --accent-emerald: #10b981;
+      --accent-emerald-soft: rgba(16, 185, 129, 0.15);
+      --accent-rose: #f43f5e;
+      --accent-rose-soft: rgba(244, 63, 94, 0.15);
+      --radius-xl: 20px;
+      --radius-lg: 14px;
+      --radius-md: 10px;
+      --radius-sm: 7px;
+      --shadow-glow: 0 12px 35px -10px rgba(245, 158, 11, 0.28);
+      --shadow-card: 0 18px 40px -15px rgba(0, 0, 0, 0.65);
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-base);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #28354e;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-gold);
+    }
+
+    /* Header */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(7, 9, 14, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #090d16;
+      box-shadow: var(--shadow-glow);
+      flex-shrink: 0;
+    }
+    .brand-text h1 {
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .badge-pro {
+      font-size: 0.64rem;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 2px 7px;
+      border-radius: 99px;
+      background: var(--accent-gold-soft);
+      color: var(--accent-gold-hover);
+      border: 1px solid var(--border-highlight);
+    }
+    .brand-text p {
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+    }
+
+    /* Navigation Tabs */
+    .nav-pills {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-surface);
+      padding: 5px;
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+      overflow-x: auto;
+      max-width: 100%;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 0.81rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .nav-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .nav-btn.active {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: #090d16;
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+    }
+    .nav-count {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 1px 6px;
+      border-radius: 99px;
+      background: rgba(0, 0, 0, 0.2);
+      color: inherit;
+    }
+
+    /* Header Actions & Sandwich Button */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .menu-trigger-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 15px;
+      border-radius: 12px;
+      background: var(--accent-gold-soft);
+      border: 1px solid var(--border-highlight);
+      color: var(--accent-gold-hover);
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .menu-trigger-btn:hover {
+      background: rgba(245, 158, 11, 0.25);
+    }
+
+    /* Slide Drawer */
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 998;
+      background: rgba(4, 6, 12, 0.8);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .drawer-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .slide-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 999;
+      height: 100vh;
+      height: 100dvh;
+      width: 88%;
+      max-width: 360px;
+      background: #0b101d;
+      border-left: 1px solid var(--border-highlight);
+      box-shadow: -20px 0 50px rgba(0, 0, 0, 0.85);
+      transform: translateX(100%);
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .slide-drawer.open {
+      transform: translateX(0);
+    }
+    .drawer-header {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(15, 20, 32, 0.95);
+    }
+    .drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .drawer-item {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      font-size: 0.86rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .drawer-item:hover {
+      background: rgba(245, 158, 11, 0.1);
+      border-color: rgba(245, 158, 11, 0.35);
+    }
+    .drawer-item.active {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(217, 119, 6, 0.12));
+      border-color: var(--accent-gold);
+      color: var(--accent-gold-hover);
+      font-weight: 800;
+    }
+    .drawer-section-label {
+      font-size: 0.68rem;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin: 10px 4px 4px;
+    }
+    .drawer-footer {
+      padding: 14px 18px;
+      border-top: 1px solid var(--border-subtle);
+      background: #070a12;
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+
+    /* Main Container */
+    .main-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px 16px 90px;
+    }
+
+    /* KPI Strip */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .kpi-card {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 15px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow-card);
+    }
+    .kpi-info span {
+      display: block;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+    .kpi-info strong {
+      font-size: 1.3rem;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      color: var(--text-main);
+    }
+    .kpi-info small {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-left: 4px;
+    }
+    .kpi-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* View Sections */
+    .view-section {
+      display: none;
+    }
+    .view-section.active {
+      display: block;
+      animation: fadeIn 0.2s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .grid-despiece {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    @media (max-width: 1040px) {
+      .grid-2col, .grid-despiece {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 20px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 20px;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 14px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      flex-wrap: wrap;
+    }
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .card-subtitle {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    /* Form Controls */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+    .col-12 { grid-column: span 12; }
+    .col-8 { grid-column: span 8; }
+    .col-6 { grid-column: span 6; }
+    .col-4 { grid-column: span 4; }
+    .col-3 { grid-column: span 3; }
+
+    @media (max-width: 640px) {
+      .col-8, .col-6, .col-4, .col-3 {
+        grid-column: span 6;
+      }
+      .col-mobile-12 {
+        grid-column: span 12 !important;
+      }
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .field label {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .field label span.unit {
+      font-family: var(--font-mono);
+      color: var(--accent-gold);
+      font-size: 0.68rem;
+    }
+    .input, .select, .textarea {
+      width: 100%;
+      background: var(--bg-base);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-main);
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      font-size: 0.88rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.18s;
+    }
+    .input-mono {
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+    .input:focus, .select:focus {
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.18);
+    }
+    .input-with-btn {
+      display: flex;
+      gap: 6px;
+    }
+
+    .edges-box {
+      background: rgba(7, 9, 14, 0.65);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+    }
+    .edges-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: var(--radius-md);
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.18s ease;
+      text-decoration: none;
+      user-select: none;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: #090d16;
+      box-shadow: 0 6px 20px -4px rgba(245, 158, 11, 0.45);
+    }
+    .btn-primary:hover {
+      filter: brightness(1.08);
+    }
+    .btn-secondary {
+      background: var(--bg-elevated);
+      color: var(--text-main);
+      border-color: var(--border-subtle);
+    }
+    .btn-secondary:hover {
+      border-color: rgba(255, 255, 255, 0.22);
+      background: #1e273d;
+    }
+    .btn-emerald {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #052e16;
+    }
+    .btn-danger {
+      background: var(--accent-rose-soft);
+      color: #fda4af;
+      border-color: rgba(244, 63, 94, 0.3);
+    }
+    .btn-sm {
+      padding: 6px 11px;
+      font-size: 0.76rem;
+      border-radius: var(--radius-sm);
+    }
+    .btn-icon {
+      padding: 8px;
+      border-radius: var(--radius-sm);
+    }
+
+    /* Table & Mobile Cards */
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      background: rgba(7, 9, 14, 0.55);
+    }
+    table.cut-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      text-align: left;
+    }
+    table.cut-table th {
+      background: #0b0f19;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 12px 11px;
+      border-bottom: 1px solid var(--border-subtle);
+      white-space: nowrap;
+    }
+    table.cut-table td {
+      padding: 11px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      vertical-align: middle;
+    }
+    table.cut-table tbody tr:hover {
+      background: rgba(245, 158, 11, 0.05);
+    }
+    .material-group-row td {
+      background: rgba(14, 165, 233, 0.1);
+      color: #7dd3fc;
+      font-weight: 700;
+      font-size: 0.78rem;
+      padding: 8px 12px;
+      border-top: 1px solid rgba(14, 165, 233, 0.25);
+      border-bottom: 1px solid rgba(14, 165, 233, 0.25);
+    }
+
+    .edge-pill {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 5px;
+    }
+    .edge-none { color: var(--text-muted); }
+    .edge-045 { background: var(--accent-emerald-soft); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
+    .edge-2mm { background: var(--accent-gold-soft); color: var(--accent-gold-hover); border: 1px solid rgba(245,158,11,0.35); }
+    .veta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 99px;
+    }
+    .veta-si { background: var(--accent-rose-soft); color: #fb7185; border: 1px solid rgba(244,63,94,0.3); }
+    .veta-no { background: rgba(255, 255, 255, 0.06); color: var(--text-secondary); }
+
+    .piece-diagram {
+      width: 32px;
+      height: 24px;
+      border: 1px dashed rgba(255, 255, 255, 0.22);
+      border-radius: 3px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .piece-diagram.top-045 { border-top: 2px solid #10b981; }
+    .piece-diagram.top-2mm { border-top: 3px solid #f59e0b; }
+    .piece-diagram.bottom-045 { border-bottom: 2px solid #10b981; }
+    .piece-diagram.bottom-2mm { border-bottom: 3px solid #f59e0b; }
+    .piece-diagram.left-045 { border-left: 2px solid #10b981; }
+    .piece-diagram.left-2mm { border-left: 3px solid #f59e0b; }
+    .piece-diagram.right-045 { border-right: 2px solid #10b981; }
+    .piece-diagram.right-2mm { border-right: 3px solid #f59e0b; }
+
+    /* Calc Pad */
+    .calc-pad {
+      background: #080b12;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 16px;
+    }
+    .calc-screen {
+      background: #0d1322;
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-radius: var(--radius-lg);
+      padding: 12px 14px;
+      text-align: right;
+      margin-bottom: 12px;
+    }
+    .calc-expr {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      min-height: 18px;
+    }
+    .calc-result {
+      font-family: var(--font-mono);
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--accent-gold-hover);
+    }
+    .calc-shortcuts {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .chip-btn {
+      background: rgba(14, 165, 233, 0.12);
+      border: 1px solid rgba(14, 165, 233, 0.3);
+      color: #38bdf8;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 7px 4px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .calc-keys {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 7px;
+    }
+    .calc-key {
+      padding: 12px 8px;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-elevated);
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .calc-key.op { background: rgba(245, 158, 11, 0.14); color: var(--accent-gold-hover); }
+    .calc-key.eq { background: linear-gradient(135deg, #f59e0b, #d97706); color: #090d16; border: none; }
+    .calc-key.clear { background: var(--accent-rose-soft); color: #fda4af; }
+
+    .txt-console {
+      background: #06080d;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      line-height: 1.5;
+      color: #e2e8f0;
+      white-space: pre;
+      overflow-x: auto;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      background: rgba(7, 9, 14, 0.55);
+      border: 1px solid var(--border-subtle);
+      cursor: pointer;
+      margin-bottom: 8px;
+    }
+    .check-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      accent-color: var(--accent-emerald);
+      cursor: pointer;
+    }
+
+    /* Floating Triggers & Modals */
+    .floating-calc-trigger {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #090d16;
+      font-weight: 800;
+      font-size: 0.84rem;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      box-shadow: 0 10px 25px rgba(245, 158, 11, 0.45);
+      cursor: pointer;
+      touch-action: none;
+    }
+    .quick-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 6, 11, 0.8);
+      backdrop-filter: blur(6px);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .quick-modal-backdrop.open { display: flex; }
+    .quick-modal {
+      width: 100%;
+      max-width: 420px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-highlight);
+      border-radius: var(--radius-xl);
+      padding: 18px;
+    }
+
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+    .toast {
+      background: #111827;
+      color: #f8fafc;
+      border: 1px solid var(--accent-gold);
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 0.81rem;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .formula-res-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .formula-res-box {
+      background: rgba(7, 9, 14, 0.7);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+    }
+    .formula-res-box span { font-size: 0.68rem; color: var(--text-secondary); display: block; }
+    .formula-res-box strong { font-family: var(--font-mono); font-size: 1rem; color: var(--accent-gold-hover); }
+
+    /* Mobile Cards View for Galaxy A02s & small screens */
+    .mobile-cards-list {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .mobile-piece-card {
+      background: rgba(11, 15, 25, 0.95);
+      border: 1px solid var(--border-subtle);
+      border-left: 3px solid var(--accent-gold);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .mobile-piece-dims {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--accent-gold-hover);
+      background: rgba(245, 158, 11, 0.12);
+      padding: 3px 8px;
+      border-radius: 7px;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+    .mobile-piece-edges {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 6px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 0.68rem;
+      font-family: var(--font-mono);
+    }
+
+    @media (max-width: 768px) {
+      .header-inner { padding: 10px 12px; gap: 8px; }
+      .brand { gap: 10px; max-width: calc(100% - 95px); }
+      .brand-logo { width: 34px; height: 34px; border-radius: 9px; }
+      .brand-text h1 { font-size: 0.84rem; }
+      .brand-text p { display: none; }
+      .header-actions { width: 100%; justify-content: space-between; order: 2; }
+      .nav-pills { order: 3; width: 100%; padding: 4px; gap: 4px; }
+      .nav-btn { padding: 8px 12px; font-size: 0.75rem; }
+      .main-container { padding: 12px 10px 95px; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px; }
+      .kpi-card { padding: 10px 12px; }
+      .kpi-info strong { font-size: 1.05rem; }
+      .card { padding: 14px 12px; margin-bottom: 12px; }
+      .input, .select, .textarea { font-size: 16px; padding: 9px 10px; }
+    }
+
+    /* === Correcciones y optimización móvil (Galaxy A02s, ~360 px) === */
+    html { -webkit-text-size-adjust: 100%; }
+    body { overflow-x: visible; } /* html ya recorta; así el header sticky funciona */
+    .toast-container { bottom: calc(84px + env(safe-area-inset-bottom, 0px)); width: max-content; max-width: calc(100vw - 24px); }
+    .floating-calc-trigger { right: calc(12px + env(safe-area-inset-right, 0px)); bottom: calc(12px + env(safe-area-inset-bottom, 0px)); touch-action: manipulation; min-height: 48px; }
+    .drawer-body { overscroll-behavior: contain; }
+    .table-wrapper { -webkit-overflow-scrolling: touch; }
+    .edges-box > div:first-child { flex-wrap: wrap; gap: 8px; }
+    .field label { min-height: 1.1em; }
+    @media (max-width: 768px) {
+      .app-header, .drawer-backdrop, .quick-modal-backdrop { backdrop-filter: none; -webkit-backdrop-filter: none; }
+      .app-header { background: #07090e; }
+      .drawer-backdrop, .quick-modal-backdrop { background: rgba(4, 6, 12, 0.9); }
+      .header-actions { width: auto; order: 2; margin-left: auto; }
+      .header-actions > .btn { display: none; }
+      .brand-text h1 { font-size: 0.8rem; line-height: 1.25; gap: 2px 6px; }
+      .brand-text h1 .badge-pro { font-size: 0.6rem; padding: 1px 6px; }
+      .nav-pills { order: 3; }
+      .btn, .chip-btn, .nav-btn, .calc-key, .menu-trigger-btn { min-height: 44px; }
+      .btn-sm { padding: 10px 12px; }
+      .btn-icon { min-width: 44px; }
+      .card, .kpi-card, .slide-drawer { box-shadow: none; }
+      .txt-console { max-height: 320px; font-size: 0.72rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP HEADER -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>
+            Calculadora MODULAR STUDIO
+            <span class="badge-pro">by Rubén Sbarsky (2026)</span>
+          </h1>
+          <p>Despiece Profesional de Muebles Modulares &amp; Optimización</p>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="nav-pills" aria-label="Navegación Principal">
+        <button type="button" class="nav-btn active" onclick="switchView('despiece')" id="nav-despiece">
+          <span>1. Despiece</span>
+          <span class="nav-count" id="navPieceBadge">0</span>
+        </button>
+        <button type="button" class="nav-btn" onclick="switchView('asistente')" id="nav-asistente">
+          <span>2. Módulos</span>
+        </button>
+        <button type="button" class="nav-btn" onclick="switchView('calculadora')" id="nav-calculadora">
+          <span>3. Laboratorio</span>
+        </button>
+        <button type="button" class="nav-btn" onclick="switchView('exportar')" id="nav-exportar">
+          <span>4. TXT / QA</span>
+        </button>
+      </nav>
+
+      <div class="header-actions">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="loadDemoBajoMesada()" title="Cargar Caso Bajo Mesada">
+          <span>Ejemplo</span>
+        </button>
+        <button type="button" class="btn btn-primary btn-sm" onclick="downloadTxtFile()">
+          <span>.TXT</span>
+        </button>
+        <!-- BOTÓN SÁNDWICH CON MANEJADOR DE EVENTO ROBUSTO -->
+        <button type="button" class="menu-trigger-btn" onclick="toggleSlideDrawer(true);" aria-label="Abrir Menú">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          <span>MENÚ</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MENÚ DESLIZANTE LATERAL (DRAWER) -->
+  <div id="slideDrawerBackdrop" class="drawer-backdrop" onclick="toggleSlideDrawer(false)"></div>
+  <aside id="slideDrawer" class="slide-drawer" aria-label="Menú Lateral">
+    <div class="drawer-header">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="width:32px; height:32px; border-radius:9px; background:var(--accent-gold-soft); color:var(--accent-gold); display:flex; align-items:center; justify-content:center; font-weight:800;">☰</div>
+        <div>
+          <strong style="font-size:0.9rem; display:block; color:var(--text-main);">Índice del Sistema</strong>
+          <span style="font-size:0.72rem; color:var(--text-secondary);">Módulos y herramientas rápidas</span>
+        </div>
+      </div>
+      <button type="button" class="btn btn-secondary btn-sm" onclick="toggleSlideDrawer(false)">✕</button>
+    </div>
+
+    <div class="drawer-body">
+      <div class="drawer-section-label">Secciones de la App</div>
+      <button type="button" class="drawer-item active" id="drawer-despiece" onclick="switchView('despiece'); toggleSlideDrawer(false);">
+        <span>1. Planilla de Despiece (10 Col.)</span>
+        <span class="badge-pro">Tabla</span>
+      </button>
+      <button type="button" class="drawer-item" id="drawer-asistente" onclick="switchView('asistente'); toggleSlideDrawer(false);">
+        <span>2. Generador Automático de Módulos</span>
+        <span class="badge-pro">Auto</span>
+      </button>
+      <button type="button" class="drawer-item" id="drawer-calculadora" onclick="switchView('calculadora'); toggleSlideDrawer(false);">
+        <span>3. Laboratorio &amp; Calculadora</span>
+        <span class="badge-pro">Fórmulas</span>
+      </button>
+      <button type="button" class="drawer-item" id="drawer-exportar" onclick="switchView('exportar'); toggleSlideDrawer(false);">
+        <span>4. Exportación TXT &amp; Checklist QA</span>
+        <span class="badge-pro">Envío</span>
+      </button>
+
+      <div class="drawer-section-label">Acciones Rápidas</div>
+      <button type="button" class="drawer-item" onclick="toggleSlideDrawer(false); toggleQuickCalcModal(true);">
+        <span>🔢 Abrir Calculadora Flotante</span>
+        <span style="color:var(--accent-gold);">→</span>
+      </button>
+      <button type="button" class="drawer-item" onclick="toggleSlideDrawer(false); downloadTxtFile();">
+        <span>📄 Descargar Orden .TXT</span>
+        <span style="color:var(--accent-emerald);">↓</span>
+      </button>
+      <button type="button" class="drawer-item" onclick="toggleSlideDrawer(false); copyTxtToClipboard('WHATSAPP');">
+        <span>💬 Copiar Pedido WhatsApp</span>
+        <span style="color:var(--accent-cyan);">📋</span>
+      </button>
+      <button type="button" class="drawer-item" onclick="toggleSlideDrawer(false); downloadCsvFile();">
+        <span>📊 Exportar Planilla Excel (.CSV)</span>
+        <span style="color:var(--text-secondary);">↓</span>
+      </button>
+      <button type="button" class="drawer-item" onclick="toggleSlideDrawer(false); loadDemoBajoMesada();">
+        <span>🔄 Restaurar Ejemplo Bajo Mesada</span>
+        <span style="color:var(--accent-gold);">↺</span>
+      </button>
+    </div>
+
+    <div class="drawer-footer">Calculadora MODULAR STUDIO by Rubén Sbarsky (2026)</div>
+  </aside>
+
+  <!-- MAIN WORKSPACE -->
+  <main class="main-container">
+
+    <!-- KPI STRIP -->
+    <section class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-info">
+          <span>Total Piezas</span>
+          <strong id="kpiTotalPieces">0</strong><small>unid.</small>
+        </div>
+        <div class="kpi-icon" style="background: var(--accent-gold-soft); color: var(--accent-gold);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/></svg>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-info">
+          <span>Superficie total</span>
+          <strong id="kpiTotalArea">0.00</strong><small>m²</small>
+        </div>
+        <div class="kpi-icon" style="background: var(--accent-cyan-soft); color: var(--accent-cyan);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-info">
+          <span>Canto 0.45mm</span>
+          <strong id="kpiEdge045">0.0</strong><small>m</small>
+        </div>
+        <div class="kpi-icon" style="background: var(--accent-emerald-soft); color: var(--accent-emerald);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-info">
+          <span>Canto ABS 2mm</span>
+          <strong id="kpiEdge2mm">0.0</strong><small>m</small>
+        </div>
+        <div class="kpi-icon" style="background: var(--accent-rose-soft); color: #fb7185;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISTA 1: PLANILLA -->
+    <section id="view-despiece" class="view-section active">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span>Cabecera del Pedido</span>
+            </div>
+            <p class="card-subtitle">Datos generales para el centro de corte.</p>
+          </div>
+          <span class="badge-pro">100% EN MILÍMETROS (mm)</span>
+        </div>
+
+        <div class="form-grid">
+          <div class="field col-4 col-mobile-12">
+            <label for="projName">Nombre del Proyecto</label>
+            <input id="projName" type="text" class="input" value="Bajo Mesada Cocina 1000mm" oninput="saveProjectState()" />
+          </div>
+          <div class="field col-4 col-mobile-12">
+            <label for="projClient">Cliente</label>
+            <input id="projClient" type="text" class="input" value="Estudio Modular" oninput="saveProjectState()" />
+          </div>
+          <div class="field col-4 col-mobile-12">
+            <label for="projEdgeCriterion">Criterio Canto 2mm</label>
+            <select id="projEdgeCriterion" class="select" onchange="saveProjectState()">
+              <option value="NETA">Medida neta (ya descontado 2 mm por canto grueso)</option>
+              <option value="FINAL">Medida final (el proveedor descuenta 2 mm por canto)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-despiece">
+        <!-- Formulario Pieza -->
+        <div class="card" id="pieceFormCard">
+          <div class="card-header">
+            <div class="card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span id="formTitleText">Añadir Pieza</span>
+            </div>
+          </div>
+
+          <form id="pieceForm" onsubmit="handleSavePiece(event)" class="form-grid">
+            <input type="hidden" id="editPieceId" value="" />
+
+            <div class="field col-4">
+              <label for="pCant">Cant. <span class="unit">un.</span></label>
+              <input id="pCant" type="number" min="1" max="999" required class="input input-mono" value="2" />
+            </div>
+            <div class="field col-4">
+              <label for="pLargo">Largo <span class="unit">mm (Veta)</span></label>
+              <input id="pLargo" type="number" min="10" max="5000" required class="input input-mono" placeholder="720" />
+            </div>
+            <div class="field col-4">
+              <label for="pAncho">Ancho <span class="unit">mm</span></label>
+              <input id="pAncho" type="number" min="10" max="5000" required class="input input-mono" placeholder="550" />
+            </div>
+
+            <div class="col-12" style="display:flex; gap:6px; flex-wrap:wrap;">
+              <button type="button" class="chip-btn" onclick="applyQuickDelta('pLargo', -36)">L -36</button>
+              <button type="button" class="chip-btn" onclick="applyQuickDelta('pLargo', -4)">L -4</button>
+              <button type="button" class="chip-btn" onclick="applyQuickDelta('pAncho', -4)">A -4</button>
+              <button type="button" class="chip-btn" onclick="swapLargoAncho()">⇄ Invertir</button>
+            </div>
+
+            <div class="field col-8 col-mobile-12">
+              <label for="pMaterial">Material / Espesor</label>
+              <input id="pMaterial" type="text" required class="input" value="Blanco MDF 18mm" />
+            </div>
+            <div class="field col-4 col-mobile-12">
+              <label for="pVeta">Veta</label>
+              <select id="pVeta" class="select">
+                <option value="NO">NO</option>
+                <option value="SI">SI</option>
+              </select>
+            </div>
+
+            <div class="col-12 edges-box">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:0.72rem; font-weight:700; color:var(--accent-gold);">Tapacantos (L1, L2, A1, A2)</span>
+                <div style="display:flex; gap:4px;">
+                  <button type="button" class="btn btn-secondary btn-sm" style="padding:2px 6px; font-size:0.66rem;" onclick="setAllEdges('')">Ninguno</button>
+                  <button type="button" class="btn btn-secondary btn-sm" style="padding:2px 6px; font-size:0.66rem;" onclick="setAllEdges('0.45')">0.45</button>
+                  <button type="button" class="btn btn-secondary btn-sm" style="padding:2px 6px; font-size:0.66rem;" onclick="setAllEdges('2mm')">2mm</button>
+                </div>
+              </div>
+              <div class="edges-grid">
+                <div class="field"><label for="pL1">L₁</label><select id="pL1" class="select"><option value="">-</option><option value="0.45" selected>0.45</option><option value="2mm">2mm</option></select></div>
+                <div class="field"><label for="pL2">L₂</label><select id="pL2" class="select"><option value="">-</option><option value="0.45">0.45</option><option value="2mm">2mm</option></select></div>
+                <div class="field"><label for="pA1">A₁</label><select id="pA1" class="select"><option value="">-</option><option value="0.45" selected>0.45</option><option value="2mm">2mm</option></select></div>
+                <div class="field"><label for="pA2">A₂</label><select id="pA2" class="select"><option value="">-</option><option value="0.45" selected>0.45</option><option value="2mm">2mm</option></select></div>
+              </div>
+            </div>
+
+            <div class="field col-12">
+              <label for="pObs">Observación / Nombre de Pieza</label>
+              <input id="pObs" type="text" required class="input" placeholder="Ej. Lateral Casco" />
+            </div>
+
+            <div class="col-12" style="display:flex; gap:8px;">
+              <button type="submit" class="btn btn-primary" style="flex:1;">Guardar en Planilla</button>
+              <button type="button" id="cancelEditBtn" class="btn btn-secondary" style="display:none;" onclick="resetPieceForm()">Cancelar</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Tabla & Vista Móvil -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.2"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+              <span>Lista de Despiece</span>
+            </div>
+            <div style="display:flex; gap:6px; align-items:center; width:100%; justify-content:space-between;">
+              <select id="filterMaterial" class="select" style="width:auto; padding:5px 8px; font-size:0.75rem;" onchange="renderPiecesTable()">
+                <option value="ALL">Todos los materiales</option>
+              </select>
+              <div style="display:flex; gap:6px;">
+                <button type="button" class="btn btn-secondary btn-sm" onclick="toggleMobileDisplayMode()">📱 Tarjetas / Tabla</button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="clearAllPieces()">Vaciar</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="mobileCardsContainer" class="mobile-cards-list"></div>
+
+          <div id="desktopTableWrapper" class="table-wrapper">
+            <table class="cut-table">
+              <thead>
+                <tr>
+                  <th>Cant</th>
+                  <th>Largo</th>
+                  <th>Ancho</th>
+                  <th>Material</th>
+                  <th>L₁</th>
+                  <th>L₂</th>
+                  <th>A₁</th>
+                  <th>A₂</th>
+                  <th>Filos</th>
+                  <th>Veta</th>
+                  <th>Observación</th>
+                  <th style="text-align:right;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="cutTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISTA 2: ASISTENTE DE MÓDULOS -->
+    <section id="view-asistente" class="view-section">
+      <div class="grid-2col">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5z"/></svg>
+              <span>Generador Automático de Módulos</span>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="field col-4"><label>Alto H <span class="unit">mm</span></label><input id="wizH" type="number" class="input input-mono" value="720" oninput="previewWizardModule()" /></div>
+            <div class="field col-4"><label>Ancho A <span class="unit">mm</span></label><input id="wizA" type="number" class="input input-mono" value="1000" oninput="previewWizardModule()" /></div>
+            <div class="field col-4"><label>Prof. P <span class="unit">mm</span></label><input id="wizP" type="number" class="input input-mono" value="550" oninput="previewWizardModule()" /></div>
+            <div class="field col-6"><label>Sistema Armado</label><select id="wizSystem" class="select" onchange="previewWizardModule()"><option value="LATERALES_PASANTES" selected>Laterales Pasantes</option><option value="PISO_TECHO_PASANTES">Piso y Techo Pasantes</option></select></div>
+            <div class="field col-6"><label>Cierre Superior</label><select id="wizTopType" class="select" onchange="previewWizardModule()"><option value="FAJAS" selected>2 Fajas de 100mm</option><option value="TECHO">Techo Completo</option></select></div>
+            <div class="field col-4"><label>Espesor Placa</label><select id="wizE" class="select input-mono" onchange="syncEspesor()"><option value="18" selected>18 mm</option><option value="15">15 mm</option></select></div>
+            <div class="field col-4"><label>Parante Central</label><select id="wizDividers" class="select input-mono" onchange="previewWizardModule()"><option value="0">0</option><option value="1" selected>1 Parante</option></select></div>
+            <div class="field col-4"><label>Estantes Móviles</label><input id="wizShelves" type="number" min="0" max="10" class="input input-mono" value="1" oninput="previewWizardModule()" /></div>
+            <div class="field col-4"><label>Puertas</label><select id="wizDoors" class="select input-mono" onchange="previewWizardModule()"><option value="0">0</option><option value="1" selected>1 Puerta</option><option value="2">2 Puertas</option></select></div>
+            <div class="field col-4"><label>Cajones</label><input id="wizDrawers" type="number" min="0" max="8" class="input input-mono" value="3" oninput="previewWizardModule()" /></div>
+            <div class="field col-4"><label>Corredera</label><select id="wizSlideLen" class="select input-mono" onchange="previewWizardModule()"><option value="450" selected>450 mm</option><option value="500">500 mm</option></select></div>
+            <div class="field col-6"><label>Material Casco</label><input id="wizMatCasco" type="text" class="input" value="Blanco MDF 18mm" oninput="previewWizardModule()" /></div>
+            <div class="field col-6"><label>Material Frentes</label><input id="wizMatFrentes" type="text" class="input" value="Roble MDF 18mm" oninput="previewWizardModule()" /></div>
+
+            <div class="col-12" style="display:flex; gap:10px; margin-top:6px;">
+              <button type="button" class="btn btn-primary" style="flex:1;" onclick="commitWizardToCutlist(true)">Reemplazar Lista</button>
+              <button type="button" class="btn btn-secondary" onclick="commitWizardToCutlist(false)">+ Sumar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span>Vista Previa del Módulo</span></div></div>
+          <div style="background:#070a11; border:1px solid var(--border-subtle); border-radius:12px; padding:14px; text-align:center; margin-bottom:14px;">
+            <div id="wizSvgContainer"></div>
+            <p id="wizProofText" style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-emerald); margin-top:6px;"></p>
+          </div>
+          <div id="wizPreviewList" style="max-height:340px; overflow-y:auto; display:flex; flex-direction:column; gap:6px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISTA 3: LABORATORIO & CALCULADORA -->
+    <section id="view-calculadora" class="view-section">
+      <div class="grid-2col">
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span>Calculadora Aritmética de Taller</span></div></div>
+          <div class="calc-pad">
+            <div class="calc-screen">
+              <div class="calc-expr" id="calcExprDisplay">1000-36</div>
+              <div class="calc-result" id="calcResultDisplay">964</div>
+            </div>
+            <div class="calc-shortcuts">
+              <button type="button" class="chip-btn" onclick="calcQuickOp('-18')">-18</button>
+              <button type="button" class="chip-btn" onclick="calcQuickOp('-36')">-36</button>
+              <button type="button" class="chip-btn" onclick="calcQuickOp('-62')">-62 (cajón)</button>
+              <button type="button" class="chip-btn" onclick="calcQuickOp('-4')">-4</button>
+            </div>
+            <div class="calc-keys">
+              <button type="button" class="calc-key clear" onclick="calcClear()">AC</button>
+              <button type="button" class="calc-key op" onclick="calcAppend('(')">(</button>
+              <button type="button" class="calc-key op" onclick="calcAppend(')')">)</button>
+              <button type="button" class="calc-key op" onclick="calcAppend('/')">÷</button>
+              <button type="button" class="calc-key" onclick="calcAppend('7')">7</button>
+              <button type="button" class="calc-key" onclick="calcAppend('8')">8</button>
+              <button type="button" class="calc-key" onclick="calcAppend('9')">9</button>
+              <button type="button" class="calc-key op" onclick="calcAppend('*')">×</button>
+              <button type="button" class="calc-key" onclick="calcAppend('4')">4</button>
+              <button type="button" class="calc-key" onclick="calcAppend('5')">5</button>
+              <button type="button" class="calc-key" onclick="calcAppend('6')">6</button>
+              <button type="button" class="calc-key op" onclick="calcAppend('-')">−</button>
+              <button type="button" class="calc-key" onclick="calcAppend('1')">1</button>
+              <button type="button" class="calc-key" onclick="calcAppend('2')">2</button>
+              <button type="button" class="calc-key" onclick="calcAppend('3')">3</button>
+              <button type="button" class="calc-key op" onclick="calcAppend('+')">+</button>
+              <button type="button" class="calc-key" onclick="calcBackspace()">←</button>
+              <button type="button" class="calc-key" onclick="calcAppend('0')">0</button>
+              <button type="button" class="calc-key" onclick="calcAppend('.')">.</button>
+              <button type="button" class="calc-key eq" onclick="calcEvaluate()">=</button>
+            </div>
+            <div style="display:flex; gap:8px; margin-top:12px;">
+              <button type="button" class="btn btn-secondary btn-sm" style="flex:1;" onclick="sendCalcToField('pLargo')">↳ Enviar a Largo</button>
+              <button type="button" class="btn btn-secondary btn-sm" style="flex:1;" onclick="sendCalcToField('pAncho')">↳ Enviar a Ancho</button>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card">
+            <div class="card-header"><div class="card-title"><span>Calculadora de Cajones (V − 26 − 2E)</span></div></div>
+            <div class="form-grid">
+              <div class="field col-6"><label>Vano V <span class="unit">mm</span></label><input id="drwVano" type="number" class="input input-mono" value="473" oninput="runDrawerCalc()" /></div>
+              <div class="field col-6"><label>N° Cajones</label><input id="drwCount" type="number" min="1" class="input input-mono" value="3" oninput="runDrawerCalc()" /></div>
+              <div class="field col-6"><label for="drwEsp">Espesor E <span class="unit">mm</span></label><select id="drwEsp" class="select input-mono" onchange="runDrawerCalc()"><option value="18" selected>18</option><option value="15">15</option></select></div>
+            </div>
+            <div class="formula-res-grid" id="drawerCalcResults"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISTA 4: EXPORTAR & TXT -->
+    <section id="view-exportar" class="view-section">
+      <div class="grid-2col">
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span>Orden de Corte .TXT</span></div></div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
+            <button type="button" class="btn btn-primary btn-sm" onclick="downloadTxtFile()">Descargar .TXT</button>
+            <button type="button" class="btn btn-emerald btn-sm" onclick="copyTxtToClipboard('TXT')">Copiar Texto</button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="copyTxtToClipboard('WHATSAPP')">Copiar WhatsApp</button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="downloadCsvFile()">Exportar CSV</button>
+          </div>
+          <pre id="txtPreviewBox" class="txt-console"></pre>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span>Checklist de Calidad (QA)</span></div></div>
+          <div id="qaChecklist">
+            <label class="check-item"><input type="checkbox" onchange="updateQaStatus()" /><div><strong>1. Medidas en milímetros (mm)</strong></div></label>
+            <label class="check-item"><input type="checkbox" onchange="updateQaStatus()" /><div><strong>2. Espesor real de placa verificado</strong></div></label>
+            <label class="check-item"><input type="checkbox" onchange="updateQaStatus()" /><div><strong>3. Tapacantos en estantes y cajones correctos</strong></div></label>
+            <label class="check-item"><input type="checkbox" onchange="updateQaStatus()" /><div><strong>4. Descuento de canto grueso (ABS 2mm)</strong></div></label>
+            <label class="check-item"><input type="checkbox" onchange="updateQaStatus()" /><div><strong>5. Profundidad mayor al largo de correderas</strong></div></label>
+            <label class="check-item"><input type="checkbox" onchange="updateQaStatus()" /><div><strong>6. Espacio libre para bisagras en cajones</strong></div></label>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- BOTÓN FLOTANTE CALCULADORA -->
+  <button type="button" id="fabQuickCalc" class="floating-calc-trigger" onclick="toggleQuickCalcModal(true)">🔢 Calculadora</button>
+
+  <!-- MODAL CALCULADORA RÁPIDA -->
+  <div id="quickCalcModal" class="quick-modal-backdrop" onclick="if(event.target === this) toggleQuickCalcModal(false)">
+    <div class="quick-modal">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <strong style="color:var(--accent-gold-hover);">Calculadora Rápida</strong>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="toggleQuickCalcModal(false)">✕</button>
+      </div>
+      <div class="calc-pad" style="padding:12px;">
+        <div class="calc-screen" style="padding:8px 10px; margin-bottom:8px;">
+          <div class="calc-expr" id="modalCalcExpr">0</div>
+          <div class="calc-result" id="modalCalcResult" style="font-size:1.3rem;">0</div>
+        </div>
+        <div class="calc-keys">
+          <button type="button" class="calc-key clear" onclick="calcClear()">AC</button>
+          <button type="button" class="calc-key op" onclick="calcAppend('(')">(</button>
+          <button type="button" class="calc-key op" onclick="calcAppend(')')">)</button>
+          <button type="button" class="calc-key op" onclick="calcAppend('/')">÷</button>
+          <button type="button" class="calc-key" onclick="calcAppend('7')">7</button>
+          <button type="button" class="calc-key" onclick="calcAppend('8')">8</button>
+          <button type="button" class="calc-key" onclick="calcAppend('9')">9</button>
+          <button type="button" class="calc-key op" onclick="calcAppend('*')">×</button>
+          <button type="button" class="calc-key" onclick="calcAppend('4')">4</button>
+          <button type="button" class="calc-key" onclick="calcAppend('5')">5</button>
+          <button type="button" class="calc-key" onclick="calcAppend('6')">6</button>
+          <button type="button" class="calc-key op" onclick="calcAppend('-')">−</button>
+          <button type="button" class="calc-key" onclick="calcAppend('1')">1</button>
+          <button type="button" class="calc-key" onclick="calcAppend('2')">2</button>
+          <button type="button" class="calc-key" onclick="calcAppend('3')">3</button>
+          <button type="button" class="calc-key op" onclick="calcAppend('+')">+</button>
+          <button type="button" class="calc-key" onclick="calcBackspace()">←</button>
+          <button type="button" class="calc-key" onclick="calcAppend('0')">0</button>
+          <button type="button" class="calc-key" onclick="calcAppend('.')">.</button>
+          <button type="button" class="calc-key eq" onclick="calcEvaluate()">=</button>
+        </div>
+        <div style="display:flex; gap:8px; margin-top:10px;">
+          <button type="button" class="btn btn-primary btn-sm" style="flex:1;" onclick="sendCalcToField('pLargo'); toggleQuickCalcModal(false);">Largo</button>
+          <button type="button" class="btn btn-primary btn-sm" style="flex:1;" onclick="sendCalcToField('pAncho'); toggleQuickCalcModal(false);">Ancho</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script>
+    const STORAGE_KEY = 'MODULAR_STUDIO_PRO_STATE_V2';
+    let pieces = [];
+    let calcExpression = '1000-36';
+    let calcHistory = [];
+    let useMobileCardsView = window.innerWidth <= 640;
+    let clearConfirmPending = false;
+
+    function getDefaultDemoPieces() {
+      const crit = document.getElementById('projEdgeCriterion').value;
+      return buildModule({ ...WIZ_DEFAULT, criterion: crit }).out;
+    }
+
+    function uid() { return 'p_' + Math.random().toString(36).substring(2, 9) + Date.now().toString(36); }
+
+    function showToast(msg) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `<span style="color:var(--accent-gold);">●</span> <span>${msg}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.2s';
+        setTimeout(() => toast.remove(), 200);
+      }, 2500);
+    }
+
+    /* GESTIÓN DE VISTAS Y MENÚ DESLIZANTE */
+    function switchView(viewName) {
+      document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.drawer-item[id^="drawer-"]').forEach(d => d.classList.remove('active'));
+
+      const targetSection = document.getElementById(`view-${viewName}`);
+      const targetBtn = document.getElementById(`nav-${viewName}`);
+      const targetDrawerBtn = document.getElementById(`drawer-${viewName}`);
+
+      if (targetSection) targetSection.classList.add('active');
+      if (targetBtn) targetBtn.classList.add('active');
+      if (targetDrawerBtn) targetDrawerBtn.classList.add('active');
+
+      if (viewName === 'asistente') previewWizardModule();
+      if (viewName === 'exportar') updateTxtPreview();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleSlideDrawer(open) {
+      const drawer = document.getElementById('slideDrawer');
+      const backdrop = document.getElementById('slideDrawerBackdrop');
+      if (!drawer || !backdrop) return;
+      if (open) {
+        drawer.classList.add('open');
+        backdrop.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      } else {
+        drawer.classList.remove('open');
+        backdrop.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    }
+
+    /* ESTADO Y ALMACENAMIENTO */
+    function saveProjectState() {
+      const state = {
+        projName: document.getElementById('projName').value,
+        projClient: document.getElementById('projClient').value,
+        projEdgeCriterion: document.getElementById('projEdgeCriterion').value,
+        pieces
+      };
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+      updateTxtPreview();
+    }
+
+    function normalizePiece(p) {
+      const e = v => (v === '0.45' || v === '2mm') ? v : '';
+      const n = (v, lo, hi) => Math.min(hi, Math.max(lo, Math.round(Number(v)) || lo));
+      return {
+        id: (typeof p.id === 'string' && /^[\w-]+$/.test(p.id)) ? p.id : uid(),
+        cant: n(p.cant, 1, 999), largo: n(p.largo, 1, 5000), ancho: n(p.ancho, 1, 5000),
+        material: String(p.material ?? '').trim() || 'Sin material',
+        l1: e(p.l1), l2: e(p.l2), a1: e(p.a1), a2: e(p.a2),
+        veta: p.veta === 'SI' ? 'SI' : 'NO',
+        obs: String(p.obs ?? '').trim() || 'Pieza'
+      };
+    }
+
+    function loadProjectState() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+        if (parsed && typeof parsed === 'object') {
+          if (parsed.projName) document.getElementById('projName').value = String(parsed.projName);
+          if (parsed.projClient) document.getElementById('projClient').value = String(parsed.projClient);
+          if (parsed.projEdgeCriterion === 'NETA' || parsed.projEdgeCriterion === 'FINAL') document.getElementById('projEdgeCriterion').value = parsed.projEdgeCriterion;
+          if (Array.isArray(parsed.pieces)) {
+            pieces = parsed.pieces.filter(p => p && typeof p === 'object').map(normalizePiece);
+            return;
+          }
+        }
+      } catch (e) {}
+      pieces = getDefaultDemoPieces();
+    }
+
+    function loadDemoBajoMesada() {
+      pieces = getDefaultDemoPieces();
+      saveProjectState();
+      refreshMaterialFilterOptions();
+      renderPiecesTable();
+      switchView('despiece');
+      showToast('Caso Bajo Mesada cargado.');
+    }
+
+    function refreshMaterialFilterOptions() {
+      const select = document.getElementById('filterMaterial');
+      const currentVal = select.value;
+      const materials = [...new Set(pieces.map(p => p.material.trim()))];
+      select.innerHTML = '<option value="ALL">Todos (' + materials.length + ')</option>';
+      materials.forEach(mat => {
+        const opt = document.createElement('option');
+        opt.value = mat;
+        opt.textContent = mat;
+        select.appendChild(opt);
+      });
+      if (materials.includes(currentVal)) select.value = currentVal;
+    }
+
+    function formatEdgePill(val) {
+      if (!val) return '<span class="edge-pill edge-none">-</span>';
+      if (val === '0.45') return '<span class="edge-pill edge-045">0.45</span>';
+      if (val === '2mm') return '<span class="edge-pill edge-2mm">2mm</span>';
+      return `<span class="edge-pill">${escapeHtml(val)}</span>`;
+    }
+
+    function buildPieceMiniDiagram(p) {
+      const classes = ['piece-diagram'];
+      if (p.l1 === '0.45') classes.push('top-045');
+      if (p.l1 === '2mm') classes.push('top-2mm');
+      if (p.l2 === '0.45') classes.push('bottom-045');
+      if (p.l2 === '2mm') classes.push('bottom-2mm');
+      if (p.a1 === '0.45') classes.push('left-045');
+      if (p.a1 === '2mm') classes.push('left-2mm');
+      if (p.a2 === '0.45') classes.push('right-045');
+      if (p.a2 === '2mm') classes.push('right-2mm');
+      return `<div class="${classes.join(' ')}">${p.veta === 'SI' ? '↔' : '·'}</div>`;
+    }
+
+    function renderPiecesTable() {
+      const tbody = document.getElementById('cutTableBody');
+      const mobileContainer = document.getElementById('mobileCardsContainer');
+      const tableWrapper = document.getElementById('desktopTableWrapper');
+      const filterMat = document.getElementById('filterMaterial').value;
+      tbody.innerHTML = '';
+      if (mobileContainer) mobileContainer.innerHTML = '';
+
+      if (useMobileCardsView) {
+        if (mobileContainer) mobileContainer.style.display = 'flex';
+        if (tableWrapper) tableWrapper.style.display = 'none';
+      } else {
+        if (mobileContainer) mobileContainer.style.display = 'none';
+        if (tableWrapper) tableWrapper.style.display = 'block';
+      }
+
+      const filtered = filterMat === 'ALL' ? pieces : pieces.filter(p => p.material.trim() === filterMat);
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="12" style="text-align:center; padding:24px; color:var(--text-secondary);">Sin piezas registradas.</td></tr>`;
+        if (mobileContainer) mobileContainer.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-secondary);">Sin piezas registradas.</div>`;
+        updateKpis();
+        return;
+      }
+
+      const groups = {};
+      filtered.forEach(p => {
+        const k = p.material.trim() || 'General';
+        if (!groups[k]) groups[k] = [];
+        groups[k].push(p);
+      });
+
+      Object.keys(groups).forEach(matName => {
+        const groupItems = groups[matName];
+        const groupTr = document.createElement('tr');
+        groupTr.className = 'material-group-row';
+        groupTr.innerHTML = `<td colspan="12">▪ MATERIAL: ${escapeHtml(matName.toUpperCase())} (${groupItems.length} líneas · ${groupItems.reduce((a, q) => a + q.cant * q.largo * q.ancho / 1e6, 0).toFixed(2)} m²)</td>`;
+        tbody.appendChild(groupTr);
+
+        groupItems.forEach(p => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td style="font-family:var(--font-mono); font-weight:800; color:var(--accent-gold-hover);">${p.cant}</td>
+            <td style="font-family:var(--font-mono); font-weight:700;">${p.largo}</td>
+            <td style="font-family:var(--font-mono); font-weight:700;">${p.ancho}</td>
+            <td>${escapeHtml(p.material)}</td>
+            <td>${formatEdgePill(p.l1)}</td>
+            <td>${formatEdgePill(p.l2)}</td>
+            <td>${formatEdgePill(p.a1)}</td>
+            <td>${formatEdgePill(p.a2)}</td>
+            <td>${buildPieceMiniDiagram(p)}</td>
+            <td><span class="veta-badge ${p.veta === 'SI' ? 'veta-si' : 'veta-no'}">${p.veta}</span></td>
+            <td>${escapeHtml(p.obs)}</td>
+            <td style="text-align:right; white-space:nowrap;">
+              <button type="button" class="btn btn-secondary btn-icon" onclick="editPiece('${p.id}')">✏️</button>
+              <button type="button" class="btn btn-secondary btn-icon" onclick="duplicatePiece('${p.id}')">📋</button>
+              <button type="button" class="btn btn-danger btn-icon" onclick="deletePiece('${p.id}')">✕</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+
+          if (mobileContainer) {
+            const card = document.createElement('div');
+            card.className = 'mobile-piece-card';
+            card.innerHTML = `
+              <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                <div>
+                  <strong style="font-size:0.85rem; display:block;">${escapeHtml(p.obs)}</strong>
+                  <span style="font-size:0.7rem; color:var(--text-secondary);">${escapeHtml(p.material)} · veta ${p.veta === 'SI' ? 'SI' : 'NO'}</span>
+                </div>
+                <div class="mobile-piece-dims">${p.cant}× ${p.largo}×${p.ancho}</div>
+              </div>
+              <div class="mobile-piece-edges">
+                <div><span>L₁</span>${formatEdgePill(p.l1)}</div>
+                <div><span>L₂</span>${formatEdgePill(p.l2)}</div>
+                <div><span>A₁</span>${formatEdgePill(p.a1)}</div>
+                <div><span>A₂</span>${formatEdgePill(p.a2)}</div>
+              </div>
+              <div style="display:flex; justify-content:flex-end; gap:6px;">
+                <button type="button" class="btn btn-secondary btn-sm" onclick="editPiece('${p.id}')">Editar</button>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="duplicatePiece('${p.id}')">+1</button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="deletePiece('${p.id}')">Borrar</button>
+              </div>
+            `;
+            mobileContainer.appendChild(card);
+          }
+        });
+      });
+
+      updateKpis();
+      updateTxtPreview();
+    }
+
+    function toggleMobileDisplayMode() {
+      useMobileCardsView = !useMobileCardsView;
+      renderPiecesTable();
+      showToast(useMobileCardsView ? 'Vista Tarjetas activada.' : 'Vista Tabla activada.');
+    }
+
+    function updateKpis() {
+      let totalPieces = 0, totalAreaM2 = 0, edge045Mm = 0, edge2mmMm = 0;
+      pieces.forEach(p => {
+        const c = Number(p.cant) || 0, l = Number(p.largo) || 0, a = Number(p.ancho) || 0;
+        totalPieces += c;
+        totalAreaM2 += (c * l * a) / 1000000;
+        [{ type: p.l1, len: l }, { type: p.l2, len: l }, { type: p.a1, len: a }, { type: p.a2, len: a }].forEach(e => {
+          if (e.type === '0.45') edge045Mm += c * e.len;
+          if (e.type === '2mm') edge2mmMm += c * e.len;
+        });
+      });
+      document.getElementById('kpiTotalPieces').textContent = totalPieces;
+      document.getElementById('navPieceBadge').textContent = totalPieces;
+      document.getElementById('kpiTotalArea').textContent = totalAreaM2.toFixed(2);
+      document.getElementById('kpiEdge045').textContent = (edge045Mm / 1000).toFixed(1);
+      document.getElementById('kpiEdge2mm').textContent = (edge2mmMm / 1000).toFixed(1);
+    }
+
+    function handleSavePiece(e) {
+      e.preventDefault();
+      const editId = document.getElementById('editPieceId').value;
+      const newPiece = {
+        id: editId || uid(),
+        cant: Math.max(1, parseInt(document.getElementById('pCant').value) || 1),
+        largo: Math.max(1, Math.round(Number(document.getElementById('pLargo').value) || 0)),
+        ancho: Math.max(1, Math.round(Number(document.getElementById('pAncho').value) || 0)),
+        material: document.getElementById('pMaterial').value.trim() || 'Blanco MDF 18mm',
+        l1: document.getElementById('pL1').value,
+        l2: document.getElementById('pL2').value,
+        a1: document.getElementById('pA1').value,
+        a2: document.getElementById('pA2').value,
+        veta: document.getElementById('pVeta').value,
+        obs: document.getElementById('pObs').value.trim() || 'Pieza'
+      };
+
+      if (editId) {
+        const idx = pieces.findIndex(p => p.id === editId);
+        if (idx !== -1) pieces[idx] = newPiece;
+        showToast('Pieza actualizada.');
+      } else {
+        pieces.push(newPiece);
+        showToast('Pieza agregada.');
+      }
+
+      resetPieceForm();
+      saveProjectState();
+      refreshMaterialFilterOptions();
+      renderPiecesTable();
+    }
+
+    function editPiece(id) {
+      const p = pieces.find(item => item.id === id);
+      if (!p) return;
+      document.getElementById('editPieceId').value = p.id;
+      document.getElementById('pCant').value = p.cant;
+      document.getElementById('pLargo').value = p.largo;
+      document.getElementById('pAncho').value = p.ancho;
+      document.getElementById('pMaterial').value = p.material;
+      document.getElementById('pL1').value = p.l1;
+      document.getElementById('pL2').value = p.l2;
+      document.getElementById('pA1').value = p.a1;
+      document.getElementById('pA2').value = p.a2;
+      document.getElementById('pVeta').value = p.veta;
+      document.getElementById('pObs').value = p.obs;
+      document.getElementById('formTitleText').textContent = 'Editando Pieza';
+      document.getElementById('cancelEditBtn').style.display = 'inline-flex';
+      document.getElementById('pieceFormCard').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function duplicatePiece(id) {
+      const p = pieces.find(item => item.id === id);
+      if (!p) return;
+      pieces.push({ ...p, id: uid(), obs: p.obs + ' (Copia)' });
+      saveProjectState();
+      renderPiecesTable();
+      showToast('Pieza duplicada.');
+    }
+
+    function deletePiece(id) {
+      pieces = pieces.filter(item => item.id !== id);
+      saveProjectState();
+      refreshMaterialFilterOptions();
+      renderPiecesTable();
+      showToast('Pieza eliminada.');
+    }
+
+    function clearAllPieces() {
+      if (!clearConfirmPending) {
+        clearConfirmPending = true;
+        showToast('Toca "Vaciar" nuevamente para confirmar.');
+        setTimeout(() => clearConfirmPending = false, 3000);
+        return;
+      }
+      clearConfirmPending = false;
+      pieces = [];
+      saveProjectState();
+      refreshMaterialFilterOptions();
+      renderPiecesTable();
+      showToast('Planilla vaciada.');
+    }
+
+    function resetPieceForm() {
+      document.getElementById('editPieceId').value = '';
+      document.getElementById('pCant').value = 1;
+      document.getElementById('pLargo').value = '';
+      document.getElementById('pAncho').value = '';
+      document.getElementById('pObs').value = '';
+      document.getElementById('formTitleText').textContent = 'Añadir Pieza';
+      document.getElementById('cancelEditBtn').style.display = 'none';
+    }
+
+    function setAllEdges(val) {
+      document.getElementById('pL1').value = val;
+      document.getElementById('pL2').value = val;
+      document.getElementById('pA1').value = val;
+      document.getElementById('pA2').value = val;
+    }
+
+    function applyQuickDelta(fieldId, delta) {
+      const input = document.getElementById(fieldId);
+      const current = Number(input.value) || 0;
+      if (current > 0) input.value = Math.max(1, current + delta);
+    }
+
+    function swapLargoAncho() {
+      const l = document.getElementById('pLargo').value;
+      const a = document.getElementById('pAncho').value;
+      document.getElementById('pLargo').value = a;
+      document.getElementById('pAncho').value = l;
+    }
+
+    /* ASISTENTE DE MÓDULOS */
+    let wizReplacePending = false;
+    const BACK_MAT = 'Fibroplus 3mm Blanco';
+    const WIZ_DEFAULT = { H: 720, A: 1000, P: 550, E: 18, system: 'LATERALES_PASANTES', topType: 'FAJAS', dividers: 1, shelves: 1, doors: 1, drawers: 3, slideLen: 450, matCasco: 'Blanco MDF 18mm', matFrentes: 'Roble MDF 18mm', criterion: 'NETA' };
+
+    function readWizardCfg() {
+      const g = id => document.getElementById(id).value;
+      const num = id => Number(g(id));
+      const cnt = (id, hi) => Math.min(hi, Math.max(0, Math.floor(num(id)) || 0));
+      return {
+        H: num('wizH'), A: num('wizA'), P: num('wizP'), E: num('wizE') || 18,
+        system: g('wizSystem'), topType: g('wizTopType'),
+        dividers: cnt('wizDividers', 1), shelves: cnt('wizShelves', 10), doors: cnt('wizDoors', 2), drawers: cnt('wizDrawers', 8),
+        slideLen: num('wizSlideLen') || 450,
+        matCasco: g('wizMatCasco').trim() || 'Blanco MDF 18mm',
+        matFrentes: g('wizMatFrentes').trim() || 'Roble MDF 18mm',
+        criterion: document.getElementById('projEdgeCriterion').value
+      };
+    }
+
+    /* Reglas: vano = (A − 2E − parantes·E) / columnas · caja de cajón = vano − 26 (13 mm por lado) ·
+       contrafrente = caja − 2E · frentes con 2 mm de holgura por lado, repartidos de forma uniforme ·
+       con canto de 2 mm y criterio NETA se descuentan 4 mm por dimensión. */
+    function buildModule(c) {
+      const out = [], warn = [], err = [], fronts = [];
+      const { H, A, P, E, system, topType, dividers, shelves, doors, drawers, slideLen } = c;
+      if (!(H >= 200 && A >= 200 && P >= 200)) err.push('Alto, ancho y profundidad deben ser de al menos 200 mm.');
+      if (drawers && P <= slideLen) err.push('La profundidad debe ser mayor que la corredera.');
+      if (doors && drawers && !dividers) err.push('Puertas y cajones juntos requieren el parante central.');
+      const cols = dividers + 1, W = A - 2 * E, Hi = H - 2 * E, colW = A / cols;
+      const vano = Math.floor((W - dividers * E) / cols);
+      if (!err.length && vano < 150) err.push('El vano interior queda menor a 150 mm.');
+      if (err.length) return { out, warn, err, fronts, vano: 0 };
+
+      const N = '0.45', T = '2mm';
+      const mk = (cant, largo, ancho, material, e, veta, obs) => ({ id: uid(), cant, largo: Math.round(largo), ancho: Math.round(ancho), material, l1: e[0], l2: e[1], a1: e[2], a2: e[3], veta, obs });
+      const net = f => c.criterion === 'FINAL' ? f : f - 4;
+      const front = (cant, w, h, obs) => mk(cant, net(w), net(h), c.matFrentes, [T, T, T, T], 'SI', obs);
+      const M = c.matCasco;
+
+      if (system === 'LATERALES_PASANTES') {
+        out.push(mk(2, H, P, M, [N, '', N, N], 'NO', 'Laterales Casco'));
+        out.push(mk(1, W, P, M, [N, '', '', ''], 'NO', 'Piso Interno'));
+        out.push(topType === 'FAJAS' ? mk(2, W, 100, M, [N, N, '', ''], 'NO', 'Fajas Sup.') : mk(1, W, P, M, [N, '', '', ''], 'NO', 'Techo Interno'));
+      } else {
+        out.push(mk(2, Hi, P, M, [N, '', '', ''], 'NO', 'Laterales Apoyados'));
+        out.push(mk(1, A, P, M, [N, '', N, N], 'NO', 'Piso Pasante'));
+        out.push(topType === 'FAJAS' ? mk(2, A, 100, M, [N, N, N, N], 'NO', 'Fajas Pasantes') : mk(1, A, P, M, [N, '', N, N], 'NO', 'Techo Pasante'));
+      }
+      if (dividers) out.push(mk(1, Hi, P, M, [N, '', '', ''], 'NO', 'Parante Central'));
+      if (shelves) out.push(mk(shelves, vano - 2, P - 50, M, [N, '', '', ''], 'NO', 'Estante Móvil'));
+
+      if (drawers) {
+        const box = vano - 26, contra = box - 2 * E;
+        if (contra < 100) warn.push('El cajón queda muy angosto (contrafrente de ' + contra + ' mm).');
+        out.push(mk(drawers * 2, slideLen, 140, M, [N, '', '', ''], 'NO', 'Costados Cajón'));
+        out.push(mk(drawers * 2, contra, 140, M, [N, '', '', ''], 'NO', 'Contrafrente Cajón'));
+        out.push(mk(drawers, slideLen, box, BACK_MAT, ['', '', '', ''], 'NO', 'Fondo Cajón (apoyado)'));
+      }
+
+      const dArea = drawers ? colW * (cols - 1) : A;
+      if (doors) {
+        const dw = dArea / doors;
+        out.push(front(doors, dw - 4, H - 4, 'Puerta'));
+        for (let i = 0; i < doors; i++) fronts.push({ x: i * dw, y: 0, w: dw, h: H });
+        if (dw - 4 > 600) warn.push('Puerta de ' + Math.round(dw - 4) + ' mm de ancho: supera 600 mm, conviene sumar otra.');
+      }
+      if (drawers) {
+        const dh = H / drawers;
+        out.push(front(drawers, colW - 4, dh - 4, 'Tapas Cajón'));
+        for (let j = 0; j < drawers; j++) fronts.push({ x: dArea, y: j * dh, w: colW, h: dh });
+        if (dh - 4 < 100) warn.push('Frente de cajón muy bajo (' + Math.round(dh - 4) + ' mm).');
+      }
+      out.push(mk(1, A - 4, H - 4, BACK_MAT, ['', '', '', ''], 'NO', 'Fondo General'));
+      if (H > 2750 || A > 2750) warn.push('Una medida supera 2750 mm: no entra en una placa estándar.');
+      return { out, warn, err, fronts, vano };
+    }
+
+    function syncEspesor() {
+      const e = document.getElementById('wizE').value;
+      ['wizMatCasco', 'wizMatFrentes'].forEach(id => {
+        const el = document.getElementById(id);
+        el.value = el.value.replace(/\b(15|18)\s?mm\b/i, e + 'mm');
+      });
+      previewWizardModule();
+    }
+
+    function previewWizardModule() {
+      const c = readWizardCfg(), r = buildModule(c);
+      const msg = document.getElementById('wizProofText'), box = document.getElementById('wizSvgContainer'), list = document.getElementById('wizPreviewList');
+      msg.style.color = r.err.length ? 'var(--accent-rose)' : r.warn.length ? 'var(--accent-gold-hover)' : 'var(--accent-emerald)';
+      if (r.err.length) { msg.textContent = '✕ ' + r.err.join(' '); box.innerHTML = ''; list.innerHTML = ''; return; }
+      let n = 0, area = 0;
+      r.out.forEach(p => { n += p.cant; area += p.cant * p.largo * p.ancho / 1e6; });
+      msg.textContent = (r.warn.length ? '⚠ ' + r.warn.join(' ') + ' ' : '✓ ') + c.A + ' × ' + c.H + ' × ' + c.P + ' mm · vano ' + r.vano + ' mm · ' + n + ' piezas · ' + area.toFixed(2) + ' m²';
+      const m = c.A / 60;
+      box.innerHTML = `<svg viewBox="${-m} ${-m} ${c.A + 2 * m} ${c.H + 2 * m}" style="width:100%;max-width:280px;height:auto" role="img" aria-label="Frente del módulo">`
+        + `<rect width="${c.A}" height="${c.H}" fill="none" stroke="#64748b" stroke-width="2" vector-effect="non-scaling-stroke"/>`
+        + (c.dividers ? `<line x1="${c.A / 2}" y1="0" x2="${c.A / 2}" y2="${c.H}" stroke="#64748b" stroke-dasharray="6 4" vector-effect="non-scaling-stroke"/>` : '')
+        + r.fronts.map(f => `<rect x="${f.x + 2}" y="${f.y + 2}" width="${f.w - 4}" height="${f.h - 4}" fill="rgba(245,158,11,.12)" stroke="#f59e0b" stroke-width="1.5" vector-effect="non-scaling-stroke"/>`).join('')
+        + '</svg>';
+      list.innerHTML = r.out.map(item => `
+        <div style="background:rgba(7,9,14,0.6); border:1px solid var(--border-subtle); border-radius:8px; padding:8px 12px; display:flex; justify-content:space-between; gap:8px; font-size:0.78rem;">
+          <span>${item.cant}x <strong>${escapeHtml(item.obs)}</strong> (${escapeHtml(item.material)})</span>
+          <span style="font-family:var(--font-mono); color:var(--accent-gold-hover); white-space:nowrap;">${item.largo} × ${item.ancho}</span>
+        </div>`).join('');
+    }
+
+    function commitWizardToCutlist(replaceAll) {
+      const r = buildModule(readWizardCfg());
+      if (r.err.length) { showToast('Corrige los errores del módulo.'); return; }
+      if (replaceAll && pieces.length && !wizReplacePending) {
+        wizReplacePending = true;
+        showToast('Toca otra vez para reemplazar ' + pieces.length + ' líneas.');
+        setTimeout(() => { wizReplacePending = false; }, 3000);
+        return;
+      }
+      wizReplacePending = false;
+      pieces = replaceAll ? r.out : pieces.concat(r.out);
+      saveProjectState();
+      refreshMaterialFilterOptions();
+      renderPiecesTable();
+      switchView('despiece');
+      showToast('Módulo aplicado correctamente.');
+    }
+
+    /* CALCULADORA ARITMÉTICA */
+    const calcFmt = v => String(Math.round(v * 100) / 100);
+
+    function safeEvalMath(expr) {
+      const s = String(expr).replace(/\s+/g, '');
+      if (!s) return 0;
+      let i = 0;
+      const num = () => { const m = /^(\d+\.?\d*|\.\d+)/.exec(s.slice(i)); if (!m) throw 0; i += m[0].length; return parseFloat(m[0]); };
+      const atom = () => {
+        if (s[i] === '-') { i++; return -atom(); }
+        if (s[i] === '+') { i++; return atom(); }
+        if (s[i] === '(') { i++; const v = sum(); if (s[i++] !== ')') throw 0; return v; }
+        return num();
+      };
+      const prod = () => { let v = atom(); while (s[i] === '*' || s[i] === '/') { const o = s[i++], b = atom(); v = o === '*' ? v * b : v / b; } return v; };
+      const sum = () => { let v = prod(); while (s[i] === '+' || s[i] === '-') { const o = s[i++], b = prod(); v = o === '+' ? v + b : v - b; } return v; };
+      try { const v = sum(); return (i === s.length && Number.isFinite(v)) ? v : null; } catch (e) { return null; }
+    }
+
+    function updateCalcDisplays() {
+      const val = safeEvalMath(calcExpression), res = val !== null ? calcFmt(val) : '...';
+      ['calcExprDisplay', 'modalCalcExpr'].forEach(id => { document.getElementById(id).textContent = calcExpression; });
+      ['calcResultDisplay', 'modalCalcResult'].forEach(id => { document.getElementById(id).textContent = res; });
+    }
+
+    function calcAppend(c) {
+      const isOp = x => '+-*/'.includes(x), last = calcExpression.slice(-1);
+      if (calcExpression === '0' && c !== '.' && !isOp(c)) calcExpression = c;
+      else if (isOp(c) && isOp(last) && calcExpression.length > 1) calcExpression = calcExpression.slice(0, -1) + c;
+      else calcExpression += c;
+      updateCalcDisplays();
+    }
+    function calcQuickOp(op) { calcExpression += op; calcEvaluate(); }
+    function calcClear() { calcExpression = '0'; updateCalcDisplays(); }
+    function calcBackspace() { calcExpression = calcExpression.slice(0, -1) || '0'; updateCalcDisplays(); }
+    function calcEvaluate() {
+      const v = safeEvalMath(calcExpression);
+      if (v === null) { showToast('Expresión no válida.'); return; }
+      calcExpression = calcFmt(v);
+      updateCalcDisplays();
+    }
+    function sendCalcToField(fieldId) {
+      const v = safeEvalMath(calcExpression);
+      if (v === null || v < 1) { showToast('Resultado no válido para una medida.'); return; }
+      const r = Math.round(v);
+      document.getElementById(fieldId).value = r;
+      switchView('despiece');
+      document.getElementById('pieceFormCard').scrollIntoView({ behavior: 'smooth' });
+      showToast(r !== v ? 'Enviado ' + r + ' (redondeado de ' + calcFmt(v) + ').' : 'Valor enviado: ' + r);
+    }
+    function toggleQuickCalcModal(show) {
+      document.getElementById('quickCalcModal').classList.toggle('open', !!show);
+      document.body.style.overflow = show ? 'hidden' : '';
+    }
+
+    function runDrawerCalc() {
+      const V = Number(document.getElementById('drwVano').value) || 0;
+      const n = Math.max(1, Math.floor(Number(document.getElementById('drwCount').value)) || 1);
+      const E = Number(document.getElementById('drwEsp').value) || 18;
+      const box = V - 26, contra = box - 2 * E, ok = contra >= 50;
+      document.getElementById('drawerCalcResults').innerHTML = `
+        <div class="formula-res-box"><span>Ancho exterior caja (V − 26)</span><strong>${ok ? box : '—'} mm</strong></div>
+        <div class="formula-res-box"><span>Contrafrente (${n * 2} un)</span><strong>${ok ? contra : '—'} mm</strong></div>
+      `;
+    }
+
+    /* EXPORTACIÓN */
+    function projInfo() {
+      const v = id => document.getElementById(id).value.trim();
+      const fin = document.getElementById('projEdgeCriterion').value === 'FINAL';
+      return {
+        name: v('projName') || 'Sin nombre', client: v('projClient') || '-',
+        crit: fin ? 'MEDIDA FINAL (el proveedor descuenta 2 mm por canto grueso)' : 'MEDIDA NETA (ya descontados 2 mm por canto grueso)',
+        date: new Date().toLocaleDateString('es-ES')
+      };
+    }
+    function totals() {
+      let n = 0, a = 0;
+      pieces.forEach(p => { n += p.cant; a += p.cant * p.largo * p.ancho / 1e6; });
+      return { n, a };
+    }
+
+    function buildFormattedTxtReport() {
+      const i = projInfo(), t = totals();
+      const L = ['========================================', '      ORDEN DE CORTE - MODULAR STUDIO', '========================================',
+        'Proyecto: ' + i.name, 'Cliente : ' + i.client, 'Fecha   : ' + i.date, 'Criterio: ' + i.crit,
+        'Medidas en mm. Largo = sentido de la veta (si Veta = SI).',
+        'L1/L2 = cantos de los lados del Largo. A1/A2 = cantos de los lados del Ancho.', ''];
+      const groups = {};
+      pieces.forEach(p => { const k = p.material.trim(); (groups[k] = groups[k] || []).push(p); });
+      Object.keys(groups).forEach(m => {
+        const a = groups[m].reduce((x, p) => x + p.cant * p.largo * p.ancho / 1e6, 0);
+        L.push('MATERIAL: ' + m + ' (' + a.toFixed(2) + ' m²)');
+        groups[m].forEach(p => L.push(`${p.cant} un | ${p.largo} x ${p.ancho} | L1:${p.l1 || '-'} L2:${p.l2 || '-'} A1:${p.a1 || '-'} A2:${p.a2 || '-'} | Veta:${p.veta} | ${p.obs}`));
+        L.push('');
+      });
+      L.push('TOTAL: ' + t.n + ' piezas · ' + t.a.toFixed(2) + ' m²');
+      return L.join('\n');
+    }
+
+    function buildWhatsAppMessage() {
+      const i = projInfo(), t = totals();
+      let m = `*PEDIDO DE DESPIECE*\n${i.name} - ${i.client}\n${i.crit}\n`;
+      pieces.forEach(p => { m += `• *${p.cant} un.* ${p.largo} x ${p.ancho} mm (${p.material}) veta ${p.veta} [L1 ${p.l1 || '-'} L2 ${p.l2 || '-'} A1 ${p.a1 || '-'} A2 ${p.a2 || '-'}] _${p.obs}_\n`; });
+      return m + `*Total:* ${t.n} piezas`;
+    }
+
+    function updateTxtPreview() {
+      const b = document.getElementById('txtPreviewBox');
+      if (b) b.textContent = buildFormattedTxtReport();
+    }
+
+    function fileSlug() {
+      return projInfo().name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_|_$/g, '') || 'despiece';
+    }
+    function downloadBlob(name, blob) {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    }
+
+    function downloadTxtFile() {
+      downloadBlob(fileSlug() + '.txt', new Blob([buildFormattedTxtReport()], { type: 'text/plain;charset=utf-8' }));
+      showToast('Archivo .TXT descargado.');
+    }
+
+    function downloadCsvFile() {
+      const q = v => { let x = String(v ?? ''); if (/^[=+\-@]/.test(x)) x = "'" + x; return '"' + x.replace(/"/g, '""') + '"'; };
+      const rows = [['Cant', 'Largo', 'Ancho', 'Material', 'L1', 'L2', 'A1', 'A2', 'Veta', 'Observacion']]
+        .concat(pieces.map(p => [p.cant, p.largo, p.ancho, p.material, p.l1, p.l2, p.a1, p.a2, p.veta, p.obs]));
+      downloadBlob(fileSlug() + '.csv', new Blob(['\uFEFF' + rows.map(r => r.map(q).join(';')).join('\r\n')], { type: 'text/csv;charset=utf-8' }));
+      showToast('CSV exportado.');
+    }
+
+    function copyTxtToClipboard(mode) {
+      const text = mode === 'WHATSAPP' ? buildWhatsAppMessage() : buildFormattedTxtReport();
+      
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast('Copiado al portapapeles.');
+        }).catch(() => {
+          fallbackCopyText(text);
+        });
+      } else {
+        fallbackCopyText(text);
+      }
+    }
+
+    function fallbackCopyText(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.top = '0';
+      textarea.style.left = '0';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+          showToast('Copiado al portapapeles.');
+        } else {
+          showToast('No se pudo copiar automáticamente.');
+        }
+      } catch (err) {
+        showToast('Error al copiar.');
+      }
+      document.body.removeChild(textarea);
+    }
+
+    function updateQaStatus() {
+      const checks = document.querySelectorAll('#qaChecklist input');
+      let c = 0; checks.forEach(x => { if (x.checked) c++; });
+      if (c === 6) showToast('¡Checklist aprobado!');
+    }
+
+    function escapeHtml(str) {
+      return String(str ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadProjectState();
+      refreshMaterialFilterOptions();
+      renderPiecesTable();
+      previewWizardModule();
+      updateCalcDisplays();
+      runDrawerCalc();
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') { toggleSlideDrawer(false); toggleQuickCalcModal(false); } });
+    });
+  </script>
+</body>
+</html>
