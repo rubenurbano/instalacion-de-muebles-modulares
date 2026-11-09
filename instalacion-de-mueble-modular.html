@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0e1a">
+<meta name="description" content="Tutorial de preparación para Instalación de Mueble Modular MAMB03.">
+<title>Instalación de Mueble Modular — by Rubén Sbarsky</title>
+<style>
+:root{
+ --bg:#0a0e1a;--panel:#101a2b;--panel2:#14233a;--line:#263b59;
+ --text:#edf3fb;--muted:#a8b8cc;--blue:#68b5ff;--cyan:#66e0dc;
+ --gold:#f4c56a;--red:#ff8585;--green:#8fe0b0;
+ --shadow:0 16px 42px rgba(0,0,0,.28);--radius:18px;
+ --safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:112px}
+body{margin:0;background:
+ radial-gradient(900px 500px at 90% -10%,rgba(39,107,165,.23),transparent 65%),
+ radial-gradient(700px 500px at -20% 30%,rgba(32,120,130,.12),transparent 65%),var(--bg);
+ color:var(--text);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+button{font:inherit}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+.top-shell{position:sticky;top:0;z-index:30;padding-top:var(--safe-top);background:rgba(10,14,26,.94);backdrop-filter:blur(16px);border-bottom:1px solid rgba(104,181,255,.18)}
+.topline{height:54px;display:flex;align-items:center;gap:12px;padding:0 14px;max-width:1100px;margin:auto}
+.brand{font-weight:850;letter-spacing:.09em;font-size:12px;color:#dceaff;white-space:nowrap}
+.brand span{color:var(--cyan)}
+.menu-btn{margin-left:auto;border:1px solid var(--line);background:#14243a;color:var(--text);border-radius:12px;padding:8px 12px;font-weight:750}
+.tabbar{display:flex;gap:7px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;padding:0 12px 10px;max-width:1100px;margin:auto;touch-action:pan-x}
+.tabbar::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;border:1px solid #263a55;background:#101b2c;color:#b9c9dd;border-radius:999px;padding:8px 13px;font-size:12px;font-weight:750;letter-spacing:.04em;white-space:nowrap}
+.tab.active{background:linear-gradient(135deg,#1b527e,#176b75);border-color:#69c6df;color:white;box-shadow:0 5px 18px rgba(39,154,184,.2)}
+main{max-width:900px;margin:0 auto;padding:24px 16px 120px}
+.page{display:none;animation:appear .28s ease}
+.page.active{display:block}
+@keyframes appear{from{opacity:.3;transform:translateY(7px)}to{opacity:1;transform:none}}
+.hero{padding:30px 22px;border:1px solid #2a4666;border-radius:26px;background:linear-gradient(145deg,rgba(23,53,83,.95),rgba(13,25,42,.96));box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero:after{content:"MAMB03";position:absolute;right:-8px;bottom:-32px;font-size:clamp(65px,18vw,130px);font-weight:950;letter-spacing:-.08em;color:rgba(255,255,255,.035);pointer-events:none}
+.kicker{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);font-weight:850}
+h1{font-size:clamp(30px,7vw,52px);line-height:1.04;letter-spacing:-.045em;margin:12px 0 14px}
+h1 small{display:block;font-size:.37em;letter-spacing:.02em;color:#b6cce2;font-weight:650;margin-top:12px}
+h2{font-size:clamp(24px,5vw,32px);line-height:1.16;letter-spacing:-.025em;margin:0 0 15px}
+h3{font-size:19px;line-height:1.3;margin:22px 0 8px;color:#dcecff}
+h4{font-size:15px;margin:16px 0 6px;color:#d4e8ff}
+p{margin:9px 0;color:#d4dfed}
+.lead{font-size:18px;line-height:1.55;color:#dcecff;max-width:720px}
+.muted,.small{color:var(--muted)}.small{font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0}
+.card{background:linear-gradient(160deg,rgba(20,35,58,.96),rgba(14,24,40,.96));border:1px solid var(--line);border-radius:var(--radius);padding:17px;box-shadow:0 8px 22px rgba(0,0,0,.12)}
+.card p:last-child{margin-bottom:0}
+.num{font-size:11px;color:var(--cyan);font-weight:900;letter-spacing:.13em}
+.pill{display:inline-block;border:1px solid #355574;color:#c5e4ff;background:#132a42;border-radius:999px;padding:4px 9px;font-size:11px;font-weight:800;margin:3px 4px 3px 0}
+.callout{border-left:3px solid var(--cyan);padding:13px 15px;background:rgba(35,104,117,.13);border-radius:0 12px 12px 0;margin:16px 0}
+.warning{border-left-color:var(--gold);background:rgba(151,108,33,.13)}
+.danger{border-left-color:var(--red);background:rgba(150,50,50,.12)}
+.success{border-left-color:var(--green);background:rgba(40,120,80,.12)}
+ul,ol{padding-left:22px;color:#d4dfed}
+li{margin:6px 0}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+th,td{border:1px solid #2b405c;padding:10px;text-align:left;vertical-align:top}
+th{background:#172a43;color:#dff0ff}
+td{background:rgba(16,27,44,.7);color:#d2deec}
+.diagram{background:#0b1422;border:1px solid #29415f;border-radius:15px;padding:15px;margin:15px 0;overflow:hidden}
+.flow{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap}
+.node{background:#183452;border:1px solid #3e7095;border-radius:10px;padding:9px 12px;font-weight:750;font-size:13px;text-align:center}
+.arrow{color:var(--cyan);font-weight:900}
+.checklist{list-style:none;padding:0}
+.checklist li{padding:8px 0;border-bottom:1px solid rgba(80,110,145,.2)}
+.checklist li:before{content:"□";color:var(--cyan);font-size:18px;margin-right:10px}
+details{border:1px solid #2b405c;border-radius:13px;background:#101c2d;margin:10px 0;padding:0 14px}
+summary{cursor:pointer;padding:13px 0;font-weight:800;color:#ddecff}
+details .inside{padding:0 0 13px;color:#c8d6e6}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid #3a5d80;border-radius:11px;padding:9px 12px;background:#17314d;color:#e8f4ff;font-size:13px;font-weight:800;cursor:pointer}
+.btn.primary{background:linear-gradient(135deg,#176a83,#245c99);border-color:#4e9dbb}
+.btn.ghost{background:#111e30}
+.urlrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border:1px solid #2a405b;border-radius:12px;padding:10px 12px;background:#101b2c;margin:9px 0}
+.urlrow a{font-weight:700;flex:1;min-width:140px}
+.section-head{margin:0 0 18px;padding:4px 0 15px;border-bottom:1px solid #29415f}
+.section-head .kicker{margin-bottom:8px}
+.progress-wrap{height:4px;background:#1a2a40}
+#progress{height:4px;width:0;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:width .25s}
+.drawer-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.58);z-index:60;display:none}
+.drawer-backdrop.open{display:block}
+.drawer{position:absolute;top:0;left:0;bottom:0;width:min(86vw,360px);background:#0e1929;border-right:1px solid #35506e;padding:calc(18px + var(--safe-top)) 16px 24px;overflow:auto;box-shadow:var(--shadow)}
+.drawer h2{font-size:21px}
+.drawer-list{display:grid;gap:7px}
+.drawer-item{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:#14243a;border:1px solid #293f5b;border-radius:12px;color:#e3efff;padding:11px}
+.drawer-item.active{border-color:var(--cyan);background:#17364a}
+.drawer-item b{color:var(--cyan);font-size:11px;min-width:24px}
+.floating{position:fixed;z-index:45;right:14px;display:flex;align-items:center;gap:7px;touch-action:none;user-select:none}
+#homeFloat{bottom:calc(95px + var(--safe-bottom))}
+#topFloat{bottom:calc(42px + var(--safe-bottom))}
+.float-btn{border:1px solid #4a7398;background:rgba(20,49,76,.96);color:#f0f7ff;border-radius:999px;padding:10px 14px;box-shadow:0 8px 22px rgba(0,0,0,.35);font-weight:850;font-size:12px;cursor:pointer}
+.drag-handle{font-size:13px;color:#a9c5df;background:#15273d;border:1px solid #35516f;border-radius:50%;width:28px;height:28px;display:grid;place-items:center;cursor:grab}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:25;padding:10px 14px calc(10px + var(--safe-bottom));background:rgba(9,14,25,.96);border-top:1px solid #2b405b;backdrop-filter:blur(15px)}
+.bottom-inner{max-width:900px;margin:auto;display:flex;gap:10px}
+.bottom-inner button{flex:1;min-height:43px}
+.bottom-inner button:disabled{opacity:.3;cursor:not-allowed}
+.quiz{background:#101c2d;border:1px solid #2b405c;border-radius:15px;padding:15px;margin:13px 0}
+.quiz label{display:block;padding:8px;border-radius:9px;margin:4px 0;background:#14243a;color:#dce8f5}
+.quiz input{accent-color:#54c4d4;margin-right:8px}
+.feedback{margin-top:9px;font-weight:750;font-size:14px}
+footer{color:#8ea4bd;font-size:12px;text-align:center;padding:20px 0}
+@media(max-width:600px){
+ body{font-size:15px}
+ main{padding:17px 12px 125px}
+ .hero{padding:25px 18px;border-radius:20px}
+ .grid{grid-template-columns:1fr}
+ .card{padding:15px}
+ th,td{padding:8px;font-size:12px}
+ .tab{padding:8px 12px}
+ .topline{height:50px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.page{animation:none}}
+</style>
+</head>
+<body>
+<div class="top-shell">
+ <div class="topline">
+  <div class="brand">TALLER <span>·</span> MAMB03</div>
+  <button class="menu-btn" id="openMenu" aria-label="Abrir índice">☰ ÍNDICE</button>
+ </div>
+ <nav class="tabbar" id="tabbar" aria-label="Pestañas del tutorial">
+  <button class="tab active" data-target="inicio">INICIO</button>
+  <button class="tab" data-target="mapa">MAPA DEL CURSO</button>
+  <button class="tab" data-target="materiales">MATERIALES</button>
+  <button class="tab" data-target="adhesivos">ADHESIVOS Y HERRAJES</button>
+  <button class="tab" data-target="recepcion">ACOPIO Y RECEPCIÓN</button>
+  <button class="tab" data-target="planos">PLANOS Y REPLANTEO</button>
+  <button class="tab" data-target="instalacion">INSTALACIÓN</button>
+  <button class="tab" data-target="herramientas">HERRAMIENTAS Y SEGURIDAD</button>
+  <button class="tab" data-target="calidad">CALIDAD Y MEDIOAMBIENTE</button>
+  <button class="tab" data-target="glosario">GLOSARIO Y EVALUACIÓN</button>
+ </nav>
+ <div class="progress-wrap"><div id="progress"></div></div>
+</div>
+
+<div class="drawer-backdrop" id="drawerBackdrop">
+ <aside class="drawer" aria-label="Índice completo">
+  <div style="display:flex;align-items:center;justify-content:space-between">
+   <h2>Índice del tutorial</h2><button class="btn ghost" id="closeMenu">✕ Cerrar</button>
+  </div>
+  <p class="small">Acceso directo a todas las secciones.</p>
+  <div class="drawer-list" id="drawerList"></div>
+ </aside>
+</div>
+
+<main id="mainContent">
+<section class="page active" id="inicio" data-title="Inicio">
+ <div class="hero">
+  <div class="kicker">Preparación profesional · Programa MAMB03 · Nivel 2</div>
+  <h1>Instalación de Mueble Modular<small>by Rubén Sbarsky</small></h1>
+  <p class="lead">Una guía de estudio para llegar al curso con vocabulario, criterio técnico y una visión ordenada del trabajo de instalación.</p>
+  <div style="margin-top:17px"><span class="pill">80 horas</span><span class="pill">Madera, Mueble y Corcho</span><span class="pill">Instalación y Amueblamiento</span></div>
+ </div>
+ <div class="grid">
+  <div class="card"><div class="num">01 · PROPÓSITO</div><h3>Aprender a instalar correctamente</h3><p>El objetivo oficial es instalar muebles modulares, hacer las revisiones y comprobaciones necesarias y utilizar herramientas, herrajes y complementos con seguridad y respeto ambiental.</p></div>
+  <div class="card"><div class="num">02 · ACTITUD</div><h3>Entender antes de ejecutar</h3><p>No se trata de memorizar pasos sin comprenderlos. Se trata de saber qué se comprueba, por qué se hace y qué problema evita.</p></div>
+ </div>
+ <div class="callout success"><b>Idea guía:</b> una instalación correcta no consiste solamente en que el mueble quede colocado. Debe quedar conforme al plano, estable, nivelado, aplomado, ajustado, seguro y revisado.</div>
+ <h2>Cómo utilizar este tutorial</h2>
+ <ol>
+  <li>Lee una pestaña por sesión y anota las palabras que no conozcas.</li>
+  <li>Observa los diagramas y relaciona cada concepto con una operación real.</li>
+  <li>Responde los ejercicios sin mirar las explicaciones.</li>
+  <li>Lleva tus dudas al profesor: la práctica supervisada es imprescindible.</li>
+ </ol>
+ <div class="card">
+  <h3>La fuente de este material</h3>
+  <p>Programa formativo oficial <b>Instalación de mueble modular (MAMB03)</b>, edición marzo de 2022, de 80 horas y nivel de cualificación 2. Este tutorial desarrolla didácticamente sus contenidos; no sustituye las instrucciones del fabricante, la formación presencial ni las indicaciones del formador.</p>
+  <p class="small">El programa contempla materiales, acopio y desembalado, instalación, herrajes, medición, seguridad, normativa y medioambiente.</p>
+ </div>
+</section>
+
+<section class="page" id="mapa" data-title="Mapa del curso">
+ <div class="section-head"><div class="kicker">Orientación</div><h2>Mapa del curso MAMB03</h2><p class="muted">Qué se espera aprender y cómo se conectan los contenidos.</p></div>
+ <div class="card">
+  <div class="num">IDENTIFICACIÓN OFICIAL</div>
+  <table><tr><th>Campo</th><th>Dato del programa</th></tr>
+  <tr><td>Denominación</td><td>Instalación de mueble modular</td></tr>
+  <tr><td>Familia profesional</td><td>Madera, Mueble y Corcho</td></tr>
+  <tr><td>Área profesional</td><td>Instalación y Amueblamiento</td></tr>
+  <tr><td>Código / nivel</td><td>MAMB03 / Nivel 2</td></tr>
+  <tr><td>Duración</td><td>80 horas</td></tr>
+  <tr><td>Modalidad</td><td>Presencial o mixta; el programa indica 50 horas presenciales en modalidad mixta</td></tr></table>
+ </div>
+ <h3>El recorrido de aprendizaje</h3>
+ <div class="diagram"><div class="flow">
+  <div class="node">Conocer materiales</div><div class="arrow">→</div>
+  <div class="node">Preparar y recibir</div><div class="arrow">→</div>
+  <div class="node">Interpretar y replantear</div><div class="arrow">→</div>
+  <div class="node">Instalar y ajustar</div><div class="arrow">→</div>
+  <div class="node">Comprobar y entregar</div>
+ </div></div>
+ <h3>Los cuatro bloques del programa</h3>
+ <div class="grid">
+  <div class="card"><div class="num">BLOQUE 1</div><h3>Materiales para instalar</h3><p>Tipos de muebles, nomenclatura, materiales, dimensiones, acabados, adhesivos, herrajes y sistemas de unión.</p></div>
+  <div class="card"><div class="num">BLOQUE 2</div><h3>Acopio y desembalado</h3><p>Dimensiones críticas, movimiento de cargas, transporte, protección, recepción y comprobación de mercancía.</p></div>
+  <div class="card"><div class="num">BLOQUE 3</div><h3>Instalación</h3><p>Albaranes, planos, croquis, replanteo, medición, nivelación, verticalidad, montaje, ajustes, remates y control de calidad.</p></div>
+  <div class="card"><div class="num">BLOQUE 4</div><h3>Normativa y seguridad</h3><p>Dimensiones normalizadas, prevención de riesgos, equipos de protección, primeros auxilios y normativa medioambiental.</p></div>
+ </div>
+ <div class="callout"><b>Qué significa nivel 2:</b> el programa exige competencia matemática, comunicación en castellano y competencia digital suficientes para seguir la formación. No exige experiencia profesional previa.</div>
+ <h3>Resultados personales y profesionales</h3>
+ <ul><li>Interpretar y ejecutar instrucciones de trabajo.</li><li>Asumir responsabilidad por el trabajo realizado.</li><li>Respetar los procedimientos de la organización.</li><li>Resolver pequeñas contingencias dentro de la autonomía prevista.</li><li>Mantener orden y limpieza.</li><li>Respetar los canales de comunicación.</li></ul>
+ <div class="callout warning">El programa oficial no proporciona un método único de instalación para todos los fabricantes. Los sistemas, medidas, fijaciones y ajustes concretos deben confirmarse en los planos, catálogos y hojas técnicas aplicables.</div>
+</section>
+
+<section class="page" id="materiales" data-title="Materiales">
+ <div class="section-head"><div class="kicker">Bloque 1</div><h2>Materiales y construcción del mueble</h2><p class="muted">Reconocer qué tienes delante antes de manipularlo o instalarlo.</p></div>
+ <h3>1. Qué es un mueble modular</h3>
+ <p>Un mueble modular se construye a partir de unidades o módulos con dimensiones y funciones definidas que se combinan para formar una composición. En una cocina, por ejemplo, se coordinan módulos bajos, altos, columnas, frentes, cajones, baldas, zócalos y elementos de remate.</p>
+ <div class="diagram"><div class="flow">
+  <div class="node">Módulo bajo</div><span class="arrow">+</span><div class="node">Módulo alto</div><span class="arrow">+</span><div class="node">Columna</div><span class="arrow">+</span><div class="node">Remates</div>
+ </div><p class="small" style="text-align:center;margin-bottom:0">Composición ilustrativa: cada fabricante define sus series, medidas y compatibilidades.</p></div>
+ <h3>2. Partes habituales de un módulo</h3>
+ <table><tr><th>Elemento</th><th>Función</th><th>Qué observar</th></tr>
+ <tr><td>Costados</td><td>Laterales estructurales</td><td>Orientación, perforaciones y acabado de cantos.</td></tr>
+ <tr><td>Base y techo</td><td>Cierran el cuerpo por abajo y arriba</td><td>Sentido de montaje, mecanizados y uniones.</td></tr>
+ <tr><td>Trasera</td><td>Cierra y contribuye a mantener la geometría según diseño</td><td>Espesor, encaje, fijación y estado.</td></tr>
+ <tr><td>Estantes</td><td>Superficies interiores de apoyo</td><td>Soportes, posición y carga prevista.</td></tr>
+ <tr><td>Frente o puerta</td><td>Cierra el módulo y define su apariencia</td><td>Mano, acabado, bisagras y holguras.</td></tr>
+ <tr><td>Frente de cajón</td><td>Parte visible del cajón</td><td>Alineación con frentes contiguos.</td></tr>
+ <tr><td>Zócalo y tapetas</td><td>Ocultan huecos y resuelven encuentros</td><td>Medida, corte y continuidad visual.</td></tr></table>
+ <h3>3. Materiales: cómo pensar en ellos</h3>
+ <p>El programa exige conocer los materiales, sus características, usos, dimensiones, acabados y control de calidad. No prescribe una lista cerrada de tableros ni una clasificación concreta. Para estudiar, conviene distinguir el soporte, el revestimiento y el acabado de los cantos.</p>
+ <div class="grid">
+  <div class="card"><h3>Soporte o tablero</h3><p>Es el cuerpo que aporta forma y resistencia al componente. Su comportamiento depende del tipo, espesor, densidad, calidad y diseño de la pieza.</p></div>
+  <div class="card"><h3>Revestimiento</h3><p>Es la superficie decorativa o protectora. Puede modificar la apariencia y las condiciones de limpieza y uso.</p></div>
+  <div class="card"><h3>Canto</h3><p>Remata el borde del tablero. Hay que revisar adherencia, continuidad, golpes, desconchados y exposición del soporte.</p></div>
+  <div class="card"><h3>Acabado</h3><p>Define el aspecto final y el mantenimiento. Debe manipularse con protección para evitar arañazos, manchas y golpes.</p></div>
+ </div>
+ <h3>4. Inspección visual de materiales</h3>
+ <p>Antes de montar, identifica daños que podrían quedar ocultos o agravarse durante la instalación.</p>
+ <ul class="checklist"><li>¿La pieza corresponde al módulo y referencia previstos?</li><li>¿Tiene las dimensiones y el mecanizado esperados?</li><li>¿Hay golpes, fisuras, humedad, deformaciones o cantos dañados?</li><li>¿Los taladros y ranuras están en la posición correcta?</li><li>¿El acabado coincide con el resto de la composición?</li><li>¿La pieza está seca, limpia y protegida?</li></ul>
+ <div class="callout warning"><b>Atención:</b> no fuerces una pieza que no encaja. Puede ser una referencia incorrecta, una orientación equivocada, un daño o un error previo. Detente, identifica la causa y consulta la documentación o al responsable.</div>
+ <h3>5. Dimensiones y tolerancias</h3>
+ <p>Una dimensión es una medida nominal indicada en plano o ficha. La tolerancia expresa el margen admisible de variación. En la práctica, una pequeña diferencia puede afectar a la alineación, los huecos, el encuentro con paredes o la instalación de un electrodoméstico.</p>
+ <p>Aprende a distinguir: ancho, alto, fondo, espesor, luz interior, distancia entre centros, holgura y margen de ajuste.</p>
+ <div class="quiz" data-answer="b" data-explain="La comprobación previa permite detectar incompatibilidades antes de que se conviertan en un problema de montaje."><b>Comprueba tu comprensión</b><p>Una pieza presenta un canto roto antes del montaje. ¿Qué actuación es más correcta?</p><label><input type="radio" name="qmat" value="a"> Montarla en una zona poco visible sin informar.</label><label><input type="radio" name="qmat" value="b"> Registrar el daño y comunicarlo antes de instalar.</label><label><input type="radio" name="qmat" value="c"> Lijarla siempre hasta que desaparezca.</label><button class="btn" onclick="checkQuiz(this)">Comprobar</button><div class="feedback"></div></div>
+</section>
+
+<section class="page" id="adhesivos" data-title="Adhesivos y herrajes">
+ <div class="section-head"><div class="kicker">Bloque 1</div><h2>Adhesivos, herrajes y sistemas de unión</h2><p class="muted">Las uniones hacen posible el montaje y condicionan la estabilidad, el movimiento y el ajuste.</p></div>
+ <h3>1. Sistemas de unión</h3>
+ <p>El programa distingue sistemas para uniones fijas y uniones móviles. También exige conocer su descripción, usos, tecnología de aplicación y ajuste, así como el comportamiento frente a carga y esfuerzo.</p>
+ <table><tr><th>Tipo</th><th>Finalidad general</th><th>Ejemplos habituales</th></tr>
+ <tr><td>Fija</td><td>Unir componentes para que no se muevan entre sí durante el uso normal.</td><td>Tornillos de unión, espigas, excéntricas y adhesivos, según el sistema.</td></tr>
+ <tr><td>Móvil</td><td>Permitir movimiento controlado entre piezas.</td><td>Bisagras, guías de cajón, sistemas elevables y articulaciones.</td></tr></table>
+ <h3>2. Herrajes principales</h3>
+ <div class="grid">
+  <div class="card"><h3>Bisagras</h3><p>Permiten el giro de puertas. Debes reconocer su tipo, posición, fijación y posibilidades de regulación.</p><p class="small">Comprobación: apertura libre, cierre, alineación y holguras.</p></div>
+  <div class="card"><h3>Guías de cajón</h3><p>Conducen el desplazamiento del cajón. Su montaje depende de la referencia y de las cotas del fabricante.</p><p class="small">Comprobación: recorrido suave, paralelismo y cierre.</p></div>
+  <div class="card"><h3>Elevables</h3><p>Permiten abrir frentes hacia arriba mediante mecanismos específicos.</p><p class="small">Comprobación: fijación, equilibrio y ajuste según instrucciones.</p></div>
+  <div class="card"><h3>Soportes y fijaciones</h3><p>Permiten sostener estantes o fijar componentes y módulos entre sí o a la obra.</p><p class="small">Comprobación: compatibilidad con el soporte y carga prevista.</p></div>
+ </div>
+ <h3>3. Cargas y esfuerzos</h3>
+ <p>Un herraje no se elige solamente porque encaje físicamente. Debe ser adecuado para el peso, la geometría, el uso y el material donde se fija.</p>
+ <ul>
+  <li><b>Carga:</b> fuerza que soporta un componente por su peso o por los objetos que contiene.</li>
+  <li><b>Tracción:</b> tendencia a separar o arrancar una unión.</li>
+  <li><b>Cizallamiento:</b> esfuerzo que tiende a deslizar una parte respecto de otra.</li>
+  <li><b>Flexión:</b> deformación por una carga transversal.</li>
+  <li><b>Momento:</b> efecto de giro producido por una fuerza aplicada a cierta distancia.</li>
+ </ul>
+ <div class="callout">Ejemplo conceptual: una puerta pesada genera esfuerzos en las bisagras y en sus fijaciones. El número y modelo de bisagras no se improvisa: se consulta la ficha técnica del fabricante del herraje y del mueble.</div>
+ <h3>4. Adhesivos</h3>
+ <p>El programa incluye características, tipos, usos y control de calidad de los adhesivos utilizados en el montaje. No indica una formulación única: cada adhesivo tiene materiales compatibles, preparación, tiempo de trabajo y condiciones de curado propios.</p>
+ <p>Antes de utilizar uno, verifica:</p>
+ <ol><li>Que sea adecuado para los materiales que se van a unir.</li><li>Que la superficie esté preparada según su ficha técnica.</li><li>La cantidad y forma de aplicación indicadas.</li><li>El tiempo abierto, prensado y curado, cuando corresponda.</li><li>Las condiciones de ventilación, protección y limpieza.</li><li>La fecha de caducidad y las instrucciones de seguridad.</li></ol>
+ <div class="callout danger">No mezcles adhesivos ni improvises sustituciones. Lee la ficha técnica y la ficha de datos de seguridad. Un adhesivo incorrecto puede dañar el acabado, no unir correctamente o generar riesgos.</div>
+ <h3>5. Catálogos y hojas técnicas</h3>
+ <p>El instalador debe saber encontrar la información del herraje: referencia, esquema de taladrado, dimensiones, capacidad, tornillería, regulación, herramientas y secuencia de montaje.</p>
+ <div class="quiz" data-answer="a" data-explain="El herraje debe ser compatible con la carga y con la configuración; la ficha técnica es la referencia para instalarlo y ajustarlo."><b>Comprueba tu comprensión</b><p>¿Qué determina si una bisagra es adecuada para una puerta?</p><label><input type="radio" name="qher" value="a"> La ficha técnica, el peso, las dimensiones y el uso previsto.</label><label><input type="radio" name="qher" value="b"> Que tenga el mismo color que el tirador.</label><label><input type="radio" name="qher" value="c"> Que se pueda atornillar en cualquier posición.</label><button class="btn" onclick="checkQuiz(this)">Comprobar</button><div class="feedback"></div></div>
+</section>
+
+<section class="page" id="recepcion" data-title="Acopio y recepción">
+ <div class="section-head"><div class="kicker">Bloque 2</div><h2>Acopio, transporte y desembalado</h2><p class="muted">Una instalación empieza antes de abrir la primera caja.</p></div>
+ <h3>1. Qué significa acopio</h3>
+ <p>Acopiar es reunir y organizar los materiales necesarios para realizar el trabajo, verificando que estén disponibles y que puedan trasladarse y almacenarse de forma adecuada hasta el lugar de instalación.</p>
+ <h3>2. Preparar el destino</h3>
+ <p>El programa pide identificar las dimensiones críticas para ubicar el material en destino y conocer los equipos y técnicas de movimiento y colocación.</p>
+ <ul>
+  <li>Medidas de puertas, pasillos, escaleras, ascensores y giros.</li>
+  <li>Dimensiones y peso de bultos y piezas largas.</li>
+  <li>Zona de descarga y recorrido hasta la estancia.</li>
+  <li>Espacio temporal de almacenamiento y secuencia de montaje.</li>
+  <li>Protección de suelos, paredes y mobiliario existente.</li>
+ </ul>
+ <div class="callout warning">No des por supuesto que una pieza cabe porque el mueble terminado quepa en la cocina. El bulto puede tener una longitud o volumen que impida introducirlo por el recorrido de acceso.</div>
+ <h3>3. Recepción de mercancía</h3>
+ <p>La recepción compara lo que llega con lo que se esperaba recibir. El programa menciona documentos, finalidad y control visual del embalaje y del producto.</p>
+ <table><tr><th>Comprobar</th><th>Preguntas útiles</th></tr>
+ <tr><td>Documentación</td><td>¿Coincide el albarán con el pedido? ¿Hay referencias y cantidades identificables?</td></tr>
+ <tr><td>Embalaje</td><td>¿Está abierto, mojado, aplastado, perforado o golpeado?</td></tr>
+ <tr><td>Contenido</td><td>¿Faltan bultos? ¿Hay piezas dañadas o referencias equivocadas?</td></tr>
+ <tr><td>Identificación</td><td>¿Se puede relacionar cada bulto con el módulo o zona correspondiente?</td></tr>
+ <tr><td>Incidencias</td><td>¿Se han anotado y comunicado antes de continuar?</td></tr></table>
+ <h3>4. Desembalado y protección</h3>
+ <p>Desembalar no es retirar todo el cartón rápidamente. Es abrir de forma controlada, identificar componentes y evitar que herramientas de corte, grapas o movimientos bruscos dañen superficies.</p>
+ <ol><li>Prepara una zona limpia y despejada.</li><li>Comprueba etiquetas y referencias antes de abrir.</li><li>Utiliza el método de apertura que minimice el riesgo de rayar el producto.</li><li>Separa piezas, herrajes e instrucciones sin perder su identificación.</li><li>Protege cantos y superficies durante los movimientos.</li><li>Conserva embalajes necesarios para proteger o gestionar incidencias, según el procedimiento.</li></ol>
+ <h3>5. Movimiento de cargas</h3>
+ <p>Planifica el levantamiento y transporte. Considera peso, volumen, agarres, recorrido, obstáculos y necesidad de ayuda o medios auxiliares. No levantes una carga que no puedas controlar con seguridad.</p>
+ <div class="diagram"><div class="flow"><div class="node">Planificar recorrido</div><span class="arrow">→</span><div class="node">Elegir ayuda/equipo</div><span class="arrow">→</span><div class="node">Mover con control</div><span class="arrow">→</span><div class="node">Depositar y proteger</div></div></div>
+ <div class="quiz" data-answer="c" data-explain="Una incidencia detectada en recepción debe registrarse y comunicarse siguiendo el procedimiento antes de que el montaje la oculte o complique."><b>Comprueba tu comprensión</b><p>El embalaje de una puerta llega golpeado. ¿Qué haces?</p><label><input type="radio" name="qrec" value="a"> Lo tiras y montas la puerta si parece cerrar.</label><label><input type="radio" name="qrec" value="b"> Esperas al final para comprobarlo.</label><label><input type="radio" name="qrec" value="c"> Revisas, documentas y comunicas la incidencia.</label><button class="btn" onclick="checkQuiz(this)">Comprobar</button><div class="feedback"></div></div>
+</section>
+
+<section class="page" id="planos" data-title="Planos y replanteo">
+ <div class="section-head"><div class="kicker">Bloque 3</div><h2>Interpretación de planos y replanteo</h2><p class="muted">Pasar de una representación a una instalación real, sin confiar en suposiciones.</p></div>
+ <h3>1. Documentos que puedes encontrar</h3>
+ <ul>
+  <li><b>Albarán:</b> documento asociado a la entrega de mercancía.</li>
+  <li><b>Ambientación:</b> representación visual del conjunto o de su aspecto previsto.</li>
+  <li><b>Croquis:</b> dibujo simplificado que ayuda a representar una disposición o una medida.</li>
+  <li><b>Plano:</b> representación técnica con información geométrica y dimensional.</li>
+  <li><b>Plano de herrajes:</b> muestra posición, perforaciones y montaje de componentes específicos.</li>
+  <li><b>Hoja técnica:</b> recoge características e instrucciones de producto.</li>
+ </ul>
+ <h3>2. Leer cotas y vistas</h3>
+ <p>Una cota expresa una dimensión. Antes de interpretar un dibujo, comprueba unidades, escala si la hay, referencias, orientación y qué elemento está acotado. No midas una imagen en pantalla para sustituir una cota escrita.</p>
+ <div class="diagram">
+  <svg viewBox="0 0 340 170" width="100%" role="img" aria-label="Esquema de un módulo rectangular con ancho y alto acotados">
+   <rect x="90" y="28" width="150" height="112" rx="2" fill="#1a3855" stroke="#83c9e8" stroke-width="2"/>
+   <line x1="90" y1="17" x2="240" y2="17" stroke="#f4c56a" stroke-width="1.5"/>
+   <path d="M90 13v8 M240 13v8" stroke="#f4c56a" stroke-width="1.5"/>
+   <text x="165" y="12" fill="#f4c56a" font-size="10" text-anchor="middle">ANCHO</text>
+   <line x1="257" y1="28" x2="257" y2="140" stroke="#66e0dc" stroke-width="1.5"/>
+   <path d="M253 28h8 M253 140h8" stroke="#66e0dc" stroke-width="1.5"/>
+   <text x="270" y="87" fill="#66e0dc" font-size="10" transform="rotate(90 270 87)" text-anchor="middle">ALTO</text>
+   <text x="165" y="88" fill="#edf3fb" font-size="13" text-anchor="middle">MÓDULO</text>
+   <text x="165" y="103" fill="#a8b8cc" font-size="9" text-anchor="middle">esquema conceptual</text>
+  </svg>
+  <p class="small">Esquema didáctico sin escala ni medidas reales. Las cotas del proyecto y del fabricante son las que mandan.</p>
+ </div>
+ <h3>3. Replanteo</h3>
+ <p>Replantear es trasladar al lugar de instalación las referencias del proyecto: posiciones, alturas, ejes, alineaciones y puntos de fijación. Se realiza con instrumentos adecuados y después de comprobar el estado del lugar.</p>
+ <h3>4. Condiciones del lugar</h3>
+ <p>El programa destaca dimensiones, nivelación, verticalidad y estado del lugar, incluyendo humedad y ubicación de instalaciones eléctricas.</p>
+ <ul class="checklist"><li>¿Las paredes, suelo y techo están en condiciones para instalar?</li><li>¿Hay desniveles, desplomes o paredes fuera de escuadra?</li><li>¿Se han identificado tuberías, cables y otras instalaciones ocultas o visibles?</li><li>¿Hay humedad o daños que puedan afectar al mobiliario?</li><li>¿Las medidas reales coinciden con el proyecto?</li><li>¿Hay espacio para abrir puertas y cajones y acceder a los equipos?</li></ul>
+ <h3>5. Instrumentos de medición</h3>
+ <table><tr><th>Instrumento</th><th>Para qué sirve</th></tr>
+ <tr><td>Metro / cinta métrica</td><td>Medir longitudes, alturas, fondos y distancias.</td></tr>
+ <tr><td>Escuadra / falsa escuadra</td><td>Comprobar o trasladar ángulos.</td></tr>
+ <tr><td>Goniómetro</td><td>Medir ángulos.</td></tr>
+ <tr><td>Nivel</td><td>Comprobar horizontalidad y, según tipo, verticalidad.</td></tr>
+ <tr><td>Plomada</td><td>Establecer una referencia vertical.</td></tr>
+ <tr><td>Calibre / pie de rey</td><td>Medir dimensiones pequeñas con mayor precisión.</td></tr>
+ <tr><td>Compás de puntas</td><td>Trasladar o comparar distancias y trazos.</td></tr></table>
+ <div class="callout danger">Antes de perforar una pared, suelo o alicatado, identifica riesgos de instalaciones y comprueba el soporte y la fijación apropiada. No taladres a ciegas ni deduzcas que una zona está libre de cables o tuberías.</div>
+ <div class="quiz" data-answer="b" data-explain="El replanteo debe partir de medidas reales y condiciones verificadas. Si hay discrepancias, se aclaran antes de fijar los módulos."><b>Comprueba tu comprensión</b><p>El plano indica una medida, pero la pared real presenta una diferencia importante. ¿Qué procede?</p><label><input type="radio" name="qpla" value="a"> Forzar el mueble para respetar el dibujo.</label><label><input type="radio" name="qpla" value="b"> Volver a medir, revisar referencias y comunicar la discrepancia.</label><label><input type="radio" name="qpla" value="c"> Cortar una pieza sin consultar.</label><button class="btn" onclick="checkQuiz(this)">Comprobar</button><div class="feedback"></div></div>
+</section>
+
+<section class="page" id="instalacion" data-title="Instalación">
+ <div class="section-head"><div class="kicker">Bloque 3</div><h2>Instalación, ajuste y remates</h2><p class="muted">El núcleo práctico del oficio: precisión, secuencia y comprobación.</p></div>
+ <h3>1. Preparación del trabajo</h3>
+ <p>Antes de instalar, el profesional debe disponer de la documentación, materiales, herramientas y condiciones de trabajo necesarias. El programa incluye preparación, replanteo, técnicas e instrumentos.</p>
+ <ol><li>Revisar plano, croquis, albarán y documentación de herrajes.</li><li>Confirmar que las piezas y referencias corresponden al proyecto.</li><li>Comprobar medidas y condiciones del lugar.</li><li>Proteger las zonas de trabajo y organizar herramientas.</li><li>Definir la secuencia de montaje conforme al sistema.</li></ol>
+ <h3>2. Horizontalidad, verticalidad y escuadría</h3>
+ <div class="grid">
+  <div class="card"><h3>Horizontalidad</h3><p>Una línea o superficie está horizontal cuando mantiene el nivel previsto respecto a la gravedad.</p><p class="small">Se comprueba con nivel adecuado.</p></div>
+  <div class="card"><h3>Verticalidad</h3><p>Un elemento está vertical cuando se alinea con la dirección de la gravedad.</p><p class="small">Se comprueba con nivel o plomada.</p></div>
+  <div class="card"><h3>Escuadría</h3><p>Relación geométrica entre elementos que deben formar ángulos rectos, según el diseño.</p><p class="small">Se comprueba con escuadra y mediciones.</p></div>
+  <div class="card"><h3>Alineación</h3><p>Continuidad de posición entre frentes, cantos, líneas y elementos contiguos.</p><p class="small">Se verifica visual y dimensionalmente.</p></div>
+ </div>
+ <div class="diagram">
+  <svg viewBox="0 0 340 190" width="100%" role="img" aria-label="Esquema de nivel, plomada y escuadra">
+   <rect x="18" y="20" width="90" height="120" rx="8" fill="#17334e" stroke="#6ab8e0"/>
+   <path d="M28 80h70" stroke="#f4c56a" stroke-width="3"/><circle cx="63" cy="80" r="6" fill="none" stroke="#f4c56a" stroke-width="2"/>
+   <text x="63" y="160" fill="#edf3fb" font-size="11" text-anchor="middle">Nivel</text>
+   <rect x="130" y="20" width="80" height="120" rx="8" fill="#17334e" stroke="#6ab8e0"/>
+   <path d="M170 31v84" stroke="#66e0dc" stroke-width="2"/><path d="M170 115l-8 -12h16z" fill="#66e0dc"/>
+   <text x="170" y="160" fill="#edf3fb" font-size="11" text-anchor="middle">Plomada</text>
+   <rect x="232" y="20" width="90" height="120" rx="8" fill="#17334e" stroke="#6ab8e0"/>
+   <path d="M250 115V45h55" stroke="#f4c56a" stroke-width="5" fill="none"/>
+   <text x="277" y="160" fill="#edf3fb" font-size="11" text-anchor="middle">Escuadra</text>
+  </svg>
+  <p class="small">Representación conceptual de los instrumentos y la referencia que permiten comprobar.</p>
+ </div>
+ <h3>3. Montaje de módulos</h3>
+ <p>El programa contempla módulos altos, bajos, camas, literas, armarios, mesas, fijación de puertas y otros muebles. Aunque la secuencia concreta varía según producto, los criterios de calidad se repiten: posición, estabilidad, perpendicularidad, alineación y ajuste.</p>
+ <h4>Módulos bajos</h4>
+ <ul><li>Comprobar el apoyo y la referencia de altura prevista.</li><li>Resolver desniveles mediante el sistema de regulación diseñado para el mueble.</li><li>Comprobar horizontalidad, alineación y continuidad entre módulos.</li><li>Verificar fijaciones y uniones según el fabricante.</li></ul>
+ <h4>Módulos altos</h4>
+ <ul><li>Confirmar el tipo de pared y la idoneidad de la fijación.</li><li>Verificar cotas, puntos de anclaje y sistema de suspensión.</li><li>Comprobar que la carga prevista es compatible con el soporte y los anclajes.</li><li>Revisar alineación y estabilidad antes de colocar cargas o utilizar el mueble.</li></ul>
+ <h4>Armarios, camas, literas y mesas</h4>
+ <p>La geometría, el apoyo y la seguridad son esenciales. En muebles altos o estructuras donde pueda existir riesgo de vuelco o caída, respeta el sistema de anclaje y las instrucciones específicas del fabricante.</p>
+ <h3>4. Holguras y ajustes</h3>
+ <p>Una holgura es un espacio controlado entre piezas o componentes. Puede ser necesaria para permitir movimiento, montaje, ventilación o ajuste. No toda separación es un defecto; tampoco toda separación es aceptable.</p>
+ <p>Comprueba que las holguras sean uniformes y correspondan a la documentación del sistema. Las puertas no deben rozar; los cajones deben desplazarse sin interferencias; los frentes contiguos deben mantener una composición regular.</p>
+ <h3>5. Taladrado, atornillado, grapado y clavado</h3>
+ <p>El programa incluye estas operaciones tanto sobre la obra (pared, suelo o alicatado) como sobre el producto. Se debe seleccionar maquinaria, broca, fijación y parámetros adecuados al material y a la operación.</p>
+ <div class="callout warning">No existe una broca, taco, tornillo o profundidad universal. La selección depende del soporte, carga, diámetro, sistema y especificación técnica. Si no conoces el soporte, no improvises.</div>
+ <h3>6. Elementos de remate y cristales</h3>
+ <p>Los remates resuelven encuentros y terminaciones: tapetas, zócalos, perfiles y piezas de ajuste, según el mueble. El programa también contempla montaje de cristales, con atención específica a la técnica y a la seguridad durante su manipulación.</p>
+ <h3>7. Control final de una instalación</h3>
+ <ul class="checklist"><li>Los módulos corresponden al plano y a las referencias previstas.</li><li>La instalación está estable y correctamente fijada.</li><li>Se han comprobado nivelación, verticalidad y escuadría.</li><li>Puertas y cajones abren, cierran y se desplazan correctamente.</li><li>Los frentes y remates están alineados.</li><li>No hay daños, cantos levantados ni restos de adhesivo.</li><li>El área queda limpia y los residuos se gestionan correctamente.</li><li>Las incidencias pendientes se comunican y documentan.</li></ul>
+ <div class="quiz" data-answer="c" data-explain="La comprobación geométrica y funcional permite detectar problemas de montaje y ajuste antes de dar por terminada la instalación."><b>Comprueba tu comprensión</b><p>Una puerta cierra, pero queda claramente desalineada respecto a las contiguas. ¿Está terminada la instalación?</p><label><input type="radio" name="qins" value="a"> Sí, porque cierra.</label><label><input type="radio" name="qins" value="b"> Sí, si el cliente no lo señala.</label><label><input type="radio" name="qins" value="c"> No; hay que revisar regulación, fijación y alineación.</label><button class="btn" onclick="checkQuiz(this)">Comprobar</button><div class="feedback"></div></div>
+</section>
+
+<section class="page" id="herramientas" data-title="Herramientas y seguridad">
+ <div class="section-head"><div class="kicker">Bloque 4</div><h2>Herramientas, equipos y seguridad</h2><p class="muted">Conocer una herramienta incluye saber cuándo no utilizarla.</p></div>
+ <h3>1. Equipos que enumera el programa</h3>
+ <table><tr><th>Equipo</th><th>Uso general</th><th>Precaución esencial</th></tr>
+ <tr><td>Sierra circular tronzadora-ingletadora</td><td>Cortes controlados de piezas y perfiles, según configuración.</td><td>Resguardos, sujeción, disco apropiado y zona libre.</td></tr>
+ <tr><td>Sierra caladora</td><td>Cortes curvos o rectos según hoja y material.</td><td>Hoja adecuada, pieza sujeta y control de trayectoria.</td></tr>
+ <tr><td>Taladro-atornillador a batería</td><td>Taladrar y atornillar con control.</td><td>Par, broca/punta, batería y sujeción.</td></tr>
+ <tr><td>Taladro percutor</td><td>Perforación de determinados soportes de obra.</td><td>Identificar el soporte y evitar instalaciones ocultas.</td></tr>
+ <tr><td>Cepillo eléctrico</td><td>Rebajar o ajustar madera, cuando proceda.</td><td>Profundidad, apoyo y resguardos.</td></tr>
+ <tr><td>Fresadora</td><td>Realizar mecanizados y alojamientos específicos.</td><td>Fresa, plantilla, profundidad y fijación.</td></tr>
+ <tr><td>Lijadora</td><td>Trabajos de lijado o ajuste superficial previstos.</td><td>Extracción de polvo y protección respiratoria/ocular.</td></tr>
+ <tr><td>Aspirador</td><td>Recoger polvo y residuos compatibles con el equipo.</td><td>Filtro y uso adecuado al material aspirado.</td></tr>
+ <tr><td>Pistolas de clavado/grapado</td><td>Fijaciones mediante clavos o grapas.</td><td>Dirección de disparo, presión y desconexión segura.</td></tr></table>
+ <h3>2. Herramientas y útiles manuales</h3>
+ <p>El programa enumera serrucho, martillo, maceta de goma o plástico, grapadora manual, destornilladores y puntas, cepillo manual, limas, llaves fijas y Allen, brocas, hojas de sierra, fresas, plantillas, punzón, formón, espátula, prolongadores, sargentos, metro, cinta métrica, calibre, escuadra, falsa escuadra, goniómetro, plomada, nivel, gubia y compás de puntas.</p>
+ <p>Aprende a identificar cada útil, elegirlo para la tarea y mantenerlo en buen estado. Un útil inadecuado puede dañar el material, provocar un acabado deficiente o generar un accidente.</p>
+ <h3>3. Reglas de trabajo seguro</h3>
+ <ul class="checklist"><li>Lee instrucciones del fabricante y del centro de formación.</li><li>Comprueba el estado de la máquina, cable, batería, accesorios y resguardos.</li><li>Utiliza los equipos de protección que correspondan al riesgo.</li><li>Sujeta la pieza; no la mantengas con la mano en la trayectoria de corte.</li><li>Mantén manos, ropa y cables alejados de partes móviles.</li><li>Desconecta o retira la batería antes de cambiar accesorios o intervenir en la máquina.</li><li>Controla polvo, ruido, proyecciones y ventilación.</li><li>Mantén el suelo despejado y evita tropiezos.</li><li>No trabajes cansado, distraído ni bajo condiciones inseguras.</li><li>Comunica inmediatamente un defecto o incidente.</li></ul>
+ <div class="callout danger"><b>Regla absoluta:</b> este tutorial no sustituye la formación práctica de seguridad. No practiques cortes, fresados, taladros en obra ni manejo de máquinas por tu cuenta basándote únicamente en estas explicaciones. Aprende con el formador, el procedimiento del centro y los manuales de cada equipo.</div>
+ <h3>4. Riesgos típicos que debes reconocer</h3>
+ <table><tr><th>Riesgo</th><th>Ejemplo</th><th>Prevención general</th></tr>
+ <tr><td>Corte / amputación</td><td>Contacto con disco, hoja o cuchilla.</td><td>Resguardos, sujeción, procedimiento y formación.</td></tr>
+ <tr><td>Proyección</td><td>Virutas, fragmentos o polvo.</td><td>Protección ocular y control de la zona.</td></tr>
+ <tr><td>Ruido</td><td>Uso de maquinaria eléctrica.</td><td>Evaluación y protección auditiva adecuada.</td></tr>
+ <tr><td>Polvo</td><td>Corte o lijado de tableros.</td><td>Aspiración y protección respiratoria según evaluación.</td></tr>
+ <tr><td>Electricidad</td><td>Cables dañados o perforación de instalaciones.</td><td>Revisión de equipos y comprobación previa del soporte.</td></tr>
+ <tr><td>Sobreesfuerzo</td><td>Manipulación de módulos pesados o voluminosos.</td><td>Planificar, usar ayudas y pedir apoyo.</td></tr>
+ <tr><td>Caídas / golpes</td><td>Material en pasillos o piezas mal almacenadas.</td><td>Orden, estabilidad y rutas despejadas.</td></tr></table>
+ <h3>5. Primeros auxilios</h3>
+ <p>El programa incluye primeros auxilios como parte de la prevención. En una situación real, detén el trabajo, protege la zona, avisa al responsable y activa los servicios de emergencia cuando corresponda. No improvises actuaciones para las que no estás formado.</p>
+ <div class="callout warning">En España, ante una emergencia grave llama al 112. Sigue las instrucciones del operador y del personal sanitario.</div>
+</section>
+
+<section class="page" id="calidad" data-title="Calidad y medioambiente">
+ <div class="section-head"><div class="kicker">Bloque 4</div><h2>Calidad, normativa y medioambiente</h2><p class="muted">El resultado se mide por el funcionamiento, la seguridad y el acabado, no por la velocidad aislada.</p></div>
+ <h3>1. Qué es calidad en una instalación</h3>
+ <p>El programa pide identificar los factores que intervienen en la calidad y valorar sus elementos. En términos prácticos, una instalación de calidad responde al proyecto y a las instrucciones, funciona correctamente, es estable, está bien ajustada y no presenta daños atribuibles al trabajo.</p>
+ <div class="grid">
+  <div class="card"><h3>Conformidad</h3><p>El producto instalado corresponde a lo especificado y a la documentación aplicable.</p></div>
+  <div class="card"><h3>Geometría</h3><p>Nivelación, verticalidad, escuadría y alineación correctas.</p></div>
+  <div class="card"><h3>Funcionalidad</h3><p>Puertas, cajones y mecanismos se mueven según lo previsto.</p></div>
+  <div class="card"><h3>Acabado</h3><p>Sin golpes, rayas, cantos dañados ni remates descuidados.</p></div>
+ </div>
+ <h3>2. Normativa de producto y proceso</h3>
+ <p>El programa menciona normativa de producto-proceso y dimensiones normalizadas en la instalación de muebles modulares. No identifica en el documento una relación detallada de normas o medidas aplicables a todos los fabricantes.</p>
+ <p>Por eso, en cada trabajo se deben consultar las especificaciones del producto, las instrucciones de instalación, los requisitos del proyecto y la normativa vigente que corresponda. No conviertas una medida habitual en una regla universal.</p>
+ <h3>3. Salud laboral y prevención</h3>
+ <p>El programa incluye riesgos inherentes, métodos de protección y prevención, equipos de protección individual y primeros auxilios. La prevención debe formar parte de la preparación del trabajo, no añadirse al final.</p>
+ <h3>4. Medioambiente</h3>
+ <p>La instalación genera embalajes, recortes, polvo, consumibles y piezas retiradas. El objetivo es reducir daños y gestionar los residuos conforme a las normas y procedimientos aplicables.</p>
+ <ul class="checklist"><li>Evitar desperdicio de material por mediciones o cortes incorrectos.</li><li>Separar embalajes y residuos cuando proceda.</li><li>No abandonar restos, adhesivos o productos químicos en lugares inadecuados.</li><li>Utilizar y almacenar productos según sus instrucciones.</li><li>Reducir polvo y mantener limpia la zona.</li><li>Proteger los materiales para evitar que se conviertan en residuos por daños evitables.</li></ul>
+ <h3>5. Resolver pequeñas contingencias con criterio</h3>
+ <p>El programa contempla autonomía media para resolver pequeñas contingencias relacionadas con la actividad. Eso no significa improvisar ante cualquier problema. Significa reconocer qué puedes resolver dentro del procedimiento y cuándo debes detenerte y consultar.</p>
+ <table><tr><th>Situación</th><th>Actuación prudente</th></tr>
+ <tr><td>Falta un tornillo identificado</td><td>Verificar referencia y procedimiento de reposición; no sustituir al azar.</td></tr>
+ <tr><td>La pared está fuera de plomo</td><td>Medir, valorar el sistema de ajuste permitido y consultar si afecta al diseño o seguridad.</td></tr>
+ <tr><td>Un módulo llega dañado</td><td>Documentar y comunicar antes de instalarlo.</td></tr>
+ <tr><td>Se desconoce qué hay detrás de una pared</td><td>No perforar hasta comprobar el riesgo y el método seguro.</td></tr>
+ <tr><td>El herraje no corresponde</td><td>Detener montaje y verificar referencia y compatibilidad.</td></tr></table>
+ <div class="callout success"><b>Criterio profesional:</b> detenerse a tiempo también es una competencia. Una duda comunicada antes de actuar puede evitar un daño, un retraso y una reparación.</div>
+</section>
+
+<section class="page" id="glosario" data-title="Glosario y evaluación">
+ <div class="section-head"><div class="kicker">Repaso</div><h2>Glosario, autoevaluación y preparación</h2><p class="muted">Consolidar el vocabulario y detectar qué conviene preguntar en clase.</p></div>
+ <h3>Glosario básico</h3>
+ <div class="card">
+  <details><summary>Acopio</summary><div class="inside">Reunión y organización de los materiales necesarios para el trabajo.</div></details>
+  <details><summary>Albarán</summary><div class="inside">Documento relacionado con la entrega de mercancías y su comprobación.</div></details>
+  <details><summary>Aplomado / verticalidad</summary><div class="inside">Condición de un elemento que mantiene la dirección vertical.</div></details>
+  <details><summary>Escuadría</summary><div class="inside">Relación geométrica entre elementos que deben formar ángulos rectos, conforme al diseño.</div></details>
+  <details><summary>Holgura</summary><div class="inside">Separación o juego entre piezas, que debe ser el previsto para el funcionamiento o montaje.</div></details>
+  <details><summary>Herraje</summary><div class="inside">Componente metálico o de otro material que permite unir, sujetar, articular, guiar o regular partes del mueble.</div></details>
+  <details><summary>Replanteo</summary><div class="inside">Traslado al lugar de trabajo de las posiciones, referencias y medidas indicadas en la documentación.</div></details>
+  <details><summary>Horizontalidad</summary><div class="inside">Condición de una línea o superficie que mantiene el nivel horizontal previsto.</div></details>
+  <details><summary>Perpendicularidad</summary><div class="inside">Relación de dos elementos que forman un ángulo recto.</div></details>
+  <details><summary>Remate</summary><div class="inside">Pieza u operación que resuelve el encuentro y acabado final de una instalación.</div></details>
+  <details><summary>Tolerancia</summary><div class="inside">Variación admisible respecto de una dimensión o condición especificada.</div></details>
+  <details><summary>Ficha técnica</summary><div class="inside">Documento del fabricante con características, datos y/o instrucciones del producto.</div></details>
+ </div>
+ <h3>Autoevaluación final</h3>
+ <p>Responde y comprueba cada pregunta. Las explicaciones son didácticas y se basan en los objetivos y contenidos del programa.</p>
+ <div class="quiz" data-answer="b" data-explain="La instalación debe comprobarse frente a la documentación y las condiciones reales; no se fuerza una pieza para ocultar una discrepancia."><b>1. ¿Qué haces si la medida real no coincide con el plano?</b><label><input type="radio" name="qf1" value="a"> Ajustas el mueble sin medir más.</label><label><input type="radio" name="qf1" value="b"> Vuelves a comprobar y comunicas la discrepancia.</label><label><input type="radio" name="qf1" value="c"> Ignoras el plano.</label><button class="btn" onclick="checkQuiz(this)">Comprobar</button><div class="feedback"></div></div>
+ <div class="quiz" data-answer="a" data-explain="El programa incluye revisión del embalaje y del producto, junto con la comprobación documental de la recepción."><b>2. ¿Qué forma parte de la recepción?</b><label><input type="radio" name="qf2" value="a"> Revisar documentos, embalaje y producto.</label><label><input type="radio" name="qf2" value="b"> Solamente firmar el albarán.</label><label><input type="radio" name="qf2" value="c"> Abrir todo sin identificar piezas.</label><button class="btn" onclick="checkQuiz(this)">Comprobar</button><div class="feedback"></div></div>
+ <div class="quiz" data-answer="c" data-explain="Los sistemas de unión y herrajes deben seleccionarse y montarse según compatibilidad, cargas y documentación técnica."><b>3. ¿Cómo se selecciona un herraje?</b><label><input type="radio" name="qf3" value="a"> Por apariencia.</label><label><input type="radio" name="qf3" value="b"> Por disponibilidad, aunque no coincida.</label><label><input type="radio" name="qf3" value="c"> Por referencia, uso, carga y ficha técnica.</label><button class="btn" onclick="checkQuiz(this)">Comprobar</button><div class="feedback"></div></div>
+ <div class="quiz" data-answer="b" data-explain="Nivel, plomada y escuadra ayudan a comprobar horizontalidad, verticalidad y geometría."><b>4. ¿Qué se comprueba con nivel y plomada?</b><label><input type="radio" name="qf4" value="a"> El color del acabado.</label><label><input type="radio" name="qf4" value="b"> Horizontalidad y verticalidad.</label><label><input type="radio" name="qf4" value="c"> La dureza del tablero.</label><button class="btn" onclick="checkQuiz(this)">Comprobar</button><div class="feedback"></div></div>
+ <div class="quiz" data-answer="a" data-explain="La seguridad y la prevención son parte del proceso de instalación y no pueden sustituirse por la rapidez."><b>5. ¿Qué debe hacerse antes de perforar una pared?</b><label><input type="radio" name="qf5" value="a"> Comprobar soporte, riesgos e instalaciones y elegir método adecuado.</label><label><input type="radio" name="qf5" value="b"> Taladrar primero y revisar después.</label><label><input type="radio" name="qf5" value="c"> Utilizar siempre la misma broca.</label><button class="btn" onclick="checkQuiz(this)">Comprobar</button><div class="feedback"></div></div>
+ <h3>Preguntas inteligentes para el profesor</h3>
+ <p>Estas preguntas te ayudarán a conectar el temario con la práctica real. No hace falta hacerlas todas el primer día; puedes ir planteándolas cuando el tema aparezca.</p>
+ <ol>
+  <li>¿Qué errores de medición provocan más problemas en una instalación?</li>
+  <li>¿Cómo se comprueba una pared antes de decidir el sistema de fijación?</li>
+  <li>¿Qué diferencias prácticas hay entre instalar módulos bajos, altos y columnas?</li>
+  <li>¿Qué herrajes requieren más precisión de mecanizado o regulación?</li>
+  <li>¿Qué comprobaciones se hacen al recibir una cocina antes de empezar?</li>
+  <li>¿Qué operaciones suelen generar más incidencias o retrasos?</li>
+  <li>¿Qué herramientas considera imprescindibles para empezar y cuáles son específicas?</li>
+  <li>¿Qué defectos de acabado distinguen un montaje correcto de uno realmente profesional?</li>
+  <li>¿Cómo se documenta una pieza dañada o una referencia incorrecta?</li>
+  <li>¿Qué trabajos deben derivarse a profesionales habilitados de otros oficios?</li>
+ </ol>
+ <h3>Tu lista de preparación</h3>
+ <ul class="checklist"><li>Puedo explicar qué es un mueble modular y reconocer sus componentes.</li><li>Distingo uniones fijas y móviles.</li><li>Entiendo para qué sirven bisagras, guías y sistemas elevables.</li><li>Sé qué revisar al recibir y desembalar materiales.</li><li>Distingo albarán, croquis, plano y ficha técnica.</li><li>Comprendo nivelación, verticalidad, escuadría y alineación.</li><li>Reconozco las herramientas principales y sus usos generales.</li><li>Entiendo que la seguridad y la prevención son obligatorias.</li><li>Sé cuándo debo detenerme y consultar.</li></ul>
+ <div class="callout success"><b>La meta antes de empezar:</b> no llegar sabiendo instalar una cocina. Llegar sabiendo qué estás mirando, qué preguntas hacer y por qué cada comprobación importa.</div>
+ <h3>Evaluación del curso</h3>
+ <p>El programa indica una evaluación teórico-práctica, sistemática y continua, con posible evaluación inicial diagnóstica. La calificación final se expresa como <b>Apto / No Apto</b>. La práctica presencial incluye conocimiento y uso de materiales, acopio y desembalado e instalación.</p>
+</section>
+</main>
+
+<div class="floating" id="homeFloat"><span class="drag-handle" title="Arrastrar">⠿</span><button class="float-btn" onclick="goTo('inicio')">⌂ INICIO</button></div>
+<div class="floating" id="topFloat"><span class="drag-handle" title="Arrastrar">⠿</span><button class="float-btn" onclick="scrollCurrentTop()">↑ ARRIBA</button></div>
+
+<div class="bottom-nav"><div class="bottom-inner">
+ <button class="btn ghost" id="prevBtn">← Anterior</button>
+ <button class="btn primary" id="nextBtn">Siguiente →</button>
+</div></div>
+<footer>Material de estudio personal · Basado en el programa formativo MAMB03 · Documento autónomo, sin dependencias externas.</footer>
+
+<script>
+(function(){
+ const ids=['inicio','mapa','materiales','adhesivos','recepcion','planos','instalacion','herramientas','calidad','glosario'];
+ const names=['INICIO','MAPA DEL CURSO','MATERIALES','ADHESIVOS Y HERRAJES','ACOPIO Y RECEPCIÓN','PLANOS Y REPLANTEO','INSTALACIÓN','HERRAMIENTAS Y SEGURIDAD','CALIDAD Y MEDIOAMBIENTE','GLOSARIO Y EVALUACIÓN'];
+ let current=0;
+ const tabs=[...document.querySelectorAll('.tab')];
+ const pages=[...document.querySelectorAll('.page')];
+ const drawer=document.getElementById('drawerBackdrop');
+ const drawerList=document.getElementById('drawerList');
+ const tabbar=document.getElementById('tabbar');
+ ids.forEach((id,i)=>{
+  const b=document.createElement('button');b.className='drawer-item';b.innerHTML='<b>'+String(i+1).padStart(2,'0')+'</b><span>'+names[i]+'</span>';
+  b.addEventListener('click',()=>{goTo(id);drawer.classList.remove('open')});drawerList.appendChild(b);
+ });
+ function activate(i,scroll=true){
+  current=Math.max(0,Math.min(ids.length-1,i));
+  pages.forEach((p,n)=>p.classList.toggle('active',n===current));
+  tabs.forEach((t,n)=>t.classList.toggle('active',n===current));
+  [...drawerList.children].forEach((b,n)=>b.classList.toggle('active',n===current));
+  if(scroll){tabs[current].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});window.scrollTo({top:0,behavior:'smooth'});}
+  document.getElementById('prevBtn').disabled=current===0;
+  document.getElementById('nextBtn').disabled=current===ids.length-1;
+  document.getElementById('progress').style.width=((current+1)/ids.length*100)+'%';
+  document.title=names[current]+' — Instalación de Mueble Modular';
+ }
+ window.goTo=function(id){const i=ids.indexOf(id);if(i>=0)activate(i,true)};
+ window.scrollCurrentTop=function(){window.scrollTo({top:0,behavior:'smooth'});};
+ tabs.forEach((t,i)=>t.addEventListener('click',()=>activate(i,true)));
+ document.getElementById('prevBtn').addEventListener('click',()=>activate(current-1,true));
+ document.getElementById('nextBtn').addEventListener('click',()=>activate(current+1,true));
+ document.getElementById('openMenu').addEventListener('click',()=>drawer.classList.add('open'));
+ document.getElementById('closeMenu').addEventListener('click',()=>drawer.classList.remove('open'));
+ drawer.addEventListener('click',e=>{if(e.target===drawer)drawer.classList.remove('open')});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')drawer.classList.remove('open')});
+ // Each external URL is paired with a dedicated new-window button.
+ document.querySelectorAll('a[href^="http"]').forEach(a=>{
+  a.setAttribute('target','_blank');a.setAttribute('rel','noopener noreferrer');
+  const wrap=document.createElement('div');wrap.className='urlrow';
+  a.parentNode.insertBefore(wrap,a);wrap.appendChild(a);
+  const btn=document.createElement('button');btn.className='btn';btn.textContent='↗ Abrir en otra ventana';
+  btn.type='button';btn.addEventListener('click',()=>window.open(a.href,'_blank','noopener,noreferrer'));
+  wrap.appendChild(btn);
+ });
+ // Draggable floating controls: drag from the handle; tap the button to act.
+ function makeDraggable(el){
+  const handle=el.querySelector('.drag-handle');let sx=0,sy=0,ox=0,oy=0,drag=false,moved=false;
+  handle.addEventListener('pointerdown',e=>{
+   drag=true;moved=false;sx=e.clientX;sy=e.clientY;
+   const r=el.getBoundingClientRect();ox=r.left;oy=r.top;
+   handle.setPointerCapture(e.pointerId);e.preventDefault();
+  });
+  handle.addEventListener('pointermove',e=>{
+   if(!drag)return;const dx=e.clientX-sx,dy=e.clientY-sy;
+   if(Math.abs(dx)+Math.abs(dy)>4)moved=true;
+   const x=Math.max(4,Math.min(window.innerWidth-el.offsetWidth-4,ox+dx));
+   const y=Math.max(58,Math.min(window.innerHeight-el.offsetHeight-65,oy+dy));
+   el.style.left=x+'px';el.style.top=y+'px';el.style.right='auto';el.style.bottom='auto';
+  });
+  const end=()=>{drag=false};handle.addEventListener('pointerup',end);handle.addEventListener('pointercancel',end);
+ }
+ makeDraggable(document.getElementById('homeFloat'));makeDraggable(document.getElementById('topFloat'));
+ window.checkQuiz=function(btn){
+  const box=btn.closest('.quiz');const chosen=box.querySelector('input:checked');const fb=box.querySelector('.feedback');
+  if(!chosen){fb.textContent='Selecciona una respuesta.';fb.style.color='#f4c56a';return}
+  const ok=chosen.value===box.dataset.answer;
+  fb.textContent=(ok?'✓ Correcto. ':'✕ No es la opción adecuada. ')+box.dataset.explain;
+  fb.style.color=ok?'#8fe0b0':'#ffb0a0';
+ };
+ activate(0,false);
+})();
+</script>
+</body>
+</html>
