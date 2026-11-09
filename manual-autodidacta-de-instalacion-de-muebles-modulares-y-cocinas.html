@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html lang="es" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#090d16">
+    <title>Manual Autodidacta de Instalación de Muebles Modulares y Cocinas</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                        },
+                        surface: {
+                            950: '#060911',
+                            900: '#0b101e',
+                            800: '#131b2e',
+                            700: '#1e2942',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Optimización para Samsung Galaxy A02s (720x1600, 60Hz, toque fluido) */
+        * {
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #060911;
+            color: #f1f5f9;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        /* Ocultar barra de scroll en carrusel horizontal pero mantener funcionalidad */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        /* Estilo de pestaña activa */
+        .tab-btn.active {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #060911;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);
+            border-color: #fbbf24;
+        }
+        /* Tarjetas estilo Agencia Digital Premium */
+        .agency-card {
+            background: linear-gradient(180deg, rgba(19, 27, 46, 0.9) 0%, rgba(11, 16, 30, 0.95) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+        .agency-card-highlight {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(19, 27, 46, 0.95) 100%);
+            border: 1px solid rgba(245, 158, 11, 0.35);
+        }
+        /* Botones flotantes arrastrables */
+        .draggable-fab {
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+            z-index: 90;
+            transition: transform 0.1s ease, box-shadow 0.2s ease;
+        }
+        .draggable-fab:active {
+            transform: scale(1.08);
+        }
+        /* Animación suave de entrada de pestañas */
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.28s ease-out forwards;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Inputs de tablas interactivas */
+        .measure-input {
+            background: rgba(6, 9, 17, 0.7);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: #fbbf24;
+            font-family: 'JetBrains Mono', monospace;
+            padding: 6px 10px;
+            border-radius: 8px;
+            width: 100%;
+            font-size: 0.875rem;
+        }
+        .measure-input:focus {
+            outline: none;
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.25);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-brand-500 selection:text-slate-950">
+
+    <!-- CABECERA PERMANENTE: ÍNDICE SÁNDWICH + BARRA DE PESTAÑAS HORIZONTAL -->
+    <header class="sticky top-0 z-50 bg-surface-950/95 backdrop-blur-md border-b border-slate-800/80 shadow-xl">
+        <div class="max-w-5xl mx-auto flex items-center px-2 py-2 gap-2">
+            <!-- Botón de ÍNDICE (Menú Sándwich) -->
+            <button id="openDrawerBtn" aria-label="Abrir Índice Completo" class="flex-shrink-0 flex items-center gap-2 bg-surface-800 hover:bg-surface-700 active:scale-95 text-brand-400 border border-brand-500/30 font-bold px-3.5 py-2.5 rounded-xl shadow-md transition-all">
+                <i class="fa-solid fa-bars text-lg"></i>
+                <span class="text-xs tracking-wider uppercase font-extrabold">ÍNDICE</span>
+            </button>
+
+            <!-- Barra de pestañas con desplazamiento táctil horizontal y auto-centrado -->
+            <nav id="topTabBar" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar scroll-smooth py-1 pr-2 flex-1" role="tablist">
+                <!-- Pestañas inyectadas dinámicamente por JS para sincronización exacta -->
+            </nav>
+        </div>
+        <!-- Barra de progreso de lectura de pestaña -->
+        <div class="w-full h-0.5 bg-surface-800">
+            <div id="tabProgressBar" class="h-full bg-gradient-to-r from-brand-500 to-amber-300 transition-all duration-300" style="width: 6.25%;"></div>
+        </div>
+    </header>
+
+    <!-- MENÚ SÁNDWICH (DRAWER VERTICAL COMPLETO) -->
+    <div id="drawerOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300"></div>
+    <aside id="indexDrawer" class="fixed top-0 left-0 bottom-0 w-[86vw] max-w-sm bg-surface-900 border-r border-slate-800 z-50 transform -translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
+        <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-surface-950">
+            <div class="flex items-center gap-2.5">
+                <span class="w-8 h-8 rounded-lg bg-brand-500 text-surface-950 flex items-center justify-center font-black">
+                    <i class="fa-solid fa-Screwdriver-wrench"></i>
+                </span>
+                <div>
+                    <h2 class="font-extrabold text-sm text-white tracking-wide uppercase">Índice General</h2>
+                    <p class="text-[11px] text-slate-400">16 Secciones del Manual</p>
+                </div>
+            </div>
+            <button id="closeDrawerBtn" class="w-9 h-9 rounded-xl bg-surface-800 text-slate-300 hover:text-white flex items-center justify-center border border-slate-700">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+        <div id="drawerList" class="flex-1 overflow-y-auto p-3 space-y-1.5">
+            <!-- Lista vertical generada por JS -->
+        </div>
+        <div class="p-3 bg-surface-950 border-t border-slate-800 text-center">
+            <p class="text-[11px] text-slate-400 font-medium">Optimizado para Móvil • Edición Agencia Premium</p>
+        </div>
+    </aside>
+
+    <!-- CONTENEDOR PRINCIPAL DE CONTENIDO -->
+    <main id="mainContent" class="flex-1 max-w-4xl w-full mx-auto px-3.5 sm:px-6 pt-5 pb-28">
+
+        <!-- ==========================================
+             PESTAÑA 0: INICIO
+             ========================================== -->
+        <section id="tab-0" class="tab-pane active space-y-6">
+            <!-- Hero Principal Exclusivo con "by Rubén Sbarsky" -->
+            <div class="relative rounded-2xl overflow-hidden border border-brand-500/40 bg-gradient-to-br from-surface-800 via-surface-900 to-surface-950 p-5 sm:p-8 shadow-2xl">
+                <div class="absolute -right-10 -top-10 w-44 h-44 bg-brand-500/10 rounded-full blur-2xl pointer-events-none"></div>
+                
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/15 border border-brand-500/30 text-brand-300 text-xs font-semibold mb-4">
+                    <i class="fa-solid fa-compass-drafting"></i>
+                    <span>GUÍA TÉCNICA INTERACTIVA • NIVEL INICIACIÓN A INTERMEDIO</span>
+                </div>
+
+                <!-- Título requerido con "by Rubén Sbarsky" SOLO en la pestaña de INICIO -->
+                <h1 class="text-2xl sm:text-4xl font-black text-white leading-tight tracking-tight mb-4">
+                    MANUAL AUTODIDACTA DE INSTALACIÓN DE MUEBLES MODULARES Y COCINAS 
+                    <span class="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-amber-300 to-orange-400 text-xl sm:text-2xl font-extrabold">
+                        by Rubén Sbarsky
+                    </span>
+                </h1>
+
+                <p class="text-slate-300 text-sm sm:text-base font-medium leading-relaxed mb-4">
+                    <strong class="text-white">Guía práctica, progresiva y orientada al trabajo real.</strong><br>
+                    Nivel: iniciación a intermedio. Enfoque: cocinas modulares, armarios y mobiliario de tablero.
+                </p>
+
+                <!-- Principio de trabajo -->
+                <blockquote class="p-4 rounded-xl bg-surface-950/90 border-l-4 border-brand-500 text-slate-200 text-sm leading-relaxed shadow-inner">
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-quote-left text-brand-400 text-lg mt-0.5"></i>
+                        <div>
+                            <strong class="text-brand-400 uppercase tracking-wider text-xs block mb-1">Principio de trabajo</strong>
+                            Medir dos veces, presentar en seco, comprobar, fijar y volver a comprobar. La rapidez llega después de dominar el método.
+                        </div>
+                    </div>
+                </blockquote>
+            </div>
+
+            <!-- Cómo utilizar este manual -->
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+                    <span class="w-9 h-9 rounded-xl bg-brand-500/20 border border-brand-500/40 text-brand-400 flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-book-open"></i>
+                    </span>
+                    <h2 class="text-lg sm:text-xl font-bold text-white">Cómo utilizar este manual</h2>
+                </div>
+
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    Este documento está pensado para aprender sin profesor, pero no sustituye la formación práctica supervisada ni las instrucciones específicas de cada fabricante.
+                </p>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    Sigue el orden de los capítulos. No empieces instalando una cocina completa: practica primero con un módulo suelto, aprende a escuadrarlo, monta una bisagra, instala una guía de cajón y realiza ejercicios de medición.
+                </p>
+
+                <p class="text-sm font-semibold text-brand-300 pt-1">En cada operación encontrarás:</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="p-3.5 rounded-xl bg-surface-950/70 border border-slate-800/80 flex items-start gap-3">
+                        <i class="fa-solid fa-bullseye text-brand-400 mt-1"></i>
+                        <div class="text-xs sm:text-sm"><strong class="text-white">Objetivo:</strong> qué resultado se busca.</div>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-surface-950/70 border border-slate-800/80 flex items-start gap-3">
+                        <i class="fa-solid fa-toolbox text-brand-400 mt-1"></i>
+                        <div class="text-xs sm:text-sm"><strong class="text-white">Herramientas y materiales:</strong> qué preparar.</div>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-surface-950/70 border border-slate-800/80 flex items-start gap-3">
+                        <i class="fa-solid fa-list-ol text-brand-400 mt-1"></i>
+                        <div class="text-xs sm:text-sm"><strong class="text-white">Procedimiento:</strong> cómo trabajar, en orden.</div>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-surface-950/70 border border-slate-800/80 flex items-start gap-3">
+                        <i class="fa-solid fa-clipboard-check text-brand-400 mt-1"></i>
+                        <div class="text-xs sm:text-sm"><strong class="text-white">Control de calidad:</strong> cómo saber si está bien.</div>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-surface-950/70 border border-slate-800/80 flex items-start gap-3">
+                        <i class="fa-solid fa-triangle-exclamation text-brand-400 mt-1"></i>
+                        <div class="text-xs sm:text-sm"><strong class="text-white">Errores frecuentes:</strong> qué evitar.</div>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-surface-950/70 border border-slate-800/80 flex items-start gap-3">
+                        <i class="fa-solid fa-award text-brand-400 mt-1"></i>
+                        <div class="text-xs sm:text-sm"><strong class="text-white">Criterio profesional:</strong> por qué se hace así.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Una advertencia esencial -->
+            <div class="agency-card-highlight rounded-2xl p-5 sm:p-6 space-y-3">
+                <div class="flex items-center gap-2.5 text-brand-400 font-bold text-base sm:text-lg">
+                    <i class="fa-solid fa-circle-exclamation text-xl"></i>
+                    <h3>Una advertencia esencial</h3>
+                </div>
+                <p class="text-sm text-slate-200 leading-relaxed">
+                    Los muebles modulares no son todos iguales. Cambian las dimensiones, los herrajes, las patas, los colgadores, las traseras, los sistemas de unión y las tolerancias. <strong class="text-brand-300 underline decoration-brand-500/60">La instrucción del fabricante del modelo concreto prevalece sobre cualquier procedimiento genérico de este manual.</strong>
+                </p>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    No se deben copiar medidas de un sistema IKEA, Leroy Merlin, Blum o Hettich a otro sistema sin verificar su compatibilidad.
+                </p>
+            </div>
+
+            <!-- Límites de seguridad y trabajos reservados -->
+            <div class="rounded-2xl bg-red-950/25 border border-red-500/35 p-5 sm:p-6 space-y-4">
+                <div class="flex items-center gap-3 text-red-400 font-bold text-base sm:text-lg">
+                    <i class="fa-solid fa-shield-halved text-xl"></i>
+                    <h3>Límites de seguridad y trabajos reservados</h3>
+                </div>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    Este manual se centra en medir, ensamblar, posicionar, nivelar, unir, fijar y rematar mobiliario.
+                </p>
+                <ul class="space-y-2.5 text-sm text-slate-200">
+                    <li class="flex items-start gap-2.5"><i class="fa-solid fa-bolt text-red-400 mt-1 flex-shrink-0"></i><span>La desconexión y conexión de gas, electricidad y fontanería debe realizarla personal competente y habilitado cuando corresponda. No manipules instalaciones activas.</span></li>
+                    <li class="flex items-start gap-2.5"><i class="fa-solid fa-ban text-red-400 mt-1 flex-shrink-0"></i><span>No cortes ni taladres una pared hasta descartar cables, tuberías y conducciones ocultas mediante comprobación adecuada.</span></li>
+                    <li class="flex items-start gap-2.5"><i class="fa-solid fa-anchor text-red-400 mt-1 flex-shrink-0"></i><span>No elijas anclajes por intuición. Deben corresponder al soporte real, a las cargas previstas y al sistema de colgado.</span></li>
+                    <li class="flex items-start gap-2.5"><i class="fa-solid fa-house-crack text-red-400 mt-1 flex-shrink-0"></i><span>No cuelgues muebles altos sobre una pared cuya capacidad o estado desconozcas.</span></li>
+                    <li class="flex items-start gap-2.5"><i class="fa-solid fa-people-carry-box text-red-400 mt-1 flex-shrink-0"></i><span>No trabajes solo levantando módulos pesados o voluminosos.</span></li>
+                    <li class="flex items-start gap-2.5"><i class="fa-solid fa-head-side-mask text-red-400 mt-1 flex-shrink-0"></i><span>Usa gafas, protección auditiva y mascarilla adecuada al cortar o mecanizar; controla el polvo de tableros.</span></li>
+                    <li class="flex items-start gap-2.5"><i class="fa-solid fa-plug-circle-xmark text-red-400 mt-1 flex-shrink-0"></i><span>Desconecta la batería o alimentación de las herramientas antes de cambiar discos, hojas o brocas.</span></li>
+                    <li class="flex items-start gap-2.5"><i class="fa-solid fa-gem text-red-400 mt-1 flex-shrink-0"></i><span>No improvises cortes en encimeras de piedra, cerámica o materiales compactos: pueden requerir herramientas, extracción de polvo y técnicas especializadas.</span></li>
+                    <li class="flex items-start gap-2.5"><i class="fa-solid fa-hand text-red-400 mt-1 flex-shrink-0"></i><span>Si una pared, suelo, instalación o estructura presenta dudas, detén el trabajo y solicita evaluación profesional.</span></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 1: PARTE I. ENTENDER EL SISTEMA
+             ========================================== -->
+        <section id="tab-1" class="tab-pane space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+                <span class="text-xs font-mono uppercase tracking-widest text-brand-400">PARTE I</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">ENTENDER EL SISTEMA</h2>
+            </div>
+
+            <!-- Cap 1 -->
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400 flex items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-lg bg-brand-500/20 text-brand-300 font-mono text-sm">1</span>
+                    Qué es un mueble modular
+                </h3>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    Un mueble modular suele estar compuesto por un <strong class="text-white">casco</strong> o caja y sus componentes:
+                </p>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs sm:text-sm">
+                    <div class="p-2.5 rounded-xl bg-surface-950 border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> Dos laterales.</div>
+                    <div class="p-2.5 rounded-xl bg-surface-950 border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> Base y techo.</div>
+                    <div class="p-2.5 rounded-xl bg-surface-950 border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> Una trasera.</div>
+                    <div class="p-2.5 rounded-xl bg-surface-950 border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> Estantes.</div>
+                    <div class="p-2.5 rounded-xl bg-surface-950 border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> Puertas y bisagras.</div>
+                    <div class="p-2.5 rounded-xl bg-surface-950 border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> Cajones y guías.</div>
+                    <div class="p-2.5 rounded-xl bg-surface-950 border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> Patas o suspensión.</div>
+                    <div class="p-2.5 rounded-xl bg-surface-950 border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> Herrajes de unión.</div>
+                    <div class="p-2.5 rounded-xl bg-surface-950 border border-slate-800 flex items-center gap-2 col-span-2 sm:col-span-1"><i class="fa-solid fa-check text-brand-400"></i> Zócalos, tapetas y costados.</div>
+                </div>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    Los módulos se fabrican en medidas normalizadas dentro de cada gama. La modularidad permite combinar anchuras, alturas y profundidades, pero no significa que cualquier módulo sea intercambiable con otro fabricante.
+                </p>
+
+                <!-- Vocabulario básico -->
+                <div class="pt-3">
+                    <h4 class="text-base font-bold text-white mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-spell-check text-brand-400"></i> Vocabulario básico
+                    </h4>
+                    <div class="overflow-x-auto rounded-xl border border-slate-800">
+                        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                            <thead>
+                                <tr class="bg-surface-950 text-brand-300 border-b border-slate-800">
+                                    <th class="p-3 font-bold">Término</th>
+                                    <th class="p-3 font-bold">Significado</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800/70 bg-surface-900/60">
+                                <tr><td class="p-3 font-semibold text-white">Casco</td><td class="p-3 text-slate-300">Estructura principal del mueble, sin puertas ni accesorios</td></tr>
+                                <tr><td class="p-3 font-semibold text-white">Lateral</td><td class="p-3 text-slate-300">Panel vertical del casco</td></tr>
+                                <tr><td class="p-3 font-semibold text-white">Trasera</td><td class="p-3 text-slate-300">Panel posterior que cierra o rigidiza el módulo</td></tr>
+                                <tr><td class="p-3 font-semibold text-white">Canto</td><td class="p-3 text-slate-300">Borde del tablero, normalmente protegido con una banda</td></tr>
+                                <tr><td class="p-3 font-semibold text-white">Espiga o tubillón</td><td class="p-3 text-slate-300">Cilindro de madera que ayuda a posicionar y unir piezas</td></tr>
+                                <tr><td class="p-3 font-semibold text-white">Excéntrica</td><td class="p-3 text-slate-300">Herraje de unión que bloquea un perno al girar</td></tr>
+                                <tr><td class="p-3 font-semibold text-white">Pata regulable</td><td class="p-3 text-slate-300">Apoyo cuya altura puede ajustarse</td></tr>
+                                <tr><td class="p-3 font-semibold text-white">Colgador</td><td class="p-3 text-slate-300">Herraje que conecta un mueble alto con su soporte de pared</td></tr>
+                                <tr><td class="p-3 font-semibold text-white">Carril o perfil de suspensión</td><td class="p-3 text-slate-300">Elemento fijado a la pared sobre el que se cuelgan módulos compatibles</td></tr>
+                                <tr><td class="p-3 font-semibold text-white">Sargento</td><td class="p-3 text-slate-300">Herramienta que aprieta y mantiene piezas juntas</td></tr>
+                                <tr><td class="p-3 font-semibold text-white">Tapeta o filler</td><td class="p-3 text-slate-300">Pieza de ajuste que cubre un hueco entre mueble y pared</td></tr>
+                                <tr><td class="p-3 font-semibold text-white">Zócalo</td><td class="p-3 text-slate-300">Panel que oculta las patas bajo los muebles bajos</td></tr>
+                                <tr><td class="p-3 font-semibold text-white">Uñero</td><td class="p-3 text-slate-300">Perfil o mecanizado que permite abrir una puerta sin tirador convencional</td></tr>
+                                <tr><td class="p-3 font-semibold text-white">Cazoleta</td><td class="p-3 text-slate-300">Alojamiento circular de una bisagra oculta</td></tr>
+                                <tr><td class="p-3 font-semibold text-white">Luz o holgura</td><td class="p-3 text-slate-300">Separación controlada entre dos piezas o frentes</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cap 2 -->
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400 flex items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-lg bg-brand-500/20 text-brand-300 font-mono text-sm">2</span>
+                    Cómo se comporta el tablero
+                </h3>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    Los muebles suelen fabricarse con aglomerado melaminado, MDF, contrachapado u otros tableros técnicos. Aspectos que debes comprender:
+                </p>
+                <ol class="space-y-2.5 text-sm text-slate-200 list-decimal list-inside">
+                    <li class="p-3 rounded-xl bg-surface-950/70 border border-slate-800"><strong class="text-white">Los cantos son vulnerables.</strong> Un golpe puede desconchar la melamina.</li>
+                    <li class="p-3 rounded-xl bg-surface-950/70 border border-slate-800"><strong class="text-white">El tablero no tolera cualquier tornillo.</strong> Un tornillo demasiado largo puede atravesar la cara visible; uno inadecuado puede arrancar material.</li>
+                    <li class="p-3 rounded-xl bg-surface-950/70 border border-slate-800"><strong class="text-white">El agua es un enemigo.</strong> La humedad que entra por un canto sin protección puede hinchar el tablero.</li>
+                    <li class="p-3 rounded-xl bg-surface-950/70 border border-slate-800"><strong class="text-white">Los agujeros deben estar bien posicionados.</strong> Una perforación desviada puede impedir el montaje o debilitar la unión.</li>
+                    <li class="p-3 rounded-xl bg-surface-950/70 border border-slate-800"><strong class="text-white">La escuadra importa.</strong> Un casco deformado transmite el error a puertas, cajones y encimera.</li>
+                </ol>
+                <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs sm:text-sm text-amber-200">
+                    No confundas un tablero denominado hidrófugo con un material impermeable. La protección de cantos, juntas y encuentros sigue siendo importante.
+                </div>
+            </div>
+
+            <!-- Cap 3 -->
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400 flex items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-lg bg-brand-500/20 text-brand-300 font-mono text-sm">3</span>
+                    Comprender los herrajes antes de montarlos
+                </h3>
+                <p class="text-sm text-slate-300">Antes de instalar un herraje, identifica:</p>
+                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs sm:text-sm text-slate-200">
+                    <li class="p-2.5 rounded-xl bg-surface-950 border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-tag text-brand-400"></i> Fabricante y referencia.</li>
+                    <li class="p-2.5 rounded-xl bg-surface-950 border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-arrows-left-right text-brand-400"></i> Mano izquierda o derecha, si aplica.</li>
+                    <li class="p-2.5 rounded-xl bg-surface-950 border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-compass text-brand-400"></i> Posición y orientación.</li>
+                    <li class="p-2.5 rounded-xl bg-surface-950 border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-screwdriver text-brand-400"></i> Tornillos especificados.</li>
+                    <li class="p-2.5 rounded-xl bg-surface-950 border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-ruler-vertical text-brand-400"></i> Espesores de tablero compatibles.</li>
+                    <li class="p-2.5 rounded-xl bg-surface-950 border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-sliders text-brand-400"></i> Ajustes disponibles.</li>
+                    <li class="p-2.5 rounded-xl bg-surface-950 border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-weight-hanging text-brand-400"></i> Carga o uso previsto.</li>
+                    <li class="p-2.5 rounded-xl bg-surface-950 border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-border-none text-brand-400"></i> Plantilla de mecanizado necesaria.</li>
+                </ul>
+                <p class="text-sm text-brand-300 font-medium">
+                    No taladres "a ojo" para instalar bisagras, guías o sistemas de elevación. Consulta el plano de mecanizado del fabricante.
+                </p>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 2: PARTE II. HERRAMIENTAS Y PREPARACIÓN
+             ========================================== -->
+        <section id="tab-2" class="tab-pane space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+                <span class="text-xs font-mono uppercase tracking-widest text-brand-400">PARTE II</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">HERRAMIENTAS Y PREPARACIÓN</h2>
+            </div>
+
+            <!-- Cap 4 -->
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-5">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400 flex items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-lg bg-brand-500/20 text-brand-300 font-mono text-sm">4</span>
+                    Herramientas básicas
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="p-4 rounded-xl bg-surface-950 border border-slate-800 space-y-2.5">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2 text-brand-300">
+                            <i class="fa-solid fa-ruler-combined"></i> Medición y trazado
+                        </h4>
+                        <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300">
+                            <li>• Cinta métrica fiable.</li>
+                            <li>• Regla recta larga.</li>
+                            <li>• Escuadra de carpintero.</li>
+                            <li>• Nivel de burbuja corto y largo.</li>
+                            <li>• Nivel láser, si se dispone de él.</li>
+                            <li>• Lápiz fino y marcador.</li>
+                            <li>• Papel o libreta de medidas.</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-surface-950 border border-slate-800 space-y-2.5">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2 text-brand-300">
+                            <i class="fa-solid fa-screwdriver-wrench"></i> Montaje
+                        </h4>
+                        <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300">
+                            <li>• Atornillador eléctrico con control de par.</li>
+                            <li>• Juego de puntas adecuadas.</li>
+                            <li>• Destornilladores manuales.</li>
+                            <li>• Martillo y mazo de goma.</li>
+                            <li>• Sargentos o mordazas de protección.</li>
+                            <li>• Llaves Allen.</li>
+                            <li>• Brocas para madera y pared, según el trabajo.</li>
+                            <li>• Avellanador, si lo exige el sistema.</li>
+                            <li>• Aspirador o sistema de recogida de polvo.</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-surface-950 border border-slate-800 space-y-2.5">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2 text-brand-300">
+                            <i class="fa-solid fa-scissors"></i> Corte y ajuste
+                        </h4>
+                        <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300">
+                            <li>• Sierra de calar con hoja apropiada.</li>
+                            <li>• Sierra circular con guía, cuando proceda.</li>
+                            <li>• Ingletadora para perfiles y molduras, si el trabajo lo requiere.</li>
+                            <li>• Limas, taco de lija y útiles de acabado.</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-300 bg-surface-950/80 p-3.5 rounded-xl border border-slate-800">
+                    Las herramientas de corte no son imprescindibles para todos los montajes. Es preferible encargar un corte especializado antes que improvisar sobre una pieza costosa.
+                </p>
+            </div>
+
+            <!-- Cap 5 -->
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400 flex items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-lg bg-brand-500/20 text-brand-300 font-mono text-sm">5</span>
+                    Cómo preparar el puesto de trabajo
+                </h3>
+                <ol class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs sm:text-sm text-slate-200 list-decimal list-inside">
+                    <li class="p-3 rounded-xl bg-surface-950 border border-slate-800">Despeja el espacio de circulación.</li>
+                    <li class="p-3 rounded-xl bg-surface-950 border border-slate-800">Protege el suelo y las superficies existentes.</li>
+                    <li class="p-3 rounded-xl bg-surface-950 border border-slate-800">Reserva una zona limpia para abrir paquetes.</li>
+                    <li class="p-3 rounded-xl bg-surface-950 border border-slate-800">Coloca cartón o mantas para apoyar tableros sin rayarlos.</li>
+                    <li class="p-3 rounded-xl bg-surface-950 border border-slate-800">Separa herramientas eléctricas de zonas húmedas.</li>
+                    <li class="p-3 rounded-xl bg-surface-950 border border-slate-800">Mantén tornillos y herrajes en recipientes etiquetados.</li>
+                    <li class="p-3 rounded-xl bg-surface-950 border border-slate-800">Conserva las instrucciones y etiquetas de cada módulo.</li>
+                    <li class="p-3 rounded-xl bg-surface-950 border border-slate-800">Prepara iluminación suficiente.</li>
+                    <li class="p-3 rounded-xl bg-surface-950 border border-slate-800 sm:col-span-2">Mantén libre una salida y evita cables atravesando zonas de paso.</li>
+                </ol>
+                <div class="p-3.5 rounded-xl bg-brand-500/10 border border-brand-500/30 text-xs sm:text-sm text-brand-200">
+                    <strong>Consejo:</strong> no apoyes un frente melaminado directamente sobre cemento, azulejo sucio o una superficie con virutas. Una pequeña partícula puede rayarlo.
+                </div>
+            </div>
+
+            <!-- Cap 6 -->
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400 flex items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-lg bg-brand-500/20 text-brand-300 font-mono text-sm">6</span>
+                    Inventario antes de empezar
+                </h3>
+                <p class="text-sm text-slate-300">Compara el pedido, el albarán y los paquetes recibidos. Crea una lista por módulo:</p>
+
+                <div class="overflow-x-auto rounded-xl border border-slate-800">
+                    <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                        <thead>
+                            <tr class="bg-surface-950 text-brand-300 border-b border-slate-800">
+                                <th class="p-2.5">Código</th>
+                                <th class="p-2.5">Módulo</th>
+                                <th class="p-2.5">Paneles</th>
+                                <th class="p-2.5">Herrajes</th>
+                                <th class="p-2.5">Accesorios</th>
+                                <th class="p-2.5">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800 bg-surface-900/60">
+                            <tr><td class="p-2.5 font-mono text-brand-400">B01</td><td class="p-2.5 font-medium">Bajo fregadero</td><td class="p-2.5">Completo / falta</td><td class="p-2.5">Completo / falta</td><td class="p-2.5">Completo / falta</td><td class="p-2.5"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">Revisar</span></td></tr>
+                            <tr><td class="p-2.5 font-mono text-brand-400">B02</td><td class="p-2.5 font-medium">Bajo cajonero</td><td class="p-2.5">Completo / falta</td><td class="p-2.5">Completo / falta</td><td class="p-2.5">Completo / falta</td><td class="p-2.5"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">Revisar</span></td></tr>
+                            <tr><td class="p-2.5 font-mono text-brand-400">A01</td><td class="p-2.5 font-medium">Alto una puerta</td><td class="p-2.5">Completo / falta</td><td class="p-2.5">Completo / falta</td><td class="p-2.5">Completo / falta</td><td class="p-2.5"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">Revisar</span></td></tr>
+                            <tr><td class="p-2.5 font-mono text-brand-400">C01</td><td class="p-2.5 font-medium">Columna</td><td class="p-2.5">Completo / falta</td><td class="p-2.5">Completo / falta</td><td class="p-2.5">Completo / falta</td><td class="p-2.5"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">Revisar</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <ol class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-decimal list-inside pt-2">
+                    <li>Comprueba referencias y cantidades.</li>
+                    <li>Revisa golpes, cantos dañados y tableros deformados.</li>
+                    <li>Identifica los paquetes que pertenecen a cada módulo.</li>
+                    <li>Separa los herrajes por función.</li>
+                    <li>Fotografía daños antes de montar.</li>
+                    <li>No tires embalajes ni etiquetas hasta finalizar la revisión.</li>
+                </ol>
+
+                <div class="p-3.5 rounded-xl bg-brand-500/15 border border-brand-500/30 text-xs sm:text-sm text-slate-200">
+                    <strong class="text-brand-300">Regla práctica:</strong> no desmontes la cocina existente hasta haber comprobado que la nueva está completa y que el plan de instalación es viable. La guía oficial de IKEA también recomienda verificar piezas y paquetes antes de retirar la cocina antigua.
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 3: PARTE III. MEDIR Y PLANIFICAR
+             ========================================== -->
+        <section id="tab-3" class="tab-pane space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+                <span class="text-xs font-mono uppercase tracking-widest text-brand-400">PARTE III</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">MEDIR Y PLANIFICAR</h2>
+            </div>
+
+            <!-- Cap 7 -->
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400 flex items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-lg bg-brand-500/20 text-brand-300 font-mono text-sm">7</span>
+                    Levantamiento de medidas de la estancia
+                </h3>
+                <p class="text-sm text-slate-300">Una instalación correcta comienza con un plano fiable.</p>
+
+                <div class="space-y-3">
+                    <div class="p-4 rounded-xl bg-surface-950 border border-slate-800">
+                        <h4 class="font-bold text-white text-sm mb-1">Paso 1. Dibuja la estancia</h4>
+                        <p class="text-xs sm:text-sm text-slate-300">Haz un croquis visto desde arriba. Identifica cada pared con una letra: A, B, C y D. No necesitas un programa sofisticado. Un dibujo claro con cotas en milímetros es suficiente para empezar.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-surface-950 border border-slate-800">
+                        <h4 class="font-bold text-white text-sm mb-1">Paso 2. Mide cada pared</h4>
+                        <ul class="text-xs sm:text-sm text-slate-300 space-y-1">
+                            <li>• Mide la longitud total y mide también en varios puntos si la pared parece irregular.</li>
+                            <li>• Anota pilares, mochetas, retranqueos y salientes.</li>
+                            <li>• Registra la altura del suelo al techo en varios puntos.</li>
+                            <li class="text-amber-300 font-medium pt-1">No supongas que una pared es perfectamente recta ni que el suelo está nivelado.</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded-xl bg-surface-950 border border-slate-800">
+                        <h4 class="font-bold text-white text-sm mb-1">Paso 3. Localiza los elementos fijos</h4>
+                        <p class="text-xs sm:text-sm text-slate-300 mb-2">Anota posición y dimensiones de: Puertas y sentido de apertura, ventanas y altura de antepecho, radiadores, tomas de agua, desagües, tomas eléctricas, salidas de extracción, llaves de corte, tuberías visibles, conductos y obstáculos.</p>
+                        <p class="text-xs text-amber-300">No des por hecho que una toma está exactamente donde indica un plano antiguo. Comprueba la situación real.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-surface-950 border border-slate-800">
+                        <h4 class="font-bold text-white text-sm mb-1">Paso 4. Comprueba suelo, paredes y escuadras</h4>
+                        <ul class="text-xs sm:text-sm text-slate-300 space-y-1">
+                            <li>• Comprueba el desnivel del suelo con nivel o láser y la verticalidad de las paredes.</li>
+                            <li>• Mide diagonales cuando necesites comprobar la escuadra de un hueco.</li>
+                            <li>• Observa si hay azulejos sueltos, humedad, grietas o zonas huecas, y si el rodapié existente interfiere con los muebles.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Tabla interactiva Paso 5 -->
+                <div class="pt-2">
+                    <h4 class="font-bold text-white text-sm mb-2">Paso 5. Registra las medidas (Tabla de campo interactiva)</h4>
+                    <div class="overflow-x-auto rounded-xl border border-slate-800">
+                        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                            <thead>
+                                <tr class="bg-surface-950 text-brand-300 border-b border-slate-800">
+                                    <th class="p-2.5">Elemento</th>
+                                    <th class="p-2.5">Medida (mm)</th>
+                                    <th class="p-2.5">Observaciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800 bg-surface-900/60">
+                                <tr><td class="p-2.5 font-medium">Pared A</td><td class="p-2"><input type="text" placeholder="____ mm" class="measure-input"></td><td class="p-2"><input type="text" placeholder="Notas..." class="measure-input"></td></tr>
+                                <tr><td class="p-2.5 font-medium">Pared B</td><td class="p-2"><input type="text" placeholder="____ mm" class="measure-input"></td><td class="p-2"><input type="text" placeholder="Notas..." class="measure-input"></td></tr>
+                                <tr><td class="p-2.5 font-medium">Altura mínima</td><td class="p-2"><input type="text" placeholder="____ mm" class="measure-input"></td><td class="p-2"><input type="text" placeholder="Notas..." class="measure-input"></td></tr>
+                                <tr><td class="p-2.5 font-medium">Altura máxima</td><td class="p-2"><input type="text" placeholder="____ mm" class="measure-input"></td><td class="p-2"><input type="text" placeholder="Notas..." class="measure-input"></td></tr>
+                                <tr><td class="p-2.5 font-medium">Desnivel de suelo</td><td class="p-2"><input type="text" placeholder="____ mm" class="measure-input"></td><td class="p-2"><input type="text" placeholder="Notas..." class="measure-input"></td></tr>
+                                <tr><td class="p-2.5 font-medium">Ventana: ancho / altura</td><td class="p-2"><input type="text" placeholder="____ mm" class="measure-input"></td><td class="p-2"><input type="text" placeholder="Notas..." class="measure-input"></td></tr>
+                                <tr><td class="p-2.5 font-medium">Agua y desagüe</td><td class="p-2"><input type="text" placeholder="____ mm desde ref." class="measure-input"></td><td class="p-2"><input type="text" placeholder="Notas..." class="measure-input"></td></tr>
+                                <tr><td class="p-2.5 font-medium">Tomas eléctricas</td><td class="p-2"><input type="text" placeholder="____ mm desde ref." class="measure-input"></td><td class="p-2"><input type="text" placeholder="Notas..." class="measure-input"></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-2">Anota siempre desde qué esquina, suelo o referencia has medido. Una cifra sin referencia puede ser inútil.</p>
+                </div>
+            </div>
+
+            <!-- Cap 8 y 9 -->
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400 flex items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-lg bg-brand-500/20 text-brand-300 font-mono text-sm">8</span>
+                    Diseñar la distribución
+                </h3>
+                <ol class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-slate-300 list-decimal list-inside">
+                    <li class="p-2.5 bg-surface-950 rounded-xl border border-slate-800">Haz una lista de los módulos previstos.</li>
+                    <li class="p-2.5 bg-surface-950 rounded-xl border border-slate-800">Anota anchura, altura y profundidad de cada uno.</li>
+                    <li class="p-2.5 bg-surface-950 rounded-xl border border-slate-800">Dibuja la secuencia de módulos sobre cada pared.</li>
+                    <li class="p-2.5 bg-surface-950 rounded-xl border border-slate-800">Comprueba que la suma de anchuras cabe realmente.</li>
+                    <li class="p-2.5 bg-surface-950 rounded-xl border border-slate-800">Reserva los espacios de ajuste que exija el sistema.</li>
+                    <li class="p-2.5 bg-surface-950 rounded-xl border border-slate-800">Comprueba apertura de puertas y cajones.</li>
+                    <li class="p-2.5 bg-surface-950 rounded-xl border border-slate-800">Comprueba interferencias con ventanas, grifos y radiadores.</li>
+                    <li class="p-2.5 bg-surface-950 rounded-xl border border-slate-800">Verifica ventilación y separación de electrodomésticos.</li>
+                    <li class="p-2.5 bg-surface-950 rounded-xl border border-slate-800">Comprueba que las conexiones coinciden con el diseño.</li>
+                    <li class="p-2.5 bg-surface-950 rounded-xl border border-slate-800">Revisa la distribución con el cliente antes de pedir o cortar.</li>
+                </ol>
+                <div class="p-4 rounded-xl bg-brand-500/10 border border-brand-500/30 space-y-2">
+                    <h4 class="font-bold text-brand-300 text-sm">No olvides las holguras</h4>
+                    <p class="text-xs sm:text-sm text-slate-200">Las paredes pueden no estar a escuadra. Una composición que suma exactamente el ancho nominal de la pared puede no entrar o puede dejar un hueco imposible de rematar. Los fillers, tapetas y paneles de ajuste sirven para absorber diferencias y permitir aperturas correctas. Su dimensión debe calcularse en el proyecto; no se debe decidir al final a base de recortes improvisados.</p>
+                </div>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-3">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400 flex items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-lg bg-brand-500/20 text-brand-300 font-mono text-sm">9</span>
+                    Secuencia de instalación: ¿altos primero o bajos primero?
+                </h3>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    Hay dos métodos habituales. Algunos instaladores prefieren colgar los módulos altos antes de colocar los bajos para trabajar sin obstáculos; otros instalan primero los bajos y los utilizan como referencia de altura.
+                </p>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    No existe una secuencia universal válida para todos los sistemas y todas las estancias. Sigue la secuencia del fabricante y elige el método que permita trabajar con seguridad, acceso y referencias fiables.
+                </p>
+                <p class="text-sm text-brand-300 font-medium">
+                    En este manual se desarrolla principalmente el método de <strong>muebles bajos primero</strong>, porque aparece en varias guías de instalación consultadas. Si se instalan altos primero, deben adaptarse las referencias y proteger los módulos ya colocados.
+                </p>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 4: PARTE IV. MONTAJE DE LOS CASCOS
+             ========================================== -->
+        <section id="tab-4" class="tab-pane space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+                <span class="text-xs font-mono uppercase tracking-widest text-brand-400">PARTE IV</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">MONTAJE DE LOS CASCOS</h2>
+            </div>
+
+            <!-- Cap 10 y 11 -->
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">10. Preparar cada módulo</h3>
+                <p class="text-xs sm:text-sm text-brand-200 bg-brand-500/10 p-3 rounded-xl border border-brand-500/30"><strong>Objetivo:</strong> identificar las piezas y montar el casco sin dañarlo ni deformarlo.</p>
+                <ol class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-decimal list-inside">
+                    <li>Extiende una manta o cartón limpio.</li>
+                    <li>Abre el paquete sin introducir la cuchilla profundamente.</li>
+                    <li>Identifica laterales, base, techo y trasera.</li>
+                    <li>Localiza agujeros de espigas, excéntricas y soportes.</li>
+                    <li>Comprueba qué cara queda vista y qué cara queda hacia el interior.</li>
+                    <li>Coloca las piezas en el orden de montaje indicado y comprueba que no hay piezas invertidas.</li>
+                </ol>
+                <p class="text-xs text-slate-400">Antes de insertar un herraje, compara su forma con el dibujo de instrucciones. Una pieza parecida no necesariamente es la correcta.</p>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">11. Ensamblar un casco con espigas y excéntricas</h3>
+                <ol class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-decimal list-inside">
+                    <li>Introduce las espigas en los orificios previstos, sin golpearlas con fuerza excesiva.</li>
+                    <li>Coloca los pernos o conectores en los puntos indicados.</li>
+                    <li>Presenta las piezas en la orientación correcta.</li>
+                    <li>Une base y laterales siguiendo el orden del fabricante.</li>
+                    <li>Inserta las excéntricas en sus alojamientos.</li>
+                    <li>Gira las excéntricas hasta bloquear la unión, sin forzarlas más allá de su recorrido.</li>
+                    <li>Comprueba que los cantos quedan a ras.</li>
+                    <li>Monta el techo o travesaños e instala la trasera en la ranura o sistema previsto.</li>
+                </ol>
+                <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs sm:text-sm text-amber-200">
+                    <strong>Importante:</strong> no todos los cascos utilizan excéntricas. Algunos emplean tornillos confirmat, espigas, conectores u otros herrajes. No mezcles sistemas.
+                </div>
+            </div>
+
+            <!-- Cap 12, 13 y 14 -->
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">12. Comprobar la escuadra del casco</h3>
+                <p class="text-sm text-slate-300">Un casco fuera de escuadra puede causar puertas torcidas, cajones que rozan y problemas al unir módulos.</p>
+                <ol class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-decimal list-inside">
+                    <li>Coloca el módulo sobre una superficie plana y comprueba visualmente que las uniones están cerradas.</li>
+                    <li>Mide las dos diagonales de la cara posterior o utiliza una escuadra adecuada.</li>
+                    <li>Si las diagonales no coinciden, comprueba que la trasera está bien colocada y que ninguna unión está bloqueada antes de tiempo.</li>
+                    <li>Corrige según el diseño del fabricante, vuelve a medir y no fuerces el casco hasta deformarlo.</li>
+                </ol>
+                <p class="text-xs text-slate-400">La trasera de algunos muebles contribuye a rigidizar la estructura; por eso su montaje y fijación correctos son importantes.</p>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">13. Instalar patas regulables</h3>
+                <ol class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-decimal list-inside">
+                    <li>Identifica el modelo de pata y su placa o casquillo, y comprueba los puntos de fijación previstos.</li>
+                    <li>Coloca las patas en los alojamientos indicados y atornilla o encaja según las instrucciones.</li>
+                    <li>Comprueba que todas quedan firmes y ajusta inicialmente a una altura que permita regulación posterior.</li>
+                    <li>No cargues el módulo si una pata está mal asentada. No copies el número ni la posición de patas de otra cocina.</li>
+                </ol>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">14. Preparar módulos especiales</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                    <div class="p-3.5 rounded-xl bg-surface-950 border border-slate-800 space-y-1.5">
+                        <h4 class="font-bold text-white flex items-center gap-2"><i class="fa-solid fa-faucet-drip text-brand-400"></i> Mueble de fregadero</h4>
+                        <p class="text-slate-300">Comprueba tomas y desagüe reales. No cortes travesaños ni elementos estructurales por intuición. Protege cantos expuestos y deja accesibles llaves de corte.</p>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-surface-950 border border-slate-800 space-y-1.5">
+                        <h4 class="font-bold text-white flex items-center gap-2"><i class="fa-solid fa-fire-burner text-brand-400"></i> Mueble para horno</h4>
+                        <p class="text-slate-300">Verifica dimensiones, ventilación y apoyos exigidos. No tapes rejillas ni pasos de aire. La conexión eléctrica debe realizarla personal competente.</p>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-surface-950 border border-slate-800 space-y-1.5">
+                        <h4 class="font-bold text-white flex items-center gap-2"><i class="fa-solid fa-vector-square text-brand-400"></i> Módulo de esquina</h4>
+                        <p class="text-slate-300">Comprueba sentido de apertura y acceso a mecanismos extraíbles. Presenta en seco antes de fijar y verifica que la puerta no golpee el módulo contiguo.</p>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-surface-950 border border-slate-800 space-y-1.5">
+                        <h4 class="font-bold text-white flex items-center gap-2"><i class="fa-solid fa-building-columns text-brand-400"></i> Columna</h4>
+                        <p class="text-slate-300">Comprueba verticalidad, estabilidad y fijación. Verifica huecos de electrodomésticos, ventilación y anclaje. No la dejes sin estabilizar mientras trabajas.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 5: PARTE V. INSTALACIÓN DE MUEBLES BAJOS
+             ========================================== -->
+        <section id="tab-5" class="tab-pane space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+                <span class="text-xs font-mono uppercase tracking-widest text-brand-400">PARTE V</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">INSTALACIÓN DE MUEBLES BAJOS</h2>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">15. Marcar las referencias de nivel</h3>
+                <p class="text-xs sm:text-sm text-brand-200 bg-brand-500/10 p-3 rounded-xl border border-brand-500/30"><strong>Objetivo:</strong> que todos los módulos formen una línea continua y estable.</p>
+                <ol class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-decimal list-inside">
+                    <li>Identifica el punto más alto y el más bajo del suelo.</li>
+                    <li>Determina la altura final prevista según muebles, patas y encimera.</li>
+                    <li>Marca una línea horizontal de referencia con láser o nivel y compruébala en varios puntos.</li>
+                    <li>Marca también referencias verticales de los extremos de la composición y anota las cotas.</li>
+                </ol>
+                <p class="text-xs text-amber-300">No confundas una línea horizontal con una línea paralela a un suelo desnivelado. La referencia debe responder a la altura final prevista.</p>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">16. Presentar el primer módulo bajo</h3>
+                <ol class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-decimal list-inside">
+                    <li>Coloca el primer módulo en su posición prevista, normalmente en una esquina o extremo definido por el plano.</li>
+                    <li>Comprueba que no interfiere con tuberías ni enchufes y ajusta las patas.</li>
+                    <li>Comprueba horizontalidad de frente a fondo y de lado a lado, así como la verticalidad de los laterales.</li>
+                    <li>Verifica la posición respecto a la línea de referencia y estabiliza el módulo para que no se mueva.</li>
+                </ol>
+                <p class="text-xs text-brand-300 font-semibold">El primer módulo establece una referencia para los siguientes. No avances si está torcido.</p>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">17. Presentar los módulos siguientes</h3>
+                <ol class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-decimal list-inside">
+                    <li>Coloca el módulo contiguo y ajusta sus patas para igualar la altura del primero.</li>
+                    <li>Comprueba que los frentes quedan en el mismo plano y verifica la línea superior con un nivel largo o regla recta.</li>
+                    <li>Revisa que no haya huecos entre cascos, repite hasta presentar toda la composición y comprueba el conjunto antes de fijar definitivamente.</li>
+                </ol>
+                <div class="p-3.5 rounded-xl bg-brand-500/15 border border-brand-500/30 text-xs sm:text-sm text-slate-200">
+                    <strong class="text-brand-300">Experiencia compartida por instaladores en Foromadera:</strong> se recomienda comprobar una línea larga con un nivel de unos dos metros o una regla recta, en vez de confiar únicamente en un nivel pequeño módulo por módulo. La idea es evitar que se acumulen pequeñas desviaciones.
+                </div>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">18. Unir módulos entre sí</h3>
+                <ol class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-decimal list-inside">
+                    <li>Alinea los laterales de los módulos y protege las superficies con mordazas adecuadas.</li>
+                    <li>Sujeta los cascos con sargentos sin aplastar el tablero.</li>
+                    <li>Comprueba que los frentes están enrasados y que las partes superiores siguen la misma línea.</li>
+                    <li>Marca o utiliza los puntos de unión previstos. Realiza perforaciones piloto solo si el sistema lo requiere y con diámetro/profundidad adecuados.</li>
+                    <li>Coloca los conectores o tornillos de unión especificados, aprieta sin exceder el par, retira sargentos y vuelve a comprobar.</li>
+                </ol>
+                <div class="p-3.5 rounded-xl bg-red-950/30 border border-red-500/40 text-xs sm:text-sm text-red-200">
+                    <strong>Riesgo:</strong> un tornillo demasiado largo o mal situado puede atravesar el lateral visible o interferir con un cajón. No uses un tornillo cualquiera porque "parece que agarra".
+                </div>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">19. Fijar los módulos bajos a la pared</h3>
+                <ol class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-decimal list-inside">
+                    <li>Consulta las instrucciones del fabricante e identifica el tipo de pared y su estado.</li>
+                    <li>Localiza conducciones ocultas antes de taladrar y selecciona el anclaje apropiado para ese soporte y esa carga.</li>
+                    <li>Marca los puntos de fijación previstos, taladra con el procedimiento adecuado y limpia el orificio cuando se requiera.</li>
+                    <li>Instala el anclaje, fija el módulo sin deformar el casco y comprueba estabilidad y nivelación.</li>
+                </ol>
+                <p class="text-xs text-amber-300">Si el soporte es hueco, débil, está deteriorado o no puede identificarse con seguridad, detén la instalación y pide asesoramiento técnico. No improvises con tacos genéricos.</p>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 6: PARTE VI. MUEBLES ALTOS Y COLUMNAS
+             ========================================== -->
+        <section id="tab-6" class="tab-pane space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+                <span class="text-xs font-mono uppercase tracking-widest text-brand-400">PARTE VI</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">MUEBLES ALTOS Y COLUMNAS</h2>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">20. Por qué los muebles altos exigen especial cuidado</h3>
+                <p class="text-sm text-slate-300">Un mueble alto cargado puede pesar mucho. La seguridad depende de todo el conjunto: calidad y estado de la pared, tipo y cantidad de anclajes, sistema de colgado, estado del casco, distribución de la carga y correcta instalación y regulación de los colgadores.</p>
+                <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs sm:text-sm text-amber-200">
+                    En Foromadera existe un caso real de un armario que se estaba descolgando. En las respuestas se señala que podría haber problemas con los anclajes o incluso con el revestimiento de la pared. La lección es clara: no basta con apretar un tornillo si el soporte está fallando.
+                </div>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">21. Preparar la instalación de los altos y 22. Marcar altura</h3>
+                <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300">
+                    <li>• Comprueba el plano, la altura de los módulos y que no interfieran con campana, ventanas o electrodomésticos.</li>
+                    <li>• Comprueba tipo y estado de pared y localiza instalaciones ocultas.</li>
+                    <li>• Identifica el sistema: colgadores individuales, pletina o carril. Prepara ayuda de otra persona y un apoyo seguro.</li>
+                    <li>• Determina la cota inferior y superior de los muebles, traza la línea de referencia con láser o nivel y verifica toda su longitud.</li>
+                    <li class="text-amber-300 font-medium">• No uses como referencia un azulejo si no has comprobado que está nivelado.</li>
+                </ul>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">23. Instalar carriles o soportes</h3>
+                <p class="text-xs sm:text-sm text-slate-300">Este paso es crítico y depende completamente del sistema:</p>
+                <ol class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-decimal list-inside">
+                    <li>Lee el manual del carril o colgador y comprueba la carga admisible.</li>
+                    <li>Identifica el soporte estructural de la pared y selecciona fijaciones compatibles.</li>
+                    <li>Marca los puntos de anclaje según el fabricante y comprueba de nuevo que no hay conducciones.</li>
+                    <li>Instala el carril o los soportes siguiendo el procedimiento del sistema y verifica nivel, alineación y firmeza.</li>
+                    <li>No cuelgues muebles hasta que la fijación esté comprobada. No deduzcas el número de tornillos de una foto de internet.</li>
+                </ol>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">24. Colgar y regular los muebles altos & 25. Instalar columnas</h3>
+                <ol class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-decimal list-inside">
+                    <li>Comprueba que los colgadores están instalados y orientados correctamente.</li>
+                    <li>Con ayuda de otra persona o dispositivo de elevación, presenta el módulo y engancha el sistema según el fabricante.</li>
+                    <li>Comprueba que ambos puntos de suspensión trabajan correctamente y realiza los ajustes de altura y profundidad.</li>
+                    <li>Une los módulos entre sí cuando el sistema lo indique, instala bloqueos o seguros y comprueba estabilidad.</li>
+                    <li><strong>Columnas:</strong> Presenta en posición, comprueba verticalidad, verifica holguras y aplica fijación antivuelco prevista. Una columna alta y estrecha no debe quedar estable "por su propio peso".</li>
+                </ol>
+                <div class="p-3 rounded-xl bg-red-950/30 border border-red-500/40 text-xs sm:text-sm text-red-200">
+                    Nunca intentes corregir un mueble alto que se descuelga simplemente apretando el regulador sin averiguar por qué falla. Descárgalo y asegura la zona antes de intervenir.
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 7: PARTE VII. ENCIMERAS Y RECORTES
+             ========================================== -->
+        <section id="tab-7" class="tab-pane space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+                <span class="text-xs font-mono uppercase tracking-widest text-brand-400">PARTE VII</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">ENCIMERAS Y RECORTES</h2>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">26. Preparar la encimera</h3>
+                <ol class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-decimal list-inside">
+                    <li>Comprueba material, espesor y longitud.</li>
+                    <li>Verifica que los muebles inferiores están nivelados y estables.</li>
+                    <li>Presenta la encimera en seco, comprueba paredes fuera de escuadra y marca juntas y encuentros.</li>
+                    <li>Verifica posición de fregadero, grifo y placa con sus plantillas reales y comprueba distancias del fabricante.</li>
+                    <li>No realices cortes definitivos hasta comprobar medidas y plantillas. Un recorte equivocado puede inutilizar la pieza.</li>
+                </ol>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">27. Cortar una encimera laminada: principios generales</h3>
+                <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300">
+                    <li>• Usa la plantilla del fregadero o placa y comprueba dos veces la orientación del recorte.</li>
+                    <li>• Protege la cara decorativa y apoya la pieza para evitar vibraciones y roturas.</li>
+                    <li>• Usa una hoja adecuada al material y controla el astillado según el sentido de corte.</li>
+                    <li>• No cortes cerca de un apoyo sin verificar que la pieza está bien sostenida.</li>
+                    <li>• Protege los cantos interiores expuestos con el producto indicado y respeta distancias mínimas y sellados.</li>
+                </ul>
+                <div class="p-3.5 rounded-xl bg-red-950/30 border border-red-500/40 text-xs sm:text-sm text-red-200">
+                    Para piedra natural, cuarzo, cerámica y superficies compactas, utiliza un profesional equipado y formado para ese material. El polvo de sílice respirable puede causar enfermedades graves.
+                </div>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">28. Colocar y fijar la encimera</h3>
+                <ol class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-decimal list-inside">
+                    <li>Limpia las superficies de apoyo, presenta la pieza y comprueba juntas y alineación.</li>
+                    <li>Verifica que no bascula y aplica el sistema de fijación especificado.</li>
+                    <li>Realiza sellados donde corresponda, retira el exceso y deja curar el producto el tiempo indicado.</li>
+                    <li>No uses el sellador como sustituto de una mala nivelación o de una fijación incorrecta.</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 8: PARTE VIII. PUERTAS, BISAGRAS Y CAJONES
+             ========================================== -->
+        <section id="tab-8" class="tab-pane space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+                <span class="text-xs font-mono uppercase tracking-widest text-brand-400">PARTE VIII</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">PUERTAS, BISAGRAS Y CAJONES</h2>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">29. Instalar bisagras de cazoleta & 30. Regular las puertas</h3>
+                <p class="text-xs sm:text-sm text-slate-300">Comprueba la referencia de la bisagra, verifica diámetro y profundidad del alojamiento de cazoleta, colócala y fija con los tornillos especificados. No intentes adaptar una bisagra a un agujero incompatible.</p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                    <div class="p-3.5 rounded-xl bg-surface-950 border border-brand-500/30">
+                        <strong class="text-brand-400 text-xs uppercase block mb-1">Ajuste Lateral</strong>
+                        <p class="text-xs text-slate-300">Desplaza la puerta a izquierda o derecha.</p>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-surface-950 border border-brand-500/30">
+                        <strong class="text-brand-400 text-xs uppercase block mb-1">Ajuste Profundidad</strong>
+                        <p class="text-xs text-slate-300">Acerca o aleja la puerta del casco.</p>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-surface-950 border border-brand-500/30">
+                        <strong class="text-brand-400 text-xs uppercase block mb-1">Ajuste Altura</strong>
+                        <p class="text-xs text-slate-300">Permite subir o bajar la puerta mediante la placa de montaje.</p>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-300">Ajusta un eje cada vez, gira poco y vuelve a comprobar. No des vueltas completas al azar.</p>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">31. Instalar guías de cajón & 32. Ajustar frentes</h3>
+                <ol class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-decimal list-inside">
+                    <li>Identifica marca, modelo y referencia y descarga el plano de montaje.</li>
+                    <li>Comprueba anchura interior del módulo y las medidas del cajón.</li>
+                    <li>Identifica lado izquierdo y derecho, marca la posición con plantilla o cotas oficiales y comprueba paralelismo.</li>
+                    <li>Fija con los tornillos especificados, introduce el cajón y comprueba extracción, cierre y estabilidad.</li>
+                    <li>Utiliza los ajustes previstos en el herraje para corregir altura, lateralidad e inclinación del frente.</li>
+                </ol>
+                <div class="p-3 rounded-xl bg-brand-500/10 border border-brand-500/30 text-xs sm:text-sm text-brand-200">
+                    <strong>No inventes cotas.</strong> Una guía colocada unos milímetros fuera de posición puede impedir el cierre o provocar desgaste. La app y la documentación técnica de Blum permiten consultar cotas para sistemas concretos; no son medidas universales.
+                </div>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-3">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">33. Instalar tiradores y sistemas sin tirador</h3>
+                <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300">
+                    <li>• Usa la plantilla de taladrado del fabricante y comprueba la simetría de la composición.</li>
+                    <li>• Protege la cara vista para evitar astillado y verifica la longitud del tornillo.</li>
+                    <li>• En sistemas push-to-open o uñero, sigue las holguras y ajustes de ese sistema.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 9: PARTE IX. REMATES Y ACABADOS
+             ========================================== -->
+        <section id="tab-9" class="tab-pane space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+                <span class="text-xs font-mono uppercase tracking-widest text-brand-400">PARTE IX</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">REMATES Y ACABADOS</h2>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">34. Colocar zócalos</h3>
+                <ol class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-decimal list-inside">
+                    <li>Comprueba la altura libre bajo los muebles, mide cada tramo e identifica esquinas y encuentros.</li>
+                    <li>Corta con herramienta apropiada al perfil y coloca clips o fijaciones del sistema.</li>
+                    <li>Comprueba que se puede retirar para mantenimiento, que no bloquea ventilaciones y que no roza el suelo.</li>
+                </ol>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">35. Colocar tapetas, fillers y costados vistos</h3>
+                <ol class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-decimal list-inside">
+                    <li>Comprueba el hueco real, presenta la pieza sin fijarla y marca la línea de corte.</li>
+                    <li>Comprueba el sentido de la cara vista, corta con apoyo y guía y protege los cantos cortados.</li>
+                    <li>Presenta de nuevo, verifica apertura de puertas y cajones y fija según el sistema sin forzar los módulos.</li>
+                </ol>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">36. Sellados y protección frente a humedad</h3>
+                <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300">
+                    <li>• Utiliza el sellador compatible con el material sobre superficies limpias y secas.</li>
+                    <li>• No tapes zonas que deban ventilar y respeta el tiempo de curado.</li>
+                    <li>• Protege especialmente encuentros próximos al fregadero.</li>
+                    <li class="text-amber-300 font-semibold">• No ocultes fugas con silicona: primero se corrige la fuga.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 10: PARTE X. DIAGNÓSTICO DE PROBLEMAS REALES
+             ========================================== -->
+        <section id="tab-10" class="tab-pane space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+                <span class="text-xs font-mono uppercase tracking-widest text-brand-400">PARTE X</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">DIAGNÓSTICO DE PROBLEMAS REALES</h2>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4">
+                <div class="agency-card rounded-2xl p-5 space-y-2">
+                    <h3 class="font-bold text-brand-400 text-base">37. El mueble bajo queda desnivelado</h3>
+                    <p class="text-xs sm:text-sm text-slate-300"><strong>Síntomas:</strong> la encimera no queda recta o los frentes forman escalones. <strong>Causas:</strong> suelo desnivelado, pata mal asentada, casco deformado, módulos no alineados o referencia incorrecta.</p>
+                    <p class="text-xs sm:text-sm text-slate-200"><strong>Diagnóstico:</strong> Comprueba línea larga con nivel o láser, revisa cada pata, escuadra del casco y uniones. No intentes corregir un desnivel con una encimera forzada.</p>
+                </div>
+
+                <div class="agency-card rounded-2xl p-5 space-y-2">
+                    <h3 class="font-bold text-brand-400 text-base">38. Los módulos no quedan enrasados</h3>
+                    <p class="text-xs sm:text-sm text-slate-300"><strong>Causas:</strong> pared irregular, casco fuera de escuadra, pata mal regulada, módulo mal presentado o trasera mal colocada. <strong>Solución:</strong> identifica primero qué superficie está fuera de plano. No aprietes los tornillos de unión para obligar a un casco a deformarse.</p>
+                </div>
+
+                <div class="agency-card rounded-2xl p-5 space-y-2">
+                    <h3 class="font-bold text-brand-400 text-base">39. Una puerta queda torcida & 40. Un cajón roza o no cierra</h3>
+                    <p class="text-xs sm:text-sm text-slate-300"><strong>Puerta:</strong> comprueba escuadra del casco, fijación de placa de bisagra, regula progresivamente eje por eje y revisa la puerta vecina.</p>
+                    <p class="text-xs sm:text-sm text-slate-300"><strong>Cajón:</strong> comprueba paralelismo de guías, medidas del cajón, escuadra del casco, posición del frente y elementos extraños. No fuerces el cajón.</p>
+                </div>
+
+                <div class="rounded-2xl bg-red-950/30 border border-red-500/40 p-5 space-y-2">
+                    <h3 class="font-bold text-red-400 text-base flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation"></i> 41. Un mueble alto se descuelga (Actuación inmediata)</h3>
+                    <ol class="text-xs sm:text-sm text-slate-200 list-decimal list-inside space-y-1">
+                        <li>No permanezcas debajo y retira a las personas de la zona.</li>
+                        <li>Descarga el mueble solo si puede hacerse sin exponerse a una caída. No intentes sujetarlo con la mano.</li>
+                        <li>Solicita ayuda profesional para asegurar y desmontar.</li>
+                        <li>Inspecciona pared, anclajes, carril, colgadores y casco. Sustituye los elementos dañados.</li>
+                    </ol>
+                </div>
+
+                <div class="agency-card rounded-2xl p-5 space-y-2">
+                    <h3 class="font-bold text-brand-400 text-base">42. El tablero se astilla al cortar & 43. El tornillo atraviesa el lateral</h3>
+                    <p class="text-xs sm:text-sm text-slate-300"><strong>Astillado:</strong> comprueba hoja apropiada, apoyo de la pieza, sentido de corte, guía y prueba en un retal.</p>
+                    <p class="text-xs sm:text-sm text-slate-300"><strong>Tornillo pasante:</strong> detén el montaje, no tapes el daño sin evaluar su efecto, comprueba longitud/espesor y sustituye la pieza si su resistencia o acabado han quedado comprometidos.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 11: PARTE XI. CONTROL DE CALIDAD Y ENTREGA
+             ========================================== -->
+        <section id="tab-11" class="tab-pane space-y-6">
+            <div class="border-b border-slate-800 pb-4 flex items-center justify-between flex-wrap gap-2">
+                <div>
+                    <span class="text-xs font-mono uppercase tracking-widest text-brand-400">PARTE XI</span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">CONTROL DE CALIDAD Y ENTREGA</h2>
+                </div>
+                <div class="px-3 py-1.5 rounded-xl bg-brand-500/20 border border-brand-500/40 text-brand-300 text-xs font-mono font-bold">
+                    Verificados: <span id="checkCounter">0</span> / 28
+                </div>
+            </div>
+
+            <!-- Cap 44 Checklist interactivo -->
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-5">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">44. Lista de inspección final (Interactiva)</h3>
+                <p class="text-xs sm:text-sm text-slate-300">Marca cada punto solo después de comprobarlo en obra:</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Estructura -->
+                    <div class="p-4 rounded-xl bg-surface-950 border border-slate-800 space-y-2.5">
+                        <h4 class="font-bold text-white text-sm border-b border-slate-800 pb-2 text-brand-300">Estructura</h4>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>Todos los módulos corresponden al plano.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>Los cascos están correctamente ensamblados.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>No hay tableros agrietados ni hinchados.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>Los módulos están nivelados.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>Los frentes están alineados.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>Las uniones entre módulos están firmes.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>Las fijaciones a pared están verificadas.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>Las columnas tienen su sistema antivuelco.</span></label>
+                    </div>
+
+                    <!-- Puertas y cajones -->
+                    <div class="p-4 rounded-xl bg-surface-950 border border-slate-800 space-y-2.5">
+                        <h4 class="font-bold text-white text-sm border-b border-slate-800 pb-2 text-brand-300">Puertas y cajones</h4>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>Las puertas abren y cierran sin roces.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>Las holguras son regulares.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>Las bisagras están ajustadas.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>Los cajones deslizan correctamente.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>Los frentes están alineados.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>Los tiradores están firmes.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>Los sistemas de cierre funcionan.</span></label>
+                    </div>
+
+                    <!-- Encimera y remates -->
+                    <div class="p-4 rounded-xl bg-surface-950 border border-slate-800 space-y-2.5">
+                        <h4 class="font-bold text-white text-sm border-b border-slate-800 pb-2 text-brand-300">Encimera y remates</h4>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>La encimera está estable.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>Las juntas están correctamente ejecutadas.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>Los cantos expuestos están protegidos.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>Los zócalos están sujetos.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>Las tapetas y costados están rematados.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>No se han bloqueado ventilaciones.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>Los sellados están completos y curados.</span></label>
+                    </div>
+
+                    <!-- Seguridad y entrega -->
+                    <div class="p-4 rounded-xl bg-surface-950 border border-slate-800 space-y-2.5">
+                        <h4 class="font-bold text-white text-sm border-b border-slate-800 pb-2 text-brand-300">Seguridad y entrega</h4>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>No quedan herramientas ni tornillos sueltos.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>No hay cables o conducciones dañados.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>Los residuos se han retirado.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>Se han explicado los cuidados y limitaciones al cliente.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>Se han entregado instrucciones y garantías.</span></label>
+                        <label class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 cursor-pointer"><input type="checkbox" class="qc-check mt-1 accent-amber-500 w-4 h-4"><span>Se han documentado incidencias y trabajos pendientes.</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cap 45 -->
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-3">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">45. Documentación fotográfica</h3>
+                <p class="text-xs sm:text-sm text-slate-300">Haz fotografías antes, durante y después: 1. Estado inicial de la estancia, 2. Tomas e instalaciones existentes, 3. Paredes y suelos, 4. Módulos y referencias de producto, 5. Fijaciones antes de ocultarlas, 6. Resultado final y 7. Cualquier incidencia o daño.</p>
+                <p class="text-xs text-slate-400">Las fotografías ayudan a documentar el trabajo, resolver reclamaciones y aprender de cada instalación. No fotografíes datos personales ni pertenencias del cliente sin autorización.</p>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 12: PARTE XII. APRENDER PRACTICANDO
+             ========================================== -->
+        <section id="tab-12" class="tab-pane space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+                <span class="text-xs font-mono uppercase tracking-widest text-brand-400">PARTE XII</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">APRENDER PRACTICANDO</h2>
+            </div>
+
+            <!-- Cap 46 -->
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">46. Programa de aprendizaje autónomo de cuatro semanas</h3>
+                <p class="text-xs sm:text-sm text-slate-300">El tiempo es orientativo. No avances por calendario si todavía no dominas una operación.</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="p-4 rounded-xl bg-surface-950 border border-slate-800 space-y-2">
+                        <span class="text-xs font-mono text-brand-400 font-bold">SEMANA 1</span>
+                        <h4 class="font-bold text-white text-sm">Medición y componentes</h4>
+                        <p class="text-xs text-slate-300"><strong>Estudia:</strong> Vocabulario, tipos de tablero, lectura de planos, herramientas y seguridad.</p>
+                        <p class="text-xs text-slate-300"><strong>Practica:</strong> Medir habitación, dibujar plano con cotas, identificar piezas y clasificar herrajes.</p>
+                        <p class="text-xs text-brand-300"><strong>Prueba de dominio:</strong> croquis con medidas, obstáculos e instalaciones.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-surface-950 border border-slate-800 space-y-2">
+                        <span class="text-xs font-mono text-brand-400 font-bold">SEMANA 2</span>
+                        <h4 class="font-bold text-white text-sm">Ensamblaje y escuadra</h4>
+                        <p class="text-xs text-slate-300"><strong>Estudia:</strong> Espigas, excéntricas, tornillos de unión, traseras y patas regulables.</p>
+                        <p class="text-xs text-slate-300"><strong>Practica:</strong> Montar casco, comprobar diagonales, desmontar y volver a montar, ajustar patas.</p>
+                        <p class="text-xs text-brand-300"><strong>Prueba de dominio:</strong> casco cerrado, estable y a escuadra.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-surface-950 border border-slate-800 space-y-2">
+                        <span class="text-xs font-mono text-brand-400 font-bold">SEMANA 3</span>
+                        <h4 class="font-bold text-white text-sm">Nivelación y herrajes</h4>
+                        <p class="text-xs text-slate-300"><strong>Estudia:</strong> Referencias de nivel, unión de módulos, suspensión, bisagras y guías.</p>
+                        <p class="text-xs text-slate-300"><strong>Practica:</strong> Presentar dos módulos, alinear frentes, instalar bisagra y guía con plantilla.</p>
+                        <p class="text-xs text-brand-300"><strong>Prueba de dominio:</strong> alineación uniforme y explicar cada ajuste.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-surface-950 border border-slate-800 space-y-2">
+                        <span class="text-xs font-mono text-brand-400 font-bold">SEMANA 4</span>
+                        <h4 class="font-bold text-white text-sm">Simulación de instalación</h4>
+                        <p class="text-xs text-slate-300"><strong>Estudia:</strong> Secuencia de trabajo, encimeras, remates, control de calidad y diagnóstico.</p>
+                        <p class="text-xs text-slate-300"><strong>Practica:</strong> Plan ficticio, inventario, simular bajos, diseñar fijación de altos y lista de entrega.</p>
+                        <p class="text-xs text-brand-300"><strong>Prueba de dominio:</strong> explicar ejecución completa y criterios de parada.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cap 47 -->
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-3">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">47. Ejercicios de evaluación</h3>
+                <div class="space-y-2.5 text-xs sm:text-sm">
+                    <div class="p-3.5 rounded-xl bg-surface-950 border border-slate-800">
+                        <strong class="text-white block mb-1">Ejercicio 1: medir antes de comprar (Pared 3.000 mm abajo y 2.986 mm arriba)</strong>
+                        <span class="text-slate-300">1. ¿Es correcto asumir que es paralela? 2. ¿Qué otras medidas tomarías? 3. ¿Por qué prever tapeta? 4. ¿Qué comprobarías antes del pedido?</span>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-surface-950 border border-slate-800">
+                        <strong class="text-white block mb-1">Ejercicio 2: módulos desnivelados (Segundo módulo 4 mm más alto)</strong>
+                        <span class="text-slate-300">1. ¿Qué comprobarías primero? 2. ¿Ajustarías la encimera para compensar? 3. ¿Cómo evitarías deformar cascos? 4. ¿Qué control harías después?</span>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-surface-950 border border-slate-800">
+                        <strong class="text-white block mb-1">Ejercicio 3: puerta torcida (Parte superior más separada que la inferior)</strong>
+                        <span class="text-slate-300">1. ¿Problema de profundidad? 2. ¿Casco fuera de escuadra? 3. ¿Qué comprobar antes de regular bisagra? 4. ¿Cómo verificar resultado?</span>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-surface-950 border border-slate-800">
+                        <strong class="text-white block mb-1">Ejercicio 4: mueble alto inseguro (Pared con grietas y azulejo hueco)</strong>
+                        <span class="text-brand-300">Respuesta esperada: no colgar ni cargar el mueble hasta que el soporte se evalúe y se determine una fijación adecuada.</span>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-surface-950 border border-slate-800">
+                        <strong class="text-white block mb-1">Ejercicio 5: guía de cajón (Se atasca al cerrar)</strong>
+                        <span class="text-slate-300">1. ¿Guías paralelas? 2. ¿Casco a escuadra? 3. ¿Medidas correctas? 4. ¿Necesita ajuste el mecanismo?</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 13: PARTE XIII. MÉTODO DE TRABAJO PROFESIONAL
+             ========================================== -->
+        <section id="tab-13" class="tab-pane space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+                <span class="text-xs font-mono uppercase tracking-widest text-brand-400">PARTE XIII</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">MÉTODO DE TRABAJO PROFESIONAL</h2>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">48. La secuencia que debes memorizar (13 Pasos)</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs sm:text-sm">
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><span class="text-brand-400 font-mono font-bold mr-2">01.</span><strong>Medir:</strong> conocer la estancia y sus obstáculos.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><span class="text-brand-400 font-mono font-bold mr-2">02.</span><strong>Planificar:</strong> comprobar distribución y compatibilidades.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><span class="text-brand-400 font-mono font-bold mr-2">03.</span><strong>Inventariar:</strong> confirmar que están todas las piezas.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><span class="text-brand-400 font-mono font-bold mr-2">04.</span><strong>Preparar:</strong> herramientas, protección y zona de trabajo.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><span class="text-brand-400 font-mono font-bold mr-2">05.</span><strong>Ensamblar:</strong> montar los cascos siguiendo instrucciones.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><span class="text-brand-400 font-mono font-bold mr-2">06.</span><strong>Comprobar:</strong> escuadra, integridad y herrajes.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><span class="text-brand-400 font-mono font-bold mr-2">07.</span><strong>Presentar:</strong> colocar los módulos en su posición.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><span class="text-brand-400 font-mono font-bold mr-2">08.</span><strong>Nivelar:</strong> establecer una línea continua.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><span class="text-brand-400 font-mono font-bold mr-2">09.</span><strong>Unir:</strong> conectar módulos sin deformarlos.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><span class="text-brand-400 font-mono font-bold mr-2">10.</span><strong>Fijar:</strong> anclar según el soporte y el sistema.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><span class="text-brand-400 font-mono font-bold mr-2">11.</span><strong>Completar:</strong> encimeras, puertas, cajones y remates.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><span class="text-brand-400 font-mono font-bold mr-2">12.</span><strong>Verificar:</strong> inspeccionar y documentar.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800 sm:col-span-2"><span class="text-brand-400 font-mono font-bold mr-2">13.</span><strong>Entregar:</strong> explicar el resultado y las incidencias.</div>
+                </div>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">49. Cinco hábitos que distinguen a un buen instalador</h3>
+                <ol class="space-y-2 text-xs sm:text-sm text-slate-200 list-decimal list-inside">
+                    <li class="p-3 rounded-xl bg-surface-950 border border-slate-800">No empieza a cortar sin comprobar medidas.</li>
+                    <li class="p-3 rounded-xl bg-surface-950 border border-slate-800">No fuerza piezas para ocultar errores.</li>
+                    <li class="p-3 rounded-xl bg-surface-950 border border-slate-800">No improvisa anclajes.</li>
+                    <li class="p-3 rounded-xl bg-surface-950 border border-slate-800">No da por terminado un trabajo sin probar puertas, cajones y fijaciones.</li>
+                    <li class="p-3 rounded-xl bg-surface-950 border border-slate-800">Deja el lugar limpio y documenta lo realizado.</li>
+                </ol>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-3">
+                <h3 class="text-lg sm:text-xl font-bold text-brand-400">50. Cómo aprender de cada instalación</h3>
+                <p class="text-xs sm:text-sm text-slate-300">Después de cada trabajo, anota: qué operación llevó más tiempo, qué error apareció, cómo se detectó, qué solución se aplicó, qué herramienta habría facilitado el trabajo, qué dato faltó en la planificación y qué harías de otra manera la próxima vez.</p>
+                <p class="text-xs sm:text-sm text-brand-300 font-medium">Con diez instalaciones documentadas tendrás un registro propio de problemas y soluciones. Esa experiencia vale más que memorizar decenas de trucos aislados.</p>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 14: PARTE XIV. FUENTES, FOROS Y DOCUMENTACIÓN TÉCNICA
+             (CON BOTÓN "Abrir en otra Ventana" EN CADA URL)
+             ========================================== -->
+        <section id="tab-14" class="tab-pane space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+                <span class="text-xs font-mono uppercase tracking-widest text-brand-400">PARTE XIV</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">FUENTES, FOROS Y DOCUMENTACIÓN TÉCNICA</h2>
+            </div>
+
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed bg-surface-900 p-4 rounded-xl border border-slate-800">
+                Las fuentes se dividen en dos grupos: <strong class="text-white">documentación de fabricantes</strong>, que debe prevalecer para el producto concreto, y <strong class="text-white">experiencias de comunidad</strong>, que sirven para aprender cómo otros resuelven problemas. Una publicación de foro no es una especificación técnica ni una garantía de seguridad.
+            </p>
+
+            <!-- Grupo A -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-bold text-brand-400 flex items-center gap-2">
+                    <i class="fa-solid fa-certificate"></i> A. Guías oficiales y fabricantes
+                </h3>
+                <div id="officialSourcesContainer" class="grid grid-cols-1 gap-3">
+                    <!-- Inyectado dinámicamente para garantizar botón "Abrir en otra Ventana" infalible -->
+                </div>
+            </div>
+
+            <!-- Grupo B -->
+            <div class="space-y-3 pt-2">
+                <h3 class="text-lg font-bold text-brand-400 flex items-center gap-2">
+                    <i class="fa-solid fa-comments"></i> B. Foros y experiencias reales
+                </h3>
+                <div id="forumSourcesContainer" class="grid grid-cols-1 gap-3">
+                    <!-- Inyectado dinámicamente para garantizar botón "Abrir en otra Ventana" infalible -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 15: GLOSARIO FINAL Y CIERRE
+             ========================================== -->
+        <section id="tab-15" class="tab-pane space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+                <span class="text-xs font-mono uppercase tracking-widest text-brand-400">SECCIÓN FINAL</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">GLOSARIO FINAL Y CIERRE</h2>
+            </div>
+
+            <div class="agency-card rounded-2xl p-5 sm:p-6 space-y-4">
+                <h3 class="text-lg font-bold text-brand-400 flex items-center gap-2">
+                    <i class="fa-solid fa-book-bookmark"></i> Glosario Técnico Rápido
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><strong class="text-brand-300">A plomo:</strong> perfectamente vertical.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><strong class="text-brand-300">A nivel:</strong> perfectamente horizontal.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><strong class="text-brand-300">A escuadra:</strong> con ángulo recto entre dos caras o líneas.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><strong class="text-brand-300">Enrasado:</strong> dos superficies quedan alineadas en el mismo plano.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><strong class="text-brand-300">Holgura:</strong> separación controlada entre piezas.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><strong class="text-brand-300">Mecanizado:</strong> operación de corte, perforación o fresado para preparar una pieza.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><strong class="text-brand-300">Plantilla:</strong> guía que permite repetir medidas o posiciones con precisión.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><strong class="text-brand-300">Par de apriete:</strong> fuerza de giro aplicada al tornillo.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><strong class="text-brand-300">Soporte:</strong> material o estructura donde se fija un elemento.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><strong class="text-brand-300">Anclaje:</strong> conjunto de elementos que transmite la carga al soporte.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><strong class="text-brand-300">Carga admisible:</strong> carga que un sistema puede soportar bajo las condiciones especificadas por el fabricante.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><strong class="text-brand-300">Extracción total:</strong> cajón que puede salir prácticamente por completo del mueble.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><strong class="text-brand-300">Amortiguación:</strong> mecanismo que frena el cierre.</div>
+                    <div class="p-3 rounded-xl bg-surface-950 border border-slate-800"><strong class="text-brand-300">Antivuelco:</strong> sistema destinado a evitar que un mueble vuelque.</div>
+                </div>
+            </div>
+
+            <!-- Cierre -->
+            <div class="agency-card-highlight rounded-2xl p-6 sm:p-8 space-y-4 text-center">
+                <span class="w-12 h-12 rounded-2xl bg-brand-500 text-surface-950 flex items-center justify-center mx-auto text-xl font-black shadow-lg">
+                    <i class="fa-solid fa-flag-checkered"></i>
+                </span>
+                <h3 class="text-xl sm:text-2xl font-black text-white">Cierre</h3>
+                <p class="text-sm sm:text-base text-slate-200 max-w-2xl mx-auto leading-relaxed">
+                    El montaje profesional no consiste en ensamblar piezas deprisa. Consiste en comprender el sistema, medir correctamente, respetar los materiales, controlar la geometría y comprobar cada fijación.
+                </p>
+                <p class="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
+                    Aprende una operación, practícala en un módulo de prueba, registra los errores y vuelve a ejecutarla. No avances a una instalación real de riesgo hasta dominar la operación y conocer las instrucciones del fabricante.
+                </p>
+                <div class="p-4 rounded-xl bg-surface-950/90 border border-brand-500/40 text-brand-300 font-bold text-sm sm:text-base max-w-xl mx-auto shadow-md">
+                    "La calidad de una cocina se decide antes del primer tornillo: empieza en la medición y termina en la inspección final."
+                </div>
+            </div>
+        </section>
+
+        <!-- NAVEGACIÓN INFERIOR AL FINAL DE CADA PESTAÑA (ANTERIOR / PRÓXIMA) -->
+        <div class="mt-8 pt-4 border-t border-slate-800/80">
+            <div class="flex items-center justify-between gap-3 bg-surface-900/95 border border-slate-800 p-3 rounded-2xl shadow-xl">
+                <button id="prevTabBtn" class="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-surface-800 hover:bg-surface-700 active:scale-95 text-slate-200 font-bold text-xs sm:text-sm border border-slate-700 transition-all">
+                    <i class="fa-solid fa-arrow-left text-brand-400"></i>
+                    <span id="prevTabLabel">Anterior</span>
+                </button>
+                <button id="nextTabBtn" class="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-brand-500 to-amber-600 hover:from-brand-400 hover:to-amber-500 active:scale-95 text-surface-950 font-extrabold text-xs sm:text-sm shadow-lg shadow-brand-500/20 transition-all">
+                    <span id="nextTabLabel">Próxima Pestaña</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ==========================================
+         BOTONES FLOTANTES MOVIBLES (DRAGGABLE FABS)
+         1. Botón flotante INICIO (lleva a INICIO desde cualquier lugar)
+         2. Botón flotante ARRIBA (lleva al comienzo de la pestaña actual)
+         ========================================== -->
+    <button id="fabInicio" title="Arrastrar o tocar para ir a INICIO" class="draggable-fab fixed right-3 bottom-24 flex items-center gap-1.5 px-3.5 py-2.5 rounded-full bg-gradient-to-r from-brand-500 to-amber-600 text-surface-950 font-black text-xs shadow-xl shadow-brand-500/30 border-2 border-amber-300">
+        <i class="fa-solid fa-house text-sm"></i>
+        <span>INICIO</span>
+        <i class="fa-solid fa-grip-lines-vertical text-[10px] opacity-60 ml-0.5"></i>
+    </button>
+
+    <button id="fabArriba" title="Arrastrar o tocar para subir al inicio de esta pestaña" class="draggable-fab fixed right-3 bottom-10 flex items-center gap-1.5 px-3.5 py-2.5 rounded-full bg-surface-800 text-brand-400 font-black text-xs shadow-xl border-2 border-brand-500/50">
+        <i class="fa-solid fa-arrow-up text-sm"></i>
+        <span>ARRIBA</span>
+        <i class="fa-solid fa-grip-lines-vertical text-[10px] opacity-60 ml-0.5"></i>
+    </button>
+
+    <!-- JAVASCRIPT DE LA APLICACIÓN -->
+    <script>
+        // Definición completa de las 16 pestañas del Manual
+        const TABS = [
+            { id: 0, short: "INICIO", title: "Inicio y Seguridad", icon: "fa-house" },
+            { id: 1, short: "I. SISTEMA", title: "Parte I. Entender el Sistema", icon: "fa-cube" },
+            { id: 2, short: "II. HERRAMIENTAS", title: "Parte II. Herramientas y Preparación", icon: "fa-screwdriver-wrench" },
+            { id: 3, short: "III. MEDIR", title: "Parte III. Medir y Planificar", icon: "fa-ruler-combined" },
+            { id: 4, short: "IV. CASCOS", title: "Parte IV. Montaje de los Cascos", icon: "fa-boxes-stacked" },
+            { id: 5, short: "V. BAJOS", title: "Parte V. Instalación de Muebles Bajos", icon: "fa-layer-group" },
+            { id: 6, short: "VI. ALTOS", title: "Parte VI. Muebles Altos y Columnas", icon: "fa-arrow-up-from-ground-water" },
+            { id: 7, short: "VII. ENCIMERAS", title: "Parte VII. Encimeras y Recortes", icon: "fa-vector-square" },
+            { id: 8, short: "VIII. HERRAJES", title: "Parte VIII. Puertas, Bisagras y Cajones", icon: "fa-door-open" },
+            { id: 9, short: "IX. REMATES", title: "Parte IX. Remates y Acabados", icon: "fa-wand-magic-sparkles" },
+            { id: 10, short: "X. DIAGNÓSTICO", title: "Parte X. Diagnóstico de Problemas Reales", icon: "fa-stethoscope" },
+            { id: 11, short: "XI. CALIDAD", title: "Parte XI. Control de Calidad y Entrega", icon: "fa-clipboard-check" },
+            { id: 12, short: "XII. PRÁCTICA", title: "Parte XII. Aprender Practicando", icon: "fa-graduation-cap" },
+            { id: 13, short: "XIII. MÉTODO", title: "Parte XIII. Método de Trabajo Profesional", icon: "fa-medal" },
+            { id: 14, short: "XIV. FUENTES", title: "Parte XIV. Fuentes, Foros y Documentación", icon: "fa-link" },
+            { id: 15, short: "GLOSARIO", title: "Glosario Final y Cierre", icon: "fa-book" }
+        ];
+
+        // Fuentes y enlaces oficiales / foros con su URL exacta
+        const OFFICIAL_SOURCES = [
+            { num: 1, name: "IKEA España — Guía de instalación de cocinas (PDF).", desc: "Preparación, inventario, herramientas, instalación y montaje de componentes.", url: "https://www.ikea.com/es/es/files/pdf/26/df/26df8e6b/guiainstalacioncocinas-19-hfb-07-esp_r-1-_012.pdf" },
+            { num: 2, name: "IKEA España — Guía de planificación de cocinas.", desc: "Medición, planificación y preparación del proyecto.", url: "https://www.ikea.com/es/es/files/pdf/a3/4f/a34f5e82/guia_planificacion_cocinas_ikea_2025.pdf" },
+            { num: 3, name: "Leroy Merlin — Cómo montar una cocina.", desc: "Secuencia general de montaje de módulos bajos y altos, uniones y remates.", url: "https://www.leroymerlin.es/ideas-y-consejos/paso-a-paso/como-montar-una-cocina.html" },
+            { num: 4, name: "Leroy Merlin — Cómo se instala un mueble de cocina alto.", desc: "Instalación de muebles altos y necesidad de ayuda durante la maniobra.", url: "https://www.leroymerlin.es/ideas-y-consejos/paso-a-paso/como-se-instala-un-mueble-de-cocina-alto.html" },
+            { num: 5, name: "Blum — TANDEMBOX: instrucciones y vídeos de montaje.", desc: "Documentación de un sistema concreto de cajones, ajustes y componentes.", url: "https://www.blum.com/es/es/products/boxsystems/tandembox/assembly/" },
+            { num: 6, name: "Blum — Plantillas y herramientas de montaje.", desc: "Calibres, plantillas y documentación para mecanizados y herrajes específicos.", url: "https://www.blum.com/es/es/products/assembly-devices/assembly-templates/downloads-videos/" },
+            { num: 7, name: "Hettich — Portal del fabricante.", desc: "Catálogos y documentación de sistemas de herrajes. Buscar el producto y su referencia exacta.", url: "https://www.hettich.com/es-es" },
+            { num: 8, name: "Kvik — Biblioteca de vídeos de instalación.", desc: "Vídeos de montaje de cocinas, zócalos, patas y posicionamiento de módulos. Están en inglés y son guías visuales, no sustituyen las instrucciones del producto.", url: "https://www.kvik.es/en-es/guides-and-inspiration/guides/installation-video-library" }
+        ];
+
+        const FORUM_SOURCES = [
+            { num: 9, name: "Foromadera — Armado de cocina, una duda.", desc: "Debate sobre patas, apoyos, bastidores, cargas y soluciones constructivas. Las opiniones son experiencias de participantes y deben contrastarse.", url: "https://www.foromadera.com/t/armado-de-cocina-una-duda/32390" },
+            { num: 10, name: "Foromadera — Montar módulos de cocina.", desc: "Conversación sobre orden de montaje, unión de muebles, nivel largo y fijación. Incluye aportaciones de un participante que declara haber montado más de cien cocinas.", url: "https://www.foromadera.com/t/montar-modulos-de-cocina/19380" },
+            { num: 11, name: "Foromadera — Se descuelga un armario cocina alto.", desc: "Caso real de un mueble alto que pierde sujeción. Sirve para entender por qué hay que evaluar pared, anclajes y colgadores.", url: "https://www.foromadera.com/t/se-descuelga-un-armario-cocina-alto/20201" },
+            { num: 12, name: "Foromadera — Instalar cajones Blum en cocina.", desc: "Consulta sobre colocación de guías, alturas y uso de plantillas y documentación del fabricante.", url: "https://www.foromadera.com/t/instalar-cajones-blum-en-cocina/19407" },
+            { num: 13, name: "Comunidad Leroy Merlin — Montaje de muebles de cocina paso a paso con nivelado y planificación.", desc: "Experiencia de una persona que describe planificación, herramientas, cortes de acceso, nivelación, unión y montaje de puertas. Es un relato de usuario, no un procedimiento certificado.", url: "https://comunidad.leroymerlin.es/app/736/channel/proyectos-2209/details/montaje-de-cocina-42763722" },
+            { num: 14, name: "Leroy Merlin — Cómo elegir cocinas completas.", desc: "Consejos generales sobre herramientas, fijaciones, secuencia y regulación. Verifica cada detalle con el fabricante del mueble que se instale.", url: "https://www.leroymerlin.es/ideas-y-consejos/como-elegir/como-elegir-cocinas-completas.html" }
+        ];
+
+        let currentTab = 0;
+
+        // Función dedicada para abrir cualquier URL siempre en otra ventana/pestaña
+        function openExternalUrl(url) {
+            const newWin = window.open(url, '_blank', 'noopener,noreferrer');
+            if (newWin) {
+                newWin.opener = null;
+            }
+        }
+
+        // Renderizar tarjetas de enlaces con su botón obligatorio "Abrir en otra Ventana"
+        function renderSources() {
+            const createCard = (item) => `
+                <div class="agency-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between gap-3 border border-slate-800 hover:border-brand-500/40 transition-all">
+                    <div class="space-y-1.5">
+                        <div class="flex items-start gap-2.5">
+                            <span class="px-2 py-0.5 rounded-md bg-brand-500/20 text-brand-300 font-mono text-xs font-bold mt-0.5">#${item.num}</span>
+                            <h4 class="font-bold text-white text-sm sm:text-base leading-snug">${item.name}</h4>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">${item.desc}</p>
+                        <p class="text-[11px] font-mono text-slate-400 break-all bg-surface-950 p-2 rounded-lg border border-slate-800/80">${item.url}</p>
+                    </div>
+                    <div class="pt-1 flex justify-end">
+                        <a href="${item.url}" target="_blank" rel="noopener noreferrer" onclick="event.preventDefault(); openExternalUrl('${item.url}');" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-brand-500 to-amber-600 hover:from-brand-400 hover:to-amber-500 active:scale-95 text-surface-950 font-extrabold text-xs sm:text-sm shadow-md shadow-brand-500/20 transition-all">
+                            <i class="fa-solid fa-up-right-from-square"></i>
+                            <span>Abrir en otra Ventana</span>
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('officialSourcesContainer').innerHTML = OFFICIAL_SOURCES.map(createCard).join('');
+            document.getElementById('forumSourcesContainer').innerHTML = FORUM_SOURCES.map(createCard).join('');
+        }
+
+        // Renderizar barra superior de pestañas y menú sándwich vertical
+        function renderNavigation() {
+            const topTabBar = document.getElementById('topTabBar');
+            const drawerList = document.getElementById('drawerList');
+
+            topTabBar.innerHTML = TABS.map(t => `
+                <button id="top-tab-${t.id}" onclick="switchTab(${t.id})" role="tab" class="tab-btn flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-surface-900 text-slate-300 border border-slate-800 hover:border-slate-700 transition-all whitespace-nowrap">
+                    <i class="fa-solid ${t.icon} text-[11px]"></i>
+                    <span>${t.short}</span>
+                </button>
+            `).join('');
+
+            drawerList.innerHTML = TABS.map(t => `
+                <button id="drawer-tab-${t.id}" onclick="switchTab(${t.id}); closeDrawer();" class="w-full flex items-center gap-3 p-3 rounded-xl text-left text-xs sm:text-sm font-medium transition-all border ${t.id === currentTab ? 'bg-brand-500/20 border-brand-500/50 text-brand-300 font-bold' : 'bg-surface-950/60 border-slate-800/80 text-slate-300 hover:bg-surface-800'}">
+                    <span class="w-7 h-7 rounded-lg ${t.id === currentTab ? 'bg-brand-500 text-surface-950' : 'bg-surface-800 text-brand-400'} flex items-center justify-center flex-shrink-0 text-xs font-bold">
+                        <i class="fa-solid ${t.icon}"></i>
+                    </span>
+                    <div class="truncate">
+                        <div class="text-[10px] font-mono uppercase text-slate-400">${t.short}</div>
+                        <div class="truncate">${t.title}</div>
+                    </div>
+                </button>
+            `).join('');
+        }
+
+        // Cambiar de pestaña con auto-centrado en la barra superior y scroll al inicio de la pestaña
+        function switchTab(index) {
+            if (index < 0 || index >= TABS.length) return;
+            currentTab = index;
+
+            // Mostrar sección activa
+            document.querySelectorAll('.tab-pane').forEach((pane, idx) => {
+                pane.classList.toggle('active', idx === currentTab);
+            });
+
+            // Actualizar estado activo en barra superior y auto-centrar pestaña
+            TABS.forEach(t => {
+                const btn = document.getElementById(`top-tab-${t.id}`);
+                if (btn) {
+                    btn.classList.toggle('active', t.id === currentTab);
+                }
+            });
+
+            const activeBtn = document.getElementById(`top-tab-${currentTab}`);
+            const topTabBar = document.getElementById('topTabBar');
+            if (activeBtn && topTabBar) {
+                const barWidth = topTabBar.clientWidth;
+                const btnLeft = activeBtn.offsetLeft;
+                const btnWidth = activeBtn.offsetWidth;
+                const targetScroll = btnLeft - (barWidth / 2) + (btnWidth / 2);
+                topTabBar.scrollTo({ left: targetScroll, behavior: 'smooth' });
+            }
+
+            // Actualizar barra de progreso
+            const progress = ((currentTab + 1) / TABS.length) * 100;
+            document.getElementById('tabProgressBar').style.width = `${progress}%`;
+
+            // Actualizar botones Anterior / Próxima al final de la pestaña
+            const prevBtn = document.getElementById('prevTabBtn');
+            const nextBtn = document.getElementById('nextTabBtn');
+            const prevLabel = document.getElementById('prevTabLabel');
+            const nextLabel = document.getElementById('nextTabLabel');
+
+            if (currentTab === 0) {
+                prevBtn.style.display = 'none';
+            } else {
+                prevBtn.style.display = 'flex';
+                prevLabel.textContent = `Anterior: ${TABS[currentTab - 1].short}`;
+            }
+
+            if (currentTab === TABS.length - 1) {
+                nextBtn.style.display = 'none';
+            } else {
+                nextBtn.style.display = 'flex';
+                nextLabel.textContent = `Próxima: ${TABS[currentTab + 1].short}`;
+            }
+
+            // Actualizar estado en el drawer vertical
+            renderNavigation();
+            // Volver a aplicar la clase activa tras re-render
+            const reActiveBtn = document.getElementById(`top-tab-${currentTab}`);
+            if (reActiveBtn) reActiveBtn.classList.add('active');
+
+            // Llevar al comienzo de la pestaña actual
+            scrollToTopOfCurrentTab();
+        }
+
+        function scrollToTopOfCurrentTab() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Control del Menú Sándwich (Drawer)
+        const drawerOverlay = document.getElementById('drawerOverlay');
+        const indexDrawer = document.getElementById('indexDrawer');
+
+        function openDrawer() {
+            drawerOverlay.classList.remove('hidden');
+            setTimeout(() => drawerOverlay.classList.remove('opacity-0'), 10);
+            indexDrawer.classList.remove('-translate-x-full');
+        }
+
+        function closeDrawer() {
+            drawerOverlay.classList.add('opacity-0');
+            indexDrawer.classList.add('-translate-x-full');
+            setTimeout(() => drawerOverlay.classList.add('hidden'), 300);
+        }
+
+        document.getElementById('openDrawerBtn').addEventListener('click', openDrawer);
+        document.getElementById('closeDrawerBtn').addEventListener('click', closeDrawer);
+        drawerOverlay.addEventListener('click', closeDrawer);
+
+        // Eventos botones Anterior y Próxima
+        document.getElementById('prevTabBtn').addEventListener('click', () => switchTab(currentTab - 1));
+        document.getElementById('nextTabBtn').addEventListener('click', () => switchTab(currentTab + 1));
+
+        // Lógica para hacer arrastrables (movibles) los botones flotantes en pantallas táctiles y ratón
+        function makeDraggable(element, onClickCallback) {
+            let isDragging = false;
+            let hasMoved = false;
+            let startX = 0, startY = 0;
+            let initialLeft = 0, initialTop = 0;
+
+            const onPointerDown = (e) => {
+                isDragging = true;
+                hasMoved = false;
+                const rect = element.getBoundingClientRect();
+                initialLeft = rect.left;
+                initialTop = rect.top;
+                startX = e.clientX;
+                startY = e.clientY;
+
+                // Cambiar de posicionamiento bottom/right a left/top para mover libremente
+                element.style.right = 'auto';
+                element.style.bottom = 'auto';
+                element.style.left = `${initialLeft}px`;
+                element.style.top = `${initialTop}px`;
+
+                element.setPointerCapture(e.pointerId);
+            };
+
+            const onPointerMove = (e) => {
+                if (!isDragging) return;
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+
+                if (Math.abs(dx) > 6 || Math.abs(dy) > 6) {
+                    hasMoved = true;
+                }
+
+                if (hasMoved) {
+                    const maxX = window.innerWidth - element.offsetWidth - 6;
+                    const maxY = window.innerHeight - element.offsetHeight - 6;
+                    const newLeft = Math.max(6, Math.min(maxX, initialLeft + dx));
+                    const newTop = Math.max(6, Math.min(maxY, initialTop + dy));
+
+                    element.style.left = `${newLeft}px`;
+                    element.style.top = `${newTop}px`;
+                }
+            };
+
+            const onPointerUp = (e) => {
+                if (!isDragging) return;
+                isDragging = false;
+                element.releasePointerCapture(e.pointerId);
+
+                if (!hasMoved && typeof onClickCallback === 'function') {
+                    onClickCallback();
+                }
+            };
+
+            element.addEventListener('pointerdown', onPointerDown);
+            element.addEventListener('pointermove', onPointerMove);
+            element.addEventListener('pointerup', onPointerUp);
+        }
+
+        // Inicializar botones flotantes movibles: INICIO y ARRIBA
+        makeDraggable(document.getElementById('fabInicio'), () => {
+            switchTab(0);
+        });
+
+        makeDraggable(document.getElementById('fabArriba'), () => {
+            scrollToTopOfCurrentTab();
+        });
+
+        // Contador de lista de inspección final (Parte XI)
+        function initQualityChecklist() {
+            const checks = document.querySelectorAll('.qc-check');
+            const counter = document.getElementById('checkCounter');
+            checks.forEach(ch => {
+                ch.addEventListener('change', () => {
+                    const totalChecked = document.querySelectorAll('.qc-check:checked').length;
+                    counter.textContent = totalChecked;
+                });
+            });
+        }
+
+        // Inicialización al cargar
+        window.addEventListener('DOMContentLoaded', () => {
+            renderSources();
+            renderNavigation();
+            switchTab(0);
+            initQualityChecklist();
+        });
+    </script>
+</body>
+</html>
