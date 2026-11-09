@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0e1a">
+<title>Calculadora MODULAR STUDIO: aprende haciendo by Rubén Sbarsky</title>
+<style>
+:root{--bg:#0a0e1a;--card:#0f172a;--bd:#1e3a5f;--ac:#00d4ff;--gr:#22c55e;--am:#f59e0b;--rd:#ef4444;--pu:#a855f7;--tx:#e8eefc;--mu:#9fb0c8;--hh:54px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--tx);font:16px/1.6 'Segoe UI',system-ui,-apple-system,sans-serif;padding-top:calc(var(--hh) + 3px + env(safe-area-inset-top,0px));background-image:radial-gradient(70% 35% at 85% 0,rgba(0,212,255,.13),transparent),radial-gradient(60% 30% at 0 25%,rgba(168,85,247,.10),transparent);background-repeat:no-repeat}
+header{position:fixed;inset:0 0 auto 0;z-index:50;background:rgba(10,14,26,.97);border-bottom:1px solid var(--bd);padding-top:env(safe-area-inset-top,0px)}
+#bar{height:3px;width:0;background:linear-gradient(90deg,var(--ac),var(--pu))}
+.hrow{display:flex;align-items:center;gap:8px;height:var(--hh);padding:0 8px}
+#idx{flex:none;display:flex;align-items:center;gap:6px;min-height:44px;padding:0 12px;border-radius:12px;border:1px solid var(--ac);background:rgba(0,212,255,.1);color:var(--ac);font:700 13px inherit;letter-spacing:.05em}
+#tabs{position:relative;display:flex;gap:6px;overflow-x:auto;flex:1;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:4px 2px}
+#tabs::-webkit-scrollbar{display:none}
+#tabs button{flex:none;min-height:44px;padding:0 14px;border-radius:999px;border:1px solid var(--bd);background:var(--card);color:var(--mu);font:600 14px inherit;white-space:nowrap}
+#tabs button.on{background:linear-gradient(135deg,var(--ac),#0891b2);color:#03131c;border-color:transparent}
+main{max-width:760px;margin:0 auto;padding:16px 14px 40px}
+.tab{display:none}.tab.on{display:block;animation:in .25s ease-out}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+h1{font-size:1.85rem;line-height:1.15;letter-spacing:-.02em;margin:10px 0}
+h1 .by{display:block;margin-top:6px;font-size:1.05rem;font-weight:600;color:var(--ac)}
+h2{font-size:1.5rem;line-height:1.2;margin:6px 0 4px}
+h3{font-size:1.1rem;margin:18px 0 6px;color:var(--ac)}
+p{margin:8px 0}.sub{color:var(--mu);font-size:1.05rem}
+.badge{display:inline-block;padding:4px 12px;border-radius:999px;border:1px solid var(--bd);background:rgba(0,212,255,.08);color:var(--ac);font:700 12px inherit;letter-spacing:.08em}
+.num{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--ac),var(--pu));color:#03131c;font-weight:800;margin-right:8px}
+.hero{border-radius:12px;overflow:hidden;border:1px solid var(--bd);margin:14px 0;background:#070b16;box-shadow:0 12px 40px -12px rgba(0,212,255,.35)}
+.hero svg,.hero img{display:block;width:100%;height:auto}
+blockquote{border-left:4px solid var(--pu);background:rgba(168,85,247,.08);border-radius:10px;padding:14px;margin:14px 0;font-style:italic}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+.grid3 div{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 6px;text-align:center;font-size:.8rem;color:var(--mu)}
+.grid3 b{display:block;font-size:1.6rem;color:var(--ac)}
+.meta{color:var(--mu);font-size:.92rem}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px;margin:14px 0}
+.co{border-left:4px solid;border-radius:10px;padding:12px 14px;margin:14px 0}
+.co::before{content:attr(data-l);display:block;font:800 12px inherit;letter-spacing:.1em;margin-bottom:2px}
+.co.i{border-color:var(--ac);background:rgba(0,212,255,.08)}.co.i::before{color:var(--ac)}
+.co.e{border-color:var(--gr);background:rgba(34,197,94,.08)}.co.e::before{color:var(--gr)}
+.co.a{border-color:var(--am);background:rgba(245,158,11,.09)}.co.a::before{color:var(--am)}
+.co.x{border-color:var(--rd);background:rgba(239,68,68,.09)}.co.x::before{color:var(--rd)}
+ol.steps{list-style:none;counter-reset:s;margin:12px 0}
+ol.steps li{counter-increment:s;position:relative;padding:14px 14px 14px 58px;background:var(--card);border:1px solid var(--bd);border-radius:12px;margin:10px 0;min-height:56px}
+ol.steps li::before{content:counter(s);position:absolute;left:12px;top:12px;width:34px;height:34px;border-radius:50%;background:var(--ac);color:#03131c;font-weight:800;display:flex;align-items:center;justify-content:center}
+ol.steps li.done{border-color:var(--gr)}ol.steps li.done::before{content:"✓";background:var(--gr)}
+.hint{font-size:.85rem;color:var(--mu)}
+.ok{display:block;margin-top:8px;padding:8px 10px;border-radius:8px;background:rgba(34,197,94,.1);border:1px dashed var(--gr);font-size:.92rem}
+.ok::before{content:"COMPRUEBA · ";color:var(--gr);font-weight:800;font-size:.75rem;letter-spacing:.08em}
+.ui{color:var(--am);font-weight:700}
+code,pre{font-family:Consolas,'Liberation Mono',monospace}
+code{background:#0b1224;border:1px solid var(--bd);border-radius:6px;padding:1px 6px;color:var(--ac);font-size:.92em}
+pre{background:#070b16;border:1px solid var(--bd);border-radius:10px;padding:12px;overflow-x:auto;font-size:.8rem;line-height:1.5;color:#cfe3ff}
+.tw{overflow-x:auto;margin:12px 0;border:1px solid var(--bd);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th{background:#0b1530;color:var(--ac);text-align:left;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase}
+th,td{padding:10px;border-bottom:1px solid rgba(30,58,95,.6);vertical-align:top}
+td:first-child{white-space:nowrap}
+tr:last-child td{border-bottom:0}
+details{background:var(--card);border:1px solid var(--bd);border-radius:12px;margin:10px 0}
+summary{padding:14px;font-weight:700;min-height:48px;cursor:pointer;color:var(--gr)}
+details>div{padding:0 14px 14px}
+.sim{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sim label{font-size:.78rem;color:var(--mu);display:block}
+.sim input,.sim select{width:100%;min-height:46px;border-radius:10px;border:1px solid var(--bd);background:#070b16;color:var(--tx);font:600 16px Consolas,monospace;padding:0 10px}
+#sO{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+#sO div{background:#070b16;border:1px solid var(--bd);border-radius:10px;padding:8px 10px;font-size:.78rem;color:var(--mu)}
+#sO b{display:block;font:800 1.15rem Consolas,monospace;color:var(--am)}
+.cta,.pager button{min-height:56px;border-radius:12px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font:700 15px inherit;padding:8px 12px}
+.cta{width:100%;background:linear-gradient(135deg,var(--ac),#0891b2);color:#03131c;border:0;margin:12px 0}
+.pager{display:flex;gap:10px;margin:30px 0 8px}
+.pager button{flex:1;text-align:center}
+.pager button small{display:block;font-weight:500;color:var(--mu);font-size:.74rem;margin-top:2px}
+.pager .nx{background:linear-gradient(135deg,var(--ac),#0891b2);color:#03131c;border:0}
+.pager .nx small{color:#05364a}
+.ob{min-height:44px;margin-left:8px;padding:0 14px;border-radius:10px;border:1px solid var(--ac);background:rgba(0,212,255,.1);color:var(--ac);font:700 14px inherit}
+footer{max-width:760px;margin:10px auto 0;padding:18px 14px calc(30px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--bd);text-align:center;color:var(--mu);font-size:.88rem;line-height:1.8}
+.fab{position:fixed;left:0;top:0;width:50px;height:50px;border-radius:50%;z-index:40;border:1px solid rgba(255,255,255,.35);background:linear-gradient(135deg,var(--ac),var(--pu));color:#03131c;font:800 22px inherit;touch-action:none;box-shadow:0 8px 22px rgba(0,0,0,.55);user-select:none;-webkit-user-select:none}
+#bk{position:fixed;inset:0;z-index:60;background:rgba(3,6,14,.88);opacity:0;pointer-events:none;transition:opacity .2s}
+#bk.on{opacity:1;pointer-events:auto}
+#dr{position:fixed;top:0;bottom:0;left:0;width:86%;max-width:340px;z-index:70;background:#0b1224;border-right:1px solid var(--ac);transform:translateX(-102%);transition:transform .25s;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}
+#dr.on{transform:none}
+.dh{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--bd);color:var(--ac)}
+#dx{min-width:44px;min-height:44px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font-size:18px}
+.dl{overflow-y:auto;padding:10px;flex:1;overscroll-behavior:contain}
+.dl button{display:block;width:100%;text-align:left;min-height:52px;padding:10px 14px;margin-bottom:8px;border-radius:12px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font:600 15px inherit}
+.dl button.on{border-color:var(--ac);color:var(--ac);background:rgba(0,212,255,.1)}
+@media(min-width:700px){h1{font-size:2.4rem}}
+</style>
+</head>
+<body>
+<header>
+  <div id="bar"></div>
+  <div class="hrow">
+    <button id="idx" aria-label="Abrir índice completo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>ÍNDICE</button>
+    <div id="tabs" role="tablist" aria-label="Pestañas del tutorial"></div>
+  </div>
+</header>
+<div id="bk"></div>
+<nav id="dr" aria-label="Índice del tutorial"><div class="dh"><b>ÍNDICE DEL TUTORIAL</b><button id="dx" aria-label="Cerrar índice">✕</button></div><div class="dl" id="dl"></div></nav>
+
+<main>
+<!-- INICIO -->
+<section class="tab on" id="t0" data-t="Inicio" data-s="Inicio">
+  <span class="badge">TUTORIAL INTERACTIVO · APRENDER HACIENDO</span>
+  <h1>Calculadora MODULAR STUDIO: aprende haciendo <span class="by">by Rubén Sbarsky </span></h1>
+  <p class="sub">De cero a tu primera orden de corte, con el móvil en la mano.</p>
+  <div class="hero" id="hero0"></div>
+  <p>La app convierte las medidas de un mueble en una lista de piezas para el centro de corte: cuántas, de qué medida, con qué canto y en qué sentido va la veta. No hace falta conocerla. La vas a usar desde la primera lección.</p>
+  <blockquote>“Si no puedes explicarlo de forma sencilla, es que no lo entiendes lo suficientemente bien.”</blockquote>
+  <div class="grid3"><div><b>8</b>lecciones</div><div><b>2</b>retos con solución</div><div><b>0</b>dependencias</div></div>
+  <p class="meta">📅 07/11/2026 · Hora: 11:46:21</p>
+  <button class="cta" data-g="1">Empezar la lección 1 →</button>
+  <div class="co i" data-l="CÓMO USAR ESTE TUTORIAL">
+    <p>Abre <code>Calculadora_MODULAR_STUDIO.html</code> en otra ventana y haz cada paso en ella. Toca un paso cuando lo termines: se marca en verde.</p>
+    <p>Las pestañas de arriba se deslizan con el dedo. <b>ÍNDICE</b> abre la lista completa. Los botones redondos 🏠 y ↑ se arrastran donde quieras: 🏠 vuelve a Inicio y ↑ sube al principio de la pestaña.</p>
+  </div>
+</section>
+
+<!-- 1 -->
+<section class="tab" id="t1" data-t="1 · ¿Qué es y para qué sirve?" data-s="1 Qué es">
+  <h2><span class="num">1</span>¿Qué es y para qué sirve?</h2>
+  <p class="sub">Un mueble de melamina o MDF se corta de placas grandes. El taller necesita una lista exacta de piezas. Esa lista se llama <b>despiece</b>.</p>
+  <h3>Vocabulario mínimo</h3>
+  <div class="tw"><table><tr><th>Palabra</th><th>Significa</th></tr>
+  <tr><td>Despiece</td><td>Lista de piezas: cantidad, largo, ancho, material, cantos, veta.</td></tr>
+  <tr><td>Casco</td><td>La caja del mueble: laterales, piso, fajas o techo, parante y estantes.</td></tr>
+  <tr><td>Frentes</td><td>Lo que se ve: puertas y tapas de cajón.</td></tr>
+  <tr><td>Canto</td><td>Tira que tapa el borde cortado. Aquí hay dos: 0.45 (fino) y 2mm (ABS grueso).</td></tr>
+  <tr><td>Veta</td><td>Dibujo de la madera. Si importa, el Largo de la pieza sigue la veta.</td></tr>
+  <tr><td>Vano</td><td>Hueco interior entre dos laterales o entre lateral y parante.</td></tr>
+  <tr><td>Corredera</td><td>Guía metálica del cajón.</td></tr></table></div>
+  <div class="co i" data-l="REGLA DE ORO">Todas las medidas van en <b>milímetros (mm)</b>. 1 m = 1000 mm.</div>
+  <h3>Lo que vas a conseguir</h3>
+  <div class="co e" data-l="EJEMPLO REAL">Un bajo mesada de 1000 mm de ancho con puerta, 3 cajones y estante se convierte en <b>27 piezas</b> de 3 materiales, 4,86 m² en total. La app lo calcula sola en la lección 5.</div>
+  <ol class="steps">
+    <li>Abre <code>Calculadora_MODULAR_STUDIO.html</code> en Chrome o Samsung Internet. <span class="hint">Tu trabajo queda guardado en el navegador de este teléfono.</span></li>
+    <li>Mira arriba: verás el título, cuatro pestañas numeradas y el botón <span class="ui">MENÚ</span>.</li>
+  </ol>
+</section>
+
+<!-- 2 -->
+<section class="tab" id="t2" data-t="2 · Recorrido por la pantalla" data-s="2 Pantalla">
+  <h2><span class="num">2</span>Recorrido por la pantalla</h2>
+  <div class="tw"><table><tr><th>Zona</th><th>Para qué sirve</th></tr>
+  <tr><td>Pestañas 1–4</td><td>Despiece, Módulos, Laboratorio y TXT / QA.</td></tr>
+  <tr><td>MENÚ</td><td>Índice lateral con acciones rápidas: calculadora, .TXT, WhatsApp, CSV y restaurar el ejemplo.</td></tr>
+  <tr><td>4 tarjetas</td><td>Total piezas, Superficie total (m²), Canto 0.45mm (m) y Canto ABS 2mm (m).</td></tr>
+  <tr><td>🔢 Calculadora</td><td>Botón flotante: calculadora disponible en cualquier pantalla.</td></tr>
+  <tr><td>Cabecera del Pedido</td><td>Nombre del proyecto, cliente y criterio del canto de 2 mm.</td></tr></table></div>
+  <h3>Haz esto</h3>
+  <ol class="steps">
+    <li>Toca <span class="ui">MENÚ</span> y luego <span class="ui">Restaurar Ejemplo Bajo Mesada</span>.
+      <span class="ok">Las tarjetas marcan 27 · 4.86 · 14.8 · 6.8</span></li>
+    <li>En la lista, toca <span class="ui">📱 Tarjetas / Tabla</span> para cambiar la vista. En el móvil las tarjetas se leen mejor.</li>
+    <li>Toca <span class="ui">🔢 Calculadora</span>, pulsa <b>AC</b> y escribe <b>1000 − 36</b> con las teclas.
+      <span class="ok">La pantalla dorada muestra 964</span></li>
+    <li>Cierra con ✕. Toca fuera de la ventana o pulsa Escape también la cierra.</li>
+  </ol>
+  <div class="co a" data-l="ATENCIÓN"><span class="ui">Vaciar</span> y <span class="ui">Reemplazar Lista</span> piden confirmación: hay que tocar dos veces en menos de 3 segundos.</div>
+</section>
+
+<!-- 3 -->
+<section class="tab" id="t3" data-t="3 · Tu primer despiece" data-s="3 Despiece">
+  <h2><span class="num">3</span>Tu primer despiece</h2>
+  <p class="sub">Vas a cargar dos piezas reales de un bajo mesada y ver cómo reaccionan las tarjetas.</p>
+  <ol class="steps">
+    <li>Ve a <span class="ui">1. Despiece</span> y toca <span class="ui">Vaciar</span> dos veces.
+      <span class="ok">Las 4 tarjetas en 0</span></li>
+    <li>En <b>Cabecera del Pedido</b> escribe un nombre de proyecto y un cliente. Se guardan solos.</li>
+    <li>En <b>Añadir Pieza</b> escribe: Cant. <code>2</code> · Largo <code>720</code> · Ancho <code>550</code> · Material <code>Blanco MDF 18mm</code> · Veta <code>NO</code> · Observación <code>Laterales Casco</code>. Deja los cantos como vienen (L₁, A₁ y A₂ en 0.45). Toca <span class="ui">Guardar en Planilla</span>.
+      <span class="ok">2 · 0.79 m² · 3.6 m · 0.0 m</span></li>
+    <li>Ahora el piso. Toca <span class="ui">🔢 Calculadora</span>, <b>AC</b>, escribe <b>1000 − 36</b> y toca <span class="ui">Largo</span>. El 964 queda en el campo Largo. Pon Ancho <code>550</code> y Observación <code>Piso Interno</code>. Toca <span class="ui">Ninguno</span> y después elige <b>0.45</b> solo en L₁. Guarda.
+      <span class="ok">3 · 1.32 m² · 4.6 m · 0.0 m</span></li>
+    <li>Toca <span class="ui">Editar</span> en el piso, cambia la observación a <code>Piso Casco</code> y guarda. Luego prueba <span class="ui">+1</span> (duplica) y <span class="ui">Borrar</span>.</li>
+  </ol>
+  <div class="co x" data-l="ERROR FRECUENTE">Si el piso sale con cantos en A₁ y A₂, es porque el formulario recuerda los cantos de la pieza anterior. Usa <span class="ui">Ninguno</span> antes de elegir.</div>
+  <div class="co i" data-l="ATAJOS DEL FORMULARIO">Los botones <span class="ui">L -36</span>, <span class="ui">L -4</span> y <span class="ui">A -4</span> restan a la medida escrita. <span class="ui">⇄ Invertir</span> cambia Largo por Ancho.</div>
+</section>
+
+<!-- 4 -->
+<section class="tab" id="t4" data-t="4 · Cantos y veta" data-s="4 Cantos">
+  <h2><span class="num">4</span>Cantos y veta</h2>
+  <p class="sub">Cada pieza tiene cuatro bordes. La app los llama así:</p>
+<pre>          L₁
+     ┌──────────────┐
+  A₁ │  Largo  →    │ A₂
+     └──────────────┘
+          L₂</pre>
+  <p>L₁ y L₂ son los bordes del lado del <b>Largo</b>. A₁ y A₂ son los del lado del <b>Ancho</b>.</p>
+  <div class="tw"><table><tr><th>Opción</th><th>Qué es</th></tr>
+  <tr><td>-</td><td>Sin canto.</td></tr>
+  <tr><td>0.45</td><td>Canto fino. Se usa en el casco. En la tabla se ve verde.</td></tr>
+  <tr><td>2mm</td><td>Canto ABS grueso. Se usa en frentes. En la tabla se ve ámbar.</td></tr></table></div>
+  <h3>Veta</h3>
+  <p><b>SI</b>: la veta corre a lo largo del Largo y la pieza no se puede girar. <b>NO</b>: da igual.</p>
+  <h3>Criterio del canto de 2 mm</h3>
+  <p>El canto grueso suma espesor. Hay dos formas de pedirlo:</p>
+  <div class="tw"><table><tr><th>Criterio</th><th>Quién descuenta</th></tr>
+  <tr><td>Neta</td><td>Tú. La medida ya viene descontada: 2 mm por cada canto de 2 mm.</td></tr>
+  <tr><td>Final</td><td>El proveedor. Tú pones la medida terminada.</td></tr></table></div>
+  <div class="co e" data-l="EJEMPLO">Una puerta terminada de 496 mm con canto de 2 mm en ambos lados se pide como <b>492 mm</b> con criterio neta, y como <b>496 mm</b> con criterio final.</div>
+  <ol class="steps">
+    <li>En el formulario toca <span class="ui">2mm</span>: los cuatro selectores cambian a 2mm. Toca <span class="ui">Ninguno</span> y quedan vacíos.</li>
+    <li>Mira la columna <b>Filos</b> de la tabla: es un dibujito de la pieza con sus bordes en verde o ámbar.</li>
+    <li>Cambia <b>Criterio Canto 2mm</b> a <i>Medida final</i> y ve a <span class="ui">4. TXT / QA</span>.
+      <span class="ok">El texto dice «Criterio: MEDIDA FINAL…»</span></li>
+  </ol>
+</section>
+
+<!-- 5 -->
+<section class="tab" id="t5" data-t="5 · Módulos automáticos" data-s="5 Módulos">
+  <h2><span class="num">5</span>Módulos automáticos</h2>
+  <p class="sub">Escribes alto, ancho y fondo. La app genera todas las piezas del mueble.</p>
+  <ol class="steps">
+    <li>Ve a <span class="ui">2. Módulos</span> y no toques nada.
+      <span class="ok">Línea verde: ✓ 1000 × 720 × 550 mm · vano 473 mm · 27 piezas · 4.86 m²</span></li>
+    <li>Cambia <b>Parante Central</b> a 0. La línea se pone roja: «Puertas y cajones juntos requieren el parante central.» Vuelve a 1.</li>
+    <li>Cambia <b>Espesor Placa</b> a 15 mm. Los materiales pasan a «15mm» y el vano sube a 477. Vuelve a 18.</li>
+    <li>Toca <span class="ui">Reemplazar Lista</span> dos veces. Vas a Despiece.
+      <span class="ok">27 · 4.86 · 14.8 · 6.8</span></li>
+  </ol>
+  <h3>Cómo calcula (ejemplo 1000 × 720 × 550, E = 18)</h3>
+  <div class="tw"><table><tr><th>Pieza</th><th>Regla</th><th>Resultado</th></tr>
+  <tr><td>Vano</td><td>(A − 2E − parante·E) ÷ columnas</td><td>(1000−36−18)÷2 = 473</td></tr>
+  <tr><td>Estante</td><td>vano − 2 × (P − 50)</td><td>471 × 500</td></tr>
+  <tr><td>Caja cajón</td><td>vano − 26 (13 por lado)</td><td>447</td></tr>
+  <tr><td>Contrafrente</td><td>caja − 2E</td><td>411</td></tr>
+  <tr><td>Puerta</td><td>columna − 4, alto − 4, neta −4</td><td>492 × 712</td></tr>
+  <tr><td>Tapas cajón</td><td>(alto ÷ n) − 4, neta −4</td><td>492 × 232</td></tr>
+  <tr><td>Fondo</td><td>(A − 4) × (H − 4)</td><td>996 × 716</td></tr></table></div>
+  <div class="co a" data-l="AVISOS QUE VERÁS">Puerta de más de 600 mm de ancho · frente de cajón menor de 100 mm · una medida mayor de 2750 mm (no entra en una placa estándar) · cajón demasiado angosto.</div>
+  <div class="co i" data-l="SUPUESTOS DE LA APP">El fondo de cajón se calcula apoyado bajo la caja (medida exterior). En los frentes, el Largo es el ancho visible, con la veta en horizontal.</div>
+</section>
+
+<!-- 6 -->
+<section class="tab" id="t6" data-t="6 · Laboratorio" data-s="6 Lab">
+  <h2><span class="num">6</span>Laboratorio de cálculo</h2>
+  <ol class="steps">
+    <li>Ve a <span class="ui">3. Laboratorio</span>. Pulsa <b>AC</b>, escribe <b>1000 − 36</b> y toca <b>=</b>.
+      <span class="ok">964</span></li>
+    <li>Toca el atajo <span class="ui">-18</span>: resta y calcula al instante.
+      <span class="ok">946</span></li>
+    <li>Pulsa <b>÷</b>, <b>3</b> y <b>=</b>. Toca <span class="ui">↳ Enviar a Largo</span>.
+      <span class="ok">El campo recibe 315 y el aviso dice «redondeado de 315.33»</span></li>
+    <li>En <b>Calculadora de Cajones</b> pon Vano <code>473</code>, N° Cajones <code>3</code>, Espesor <code>18</code>.
+      <span class="ok">Caja 447 mm · Contrafrente (6 un) 411 mm</span></li>
+  </ol>
+  <div class="co i" data-l="DATO">Las medidas enviadas a un campo se redondean al milímetro. La pantalla muestra hasta 2 decimales.</div>
+  <h3>Simulador del cajón</h3>
+  <div class="card">
+    <div class="sim">
+      <div><label for="sA">Ancho A</label><input id="sA" type="number" value="1000" inputmode="numeric"></div>
+      <div><label for="sE">Espesor E</label><select id="sE"><option>18</option><option>15</option></select></div>
+      <div><label for="sD">Parante</label><select id="sD"><option value="0">0</option><option value="1" selected>1</option></select></div>
+    </div>
+    <div id="sO"></div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="tab" id="t7" data-t="7 · Exportar y revisar" data-s="7 Exportar">
+  <h2><span class="num">7</span>Exportar y revisar</h2>
+  <ol class="steps">
+    <li>Ve a <span class="ui">4. TXT / QA</span> y lee la vista previa de la orden de corte.</li>
+    <li>Toca <span class="ui">Copiar WhatsApp</span> y pega en un chat: lleva medidas, material, veta y cantos.</li>
+    <li>Toca <span class="ui">Descargar .TXT</span>. El archivo toma el nombre de tu proyecto.</li>
+    <li>Toca <span class="ui">Exportar CSV</span>. Se abre en Excel con las columnas Cant, Largo, Ancho, Material, L1, L2, A1, A2, Veta y Observacion.</li>
+    <li>Revisa y marca los 6 puntos del <b>Checklist de Calidad</b>. Al marcar el sexto aparece «¡Checklist aprobado!».</li>
+  </ol>
+  <h3>Así empieza la orden de corte</h3>
+<pre>ORDEN DE CORTE - MODULAR STUDIO
+Proyecto: Bajo Mesada Cocina 1000mm
+Criterio: MEDIDA NETA (ya descontados 2 mm…)
+MATERIAL: Blanco MDF 18mm (2.85 m²)
+2 un | 720 x 550 | L1:0.45 L2:- A1:0.45 A2:0.45 | Veta:NO | Laterales Casco
+…
+TOTAL: 27 piezas · 4.86 m²</pre>
+  <div class="co a" data-l="ANTES DE ENVIAR AL TALLER">Mide el espesor real de la placa. Comprueba que la profundidad del mueble supere el largo de la corredera. Revisa el criterio neta/final con tu proveedor.</div>
+</section>
+
+<!-- 8 -->
+<section class="tab" id="t8" data-t="8 · Práctica final" data-s="8 Práctica">
+  <h2><span class="num">8</span>Práctica final</h2>
+  <p class="sub">Dos retos. Hazlos en <span class="ui">2. Módulos</span> y compara con la solución.</p>
+  <h3>Reto 1 · Bajo de 800 con dos puertas</h3>
+  <p>Alto 720 · Ancho 800 · Prof. 550 · Parante 0 · Estantes 1 · Puertas 2 · Cajones 0 · Placa 18.</p>
+  <details><summary>Ver solución</summary><div>
+    <p>6 líneas, 8 piezas: Laterales 2× 720×550 · Piso 764×550 · Fajas 2× 764×100 · Estante 762×500 · Puertas 2× 392×712 · Fondo 796×716.</p></div></details>
+  <h3>Reto 2 · Bajo de 600 con dos cajones</h3>
+  <p>Alto 720 · Ancho 600 · Prof. 550 · Parante 0 · Estantes 0 · Puertas 0 · Cajones 2 · Corredera 450.</p>
+  <details><summary>Ver solución</summary><div>
+    <p>Laterales 2× 720×550 · Piso 564×550 · Fajas 2× 564×100 · Costados 4× 450×140 · Contrafrentes 4× 502×140 · Fondos de cajón 2× 450×538 · Tapas 2× 592×352 · Fondo 596×716.</p></div></details>
+  <h3>Errores comunes</h3>
+  <div class="co x" data-l="ERROR">Escribir metros en lugar de milímetros.</div>
+  <div class="co x" data-l="ERROR">Olvidar que el formulario conserva los cantos de la pieza anterior.</div>
+  <div class="co a" data-l="CUIDADO">Reemplazar Lista borra tus líneas. Usa <span class="ui">+ Sumar</span> si quieres conservarlas.</div>
+  <div class="co e" data-l="LOGRO">Ya sabes cargar piezas, generar módulos, calcular y exportar. Repite con un mueble tuyo.</div>
+</section>
+
+<!-- CRÉDITOS -->
+<section class="tab" id="t9" data-t="Créditos" data-s="Créditos">
+  <h2>Créditos</h2>
+  <div class="hero" id="hero9"></div>
+  <div class="card">
+    <p class="badge">CALCULADORA MODULAR STUDIO: APRENDE HACIENDO</p>
+    <p><b>Rubén Sbarsky</b></p>
+    <p class="meta">📅 FECHA: 07/11/2026 · Hora: 11:46:21</p>
+    <p>Tutorial con fines educativos y de divulgación, basado en la app Calculadora MODULAR STUDIO.</p>
+    <p><i>Fiat iustitia, ruat caelum.</i></p>
+  </div>
+</section>
+</main>
+
+<footer>
+  📚 Tutorial solo con fines Educativos y Divulgación<br>
+  👨‍💻 Créditos: Rubén Sbarsky<br>
+  📅 FECHA: 07/11/2026<br>
+  Hora: 11:46:21<br>
+  Fiat iustitia, ruat caelum.
+</footer>
+
+<button class="fab" id="fh" aria-label="Ir a INICIO">🏠</button>
+<button class="fab" id="ft" aria-label="Ir al principio de la pestaña">↑</button>
+
+<template id="svgT"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Animación: un mueble se convierte en una lista de piezas">
+<defs><linearGradient id="g__ID__" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b1530"/><stop offset="1" stop-color="#070b16"/></linearGradient></defs>
+<rect width="640" height="360" fill="url(#g__ID__)"/>
+<path d="M0 90H640M0 180H640M0 270H640M160 0V360M320 0V360M480 0V360" stroke="#1e3a5f" stroke-width="1" opacity=".45"/>
+<g font-family="Segoe UI,system-ui,sans-serif">
+<text x="24" y="38" fill="#00d4ff" font-size="24" font-weight="700">MODULAR STUDIO</text>
+<text x="24" y="72" fill="#9fb0c8" font-size="16">1000 mm</text>
+<rect x="24" y="84" width="240" height="168" rx="6" fill="#0f172a" stroke="#00d4ff" stroke-width="2"><animate attributeName="stroke-opacity" values="1;.35;1" dur="4s" repeatCount="indefinite"/></rect>
+<rect x="30" y="90" width="108" height="156" rx="4" fill="#a855f7" fill-opacity=".25" stroke="#a855f7"/>
+<line x1="144" y1="84" x2="144" y2="252" stroke="#22c55e" stroke-width="3"/>
+<rect x="150" y="90" width="108" height="48" rx="4" fill="#f59e0b" fill-opacity=".22" stroke="#f59e0b"/>
+<rect x="150" y="141" width="108" height="48" rx="4" fill="#f59e0b" fill-opacity=".22" stroke="#f59e0b"/>
+<rect x="150" y="192" width="108" height="48" rx="4" fill="#f59e0b" fill-opacity=".22" stroke="#f59e0b"/>
+<rect x="24" y="76" width="3" height="184" fill="#00d4ff" opacity=".85"><animate attributeName="x" values="24;261;24" dur="8s" repeatCount="indefinite"/></rect>
+<rect x="340" y="64" width="280" height="236" rx="10" fill="#0f172a" stroke="#1e3a5f"/>
+<text x="356" y="88" fill="#9fb0c8" font-size="16" font-weight="700" letter-spacing="2">DESPIECE</text>
+<g opacity="0"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.26;.30;.92;1" dur="8s" repeatCount="indefinite"/><rect x="348" y="100" width="264" height="40" rx="8" fill="#0b1224" stroke="#00d4ff"/><text x="364" y="127" fill="#e8eefc" font-size="21" font-weight="700">2×  720×550</text><text x="520" y="127" fill="#00d4ff" font-size="16">Lateral</text></g>
+<g opacity="0"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.40;.44;.92;1" dur="8s" repeatCount="indefinite"/><rect x="348" y="146" width="264" height="40" rx="8" fill="#0b1224" stroke="#f59e0b"/><text x="364" y="173" fill="#e8eefc" font-size="21" font-weight="700">1×  964×550</text><text x="520" y="173" fill="#f59e0b" font-size="16">Piso</text></g>
+<g opacity="0"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.54;.58;.92;1" dur="8s" repeatCount="indefinite"/><rect x="348" y="192" width="264" height="40" rx="8" fill="#0b1224" stroke="#22c55e"/><text x="364" y="219" fill="#e8eefc" font-size="21" font-weight="700">1×  684×550</text><text x="520" y="219" fill="#22c55e" font-size="16">Parante</text></g>
+<g opacity="0"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.68;.72;.92;1" dur="8s" repeatCount="indefinite"/><rect x="348" y="238" width="264" height="40" rx="8" fill="#0b1224" stroke="#a855f7"/><text x="364" y="265" fill="#e8eefc" font-size="21" font-weight="700">1×  492×712</text><text x="520" y="265" fill="#a855f7" font-size="16">Puerta</text></g>
+<rect x="-17" y="-10" width="34" height="20" rx="4" fill="#00d4ff" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" path="M34 160 C140 60 280 120 365 120" keyPoints="0;0;1;1" keyTimes="0;.08;.26;1" calcMode="linear"/><animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;.08;.09;.26;.27;1" dur="8s" repeatCount="indefinite"/></rect>
+<rect x="-17" y="-10" width="34" height="20" rx="4" fill="#f59e0b" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" path="M120 240 C200 220 300 170 365 166" keyPoints="0;0;1;1" keyTimes="0;.22;.40;1" calcMode="linear"/><animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;.22;.23;.40;.41;1" dur="8s" repeatCount="indefinite"/></rect>
+<rect x="-17" y="-10" width="34" height="20" rx="4" fill="#22c55e" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" path="M144 160 C230 170 300 215 365 212" keyPoints="0;0;1;1" keyTimes="0;.36;.54;1" calcMode="linear"/><animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;.36;.37;.54;.55;1" dur="8s" repeatCount="indefinite"/></rect>
+<rect x="-17" y="-10" width="34" height="20" rx="4" fill="#a855f7" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" path="M84 120 C180 300 300 270 365 258" keyPoints="0;0;1;1" keyTimes="0;.50;.68;1" calcMode="linear"/><animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;.50;.51;.68;.69;1" dur="8s" repeatCount="indefinite"/></rect>
+<text x="320" y="338" text-anchor="middle" fill="#9fb0c8" font-size="18">Módulo → piezas → orden de corte</text>
+</g></svg></template>
+
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)},$$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
+var T=$$('.tab'),N=T.length,cur=0,mc=0,tpl=$('#svgT').innerHTML;
+function svgStr(){return tpl.replace(/__ID__/g,'m'+(++mc))}
+function mount(box){
+  if(!box)return;
+  box.innerHTML=svgStr();
+  var s=box.querySelector('svg');
+  try{s.setCurrentTime(0);s.unpauseAnimations()}catch(e){}
+  setTimeout(function(){
+    try{ if(box.querySelector('svg')===s&&s.getCurrentTime()<0.5){
+      box.innerHTML='<img alt="Animación: un mueble se convierte en una lista de piezas" src="data:image/svg+xml;utf8,'+encodeURIComponent(svgStr())+'">';
+    } }catch(e){}
+  },1500);
+}
+/* barra de pestañas e índice */
+var tabs=$('#tabs'),dl=$('#dl');
+T.forEach(function(t,i){
+  var b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.textContent=t.dataset.s;b.dataset.g=i;tabs.appendChild(b);
+  var d=document.createElement('button');d.type='button';d.textContent=t.dataset.t;d.dataset.g=i;dl.appendChild(d);
+  var p=document.createElement('div');p.className='pager';
+  p.innerHTML=(i>0?'<button type="button" data-g="'+(i-1)+'">← Anterior<small>'+T[i-1].dataset.t+'</small></button>':'')+(i<N-1?'<button type="button" class="nx" data-g="'+(i+1)+'">Siguiente →<small>'+T[i+1].dataset.t+'</small></button>':'');
+  t.appendChild(p);
+});
+function center(){var b=$('#tabs button.on');if(!b)return;tabs.scrollTo({left:b.offsetLeft-(tabs.clientWidth-b.offsetWidth)/2,behavior:'smooth'})}
+function drawer(o){$('#dr').classList.toggle('on',o);$('#bk').classList.toggle('on',o);document.documentElement.style.overflow=o?'hidden':''}
+function bar(){var h=document.documentElement,m=h.scrollHeight-innerHeight;$('#bar').style.width=(m>0?Math.min(100,scrollY/m*100):0)+'%'}
+function show(i){
+  i=Math.max(0,Math.min(N-1,i));cur=i;
+  T.forEach(function(t,k){t.classList.toggle('on',k===i)});
+  $$('#tabs button,#dl button').forEach(function(b){b.classList.toggle('on',+b.dataset.g===i)});
+  if(i===0||i===N-1)mount($('#hero'+i));
+  drawer(false);window.scrollTo(0,0);center();bar();
+}
+document.addEventListener('click',function(e){
+  var g=e.target.closest('[data-g]');if(g){show(+g.dataset.g);return}
+  var li=e.target.closest('.steps li');if(li&&!e.target.closest('a,button,summary,input,select,details'))li.classList.toggle('done');
+});
+$('#idx').onclick=function(){drawer(true)};$('#dx').onclick=function(){drawer(false)};$('#bk').onclick=function(){drawer(false)};
+document.addEventListener('keydown',function(e){if(e.key==='Escape')drawer(false)});
+addEventListener('scroll',bar,{passive:true});
+/* red de seguridad del SVG */
+setInterval(function(){[0,N-1].forEach(function(i){if(cur===i){var b=$('#hero'+i);if(!b.querySelector('svg,img'))mount(b)}})},2000);
+addEventListener('beforeprint',function(){mount($('#hero0'));mount($('#hero'+(N-1)))});
+/* enlaces externos */
+$$('a[href^="http"]').forEach(function(a){a.target='_blank';a.rel='noopener noreferrer';var b=document.createElement('button');b.type='button';b.className='ob';b.textContent='Abrir en otra Ventana';b.onclick=function(){window.open(a.href,'_blank','noopener,noreferrer')};a.after(b)});
+/* botones flotantes movibles */
+function fab(el,act,key,dy){
+  var pos=null;try{pos=JSON.parse(localStorage.getItem(key))}catch(e){}
+  if(!pos||typeof pos.x!=='number')pos={x:innerWidth-64,y:innerHeight-dy};
+  function place(){pos.x=Math.min(Math.max(4,pos.x),innerWidth-el.offsetWidth-4);pos.y=Math.min(Math.max(66,pos.y),innerHeight-el.offsetHeight-4);el.style.left=pos.x+'px';el.style.top=pos.y+'px'}
+  var sx,sy,ox,oy,mv=false,id=null;
+  el.addEventListener('pointerdown',function(e){id=e.pointerId;try{el.setPointerCapture(id)}catch(x){}sx=e.clientX;sy=e.clientY;ox=pos.x;oy=pos.y;mv=false});
+  el.addEventListener('pointermove',function(e){if(id!==e.pointerId)return;var dx=e.clientX-sx,dy2=e.clientY-sy;if(!mv&&Math.hypot(dx,dy2)>8)mv=true;if(mv){pos.x=ox+dx;pos.y=oy+dy2;place()}});
+  el.addEventListener('pointerup',function(e){if(id!==e.pointerId)return;id=null;if(mv){try{localStorage.setItem(key,JSON.stringify(pos))}catch(x){}}else act()});
+  el.addEventListener('pointercancel',function(){id=null});
+  el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();act()}});
+  addEventListener('resize',place);place();
+}
+fab($('#fh'),function(){show(0)},'ms_fh',136);
+fab($('#ft'),function(){window.scrollTo({top:0,behavior:'smooth'})},'ms_ft',76);
+/* simulador */
+function sim(){
+  var A=+$('#sA').value||0,E=+$('#sE').value,d=+$('#sD').value,v=Math.floor((A-2*E-d*E)/(d+1)),c=v-26-2*E,ok=v>=150&&c>=50;
+  $('#sO').innerHTML='<div>Vano<b>'+(ok?v:'—')+'</b></div><div>Estante (vano−2)<b>'+(ok?v-2:'—')+'</b></div><div>Caja cajón (vano−26)<b>'+(ok?v-26:'—')+'</b></div><div>Contrafrente<b>'+(ok?c:'—')+'</b></div>';
+}
+['sA','sE','sD'].forEach(function(i){$('#'+i).addEventListener('input',sim)});sim();
+show(0);
+})();
+</script>
+</body>
+</html>
