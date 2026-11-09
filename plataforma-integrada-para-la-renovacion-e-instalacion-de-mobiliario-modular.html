@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Plataforma Mobiliario Modular - Presentación Ejecutiva</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        display: ['"Syne"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            gold: '#f59e0b',
+                            amber: '#d97706',
+                            cyan: '#06b6d4',
+                            dark: '#090d16',
+                            card: '#111827',
+                            border: '#1f2937'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+        html, body {
+            background-color: #090d16;
+            color: #f3f4f6;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+        /* Optimizado para fluidez máxima en Samsung Galaxy A02s (720x1600) */
+        .agency-card {
+            background: linear-gradient(145deg, rgba(24, 33, 50, 0.92), rgba(15, 21, 35, 0.96));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+        .agency-gradient-text {
+            background: linear-gradient(90deg, #fbbf24 0%, #38bdf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gold-pill {
+            background: rgba(245, 158, 11, 0.14);
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            color: #fcd34d;
+        }
+        .cyan-pill {
+            background: rgba(6, 182, 212, 0.14);
+            border: 1px solid rgba(6, 182, 212, 0.35);
+            color: #67e8f9;
+        }
+        /* Draggable Floating Buttons */
+        .draggable-fab {
+            position: fixed;
+            z-index: 60;
+            touch-action: none;
+            user-select: none;
+            cursor: grab;
+            transition: transform 0.12s ease, box-shadow 0.2s ease;
+        }
+        .draggable-fab:active {
+            cursor: grabbing;
+            transform: scale(1.07);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090d16;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #374151;
+            border-radius: 9999px;
+        }
+        .tab-fade {
+            animation: tabEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        /* Barra de pestañas deslizable estilo App Premium */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        @keyframes tabEnter {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950">
+
+    <!-- TOP NAVIGATION BAR (STICKY) + VISIBLE HORIZONTAL TAB MENU -->
+    <header class="sticky top-0 z-40 bg-[#090d16]/95 border-b border-white/10 backdrop-blur-md shadow-xl">
+        <div class="max-w-3xl mx-auto px-3.5 py-2.5 flex items-center justify-between gap-2">
+            <!-- Sandwich Menu Button -->
+            <button id="menuBtn" onclick="toggleDrawer(true)" aria-label="Abrir Índice de Pestañas" class="flex items-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-amber-500/20 to-amber-600/10 hover:bg-amber-500/30 border border-amber-400/40 text-amber-300 font-extrabold text-xs sm:text-sm active:scale-95 transition shadow-sm">
+                <svg class="w-5 h-5 text-amber-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h12"></path>
+                </svg>
+                <span>☰ ÍNDICE (19)</span>
+            </button>
+
+            <!-- Current Section Indicator -->
+            <div class="flex flex-col items-center text-center overflow-hidden px-1">
+                <span id="topStepBadge" class="text-[10px] font-bold uppercase tracking-widest text-cyan-400">PESTAÑA 1 DE 19</span>
+                <span id="topStepTitle" class="text-xs font-semibold text-slate-200 truncate max-w-[135px] sm:max-w-xs">INICIO</span>
+            </div>
+
+            <!-- Timestamp Pill -->
+            <div class="text-right bg-slate-900/90 border border-white/10 rounded-lg px-2 py-1 shrink-0">
+                <div class="text-[10px] font-bold text-amber-400 tracking-wider">05/11/2026</div>
+                <div class="text-[9px] text-slate-400 font-mono">22:28:03</div>
+            </div>
+        </div>
+
+        <!-- BARRA VISIBLE DE PESTAÑAS (DESLIZABLE EN MÓVIL) -->
+        <div class="border-t border-white/10 bg-[#0c1322]">
+            <div class="max-w-3xl mx-auto flex items-center">
+                <!-- Scroll Left Helper Button -->
+                <button onclick="scrollTabBar(-180)" aria-label="Deslizar pestañas a la izquierda" class="px-2 py-2.5 text-slate-400 hover:text-amber-400 bg-slate-950/80 border-r border-white/10 shrink-0 active:scale-90">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </button>
+
+                <!-- Horizontal Tabs Strip -->
+                <nav id="horizontalTabBar" role="tablist" aria-label="Menú de Pestañas del Tutorial" class="flex-1 flex items-center gap-1.5 overflow-x-auto no-scrollbar px-2.5 py-2 scroll-smooth">
+                    <!-- Se rellena dinámicamente con las 19 pestañas -->
+                </nav>
+
+                <!-- Scroll Right Helper Button -->
+                <button onclick="scrollTabBar(180)" aria-label="Deslizar pestañas a la derecha" class="px-2 py-2.5 text-slate-400 hover:text-amber-400 bg-slate-950/80 border-l border-white/10 shrink-0 active:scale-90">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-full h-1 bg-slate-900">
+            <div id="progressBar" class="h-full bg-gradient-to-r from-amber-500 via-amber-400 to-cyan-400 transition-all duration-300" style="width: 5.26%"></div>
+        </div>
+    </header>
+
+    <!-- SANDWICH DRAWER MENU (ÍNDICE DE TODAS LAS PESTAÑAS) -->
+    <div id="drawerOverlay" onclick="toggleDrawer(false)" class="fixed inset-0 bg-black/80 z-50 hidden transition-opacity opacity-0"></div>
+    <aside id="drawerMenu" class="fixed top-0 left-0 bottom-0 w-[86%] max-w-sm bg-[#0c1220] border-r border-white/15 z-50 transform -translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="p-4 border-b border-white/10 flex items-center justify-between bg-slate-900/70">
+            <div>
+                <span class="text-[10px] font-bold uppercase tracking-widest text-amber-400 block">NAVEGACIÓN EJECUTIVA</span>
+                <h2 class="font-display font-bold text-base text-white">Índice del Tutorial (19)</h2>
+            </div>
+            <button onclick="toggleDrawer(false)" class="p-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white border border-white/10">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div class="p-3 bg-slate-950/60 border-b border-white/5 flex items-center justify-between text-xs text-slate-400">
+            <span>Selecciona cualquier pestaña:</span>
+            <span class="font-mono text-amber-400">05/11/2026 · 22:28:03</span>
+        </div>
+
+        <nav id="drawerLinks" class="flex-1 overflow-y-auto p-3 space-y-1.5">
+            <!-- Populated dynamically via JS -->
+        </nav>
+
+        <div class="p-3.5 border-t border-white/10 bg-slate-950 text-[11px] text-slate-400 flex items-center justify-between">
+            <span>Optimizado Samsung Galaxy A02s</span>
+            <span class="text-cyan-400 font-semibold">Digital Agency UI</span>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main id="mainContainer" class="flex-1 max-w-3xl w-full mx-auto px-3.5 pt-5 pb-28">
+        <div id="tabContent" class="tab-fade">
+            <!-- Dynamic Content Loaded Here -->
+        </div>
+
+        <!-- IN-PAGE SEQUENTIAL NAVIGATION FOOTER (AT THE END OF EACH TAB) -->
+        <div id="tabSequentialNav" class="mt-8 pt-5 border-t border-white/10">
+            <!-- Populated dynamically via JS -->
+        </div>
+    </main>
+
+    <!-- FIXED BOTTOM NAVIGATION BAR (ALWAYS ACCESSIBLE ON MOBILE) -->
+    <footer class="fixed bottom-0 left-0 right-0 z-30 bg-[#090d16]/95 border-t border-white/10 backdrop-blur-md px-3 py-2.5">
+        <div class="max-w-3xl mx-auto flex items-center justify-between gap-2.5">
+            <button id="fixedPrevBtn" onclick="prevTab()" class="flex-1 py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 border border-white/15 bg-slate-800/90 text-slate-200 active:scale-95 transition disabled:opacity-30 disabled:pointer-events-none">
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                <span class="truncate">Anterior</span>
+            </button>
+
+            <button onclick="toggleDrawer(true)" class="px-3 py-2.5 rounded-xl bg-slate-900 border border-amber-500/30 text-amber-400 font-bold text-xs shrink-0 active:scale-95 transition">
+                <span id="bottomCounter">1 / 19</span>
+            </button>
+
+            <button id="fixedNextBtn" onclick="nextTab()" class="flex-1 py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 shadow-lg shadow-amber-500/20 active:scale-95 transition disabled:opacity-30 disabled:pointer-events-none">
+                <span class="truncate">Próxima</span>
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+        </div>
+    </footer>
+
+    <!-- DRAGGABLE FLOATING BUTTON 1: GO TO "INICIO" -->
+    <button id="fabInicio" aria-label="Ir a Inicio (Botón móvil)" style="right: 14px; bottom: 138px;" class="draggable-fab flex items-center gap-1.5 px-3.5 py-2.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-extrabold text-xs shadow-xl shadow-black/70 border-2 border-amber-300">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+        </svg>
+        <span>INICIO</span>
+    </button>
+
+    <!-- DRAGGABLE FLOATING BUTTON 2: "ARRIBA" (START OF CURRENT TAB) -->
+    <button id="fabArriba" aria-label="Ir Arriba de la pestaña actual (Botón móvil)" style="right: 14px; bottom: 82px;" class="draggable-fab flex items-center gap-1.5 px-3.5 py-2.5 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-extrabold text-xs shadow-xl shadow-black/70 border-2 border-cyan-300">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+        <span>ARRIBA</span>
+    </button>
+
+    <script>
+        // Helper to generate compliant URL cards with explicit "Abrir en otra Ventana" button
+        function createUrlResourceCard(title, url, description) {
+            return `
+            <div class="mt-4 p-3.5 rounded-xl bg-slate-900/95 border border-cyan-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="space-y-0.5">
+                    <div class="flex items-center gap-1.5 text-cyan-400 text-xs font-bold uppercase tracking-wider">
+                        <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                        </svg>
+                        <span>${title}</span>
+                    </div>
+                    <p class="text-xs text-slate-300">${description}</p>
+                    <div class="text-[11px] font-mono text-slate-400 break-all">${url}</div>
+                </div>
+                <a href="${url}" target="_blank" rel="noopener noreferrer" class="shrink-0 inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs shadow-md transition active:scale-95">
+                    <span>Abrir en otra Ventana</span>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                    </svg>
+                </a>
+            </div>`;
+        }
+
+        // Complete 19 Tabs Data (INICIO + 18 Sections with 100% unabridged content from the Markdown file)
+        const tabsData = [
+            {
+                id: "inicio",
+                shortTitle: "INICIO",
+                badge: "PORTADA EJECUTIVA",
+                // Rule: ONLY on INICIO tab, title adds "by Rubén Sbarsky"
+                title: "PROYECTO EMPRESARIAL: Plataforma integrada para la renovación e instalación de mobiliario modular by Rubén Sbarsky",
+                content: `
+                    <div class="space-y-5">
+                        <!-- Mobile Timestamp & Luxury Badge -->
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span class="gold-pill text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Documento de Presentación Conceptual</span>
+                            <span class="cyan-pill text-[11px] font-mono px-2.5 py-1 rounded-full">05/11/2026 · 22:28:03</span>
+                        </div>
+
+                        <!-- Impact Hero Block -->
+                        <div class="agency-card rounded-2xl p-5 border-l-4 border-l-amber-400 space-y-4">
+                            <p class="text-xs font-bold uppercase tracking-widest text-amber-400">Visión de Agencia & Banca de Empresas</p>
+                            <h1 class="font-display text-2xl sm:text-3xl font-extrabold leading-tight text-white">
+                                Plataforma integrada para la renovación e instalación de mobiliario modular <span class="agency-gradient-text">by Rubén Sbarsky</span>
+                            </h1>
+                            <p class="text-sm text-slate-300 leading-relaxed">
+                                Solución integral de nueva generación que unifica inspiración con IA, suministro modular, logística, financiación en punto de venta e instalación certificada en un único interlocutor.
+                            </p>
+                        </div>
+
+                        <!-- Ficha Técnica Oficial del Documento -->
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3.5">
+                            <h2 class="text-sm font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+                                Ficha Conceptual del Proyecto
+                            </h2>
+
+                            <div class="grid grid-cols-1 gap-3 text-sm">
+                                <div class="p-3 rounded-xl bg-slate-900/90 border border-white/5">
+                                    <span class="text-xs font-semibold text-amber-400 block mb-0.5">Destinatario:</span>
+                                    <p class="text-slate-200">Analistas de entidades financieras, banca de empresas y posibles socios estratégicos.</p>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div class="p-3 rounded-xl bg-slate-900/90 border border-white/5">
+                                        <span class="text-xs font-semibold text-amber-400 block mb-0.5">Ámbito inicial:</span>
+                                        <p class="text-slate-200">Renovación de cocinas modulares.</p>
+                                    </div>
+                                    <div class="p-3 rounded-xl bg-slate-900/90 border border-white/5">
+                                        <span class="text-xs font-semibold text-amber-400 block mb-0.5">Ámbito de desarrollo:</span>
+                                        <p class="text-slate-200">Equipamiento e instalación de mobiliario para el hogar.</p>
+                                    </div>
+                                </div>
+
+                                <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30">
+                                    <span class="text-xs font-bold text-amber-300 block mb-1">Estado del documento:</span>
+                                    <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">Descripción del concepto y del modelo de negocio. No constituye un plan financiero ni una solicitud formal de financiación.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Guide to Interactive Controls -->
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Guía Interactiva del Documento</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-slate-300">
+                                <div class="p-2.5 rounded-lg bg-slate-900/80 border border-white/5 flex items-center gap-2.5">
+                                    <span class="px-2 py-1 rounded bg-amber-500 text-slate-950 font-bold">INICIO</span>
+                                    <span>Botón flotante móvil: arrástralo por la pantalla para volver aquí en cualquier momento.</span>
+                                </div>
+                                <div class="p-2.5 rounded-lg bg-slate-900/80 border border-white/5 flex items-center gap-2.5">
+                                    <span class="px-2 py-1 rounded bg-cyan-500 text-slate-950 font-bold">ARRIBA</span>
+                                    <span>Botón flotante móvil: arrástralo y púlsalo para subir al inicio de la pestaña actual.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: "sec-1",
+                shortTitle: "1. Resumen ejecutivo",
+                badge: "SECCIÓN 01",
+                title: "1. Resumen ejecutivo",
+                content: `
+                    <div class="space-y-4 text-sm sm:text-base leading-relaxed text-slate-200">
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3.5">
+                            <p>El proyecto propone crear una empresa de nueva generación dedicada a comercializar y coordinar soluciones completas de renovación e instalación de mobiliario modular para el hogar.</p>
+                            <p>La propuesta parte de una observación sencilla: cuando una persona decide renovar su cocina, normalmente debe resolver por separado varias cuestiones: elegir los muebles, encontrar un proveedor, comprobar que la configuración sea viable, organizar el transporte, retirar el mobiliario antiguo, localizar instaladores, coordinar los trabajos y gestionar los pagos. Si necesita financiación, debe buscarla además por otro canal.</p>
+                            <p>La empresa pretende reunir esas necesidades en una única experiencia comercial y operativa. El cliente no tendría que comprar muebles por un lado y buscar después quién los instale. Encontraría un servicio coordinado que le acompaña desde la primera idea hasta la entrega de la cocina terminada.</p>
+                            <p>La actividad comenzaría con la renovación integral de cocinas mediante mobiliario modular: retirada de los muebles existentes, suministro del nuevo mobiliario y montaje e instalación. Las cocinas constituyen el primer ámbito de entrada, no el límite definitivo del proyecto. Una vez validado el modelo, podría extenderse a armarios, vestidores, baños, dormitorios, salones, oficinas y otras categorías de mobiliario modular.</p>
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <h3 class="font-display font-bold text-base sm:text-lg text-amber-400">El elemento diferencial</h3>
+                            <p class="text-sm text-slate-300">El elemento diferencial no reside únicamente en instalar muebles. Reside en diseñar una estructura comercial y operativa que combine:</p>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/80 border border-white/5">
+                                    <span class="text-amber-400 font-bold">•</span>
+                                    <span>Relación directa con el cliente final.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/80 border border-white/5">
+                                    <span class="text-amber-400 font-bold">•</span>
+                                    <span>Una oferta sencilla de entender y contratar.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/80 border border-white/5">
+                                    <span class="text-amber-400 font-bold">•</span>
+                                    <span>Visualización previa del resultado mediante herramientas de inteligencia artificial.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/80 border border-white/5">
+                                    <span class="text-amber-400 font-bold">•</span>
+                                    <span>Acceso a productos de fabricantes y distribuidores existentes.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/80 border border-white/5">
+                                    <span class="text-amber-400 font-bold">•</span>
+                                    <span>Coordinación de transporte, retirada e instalación.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/80 border border-white/5">
+                                    <span class="text-amber-400 font-bold">•</span>
+                                    <span>Posibilidad de ofrecer financiación a través de entidades financieras colaboradoras.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/80 border border-white/5">
+                                    <span class="text-amber-400 font-bold">•</span>
+                                    <span>Una estructura digital apoyada en inteligencia artificial para gestionar la actividad comercial y administrativa de forma continua.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/80 border border-white/5">
+                                    <span class="text-amber-400 font-bold">•</span>
+                                    <span>Una red de instaladores que pueda ampliarse progresivamente.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="p-4 rounded-2xl bg-gradient-to-r from-amber-500/20 to-cyan-500/20 border border-amber-400/40 text-center">
+                            <p class="text-sm sm:text-base font-medium text-white">
+                                La intención es construir una empresa que venda <strong class="text-amber-300 font-extrabold">soluciones terminadas</strong>, y no solamente muebles o horas de mano de obra.
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: "sec-2",
+                shortTitle: "2. La oportunidad",
+                badge: "SECCIÓN 02",
+                title: "2. La oportunidad: una necesidad conocida, una experiencia fragmentada",
+                content: `
+                    <div class="space-y-4 text-sm sm:text-base leading-relaxed text-slate-200">
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3.5">
+                            <p>La renovación de una cocina es una necesidad reconocible para el consumidor. El cliente sabe cuándo su cocina está anticuada, deteriorada, mal aprovechada o ha dejado de responder a sus necesidades. No es necesario crear desde cero el deseo de renovar el espacio.</p>
+                            <p>Existe una oferta consolidada de fabricantes, distribuidores, grandes superficies y profesionales especializados. Empresas como IKEA y otros operadores del sector han contribuido a familiarizar al público con el mobiliario modular y con soluciones de equipamiento del hogar.</p>
+                            <p>Sin embargo, para el consumidor la experiencia puede seguir estando fragmentada. La compra del mobiliario, la configuración, el transporte, la retirada de los muebles antiguos y la instalación pueden depender de distintos interlocutores, condiciones y calendarios.</p>
+                            <p class="font-semibold text-cyan-300">El proyecto identifica una oportunidad en organizar esa experiencia alrededor de una sola relación comercial.</p>
+                            ${createUrlResourceCard("Referencia del Sector Modular (IKEA España)", "https://www.ikea.com/es/es/rooms/kitchen/", "Ejemplo público de soluciones de equipamiento y sistemas de cocinas modulares en el mercado.")}
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <h3 class="font-display font-bold text-base sm:text-lg text-amber-400">El problema que queremos resolver</h3>
+                            <p class="text-sm text-slate-300">El cliente puede encontrarse con:</p>
+                            <ol class="space-y-2 text-sm">
+                                <li class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-xs shrink-0">1</span>
+                                    <span>Dificultad para imaginar cómo quedará su cocina una vez renovada.</span>
+                                </li>
+                                <li class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-xs shrink-0">2</span>
+                                    <span>Incertidumbre sobre qué muebles necesita y si encajarán en el espacio.</span>
+                                </li>
+                                <li class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-xs shrink-0">3</span>
+                                    <span>Necesidad de comparar productos y proveedores.</span>
+                                </li>
+                                <li class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-xs shrink-0">4</span>
+                                    <span>Dificultad para encontrar instaladores fiables y disponibles.</span>
+                                </li>
+                                <li class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-xs shrink-0">5</span>
+                                    <span>Coordinación de entregas, retirada y montaje.</span>
+                                </li>
+                                <li class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-xs shrink-0">6</span>
+                                    <span>Presupuestos y responsabilidades repartidos entre distintos proveedores.</span>
+                                </li>
+                                <li class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-xs shrink-0">7</span>
+                                    <span>Ausencia de una solución de financiación integrada en el proceso de compra.</span>
+                                </li>
+                            </ol>
+                            <p class="pt-2 text-sm text-slate-200 border-t border-white/10">
+                                La empresa aspira a reducir esa fricción: menos gestiones para el cliente, una propuesta más clara y un único interlocutor responsable de coordinar el servicio contratado.
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: "sec-3",
+                shortTitle: "3. La propuesta de valor",
+                badge: "SECCIÓN 03",
+                title: "3. La propuesta de valor",
+                content: `
+                    <div class="space-y-4 text-sm sm:text-base leading-relaxed text-slate-200">
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3.5">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-400">La propuesta puede resumirse así:</p>
+                            <blockquote class="p-4 rounded-xl bg-gradient-to-br from-amber-500/15 to-cyan-500/10 border-l-4 border-amber-400 text-white font-semibold text-sm sm:text-base">
+                                «El cliente imagina la renovación de su cocina. La empresa le ayuda a visualizarla, configura una solución viable y coordina el suministro, la retirada del mobiliario antiguo y la instalación del nuevo. Todo desde un único punto de contacto.»
+                            </blockquote>
+                            <p>La empresa no pretende limitarse a vender muebles ni a ofrecer un servicio de montaje aislado. Pretende comercializar el resultado completo.</p>
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <h3 class="font-display font-bold text-base sm:text-lg text-amber-400">Beneficios para el cliente</h3>
+                            <div class="grid grid-cols-1 gap-2.5 text-sm">
+                                <div class="p-3 rounded-xl bg-slate-900/90 border border-white/5">
+                                    <strong class="text-amber-300">Simplicidad:</strong> un único interlocutor para organizar las distintas partes del proyecto.
+                                </div>
+                                <div class="p-3 rounded-xl bg-slate-900/90 border border-white/5">
+                                    <strong class="text-amber-300">Claridad:</strong> alcance, condiciones, exclusiones y responsabilidades explicadas antes de contratar.
+                                </div>
+                                <div class="p-3 rounded-xl bg-slate-900/90 border border-white/5">
+                                    <strong class="text-amber-300">Visualización:</strong> posibilidad de ver propuestas de renovación antes de tomar una decisión.
+                                </div>
+                                <div class="p-3 rounded-xl bg-slate-900/90 border border-white/5">
+                                    <strong class="text-amber-300">Accesibilidad:</strong> distintas configuraciones y niveles de producto, con precios transparentes.
+                                </div>
+                                <div class="p-3 rounded-xl bg-slate-900/90 border border-white/5">
+                                    <strong class="text-amber-300">Comodidad:</strong> coordinación del suministro, transporte, retirada e instalación.
+                                </div>
+                                <div class="p-3 rounded-xl bg-slate-900/90 border border-white/5">
+                                    <strong class="text-amber-300">Financiación opcional:</strong> posibilidad de solicitar financiación mediante una entidad colaboradora, sujeta a aprobación y condiciones.
+                                </div>
+                                <div class="p-3 rounded-xl bg-slate-900/90 border border-white/5">
+                                    <strong class="text-amber-300">Continuidad:</strong> seguimiento desde la primera consulta hasta la entrega y la atención posterior.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <h3 class="font-display font-bold text-base sm:text-lg text-cyan-400">Qué se vende</h3>
+                            <p>La unidad comercial principal no es el mueble individual ni la hora de montaje. Es el <strong class="text-white">proyecto de renovación instalado y entregado</strong>, definido según las características reales de cada vivienda.</p>
+                            <p>La empresa podrá presentar ofertas de referencia para configuraciones tipo, siempre con un alcance claramente delimitado. Cuando las dimensiones, distribución o condiciones del inmueble no encajen en esas configuraciones, se elaborará una propuesta específica.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: "sec-4",
+                shortTitle: "4. El primer producto",
+                badge: "SECCIÓN 04",
+                title: "4. El primer producto: renovación integral de cocinas",
+                content: `
+                    <div class="space-y-4 text-sm sm:text-base leading-relaxed text-slate-200">
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <p>La primera oferta comercial se centrará en renovar cocinas mediante mobiliario modular.</p>
+                            <p class="font-semibold text-amber-300">El alcance básico previsto comprende:</p>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/80 border border-white/5">
+                                    <span class="text-cyan-400 font-bold">✓</span>
+                                    <span>Retirada de los muebles antiguos.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/80 border border-white/5">
+                                    <span class="text-cyan-400 font-bold">✓</span>
+                                    <span>Suministro de los nuevos muebles modulares.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/80 border border-white/5">
+                                    <span class="text-cyan-400 font-bold">✓</span>
+                                    <span>Transporte y coordinación de la entrega.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/80 border border-white/5">
+                                    <span class="text-cyan-400 font-bold">✓</span>
+                                    <span>Montaje e instalación del mobiliario nuevo.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/80 border border-white/5">
+                                    <span class="text-cyan-400 font-bold">✓</span>
+                                    <span>Gestión de la retirada de los elementos antiguos, conforme a las condiciones acordadas.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/80 border border-white/5">
+                                    <span class="text-cyan-400 font-bold">✓</span>
+                                    <span>Revisión final y entrega del trabajo.</span>
+                                </li>
+                            </ul>
+                            <p class="text-xs sm:text-sm text-slate-300 pt-1">No se plantea como una oferta de pintura, vinilado, restauración o renovación superficial. El producto inicial es la sustitución del mobiliario: retirar los muebles existentes e instalar otros nuevos.</p>
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <h3 class="font-display font-bold text-base sm:text-lg text-amber-400">Una oferta fácil de comprender</h3>
+                            <p>La comunicación comercial podrá utilizar una fórmula directa, del tipo:</p>
+                            <div class="p-3.5 rounded-xl bg-amber-500/15 border border-amber-400/40 text-center font-display font-bold text-amber-300 text-base sm:text-lg">
+                                «Renueva tu cocina por un precio definido».
+                            </div>
+                            <p>Ese precio deberá corresponder a una configuración de referencia real y verificable. Antes de publicarlo habrá que definir con precisión:</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                <div class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Dimensiones y distribución incluidas.</div>
+                                <div class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Tipos y referencias de módulos.</div>
+                                <div class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Acabados y opciones.</div>
+                                <div class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Elementos incluidos y excluidos.</div>
+                                <div class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Transporte y condiciones de acceso.</div>
+                                <div class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Retirada y gestión de los muebles antiguos.</div>
+                                <div class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Alcance exacto del montaje.</div>
+                                <div class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Trabajos que requieren profesionales externos o habilitaciones específicas.</div>
+                                <div class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5 sm:col-span-2">• Condiciones de pago, plazos y garantías.</div>
+                            </div>
+                            <p class="text-sm text-slate-300 pt-2">La oferta de referencia funcionará como una puerta de entrada comercial. No sustituirá la visita, medición y comprobación necesarias para presupuestar cada cocina.</p>
+                            <div class="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-xs sm:text-sm text-rose-200">
+                                Los trabajos de electricidad, gas, fontanería u otras instalaciones reguladas no se asumirán sin la intervención de profesionales debidamente habilitados cuando corresponda.
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: "sec-5",
+                shortTitle: "5. Visualizar antes de comprar",
+                badge: "SECCIÓN 05",
+                title: "5. Una experiencia comercial diferente: visualizar antes de comprar",
+                content: `
+                    <div class="space-y-4 text-sm sm:text-base leading-relaxed text-slate-200">
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <p>Uno de los componentes más atractivos del modelo es incorporar una experiencia digital de visualización de la futura cocina.</p>
+                            <p>La empresa podrá disponer de una página o aplicación propia, con su marca e identidad visual, desde la que el cliente pueda iniciar el proceso.</p>
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <h3 class="font-display font-bold text-base sm:text-lg text-amber-400">Cómo funcionaría</h3>
+                            <ol class="space-y-2 text-sm">
+                                <li class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold text-xs shrink-0">1</span>
+                                    <span>El cliente contacta con la empresa o solicita una visita.</span>
+                                </li>
+                                <li class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold text-xs shrink-0">2</span>
+                                    <span>Se obtienen fotografías de la cocina actual y se recogen sus preferencias.</span>
+                                </li>
+                                <li class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold text-xs shrink-0">3</span>
+                                    <span>Se identifican necesidades, estilo deseado, limitaciones y expectativas.</span>
+                                </li>
+                                <li class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold text-xs shrink-0">4</span>
+                                    <span>Mediante herramientas de inteligencia artificial se generan propuestas visuales de cómo podría quedar el espacio con una nueva configuración.</span>
+                                </li>
+                                <li class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold text-xs shrink-0">5</span>
+                                    <span>El cliente puede explorar alternativas de estilo, colores y distribución.</span>
+                                </li>
+                                <li class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold text-xs shrink-0">6</span>
+                                    <span>Se realiza la visita técnica y se comprueban las medidas y condiciones reales.</span>
+                                </li>
+                                <li class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold text-xs shrink-0">7</span>
+                                    <span>La propuesta visual se convierte en una configuración basada en módulos y productos concretos.</span>
+                                </li>
+                                <li class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold text-xs shrink-0">8</span>
+                                    <span>Se prepara el presupuesto definitivo y se presenta la opción de financiación, si procede.</span>
+                                </li>
+                            </ol>
+                            <p class="text-sm text-slate-300 pt-1">La visita presencial puede ser especialmente valiosa: permite conocer al cliente, entender qué quiere conseguir, tomar fotografías desde distintos ángulos, medir y detectar condicionantes que no aparecen en una imagen.</p>
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <h3 class="font-display font-bold text-base sm:text-lg text-cyan-400">La diferencia entre visualizar y proyectar</h3>
+                            <p>La inteligencia artificial permite producir imágenes comerciales atractivas, pero una imagen generada no es un plano técnico ni garantiza que los muebles representados existan o encajen en la vivienda.</p>
+                            <p>Por eso, el proceso separará dos fases:</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                                <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30">
+                                    <strong class="text-amber-300 block mb-1">Visualización comercial:</strong>
+                                    <span>ayuda al cliente a imaginar posibilidades y tomar decisiones.</span>
+                                </div>
+                                <div class="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
+                                    <strong class="text-cyan-300 block mb-1">Validación técnica:</strong>
+                                    <span>confirma medidas, referencias, módulos, compatibilidades, instalaciones y viabilidad del proyecto.</span>
+                                </div>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-300">Esta distinción es esencial para evitar expectativas incorrectas y convertir una herramienta de inspiración en un proceso de venta responsable.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: "sec-6",
+                shortTitle: "6. El modelo de negocio",
+                badge: "SECCIÓN 06",
+                title: "6. El modelo de negocio: integrar piezas que hoy suelen estar separadas",
+                content: `
+                    <div class="space-y-4 text-sm sm:text-base leading-relaxed text-slate-200">
+                        <p class="text-slate-300">El modelo se apoya en la coordinación de cuatro elementos principales:</p>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-2.5 border-l-4 border-l-amber-400">
+                            <h3 class="font-display font-bold text-base sm:text-lg text-amber-400">6.1. Clientes</h3>
+                            <p>La empresa busca establecer una relación directa con el consumidor final. El objetivo es reducir la dependencia de intermediarios comerciales y construir una marca propia que genere consultas, convierta oportunidades y mantenga la relación con el cliente.</p>
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-2.5 border-l-4 border-l-cyan-400">
+                            <h3 class="font-display font-bold text-base sm:text-lg text-cyan-400">6.2. Fabricantes y distribuidores</h3>
+                            <p>La empresa no necesita fabricar los muebles. Puede trabajar con productos y sistemas modulares disponibles en el mercado, seleccionando proveedores según precio, calidad, disponibilidad, variedad, condiciones de suministro y compatibilidad con el servicio.</p>
+                            <p class="text-xs sm:text-sm text-slate-300 bg-slate-900/90 p-3 rounded-xl border border-white/5">IKEA es un ejemplo conocido de la categoría de producto que puede interesar al consumidor, pero su mención no implica que exista una alianza, autorización comercial o acuerdo con esa empresa. Cualquier relación con fabricantes o distribuidores deberá establecerse y verificarse de manera independiente.</p>
+                            <p>La estrategia consiste en aprovechar un ecosistema de productos existente y organizar una experiencia de compra e instalación alrededor de él.</p>
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-2.5 border-l-4 border-l-emerald-400">
+                            <h3 class="font-display font-bold text-base sm:text-lg text-emerald-400">6.3. Instaladores</h3>
+                            <p>La instalación es una parte esencial del producto final. En la fase inicial, la actividad podrá apoyarse en capacidad propia y en colaboradores profesionales cuando sea necesario.</p>
+                            <p>A medida que exista demanda suficiente, el modelo podrá incorporar una red de instaladores externos seleccionados y verificados. La empresa conservaría la relación comercial con el cliente y establecería criterios de calidad, alcance, coordinación, comunicación y resolución de incidencias.</p>
+                            <p>La ampliación de la red no debe producirse a costa de perder el control de la experiencia. La calidad de la instalación y el cumplimiento de lo contratado son parte de la reputación de la marca.</p>
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-2.5 border-l-4 border-l-purple-400">
+                            <h3 class="font-display font-bold text-base sm:text-lg text-purple-400">6.4. Entidades financieras</h3>
+                            <p>La financiación puede incorporarse al proceso de compra como una opción para los clientes que prefieran distribuir el coste en el tiempo.</p>
+                            <p>La empresa no pretende convertirse inicialmente en prestamista ni financiar las compras con recursos propios. La intención es colaborar con una entidad financiera que evalúe las solicitudes y conceda, o no, el crédito conforme a sus propios criterios.</p>
+                            <p>La financiación sería una pieza integrada en la experiencia comercial, pero la decisión crediticia y las condiciones corresponderían a la entidad financiera.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: "sec-7",
+                shortTitle: "7. La financiación",
+                badge: "SECCIÓN 07",
+                title: "7. La financiación como parte de la experiencia de compra",
+                content: `
+                    <div class="space-y-4 text-sm sm:text-base leading-relaxed text-slate-200">
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <p>Para determinados clientes, la posibilidad de financiar una renovación puede ser decisiva. Por ello, el proyecto considera la financiación un componente estratégico del modelo, no un añadido secundario.</p>
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <h3 class="font-display font-bold text-base sm:text-lg text-amber-400">Funcionamiento conceptual</h3>
+                            <ol class="space-y-2 text-sm">
+                                <li class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-xs shrink-0">1</span>
+                                    <span>El cliente recibe una propuesta completa y un precio definido.</span>
+                                </li>
+                                <li class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-xs shrink-0">2</span>
+                                    <span>Si lo desea, solicita financiación a través del canal habilitado.</span>
+                                </li>
+                                <li class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-xs shrink-0">3</span>
+                                    <span>La entidad financiera realiza sus comprobaciones y evaluación de solvencia.</span>
+                                </li>
+                                <li class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-xs shrink-0">4</span>
+                                    <span>Si la operación se aprueba, el cliente acepta las condiciones ofrecidas por la entidad.</span>
+                                </li>
+                                <li class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-xs shrink-0">5</span>
+                                    <span>La empresa ejecuta el suministro y el servicio conforme al contrato comercial.</span>
+                                </li>
+                                <li class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-xs shrink-0">6</span>
+                                    <span>La liquidación al comercio se produce según el acuerdo establecido con la entidad financiera.</span>
+                                </li>
+                                <li class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-xs shrink-0">7</span>
+                                    <span>El cliente atiende sus obligaciones de pago frente a la entidad financiadora.</span>
+                                </li>
+                            </ol>
+                            <p class="text-xs sm:text-sm text-amber-200/90 bg-amber-500/10 p-3 rounded-xl border border-amber-500/25">
+                                La empresa no debe prometer que todas las solicitudes serán aprobadas, ni presentar la financiación como gratuita si existen costes o condiciones que deban explicarse.
+                            </p>
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <h3 class="font-display font-bold text-base sm:text-lg text-cyan-400">Aspectos que deberán acordarse con la entidad financiera</h3>
+                            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                <li class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Requisitos de acceso y condiciones para el comercio.</li>
+                                <li class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Importe mínimo y máximo financiable.</li>
+                                <li class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Plazos y modalidades disponibles.</li>
+                                <li class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Comisiones y costes para el establecimiento.</li>
+                                <li class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Posibilidad y coste de promociones especiales.</li>
+                                <li class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Calendario y forma de liquidación al comercio.</li>
+                                <li class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Tratamiento de devoluciones, cancelaciones e incidencias.</li>
+                                <li class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Integración digital del proceso.</li>
+                                <li class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Documentación, información precontractual y responsabilidades de cada parte.</li>
+                                <li class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Papel jurídico de la empresa en la presentación o intermediación de financiación.</li>
+                            </ul>
+                            <p class="text-xs sm:text-sm text-slate-300 pt-2">El encaje regulatorio deberá revisarse antes de poner el sistema en funcionamiento. La actividad de un comercio que facilita acceso a financiación puede tener obligaciones distintas de las de un intermediario de crédito. La estructura concreta deberá definirse con la entidad colaboradora y asesoramiento especializado.</p>
+                            ${createUrlResourceCard("Portal Cliente Bancario - Banco de España", "https://clientebancario.bde.es", "Información normativa y buenas prácticas sobre financiación al consumo y transparencia precontractual.")}
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: "sec-8",
+                shortTitle: "8. Inteligencia artificial",
+                badge: "SECCIÓN 08",
+                title: "8. Inteligencia artificial: infraestructura de la empresa",
+                content: `
+                    <div class="space-y-4 text-sm sm:text-base leading-relaxed text-slate-200">
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <p>La inteligencia artificial no se plantea como un recurso publicitario ni como un elemento decorativo. Se concibe como una infraestructura transversal que permita operar con una estructura ligera y gestionar la actividad comercial de forma continua.</p>
+                            <p>La empresa pretende aprovechar herramientas existentes, conectarlas y organizarlas alrededor de procesos reales. No necesita desarrollar desde cero todos los modelos, aplicaciones o sistemas que utiliza.</p>
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3.5">
+                            <h3 class="font-display font-bold text-base sm:text-lg text-amber-400">Aplicaciones previstas</h3>
+
+                            <div class="grid grid-cols-1 gap-3 text-sm">
+                                <div class="p-3.5 rounded-xl bg-slate-900/90 border border-white/5">
+                                    <h4 class="font-bold text-cyan-300 mb-1.5">Atención y recepción de consultas</h4>
+                                    <ul class="space-y-1 text-xs sm:text-sm text-slate-300">
+                                        <li>• Responder consultas iniciales.</li>
+                                        <li>• Recoger información básica.</li>
+                                        <li>• Explicar el funcionamiento del servicio.</li>
+                                        <li>• Identificar qué necesita el cliente.</li>
+                                        <li>• Derivar los casos que requieren intervención humana.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="p-3.5 rounded-xl bg-slate-900/90 border border-white/5">
+                                    <h4 class="font-bold text-cyan-300 mb-1.5">Cualificación comercial</h4>
+                                    <ul class="space-y-1 text-xs sm:text-sm text-slate-300">
+                                        <li>• Ordenar las solicitudes recibidas.</li>
+                                        <li>• Identificar ubicación, tipo de cocina, alcance y momento previsto.</li>
+                                        <li>• Solicitar fotografías y datos preliminares.</li>
+                                        <li>• Detectar si una solicitud encaja con la oferta.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="p-3.5 rounded-xl bg-slate-900/90 border border-white/5">
+                                    <h4 class="font-bold text-cyan-300 mb-1.5">Visualización y asesoramiento</h4>
+                                    <ul class="space-y-1 text-xs sm:text-sm text-slate-300">
+                                        <li>• Ayudar a generar propuestas visuales.</li>
+                                        <li>• Explorar estilos y alternativas.</li>
+                                        <li>• Preparar materiales de presentación comercial.</li>
+                                        <li>• Mantener claramente diferenciadas las imágenes orientativas de la validación técnica.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="p-3.5 rounded-xl bg-slate-900/90 border border-white/5">
+                                    <h4 class="font-bold text-cyan-300 mb-1.5">Presupuestos y preparación de operaciones</h4>
+                                    <ul class="space-y-1 text-xs sm:text-sm text-slate-300">
+                                        <li>• Organizar datos y referencias de productos.</li>
+                                        <li>• Preparar borradores de presupuestos a partir de reglas y tarifas verificadas.</li>
+                                        <li>• Detectar información incompleta.</li>
+                                        <li>• Facilitar la preparación de visitas y mediciones.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="p-3.5 rounded-xl bg-slate-900/90 border border-white/5">
+                                    <h4 class="font-bold text-cyan-300 mb-1.5">Seguimiento comercial</h4>
+                                    <ul class="space-y-1 text-xs sm:text-sm text-slate-300">
+                                        <li>• Recordar consultas pendientes.</li>
+                                        <li>• Preparar comunicaciones.</li>
+                                        <li>• Dar seguimiento a propuestas.</li>
+                                        <li>• Registrar respuestas y motivos de aceptación o rechazo.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="p-3.5 rounded-xl bg-slate-900/90 border border-white/5">
+                                    <h4 class="font-bold text-cyan-300 mb-1.5">Gestión y análisis</h4>
+                                    <ul class="space-y-1 text-xs sm:text-sm text-slate-300">
+                                        <li>• Mantener información organizada en un CRM.</li>
+                                        <li>• Ayudar a coordinar operaciones.</li>
+                                        <li>• Analizar tiempos, incidencias y resultados.</li>
+                                        <li>• Identificar patrones de demanda y oportunidades de mejora.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <h3 class="font-display font-bold text-base sm:text-lg text-amber-400">Operación comercial continua</h3>
+                            <p>Una estructura asistida por IA puede atender y organizar consultas fuera del horario habitual. Esto permitiría que la empresa mantenga una presencia comercial continua sin necesitar una persona dedicada permanentemente a responder cada mensaje.</p>
+                            <p>La IA puede encargarse de tareas repetitivas y de preparación. Las personas seguirán siendo necesarias para las visitas, mediciones, decisiones comerciales relevantes, supervisión técnica, ejecución física, control de calidad y responsabilidad frente al cliente.</p>
+                            <p>La automatización no elimina los costes de materiales, transporte, herramientas, trabajo físico, publicidad, seguros, impuestos o gestión. Su función es reducir fricciones y costes administrativos allí donde resulte viable.</p>
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <h3 class="font-display font-bold text-base sm:text-lg text-cyan-400">Arquitectura progresiva</h3>
+                            <p>La intención es utilizar herramientas disponibles y conectarlas de forma modular. Se contempla una organización mediante agentes de IA especializados, con información compartida y procesos coordinados desde la prospección y captación hasta la venta, instalación, cobro y aprendizaje.</p>
+                            <p>No se considera imprescindible construir toda esa arquitectura antes de comenzar. Cada automatización deberá responder a una necesidad real y demostrar que mejora el proceso.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: "sec-9",
+                shortTitle: "9. Captación comercial",
+                badge: "SECCIÓN 09",
+                title: "9. Captación comercial: llegar directamente al cliente",
+                content: `
+                    <div class="space-y-4 text-sm sm:text-base leading-relaxed text-slate-200">
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <p>La estrategia comercial pretende construir canales propios para que el cliente pueda encontrar y contratar la solución directamente.</p>
+                            <p class="font-semibold text-amber-300">Entre los canales que pueden explorarse se encuentran:</p>
+                            <ul class="space-y-2 text-sm">
+                                <li class="p-2.5 rounded-xl bg-slate-900/85 border border-white/5">• Página web propia y experiencia de solicitud de presupuesto.</li>
+                                <li class="p-2.5 rounded-xl bg-slate-900/85 border border-white/5">• Publicidad digital orientada a personas que buscan renovar su cocina.</li>
+                                <li class="p-2.5 rounded-xl bg-slate-900/85 border border-white/5">• Contenidos visuales de antes y después, con autorización de los clientes.</li>
+                                <li class="p-2.5 rounded-xl bg-slate-900/85 border border-white/5">• Redes sociales y demostraciones de propuestas de renovación.</li>
+                                <li class="p-2.5 rounded-xl bg-slate-900/85 border border-white/5">• Perfil de empresa en buscadores y plataformas locales.</li>
+                                <li class="p-2.5 rounded-xl bg-slate-900/85 border border-white/5">• Recomendaciones y referencias de clientes.</li>
+                                <li class="p-2.5 rounded-xl bg-slate-900/85 border border-white/5">• Acuerdos comerciales con actores del sector, si se alcanzan.</li>
+                                <li class="p-2.5 rounded-xl bg-slate-900/85 border border-white/5">• Canales de captación de demanda relacionados con mobiliario, reformas y equipamiento del hogar.</li>
+                            </ul>
+                            <p class="pt-1">La captación no se limitará a publicar anuncios. La empresa quiere diseñar un proceso que convierta una consulta en una operación organizada.</p>
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <h3 class="font-display font-bold text-base sm:text-lg text-cyan-400">Un embudo comercial integrado</h3>
+                            <div class="p-4 rounded-xl bg-slate-950/90 border border-cyan-500/30 text-xs sm:text-sm font-bold text-cyan-300 leading-relaxed">
+                                Atracción → consulta → cualificación → visita → propuesta visual → validación técnica → presupuesto → financiación opcional → contratación → instalación → entrega → recomendación.
+                            </div>
+                            <p class="text-sm text-slate-300">Cada etapa debe registrar información suficiente para entender qué funciona, dónde se pierden oportunidades y qué aspectos del servicio deben mejorar.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: "sec-10",
+                shortTitle: "10. Operación (11 Fases)",
+                badge: "SECCIÓN 10",
+                title: "10. Operación: de la primera consulta a la cocina terminada",
+                content: `
+                    <div class="space-y-4 text-sm sm:text-base leading-relaxed text-slate-200">
+                        <p class="text-slate-300">El servicio debe funcionar mediante un proceso repetible y controlable.</p>
+
+                        <div class="grid grid-cols-1 gap-2.5">
+                            <div class="agency-card rounded-xl p-3.5 border-l-4 border-l-amber-400">
+                                <h3 class="font-bold text-amber-300 text-sm">Fase 1. Recepción y cualificación</h3>
+                                <p class="text-xs sm:text-sm text-slate-300 mt-1">Se registra la solicitud, se identifica el tipo de renovación y se recopila información preliminar.</p>
+                            </div>
+                            <div class="agency-card rounded-xl p-3.5 border-l-4 border-l-amber-400">
+                                <h3 class="font-bold text-amber-300 text-sm">Fase 2. Contacto y visita</h3>
+                                <p class="text-xs sm:text-sm text-slate-300 mt-1">Se conversa con el cliente y, cuando corresponde, se programa una visita para conocer el espacio y sus necesidades.</p>
+                            </div>
+                            <div class="agency-card rounded-xl p-3.5 border-l-4 border-l-amber-400">
+                                <h3 class="font-bold text-amber-300 text-sm">Fase 3. Registro y medición</h3>
+                                <p class="text-xs sm:text-sm text-slate-300 mt-1">Se toman fotografías, medidas y datos sobre accesos, paredes, instalaciones y condicionantes relevantes.</p>
+                            </div>
+                            <div class="agency-card rounded-xl p-3.5 border-l-4 border-l-cyan-400">
+                                <h3 class="font-bold text-cyan-300 text-sm">Fase 4. Propuesta visual</h3>
+                                <p class="text-xs sm:text-sm text-slate-300 mt-1">Se preparan alternativas para que el cliente pueda comprender el resultado posible.</p>
+                            </div>
+                            <div class="agency-card rounded-xl p-3.5 border-l-4 border-l-cyan-400">
+                                <h3 class="font-bold text-cyan-300 text-sm">Fase 5. Configuración real</h3>
+                                <p class="text-xs sm:text-sm text-slate-300 mt-1">Se seleccionan productos y módulos concretos y se verifica que la propuesta sea técnicamente viable.</p>
+                            </div>
+                            <div class="agency-card rounded-xl p-3.5 border-l-4 border-l-cyan-400">
+                                <h3 class="font-bold text-cyan-300 text-sm">Fase 6. Presupuesto y contratación</h3>
+                                <p class="text-xs sm:text-sm text-slate-300 mt-1">Se presenta un alcance claro, con precio, plazos, condiciones, exclusiones y responsabilidades.</p>
+                            </div>
+                            <div class="agency-card rounded-xl p-3.5 border-l-4 border-l-purple-400">
+                                <h3 class="font-bold text-purple-300 text-sm">Fase 7. Financiación, si se solicita</h3>
+                                <p class="text-xs sm:text-sm text-slate-300 mt-1">La solicitud se canaliza mediante la entidad financiera colaboradora, sujeta a evaluación y aprobación.</p>
+                            </div>
+                            <div class="agency-card rounded-xl p-3.5 border-l-4 border-l-emerald-400">
+                                <h3 class="font-bold text-emerald-300 text-sm">Fase 8. Aprovisionamiento y coordinación</h3>
+                                <p class="text-xs sm:text-sm text-slate-300 mt-1">Se organizan pedidos, disponibilidad, transporte y fechas de trabajo.</p>
+                            </div>
+                            <div class="agency-card rounded-xl p-3.5 border-l-4 border-l-emerald-400">
+                                <h3 class="font-bold text-emerald-300 text-sm">Fase 9. Retirada e instalación</h3>
+                                <p class="text-xs sm:text-sm text-slate-300 mt-1">Se retiran los muebles existentes según lo contratado y se realiza el montaje e instalación del nuevo mobiliario.</p>
+                            </div>
+                            <div class="agency-card rounded-xl p-3.5 border-l-4 border-l-emerald-400">
+                                <h3 class="font-bold text-emerald-300 text-sm">Fase 10. Revisión y entrega</h3>
+                                <p class="text-xs sm:text-sm text-slate-300 mt-1">Se comprueba el trabajo, se documentan incidencias si las hubiera y se entrega el proyecto al cliente.</p>
+                            </div>
+                            <div class="agency-card rounded-xl p-3.5 border-l-4 border-l-amber-400">
+                                <h3 class="font-bold text-amber-300 text-sm">Fase 11. Seguimiento</h3>
+                                <p class="text-xs sm:text-sm text-slate-300 mt-1">Se atienden las cuestiones posteriores, se solicita valoración y se registra la experiencia para mejorar el servicio.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-slate-900 border border-white/10 text-xs sm:text-sm text-slate-300">
+                            La estandarización de este proceso es una condición importante para poder crecer sin que cada operación dependa de improvisaciones.
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: "sec-11",
+                shortTitle: "11. Evolución a plataforma",
+                badge: "SECCIÓN 11",
+                title: "11. Evolución: de una empresa especializada a una plataforma",
+                content: `
+                    <div class="space-y-4 text-sm sm:text-base leading-relaxed text-slate-200">
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <p>El proyecto tiene una ambición de desarrollo más amplia que la actividad inicial de montaje de cocinas.</p>
+                            <p>La estrategia es comenzar con un producto concreto, aprender de su comercialización y ejecución, y ampliar progresivamente las categorías cuando el modelo esté suficientemente probado.</p>
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-2">
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-amber-400">ETAPA 01</span>
+                            <h3 class="font-display font-bold text-base sm:text-lg text-white">Primera etapa: cocinas modulares</h3>
+                            <p class="text-sm text-slate-300">Validar la captación de clientes, la propuesta comercial, la visualización, el suministro, la financiación y la instalación de cocinas.</p>
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-2.5">
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-cyan-400">ETAPA 02</span>
+                            <h3 class="font-display font-bold text-base sm:text-lg text-white">Segunda etapa: ampliación de categorías</h3>
+                            <p class="text-sm text-slate-300">Incorporar, cuando exista capacidad operativa y demanda, otras soluciones de mobiliario modular:</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                <div class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Armarios y vestidores.</div>
+                                <div class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Muebles de baño.</div>
+                                <div class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Dormitorios.</div>
+                                <div class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Salones.</div>
+                                <div class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Espacios de trabajo y oficinas.</div>
+                                <div class="p-2.5 rounded-lg bg-slate-900/90 border border-white/5">• Otras soluciones de almacenamiento y equipamiento del hogar.</div>
+                            </div>
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-2">
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-400">ETAPA 03</span>
+                            <h3 class="font-display font-bold text-base sm:text-lg text-white">Tercera etapa: red de profesionales</h3>
+                            <p class="text-sm text-slate-300">Ampliar la capacidad de ejecución mediante instaladores colaboradores seleccionados, con criterios comunes de calidad, disponibilidad, comunicación y cumplimiento.</p>
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-2.5">
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-purple-400">ETAPA 04</span>
+                            <h3 class="font-display font-bold text-base sm:text-lg text-white">Cuarta etapa: plataforma integrada</h3>
+                            <p class="text-sm text-slate-300">Con el tiempo, la empresa podría evolucionar hacia una plataforma que conecte demanda, productos, financiación y capacidad de instalación.</p>
+                            <p class="text-sm text-slate-300">En esa fase, la empresa no necesitaría ejecutar personalmente todos los trabajos. Su función central sería organizar la experiencia, mantener la relación con el cliente, coordinar a los participantes y controlar los estándares del servicio.</p>
+                            <p class="text-xs text-amber-300 pt-1">Esta evolución es una posibilidad estratégica, no una capacidad que deba darse por existente desde el inicio.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: "sec-12",
+                shortTitle: "12. Diferenciación competitiva",
+                badge: "SECCIÓN 12",
+                title: "12. Diferenciación competitiva",
+                content: `
+                    <div class="space-y-4 text-sm sm:text-base leading-relaxed text-slate-200">
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <p>La empresa no pretende competir exclusivamente como una cuadrilla tradicional de montadores ni como un distribuidor de muebles.</p>
+                            <p>Su diferenciación buscada se encuentra en la combinación de varios elementos:</p>
+
+                            <!-- Responsive Table for Galaxy A02s -->
+                            <div class="overflow-x-auto -mx-2 px-2">
+                                <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                                    <thead>
+                                        <tr class="border-b border-white/15 bg-slate-900/95 text-amber-300">
+                                            <th class="p-2.5 font-bold">Dimensión</th>
+                                            <th class="p-2.5 font-bold text-slate-400">Enfoque tradicional fragmentado</th>
+                                            <th class="p-2.5 font-bold text-cyan-300">Modelo propuesto</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-white/10">
+                                        <tr class="bg-slate-900/40">
+                                            <td class="p-2.5 font-semibold text-white">Relación comercial</td>
+                                            <td class="p-2.5 text-slate-400">Varios interlocutores</td>
+                                            <td class="p-2.5 text-cyan-200 font-medium">Un punto de contacto</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2.5 font-semibold text-white">Producto vendido</td>
+                                            <td class="p-2.5 text-slate-400">Muebles o mano de obra por separado</td>
+                                            <td class="p-2.5 text-cyan-200 font-medium">Proyecto completo instalado</td>
+                                        </tr>
+                                        <tr class="bg-slate-900/40">
+                                            <td class="p-2.5 font-semibold text-white">Visualización</td>
+                                            <td class="p-2.5 text-slate-400">Catálogos o imágenes genéricas</td>
+                                            <td class="p-2.5 text-cyan-200 font-medium">Propuestas sobre el espacio del cliente</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2.5 font-semibold text-white">Configuración</td>
+                                            <td class="p-2.5 text-slate-400">El cliente coordina distintas etapas</td>
+                                            <td class="p-2.5 text-cyan-200 font-medium">Proceso comercial y técnico coordinado</td>
+                                        </tr>
+                                        <tr class="bg-slate-900/40">
+                                            <td class="p-2.5 font-semibold text-white">Financiación</td>
+                                            <td class="p-2.5 text-slate-400">Puede buscarse por separado</td>
+                                            <td class="p-2.5 text-cyan-200 font-medium">Opción integrada mediante entidad colaboradora</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2.5 font-semibold text-white">Atención</td>
+                                            <td class="p-2.5 text-slate-400">Dependiente del horario de cada profesional</td>
+                                            <td class="p-2.5 text-cyan-200 font-medium">Atención inicial asistida por IA de forma continua</td>
+                                        </tr>
+                                        <tr class="bg-slate-900/40">
+                                            <td class="p-2.5 font-semibold text-white">Gestión</td>
+                                            <td class="p-2.5 text-slate-400">Procesos a menudo manuales</td>
+                                            <td class="p-2.5 text-cyan-200 font-medium">Procesos digitales y automatización progresiva</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2.5 font-semibold text-white">Capacidad futura</td>
+                                            <td class="p-2.5 text-slate-400">Limitada por el equipo propio</td>
+                                            <td class="p-2.5 text-cyan-200 font-medium">Posible ampliación mediante una red de instaladores</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <p class="text-xs text-slate-400 pt-1">La tabla expresa la dirección estratégica que se quiere alcanzar. No significa que todos los operadores tradicionales trabajen de la misma manera ni que las capacidades propuestas estén ya implantadas.</p>
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <h3 class="font-display font-bold text-base sm:text-lg text-amber-400">La lógica competitiva</h3>
+                            <p>La intención es ser muy competitivos en precio sin reducir el servicio a una carrera por cobrar menos por hora de trabajo.</p>
+                            <p>La hipótesis es que una estructura comercial digital, una gestión automatizada de tareas repetitivas, una oferta estandarizada y una coordinación eficiente pueden ayudar a reducir costes indirectos y mejorar la experiencia.</p>
+                            <p>La competitividad deberá demostrarse operación por operación, manteniendo calidad, cumplimiento, garantías y rentabilidad. Ser barato no puede significar aceptar trabajos mal definidos o deficitarios.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: "sec-13",
+                shortTitle: "13. Principios de diseño",
+                badge: "SECCIÓN 13",
+                title: "13. Principios de diseño del negocio",
+                content: `
+                    <div class="space-y-4 text-sm sm:text-base leading-relaxed text-slate-200">
+                        <p class="text-slate-300">El proyecto se apoya en una serie de principios:</p>
+                        <div class="grid grid-cols-1 gap-2.5 text-sm">
+                            <div class="agency-card rounded-xl p-3.5">
+                                <span class="text-amber-400 font-extrabold mr-1.5">1.</span>
+                                <strong class="text-white">Vender soluciones, no piezas aisladas.</strong> El cliente quiere una cocina terminada, no tener que coordinar proveedores.
+                            </div>
+                            <div class="agency-card rounded-xl p-3.5">
+                                <span class="text-amber-400 font-extrabold mr-1.5">2.</span>
+                                <strong class="text-white">Llegar directamente al cliente.</strong> Construir una relación comercial propia y reducir intermediaciones innecesarias.
+                            </div>
+                            <div class="agency-card rounded-xl p-3.5">
+                                <span class="text-amber-400 font-extrabold mr-1.5">3.</span>
+                                <strong class="text-white">Aprovechar el ecosistema existente.</strong> No fabricar muebles ni desarrollar tecnología desde cero cuando existen soluciones adecuadas.
+                            </div>
+                            <div class="agency-card rounded-xl p-3.5">
+                                <span class="text-amber-400 font-extrabold mr-1.5">4.</span>
+                                <strong class="text-white">Integrar antes que inventar.</strong> La innovación puede estar en combinar productos, servicios y tecnologías existentes de una manera nueva.
+                            </div>
+                            <div class="agency-card rounded-xl p-3.5">
+                                <span class="text-amber-400 font-extrabold mr-1.5">5.</span>
+                                <strong class="text-white">Automatizar lo repetitivo.</strong> Reservar el trabajo humano para las tareas donde aporta criterio, presencia, responsabilidad y capacidad física.
+                            </div>
+                            <div class="agency-card rounded-xl p-3.5">
+                                <span class="text-amber-400 font-extrabold mr-1.5">6.</span>
+                                <strong class="text-white">Empezar de forma concreta.</strong> Validar primero una categoría y un proceso controlables.
+                            </div>
+                            <div class="agency-card rounded-xl p-3.5">
+                                <span class="text-amber-400 font-extrabold mr-1.5">7.</span>
+                                <strong class="text-white">Crecer por capacidad demostrada.</strong> Ampliar productos y profesionales cuando la operación pueda mantener sus estándares.
+                            </div>
+                            <div class="agency-card rounded-xl p-3.5">
+                                <span class="text-amber-400 font-extrabold mr-1.5">8.</span>
+                                <strong class="text-white">No confundir imagen con viabilidad.</strong> Toda propuesta visual debe pasar por comprobación técnica.
+                            </div>
+                            <div class="agency-card rounded-xl p-3.5">
+                                <span class="text-amber-400 font-extrabold mr-1.5">9.</span>
+                                <strong class="text-white">No financiar al cliente con recursos propios.</strong> La financiación se articulará con una entidad especializada, si se alcanza un acuerdo adecuado.
+                            </div>
+                            <div class="agency-card rounded-xl p-3.5">
+                                <span class="text-amber-400 font-extrabold mr-1.5">10.</span>
+                                <strong class="text-white">Medir la calidad y la rentabilidad reales.</strong> La experiencia del cliente, los costes y el resultado de cada operación deben poder analizarse.
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: "sec-14",
+                shortTitle: "14. Riesgos y control",
+                badge: "SECCIÓN 14",
+                title: "14. Riesgos y medidas de control",
+                content: `
+                    <div class="space-y-4 text-sm sm:text-base leading-relaxed text-slate-200">
+                        <p class="text-slate-300">Un modelo integrado ofrece oportunidades, pero también concentra responsabilidades. La empresa deberá identificar y controlar los riesgos desde el principio.</p>
+
+                        <div class="grid grid-cols-1 gap-3 text-sm">
+                            <div class="agency-card rounded-xl p-4 border-l-4 border-l-amber-400">
+                                <h3 class="font-bold text-white mb-1">Riesgo de presupuestos incompletos</h3>
+                                <p class="text-slate-300"><strong class="text-emerald-400">Control:</strong> visitas, mediciones, listas de comprobación, referencias de producto y alcance contractual definido antes de aceptar el trabajo.</p>
+                            </div>
+
+                            <div class="agency-card rounded-xl p-4 border-l-4 border-l-amber-400">
+                                <h3 class="font-bold text-white mb-1">Riesgo de errores en las visualizaciones de IA</h3>
+                                <p class="text-slate-300"><strong class="text-emerald-400">Control:</strong> indicar que son imágenes orientativas y no convertirlas en pedidos o compromisos técnicos sin validación humana.</p>
+                            </div>
+
+                            <div class="agency-card rounded-xl p-4 border-l-4 border-l-amber-400">
+                                <h3 class="font-bold text-white mb-1">Riesgo de disponibilidad o cambios de proveedor</h3>
+                                <p class="text-slate-300"><strong class="text-emerald-400">Control:</strong> trabajar con referencias verificadas, confirmar existencias y plazos antes de comprometer fechas y disponer de alternativas cuando sea razonable.</p>
+                            </div>
+
+                            <div class="agency-card rounded-xl p-4 border-l-4 border-l-amber-400">
+                                <h3 class="font-bold text-white mb-1">Riesgo de calidad de instalación</h3>
+                                <p class="text-slate-300"><strong class="text-emerald-400">Control:</strong> procedimientos de trabajo, criterios de selección de profesionales, revisión de entregas, documentación de incidencias y seguimiento.</p>
+                            </div>
+
+                            <div class="agency-card rounded-xl p-4 border-l-4 border-l-amber-400">
+                                <h3 class="font-bold text-white mb-1">Riesgo de dependencia de colaboradores</h3>
+                                <p class="text-slate-300"><strong class="text-emerald-400">Control:</strong> desarrollar progresivamente una red, evaluar el desempeño y evitar depender de una única persona para toda la capacidad futura.</p>
+                            </div>
+
+                            <div class="agency-card rounded-xl p-4 border-l-4 border-l-amber-400">
+                                <h3 class="font-bold text-white mb-1">Riesgo de financiación</h3>
+                                <p class="text-slate-300"><strong class="text-emerald-400">Control:</strong> trabajar con una entidad autorizada, explicar con claridad las condiciones, respetar la decisión de crédito y definir responsabilidades contractuales.</p>
+                            </div>
+
+                            <div class="agency-card rounded-xl p-4 border-l-4 border-l-amber-400">
+                                <h3 class="font-bold text-white mb-1">Riesgo regulatorio y contractual</h3>
+                                <p class="text-slate-300"><strong class="text-emerald-400">Control:</strong> revisar las obligaciones aplicables en consumo, protección de datos, contratación, garantías, residuos, seguridad laboral y, cuando corresponda, intermediación de crédito y trabajos sujetos a habilitación profesional.</p>
+                            </div>
+
+                            <div class="agency-card rounded-xl p-4 border-l-4 border-l-amber-400">
+                                <h3 class="font-bold text-white mb-1">Riesgo de competir únicamente por precio</h3>
+                                <p class="text-slate-300"><strong class="text-emerald-400">Control:</strong> definir un alcance preciso, calcular todos los costes directos e indirectos y no aceptar operaciones que comprometan la calidad o la sostenibilidad económica.</p>
+                            </div>
+
+                            <div class="agency-card rounded-xl p-4 border-l-4 border-l-amber-400">
+                                <h3 class="font-bold text-white mb-1">Riesgo de automatización excesiva</h3>
+                                <p class="text-slate-300"><strong class="text-emerald-400">Control:</strong> mantener supervisión humana en decisiones técnicas, compromisos comerciales, tratamiento de reclamaciones y actuaciones que impliquen responsabilidad frente al cliente.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: "sec-15",
+                shortTitle: "15. Estado y validación",
+                badge: "SECCIÓN 15",
+                title: "15. Estado del proyecto y cuestiones por validar",
+                content: `
+                    <div class="space-y-4 text-sm sm:text-base leading-relaxed text-slate-200">
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <p>El proyecto se encuentra en una fase de definición conceptual y preparación. La oportunidad y el modelo se están estructurando, pero todavía es necesario convertir las hipótesis en evidencia operativa.</p>
+                            <p class="text-amber-300 font-medium">No se presentan como hechos acuerdos con proveedores, contratos con entidades financieras, una red de instaladores constituida, clientes contratados ni resultados comerciales que no hayan sido acreditados.</p>
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3.5">
+                            <h3 class="font-display font-bold text-base sm:text-lg text-cyan-400">Aspectos que deberán validarse</h3>
+
+                            <div class="grid grid-cols-1 gap-3 text-sm">
+                                <div class="p-3.5 rounded-xl bg-slate-900/90 border border-white/5">
+                                    <h4 class="font-bold text-amber-300 mb-1.5">Mercado y demanda</h4>
+                                    <ul class="space-y-1 text-xs sm:text-sm text-slate-300">
+                                        <li>• Qué perfiles de cliente responden mejor a la oferta.</li>
+                                        <li>• Qué necesidades y objeciones aparecen con mayor frecuencia.</li>
+                                        <li>• Qué canales generan consultas cualificadas.</li>
+                                        <li>• Qué nivel de conversión se consigue desde la consulta hasta la contratación.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="p-3.5 rounded-xl bg-slate-900/90 border border-white/5">
+                                    <h4 class="font-bold text-amber-300 mb-1.5">Producto y proveedores</h4>
+                                    <ul class="space-y-1 text-xs sm:text-sm text-slate-300">
+                                        <li>• Qué sistemas de mobiliario son más adecuados para el servicio.</li>
+                                        <li>• Condiciones reales de compra y suministro.</li>
+                                        <li>• Disponibilidad, plazos, devoluciones y gestión de incidencias.</li>
+                                        <li>• Compatibilidad entre referencias y configuraciones.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="p-3.5 rounded-xl bg-slate-900/90 border border-white/5">
+                                    <h4 class="font-bold text-amber-300 mb-1.5">Operación</h4>
+                                    <ul class="space-y-1 text-xs sm:text-sm text-slate-300">
+                                        <li>• Duración real de las visitas y los montajes.</li>
+                                        <li>• Costes de transporte, retirada, herramientas y consumibles.</li>
+                                        <li>• Capacidad de ejecución y planificación.</li>
+                                        <li>• Procedimientos de calidad y atención posterior.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="p-3.5 rounded-xl bg-slate-900/90 border border-white/5">
+                                    <h4 class="font-bold text-amber-300 mb-1.5">Modelo comercial</h4>
+                                    <ul class="space-y-1 text-xs sm:text-sm text-slate-300">
+                                        <li>• Eficacia de las ofertas de referencia.</li>
+                                        <li>• Coste de captación por canal.</li>
+                                        <li>• Porcentaje de presupuestos aceptados.</li>
+                                        <li>• Motivos de pérdida de oportunidades.</li>
+                                        <li>• Valoración y recomendación de los clientes.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="p-3.5 rounded-xl bg-slate-900/90 border border-white/5">
+                                    <h4 class="font-bold text-amber-300 mb-1.5">Financiación</h4>
+                                    <ul class="space-y-1 text-xs sm:text-sm text-slate-300">
+                                        <li>• Entidades interesadas en colaborar.</li>
+                                        <li>• Requisitos para admitir al comercio.</li>
+                                        <li>• Comisiones, liquidaciones y costes de las modalidades ofrecidas.</li>
+                                        <li>• Integración del proceso y responsabilidades jurídicas.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="p-3.5 rounded-xl bg-slate-900/90 border border-white/5">
+                                    <h4 class="font-bold text-amber-300 mb-1.5">Tecnología</h4>
+                                    <ul class="space-y-1 text-xs sm:text-sm text-slate-300">
+                                        <li>• Herramientas de IA que aportan resultados reales.</li>
+                                        <li>• Nivel de automatización fiable.</li>
+                                        <li>• Integración con CRM, presupuestos y seguimiento.</li>
+                                        <li>• Protección y tratamiento adecuado de los datos de clientes.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <p class="text-xs sm:text-sm text-slate-300 pt-1">La prioridad será validar el primer servicio de forma controlada antes de asumir los costes y la complejidad de una plataforma de mayor alcance.</p>
+                            ${createUrlResourceCard("Agencia Española de Protección de Datos (AEPD)", "https://www.aepd.es", "Marco de cumplimiento normativo para tratamiento de datos de clientes y automatización.")}
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: "sec-16",
+                shortTitle: "16. Interés bancario",
+                badge: "SECCIÓN 16",
+                title: "16. Por qué puede interesar a una entidad financiera",
+                content: `
+                    <div class="space-y-4 text-sm sm:text-base leading-relaxed text-slate-200">
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <p>El proyecto puede resultar relevante para una entidad financiera por la convergencia de tres actividades: comercio de equipamiento para el hogar, prestación de servicios de instalación y financiación al consumo canalizada a través de un colaborador financiero.</p>
+                            <p>La financiación puede facilitar el acceso del consumidor a proyectos de renovación y, al mismo tiempo, ofrecer a la entidad un canal comercial asociado a una necesidad concreta de consumo.</p>
+                            <p>La empresa aspira a generar operaciones estructuradas, con una propuesta identificable, un alcance definido y un proceso comercial trazable.</p>
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <h3 class="font-display font-bold text-base sm:text-lg text-amber-400">Posibles ámbitos de colaboración</h3>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="text-amber-400 font-bold">•</span>
+                                    <span>Financiación de compras de mobiliario e instalación.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="text-amber-400 font-bold">•</span>
+                                    <span>Soluciones de financiación en el punto de venta.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="text-amber-400 font-bold">•</span>
+                                    <span>Integración digital de la solicitud de crédito.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="text-amber-400 font-bold">•</span>
+                                    <span>Liquidación de operaciones al comercio.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="text-amber-400 font-bold">•</span>
+                                    <span>Productos de pago y cobro para la actividad empresarial.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="text-amber-400 font-bold">•</span>
+                                    <span>Servicios bancarios para el desarrollo de la empresa.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/85 border border-white/5">
+                                    <span class="text-amber-400 font-bold">•</span>
+                                    <span>Posibles acuerdos de colaboración comercial, sujetos a evaluación y negociación.</span>
+                                </li>
+                            </ul>
+                            <p class="pt-2 text-sm text-cyan-300">La relación con una entidad financiera no se limita a buscar crédito para la empresa. También se estudia la posibilidad de que la financiación al cliente forme parte del producto comercial que la empresa ofrece.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: "sec-17",
+                shortTitle: "17. Visión de largo plazo",
+                badge: "SECCIÓN 17",
+                title: "17. Visión: construir una nueva forma de contratar equipamiento del hogar",
+                content: `
+                    <div class="space-y-4 text-sm sm:text-base leading-relaxed text-slate-200">
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <p>La visión de largo plazo es crear una plataforma reconocible por el consumidor como un lugar donde resolver proyectos de equipamiento e instalación del hogar.</p>
+                            <p class="font-semibold text-amber-300">El cliente podría encontrar en un mismo entorno:</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-sm">
+                                <div class="p-3 rounded-xl bg-slate-900/90 border border-white/5">• Inspiración y visualización de soluciones.</div>
+                                <div class="p-3 rounded-xl bg-slate-900/90 border border-white/5">• Productos de distintos fabricantes o distribuidores.</div>
+                                <div class="p-3 rounded-xl bg-slate-900/90 border border-white/5">• Asesoramiento y configuración.</div>
+                                <div class="p-3 rounded-xl bg-slate-900/90 border border-white/5">• Presupuesto completo.</div>
+                                <div class="p-3 rounded-xl bg-slate-900/90 border border-white/5">• Financiación opcional.</div>
+                                <div class="p-3 rounded-xl bg-slate-900/90 border border-white/5">• Instaladores y profesionales coordinados.</div>
+                                <div class="p-3 rounded-xl bg-slate-900/90 border border-white/5 sm:col-span-2">• Seguimiento y atención posterior.</div>
+                            </div>
+                        </div>
+
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3">
+                            <p>La empresa actuaría como integradora de la experiencia. No tendría que fabricar cada producto ni ejecutar personalmente cada instalación. Su valor estaría en organizar el conjunto, facilitar la decisión de compra, coordinar a los participantes y responder por el servicio contratado en los términos acordados.</p>
+                            <p class="text-xs sm:text-sm text-slate-300">La referencia conceptual es la lógica de una plataforma comercial: conectar demanda, oferta y capacidad de ejecución, haciendo que el proceso resulte sencillo para el cliente. La comparación describe la aspiración del modelo, no una equivalencia de escala o de madurez con grandes plataformas existentes.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: "sec-18",
+                shortTitle: "18. Conclusión",
+                badge: "SECCIÓN 18 · CIERRE",
+                title: "18. Conclusión",
+                content: `
+                    <div class="space-y-4 text-sm sm:text-base leading-relaxed text-slate-200">
+                        <div class="agency-card rounded-2xl p-4 sm:p-5 space-y-3.5">
+                            <p>Este proyecto no nace con la intención de crear otra empresa convencional de montaje de muebles.</p>
+                            <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Nace de una pregunta distinta:</p>
+                            <blockquote class="p-4 rounded-xl bg-gradient-to-r from-amber-500/20 to-cyan-500/15 border-l-4 border-amber-400 font-display font-bold text-white text-base sm:text-lg">
+                                ¿Por qué el consumidor tiene que organizar por separado la compra, la financiación, el transporte, la retirada y la instalación cuando todos esos elementos forman parte de una misma necesidad?
+                            </blockquote>
+                            <p>La propuesta es construir una empresa que reúna esas piezas en una solución completa, con una relación directa con el cliente, una experiencia digital moderna, inteligencia artificial aplicada a procesos concretos, proveedores existentes, profesionales de instalación y financiación ofrecida por una entidad especializada.</p>
+                            <p>La entrada al mercado se realizará mediante un servicio claro y reconocible: la renovación integral de cocinas modulares. A partir de la experiencia, los procesos y la confianza obtenidos, podrá estudiarse la ampliación hacia otras categorías de mobiliario y una red más amplia de profesionales.</p>
+                            <p>La innovación no depende de inventar cada componente. Depende de combinar tecnologías, productos, servicios y capacidades que ya existen para ofrecer al consumidor una experiencia que hoy suele estar repartida entre distintos actores.</p>
+                        </div>
+
+                        <div class="p-5 rounded-2xl bg-gradient-to-br from-amber-500/25 via-slate-900 to-cyan-500/25 border border-amber-400/50 text-center space-y-2">
+                            <p class="font-display font-extrabold text-base sm:text-xl text-white">
+                                No se trata solamente de montar muebles. Se trata de organizar de otra manera el negocio de equipar e instalar el hogar.
+                            </p>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-900/90 border border-white/10 text-xs text-slate-400 italic leading-relaxed">
+                            Documento conceptual. Las descripciones de evolución, automatización, acuerdos comerciales y colaboración financiera representan objetivos o hipótesis de desarrollo y deberán validarse antes de considerarse capacidades implantadas o acuerdos existentes.
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        let currentTabIndex = 0;
+
+        // Render Visible Horizontal Tab Bar + Auto-center active tab
+        function renderHorizontalTabs() {
+            const bar = document.getElementById('horizontalTabBar');
+            if (!bar) return;
+
+            bar.innerHTML = tabsData.map((tab, idx) => {
+                const isActive = idx === currentTabIndex;
+                return `
+                <button id="htab-${idx}" role="tab" aria-selected="${isActive}" onclick="goToTab(${idx})" class="shrink-0 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition whitespace-nowrap ${
+                    isActive
+                        ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 shadow-md shadow-amber-500/25 ring-1 ring-amber-300'
+                        : 'bg-slate-900/90 text-slate-300 hover:text-white hover:bg-slate-800 border border-white/10'
+                }">
+                    <span class="text-[10px] font-mono px-1.5 py-0.2 rounded ${isActive ? 'bg-slate-950/20 text-slate-950 font-extrabold' : 'bg-slate-800 text-amber-400'}">${idx === 0 ? '★' : idx}</span>
+                    <span>${tab.shortTitle}</span>
+                </button>`;
+            }).join('');
+
+            // Auto-scroll active tab into center view on Samsung Galaxy A02s
+            requestAnimationFrame(() => {
+                const activeChip = document.getElementById(`htab-${currentTabIndex}`);
+                if (activeChip) {
+                    activeChip.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                }
+            });
+        }
+
+        function scrollTabBar(offset) {
+            const bar = document.getElementById('horizontalTabBar');
+            if (bar) {
+                bar.scrollBy({ left: offset, behavior: 'smooth' });
+            }
+        }
+
+        // Render Sandwich Drawer Menu Links
+        function renderDrawerLinks() {
+            const nav = document.getElementById('drawerLinks');
+            nav.innerHTML = tabsData.map((tab, idx) => {
+                const isActive = idx === currentTabIndex;
+                return `
+                <button onclick="goToTab(${idx}); toggleDrawer(false);" class="w-full text-left px-3.5 py-2.5 rounded-xl flex items-center justify-between gap-2 transition ${isActive ? 'bg-amber-500 text-slate-950 font-extrabold shadow-md' : 'bg-slate-900/70 hover:bg-slate-800 text-slate-200 border border-white/5'}">
+                    <div class="flex items-center gap-2.5 truncate">
+                        <span class="text-[11px] font-mono px-1.5 py-0.5 rounded ${isActive ? 'bg-slate-950/20 text-slate-950' : 'bg-slate-800 text-amber-400'}">${String(idx + 1).padStart(2, '0')}</span>
+                        <span class="text-xs sm:text-sm truncate">${tab.shortTitle}</span>
+                    </div>
+                    ${isActive ? '<span class="text-[10px] uppercase tracking-wider font-extrabold">Actual</span>' : ''}
+                </button>`;
+            }).join('');
+        }
+
+        // Render Current Tab Content & Sequential Footer Buttons
+        function renderTab(index) {
+            currentTabIndex = index;
+            const tab = tabsData[index];
+            const total = tabsData.length;
+
+            // Update Header Status
+            document.getElementById('topStepBadge').textContent = `PESTAÑA ${index + 1} DE ${total}`;
+            document.getElementById('topStepTitle').textContent = tab.shortTitle;
+            document.getElementById('bottomCounter').textContent = `${index + 1} / ${total}`;
+            document.getElementById('progressBar').style.width = `${((index + 1) / total) * 100}%`;
+
+            // Render Main Section Content (Notice: Only INICIO has "by Rubén Sbarsky" in title)
+            const contentEl = document.getElementById('tabContent');
+            contentEl.classList.remove('tab-fade');
+            void contentEl.offsetWidth; // trigger reflow for animation
+            contentEl.classList.add('tab-fade');
+
+            contentEl.innerHTML = `
+                <div class="mb-5">
+                    <span class="inline-block text-[11px] font-extrabold uppercase tracking-widest text-cyan-400 mb-1">${tab.badge}</span>
+                    <h2 class="font-display text-xl sm:text-2xl font-extrabold text-white leading-snug">${tab.title}</h2>
+                </div>
+                ${tab.content}
+            `;
+
+            // Render End-of-Tab Fixed Sequential Navigation Block
+            const seqNav = document.getElementById('tabSequentialNav');
+            const hasPrev = index > 0;
+            const hasNext = index < total - 1;
+
+            seqNav.innerHTML = `
+                <div class="agency-card rounded-2xl p-4 space-y-3">
+                    <div class="flex items-center justify-between text-[11px] text-slate-400 font-semibold uppercase tracking-wider">
+                        <span>Navegación de Pestaña</span>
+                        <span>${index + 1} de ${total}</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        ${hasPrev ? `
+                            <button onclick="prevTab()" class="w-full py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 border border-white/15 text-left flex items-center gap-3 active:scale-95 transition">
+                                <svg class="w-5 h-5 text-amber-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                                <div class="overflow-hidden">
+                                    <span class="text-[10px] uppercase tracking-wider text-slate-400 block">Pestaña Anterior</span>
+                                    <span class="text-xs sm:text-sm font-bold text-white truncate block">${tabsData[index - 1].shortTitle}</span>
+                                </div>
+                            </button>
+                        ` : `<div></div>`}
+
+                        ${hasNext ? `
+                            <button onclick="nextTab()" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 text-right flex items-center justify-between gap-3 font-bold shadow-lg shadow-amber-500/20 active:scale-95 transition ${!hasPrev ? 'sm:col-span-2' : ''}">
+                                <div class="overflow-hidden text-left">
+                                    <span class="text-[10px] uppercase tracking-wider text-slate-900 font-extrabold block">Próxima Pestaña</span>
+                                    <span class="text-xs sm:text-sm font-extrabold text-slate-950 truncate block">${tabsData[index + 1].shortTitle}</span>
+                                </div>
+                                <svg class="w-5 h-5 text-slate-950 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </button>
+                        ` : `
+                            <button onclick="goToTab(0)" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white flex items-center justify-between gap-3 font-bold shadow-lg active:scale-95 transition">
+                                <div class="text-left">
+                                    <span class="text-[10px] uppercase tracking-wider text-cyan-100 block">Fin del Tutorial</span>
+                                    <span class="text-xs sm:text-sm font-extrabold block">Volver a INICIO</span>
+                                </div>
+                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                                </svg>
+                            </button>
+                        `}
+                    </div>
+                </div>
+            `;
+
+            // Update Fixed Footer Buttons State
+            document.getElementById('fixedPrevBtn').disabled = !hasPrev;
+            document.getElementById('fixedNextBtn').disabled = !hasNext;
+
+            renderHorizontalTabs();
+            renderDrawerLinks();
+            scrollToTopOfCurrentTab();
+        }
+
+        function goToTab(index) {
+            if (index >= 0 && index < tabsData.length) {
+                renderTab(index);
+            }
+        }
+
+        function nextTab() {
+            if (currentTabIndex < tabsData.length - 1) {
+                renderTab(currentTabIndex + 1);
+            }
+        }
+
+        function prevTab() {
+            if (currentTabIndex > 0) {
+                renderTab(currentTabIndex - 1);
+            }
+        }
+
+        function scrollToTopOfCurrentTab() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+        }
+
+        // Toggle Sandwich Menu Drawer
+        function toggleDrawer(open) {
+            const drawer = document.getElementById('drawerMenu');
+            const overlay = document.getElementById('drawerOverlay');
+            if (open) {
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+                drawer.classList.remove('-translate-x-full');
+            } else {
+                overlay.classList.add('opacity-0');
+                drawer.classList.add('-translate-x-full');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
+        }
+
+        // Make Floating Buttons Draggable (Touch + Mouse) while preserving tap action
+        function setupDraggableButton(buttonEl, onClickCallback) {
+            let isDragging = false;
+            let hasMoved = false;
+            let startX = 0, startY = 0;
+            let initialLeft = 0, initialTop = 0;
+
+            function pointerDown(e) {
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                const rect = buttonEl.getBoundingClientRect();
+
+                isDragging = true;
+                hasMoved = false;
+                startX = clientX;
+                startY = clientY;
+                initialLeft = rect.left;
+                initialTop = rect.top;
+
+                buttonEl.style.right = 'auto';
+                buttonEl.style.bottom = 'auto';
+                buttonEl.style.left = `${initialLeft}px`;
+                buttonEl.style.top = `${initialTop}px`;
+            }
+
+            function pointerMove(e) {
+                if (!isDragging) return;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+                const dx = clientX - startX;
+                const dy = clientY - startY;
+
+                if (Math.abs(dx) > 6 || Math.abs(dy) > 6) {
+                    hasMoved = true;
+                }
+
+                if (hasMoved) {
+                    if (e.cancelable) e.preventDefault();
+                    const maxX = window.innerWidth - buttonEl.offsetWidth - 6;
+                    const maxY = window.innerHeight - buttonEl.offsetHeight - 6;
+                    const newLeft = Math.max(6, Math.min(maxX, initialLeft + dx));
+                    const newTop = Math.max(6, Math.min(maxY, initialTop + dy));
+
+                    buttonEl.style.left = `${newLeft}px`;
+                    buttonEl.style.top = `${newTop}px`;
+                }
+            }
+
+            function pointerUp() {
+                if (!isDragging) return;
+                isDragging = false;
+                if (!hasMoved) {
+                    onClickCallback();
+                }
+            }
+
+            buttonEl.addEventListener('touchstart', pointerDown, { passive: true });
+            window.addEventListener('touchmove', pointerMove, { passive: false });
+            window.addEventListener('touchend', pointerUp);
+
+            buttonEl.addEventListener('mousedown', pointerDown);
+            window.addEventListener('mousemove', pointerMove);
+            window.addEventListener('mouseup', pointerUp);
+        }
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTab(0);
+
+            // Setup draggable INICIO button -> goes to Tab 0 (INICIO)
+            setupDraggableButton(document.getElementById('fabInicio'), () => {
+                goToTab(0);
+            });
+
+            // Setup draggable ARRIBA button -> scrolls to start of current tab
+            setupDraggableButton(document.getElementById('fabArriba'), () => {
+                scrollToTopOfCurrentTab();
+            });
+        });
+    </script>
+</body>
+</html>
