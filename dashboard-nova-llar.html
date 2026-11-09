@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NOVA LLAR · Panel del proyecto</title>
+<style>
+:root{--bg:#f4f6f4;--sf:#fff;--sf2:#eef2ef;--ink:#13201d;--mu:#5a6b66;--ln:#d9e1dd;--ac:#0e6b5b;--ac2:#b36b00;--ok:#0e6b5b;--wa:#9a5b00;--er:#a63030;--sh:0 1px 2px rgba(19,32,29,.06),0 6px 18px rgba(19,32,29,.05);color-scheme:light}
+:root[data-theme=dark]{--bg:#0d1513;--sf:#142120;--sf2:#1a2b29;--ink:#e6efec;--mu:#9bb0aa;--ln:#27403c;--ac:#4cc9ae;--ac2:#f0b04a;--ok:#4cc9ae;--wa:#f0b04a;--er:#ff8a80;--sh:0 1px 2px rgba(0,0,0,.4);color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--ac2);outline-offset:2px}
+#tb0{position:sticky;top:0;z-index:30;background:var(--sf);border-bottom:1px solid var(--ln)}header{display:flex;gap:8px;align-items:center;padding:8px 10px}
+.brand{font-weight:800;font-size:19px;letter-spacing:.02em;display:flex;align-items:center;gap:8px}
+.brand svg{width:26px;height:26px}
+.brand small{display:block;font-weight:500;font-size:11px;color:var(--mu);letter-spacing:0}
+.sp{flex:1}
+.btn{min-height:44px;min-width:44px;padding:0 14px;border:1px solid var(--ln);background:var(--sf2);border-radius:10px;cursor:pointer}
+.btn:hover{border-color:var(--ac)}
+#q{min-height:46px;width:100%;padding:0 14px;border:1px solid var(--ln);border-radius:12px;background:var(--sf);margin-bottom:12px}
+nav{position:relative;display:flex;overflow-x:auto;gap:6px;padding:6px 10px;border-top:1px solid var(--ln);-webkit-overflow-scrolling:touch;scrollbar-width:none;overscroll-behavior-x:contain}nav::-webkit-scrollbar{display:none}
+nav button{white-space:nowrap;flex:none;min-height:44px;padding:0 14px;border:0;background:none;border-radius:10px;cursor:pointer;color:var(--mu);font-weight:600}
+nav button[aria-current=page]{background:var(--ac);color:#fff}
+:root[data-theme=dark] nav button[aria-current=page]{color:#06201a}
+main{padding:14px 12px 130px;max-width:1100px;margin:auto}
+@media(min-width:960px){main{padding:24px 28px 130px}}
+.panel{display:none}.panel.on{display:block}
+h1{font-size:22px;line-height:1.2;margin:0 0 4px}
+h2{font-size:17px;margin:26px 0 10px}
+.lead{color:var(--mu);margin:0 0 16px;max-width:70ch}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr))}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:14px;box-shadow:var(--sh)}
+.card h3{margin:6px 0 4px;font-size:15px}
+.card p{margin:0;color:var(--mu);font-size:14px}
+.kpi{font-size:26px;font-weight:800;line-height:1.1}
+.kpi.na{font-size:17px;color:var(--wa)}
+.kl{font-size:12px;color:var(--mu);margin-top:4px}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;border:1px solid currentColor}
+.t-h{color:var(--ok)}.t-i{color:#3b6fb3}.t-y{color:var(--wa)}.t-a{color:var(--er)}.t-r{color:#7a4fb0}
+:root[data-theme=dark] .t-i{color:#8db8f0}:root[data-theme=dark] .t-r{color:#c3a3f0}
+.ref{font-size:11px;color:var(--mu);margin-left:6px}
+details{background:var(--sf);border:1px solid var(--ln);border-radius:12px;margin:8px 0;padding:0 14px}
+summary{cursor:pointer;padding:12px 0;font-weight:700;min-height:44px}
+details p{margin:0 0 12px;color:var(--mu)}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.bar label{font-size:12px;color:var(--mu);display:flex;flex-direction:column;gap:2px}
+select,.num{min-height:40px;padding:0 10px;border:1px solid var(--ln);border-radius:10px;background:var(--sf)}
+table{width:100%;border-collapse:collapse;background:var(--sf);border:1px solid var(--ln);border-radius:12px;overflow:hidden}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--ln);vertical-align:top;font-size:14px}
+th{background:var(--sf2);font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--mu)}
+@media(max-width:760px){thead{display:none}tr{display:block;border-bottom:8px solid var(--bg)}td{display:block;border:0;padding:5px 12px}td::before{content:attr(data-l);display:block;font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase}}
+.chain{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0}
+.chain span{padding:8px 10px;background:var(--sf);border:1px solid var(--ln);border-radius:10px;font-size:13px}
+.chain i{color:var(--mu);font-style:normal}
+.note{border-left:4px solid var(--ac2);background:var(--sf2);padding:10px 12px;border-radius:8px;font-size:14px;margin:10px 0}
+.res{display:none;background:var(--sf);border:1px solid var(--ac);border-radius:12px;padding:8px;margin-bottom:14px}
+.res button{display:block;width:100%;text-align:left;border:0;background:none;padding:10px;min-height:44px;cursor:pointer;border-radius:8px}
+.res button:hover{background:var(--sf2)}
+.hit{outline:3px solid var(--ac2)}
+svg.flow{width:100%;height:auto;background:var(--sf);border:1px solid var(--ln);border-radius:12px}
+svg.flow text{fill:var(--ink);font-size:12px}
+#bk{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:40;display:none}
+#bk.on{display:block}
+#dr{position:fixed;top:0;bottom:0;left:0;width:min(88vw,340px);background:var(--sf);z-index:50;transform:translateX(-103%);transition:transform .2s;overflow:auto;padding:12px;visibility:hidden;border-right:1px solid var(--ln)}
+#dr.on{transform:none;visibility:visible}
+.dh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+#dl{list-style:none;margin:0;padding:0}
+#dl button{width:100%;text-align:left;min-height:48px;padding:0 12px;border:0;border-radius:10px;background:none;cursor:pointer;font-weight:600}
+#dl button[aria-current=page]{background:var(--ac);color:#fff}
+.fab{position:fixed;left:0;top:0;z-index:35;min-width:76px;height:48px;padding:0 14px;border-radius:24px;border:0;background:var(--ac);color:#fff;font-weight:800;letter-spacing:.04em;touch-action:none;box-shadow:0 4px 14px rgba(0,0,0,.3);cursor:grab;user-select:none;-webkit-user-select:none}
+:root[data-theme=dark] .fab,:root[data-theme=dark] #dl button[aria-current=page]{color:#06201a}
+.pn{display:flex;gap:10px;margin-top:28px;flex-wrap:wrap}
+.pn button{flex:1 1 150px;min-height:56px;padding:8px 14px;border-radius:14px;border:1px solid var(--ac);background:var(--sf);cursor:pointer;text-align:left;font-weight:700;line-height:1.25}
+.pn button small{display:block;font-weight:500;color:var(--mu);font-size:11px;text-transform:uppercase}
+.pn button.nx{background:var(--ac);color:#fff;text-align:right}
+.pn button.nx small{color:inherit;opacity:.85}
+:root[data-theme=dark] .pn button.nx{color:#06201a}
+.hero{background:linear-gradient(135deg,#0a463b,#0e6b5b 62%,#9a5b00);color:#fff;border-radius:18px;padding:18px 16px;margin-bottom:16px}
+.hero h1{font-size:26px;margin:10px 0 6px}
+.hero h1 span{display:block;font-size:15px;font-weight:600;color:#ffd89a;margin-top:2px}
+.hero p{margin:0;opacity:.92;max-width:62ch}
+.url{font:12px/1.4 ui-monospace,Menlo,monospace;color:var(--mu);overflow-wrap:anywhere;margin:6px 0 10px}
+.go{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 16px;border-radius:12px;background:var(--ac);color:#fff;font-weight:700;text-decoration:none}
+:root[data-theme=dark] .go{color:#06201a}
+html{-webkit-text-size-adjust:100%}body{overflow-x:hidden;-webkit-tap-highlight-color:transparent}button{touch-action:manipulation}
+.out{font-weight:800;font-size:20px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+@media print{#tb0,#dr,#bk,.fab,.pn,#q,.res,.bar{display:none!important}.panel{display:block!important;break-inside:avoid}.layout{display:block}body{background:#fff}}
+</style>
+</head>
+<body>
+<div id="tb0">
+<header>
+  <button class="btn" id="ix" aria-label="Abrir el índice" aria-expanded="false" aria-controls="dr">☰ ÍNDICE</button>
+  <div class="brand">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0e6b5b"/><path d="M5 20c4-5 7 5 11 0s7 5 11 0M5 14c4-5 7 5 11 0s7 5 11 0" fill="none" stroke="#f0b04a" stroke-width="2.4" stroke-linecap="round"/></svg>
+    <div>NOVA LLAR</div>
+  </div>
+  <div class="sp"></div>
+  <button class="btn" id="th" aria-label="Cambiar tema claro u oscuro">◐</button>
+  <button class="btn" id="pr" aria-label="Imprimir o guardar como PDF">PDF</button>
+</header>
+<nav id="nav" aria-label="Pestañas"></nav>
+</div>
+<div id="bk"></div>
+<aside id="dr" aria-label="Índice de pestañas" aria-hidden="true">
+  <div class="dh"><strong>ÍNDICE</strong><button class="btn" id="cx" aria-label="Cerrar el índice">Cerrar</button></div>
+  <ol id="dl"></ol>
+</aside>
+<main>
+  <input id="q" type="search" placeholder="Buscar en todo el panel…" aria-label="Buscar en todo el panel">
+  <div class="res" id="res" role="region" aria-live="polite"></div>
+  <div id="panels"></div>
+</main>
+<button class="fab" id="fh" aria-label="Ir a INICIO (se puede arrastrar)">INICIO</button>
+<button class="fab" id="fu" aria-label="Ir al comienzo de esta pestaña (se puede arrastrar)">ARRIBA</button>
+
+<script>
+/* ===== DATOS =====
+   Fuente: HACER_LA_EMPRESA_DEL_FUTURO_HOY.html («el documento»). Las referencias §n son sus secciones.
+   Tipos: h=Hecho (está en el documento) · i=Inferencia · y=Hipótesis · a=Dato ausente · r=Recomendación propia. */
+var TAG={h:'Hecho',i:'Inferencia',y:'Hipótesis',a:'Ausente',r:'Recomendación'};
+
+var KPIS=[['16','secciones + portada (17 pestañas)'],['6','etapas en la hoja de ruta (§13)'],['6','canales comerciales (§11)'],['10','principios que no se traicionan (§14)'],['10','registros obligatorios por trabajo (§10)'],['1.500 €','objetivo mensual limpio de referencia (§10). Es una cifra de planificación, no una garantía'],['No especificado','fechas, responsables, presupuesto de inversión y precio de la oferta']];
+
+var OV=[
+['¿Qué es?','Diseño estratégico de una empresa pequeña de suministro, retirada y montaje de mobiliario modular, con foco en renovar cocinas completas, que usa IA y automatización como infraestructura interna.','h','§1, §15'],
+['¿Qué oportunidad aborda?','Los montadores pequeños suelen captar por recomendación y gestionar a mano. El documento propone competir con captación directa, marketing continuo y control de datos. El propio texto aclara que esa comparación describe el modelo objetivo, no a todos los competidores.','h','§2'],
+['¿Qué quiere conseguir?','Una empresa ligera, rentable y con capacidades comerciales propias de una más grande. Medida de éxito declarada: la rentabilidad. Referencia económica: unos 1.500 € mensuales limpios.','h','§3, §10, §16'],
+['¿Qué ofrece?','«Renueva tu cocina por XXX €»: retirada de muebles antiguos, suministro, montaje y entrega, sobre una cocina tipo bien definida. Si no encaja, presupuesto personalizado.','h','§4'],
+['¿En qué punto está?','Sin datos suficientes. El documento es un manual de diseño: no registra avances, fechas ni estados. Todo lo que parezca «fase actual» sería inventado.','a','—'],
+['¿Cuál sería el siguiente paso?','Cerrar la definición de la oferta (cocina tipo, precio, exclusiones) y fijar cómo se medirá el éxito de la Etapa 1.','r','Diagnóstico']
+];
+
+var FICHA=[
+['Incluye','Retirada del mobiliario antiguo, suministro de mobiliario nuevo, transporte, montaje y entrega. Aplicación propia para que el cliente vea su cocina renovada. Visita presencial para verificar medidas y condiciones.','h','§4, §6, §9'],
+['Excluye','Electricidad, gas, fontanería y otras especialidades reguladas, salvo que intervengan profesionales habilitados. No se vende IA ni imágenes: se vende mueble suministrado y montado.','h','§9, §14'],
+['A quién se dirige','Propietarios que renuevan su cocina. Además: tiendas y distribuidores, empresas de cocinas, plataformas, reformistas, inmobiliarias y administradores de fincas.','h','§6, §11'],
+['Estructura','Una, dos o tres personas. Tres pilares: dirección y decisiones, ejecución profesional, infraestructura tecnológica.','h','§1, §3'],
+['Criterio de éxito','La rentabilidad. Métrica clave: beneficio por hora real de trabajo, incluyendo captación, desplazamientos, compras y preparación. Sin umbrales definidos.','h','§10, §16'],
+['Restricciones declaradas','La IA no decide: presupuestos, compromisos y decisiones importantes los aprueba una persona. Precios, medidas, referencias y costes deben verificarse.','h','§8, §14'],
+['Nombre «NOVA LLAR»','Lo indica la persona usuaria. No figura en el documento, que deja el nombre comercial como tarea de la Etapa 2.','a','§13']
+];
+
+var ST=[
+['Construir la capacidad profesional','Dominio del montaje, mobiliario modular, herramientas, procedimientos, calidad de ejecución, medición de tiempos y primeros trabajos verificables.'],
+['Crear la marca y el canal directo','Nombre comercial, identidad visual, web, oferta comercial, presencia local, canales de contacto y primeras campañas.'],
+['Desarrollar la experiencia visual','Primera versión de la app: subir fotos, generar propuestas visuales, elegir estilos, solicitar visita, recoger datos. Debe demostrar que ayuda a generar clientes.'],
+['Construir el sistema comercial','CRM, registro de oportunidades, seguimiento, historial, presupuestación asistida, registro de proveedores y análisis de conversiones.'],
+['Organizar la operación','Procedimientos de trabajo, control de materiales, coordinación de proveedores, planificación, control de calidad y gestión de incidencias.'],
+['Automatizar y optimizar','Automatizar tareas repetitivas, integrar herramientas, mejorar la app, analizar rentabilidad, optimizar campañas y reducir costes.']
+];
+
+var EC=['Precio cobrado','Coste de los muebles','Transporte','Retirada','Materiales auxiliares','Costes de captación','Horas de trabajo','Desplazamientos','Gastos indirectos','Margen final'];
+
+var REC=[
+['Humanos','Una, dos o tres personas (§1). Quién hace qué: no especificado.','a'],
+['Tecnología','IA generativa de imagen (se citan Google AI Studio y Nano Banana), CRM, automatización, web y app propias, Google Ads y Meta Ads (§6, §7). Coste de cada una: no especificado.','h'],
+['Materiales y logística','Herramientas de montaje y transporte (§9). Si el transporte es propio o subcontratado: no especificado.','a'],
+['Externos','Fabricantes, distribuidores, transporte y profesionales habilitados para trabajos fuera del montaje (§5). Ningún proveedor identificado.','h'],
+['Económicos','Objetivo de 1.500 € mensuales limpios (§10). Presupuesto o inversión inicial: no especificado. Esto es una laguna, no un presupuesto de cero euros.','a']
+];
+
+var RK=[
+['R1','La imagen generada por IA no coincide con muebles reales o medidas viables','§6.3, §14','Presupuestos o expectativas que no se pueden cumplir','Explícito','Alta','Verificar medidas, módulos y referencias antes de presupuestar (ya previsto en el documento)'],
+['R2','Anunciar un precio que luego no se pueda respetar','§4','Pérdidas o pérdida de confianza','Explícito','Crítica','Definir la cocina tipo y sus exclusiones antes de publicar cifra'],
+['R3','Confundir facturación con ingreso limpio','§10','Decisiones basadas en un margen irreal','Explícito','Alta','Registrar los 10 datos de cada trabajo desde el primero'],
+['R4','Trabajos de gas, electricidad o fontanería asociados a la cocina','§5, §9','Responsabilidad legal o trabajos mal ejecutados','Explícito','Alta','Fijar con qué profesionales habilitados se colabora y cómo se cobra'],
+['R5','Automatizar sin supervisión humana','§8.2, §14','Compromisos de precio o trabajo no autorizados','Explícito','Media','Mantener la aprobación humana, como dice el principio 7'],
+['R6','Objetivo económico sin horizonte ni base de cálculo','§10','No se puede saber si el modelo funciona','Observación','Crítica','Fijar período, número de trabajos, horas y margen por trabajo'],
+['R7','Sin calendario, responsables ni presupuesto de inversión','Todo el documento','No se puede hacer seguimiento fiable','Observación','Crítica','Asignar fechas, responsables y un presupuesto inicial a la Etapa 1'],
+['R8','Seis canales y seis etapas para una estructura de 1 a 3 personas','§1, §11, §13','Dispersión y exceso de carga','Observación','Alta','Elegir un canal inicial y un criterio de salida por etapa'],
+['R9','La app recoge fotos de viviendas y datos de clientes y el documento no trata la protección de datos','§6, §13','Incumplimiento normativo','Observación','Alta','Revisar los requisitos de protección de datos antes de la Etapa 3']
+];
+
+var DEP=[
+['Etapa 2 (oferta, web, campañas)','Etapa 1 (dominio del oficio y costes reales)','Inferencia','Sin costes reales no se puede fijar el precio de la cocina tipo'],
+['Etapa 3 (app)','Etapa 2 (marca e identidad visual)','Inferencia','La app lleva marca, identidad y planteamiento comercial propios (§6)'],
+['Etapa 4 (presupuestación asistida)','Tarifas reales y proveedores','Documento','§8.3 exige tarifas reales; los proveedores se registran en esta etapa'],
+['Etapa 5 (operación)','Datos de trabajos previos','Inferencia','Los procedimientos se apoyan en lo aprendido en las primeras instalaciones'],
+['Etapa 6 (automatizar)','Procesos definidos en etapas 4 y 5','Documento','No se automatiza irresponsablemente (§14)'],
+['Instalar cocinas completas','Profesionales habilitados','Documento','Las especialidades reguladas quedan fuera del alcance (§9)'],
+['Presupuesto de cada trabajo','Visita presencial y medidas','Documento','La visita comprueba dimensiones, instalaciones y acceso (§6.2)']
+];
+
+var DEC=[
+['Precio y configuración de la cocina tipo','Es el centro de la oferta y hoy figura como «XXX €»','No se puede lanzar la Etapa 2','Costes reales de muebles, transporte, retirada y montaje','Crítica'],
+['Forma jurídica','El documento solo dice «si trabajamos como autónomos»','Sin base para impuestos, cotizaciones y facturación','Asesoramiento fiscal','Alta'],
+['Zona geográfica de actuación','Las campañas, visitas y desplazamientos dependen de ella; el documento no la fija','Costes de desplazamiento y publicidad indefinidos','Dónde viven los proveedores y los primeros clientes','Alta'],
+['Canal de captación inicial','Hay seis canales y se pide analizarlos uno a uno','Esfuerzo repartido sin resultados medibles','Coste y tiempo de cada canal','Alta'],
+['Cuándo se pasa de una etapa a la siguiente','No hay criterios de salida','Se avanza sin saber si lo anterior funciona','Qué resultado demuestra cada etapa','Alta'],
+['Garantía y postventa','Solo se menciona la gestión de incidencias pendientes','Condiciones poco claras con el cliente','Qué cubre el proveedor y qué cubre la empresa','Media']
+];
+
+var AC=[
+['Definir la cocina tipo, su precio y sus exclusiones','El precio sigue como «XXX €» (§4)','Oferta publicable','Costes de proveedores','Crítica'],
+['Fijar el objetivo económico con período, horas y número de trabajos','1.500 € limpios no se puede evaluar sin esos datos (§10)','Objetivo medible','Forma jurídica','Crítica'],
+['Escribir criterios de éxito por etapa','Solo la Etapa 3 tiene un criterio, y es cualitativo (§13)','Decidir cuándo avanzar','Ninguna','Alta'],
+['Poner fechas, responsables y presupuesto inicial a la Etapa 1','El documento no incluye ninguno','Seguimiento fiable','Decisión de zona y forma jurídica','Alta'],
+['Identificar proveedores y profesionales habilitados','Se necesitan para suministro y especialidades reguladas (§5, §9)','Lista de contactos con condiciones','Zona geográfica','Alta'],
+['Preparar la ficha de registro de 10 datos por trabajo','Es obligatoria según §10','Margen y beneficio por hora desde el primer trabajo','Ninguna','Media'],
+['Revisar protección de datos antes de la app','La Etapa 3 recoge fotos y datos personales','Evitar un riesgo legal','Diseño de la Etapa 3','Media']
+];
+
+var QL=[
+['Hechos explícitos','Visión, modelo, oferta, canales, hoja de ruta, principios, objetivo de 1.500 € mensuales limpios y métrica de beneficio por hora.','h'],
+['Inferencias','El proyecto está en fase de diseño porque no hay registros de ejecución. La estructura de 1 a 3 personas limita la capacidad de trabajo. El precio depende de costes aún desconocidos.','i'],
+['Hipótesis por validar','Que los competidores pequeños trabajan de forma convencional (§2, el documento lo matiza). Que la visualización con IA ayude a captar clientes (§13, Etapa 3). Que los canales produzcan trabajos rentables (§7.3). Que 1.500 € limpios sean alcanzables.','y'],
+['Datos ausentes','Fechas, responsables, presupuesto de inversión, precio de la oferta, zona, forma jurídica, proveedores, número de personas, garantía, protección de datos, criterios de salida de etapa.','a'],
+['Contradicciones y ambigüedades','«XXX €» queda como marcador. La retirada de muebles antiguos aparece dos veces en la oferta (§4) con redacción distinta. El objetivo de unos 1.500 € mensuales contrasta con la ambición de capacidades de empresa grande (§16), sin explicar la relación.','i'],
+['Limitaciones del análisis','Solo se ha usado el texto del documento. No se han buscado datos de mercado ni precios. Las prioridades son valoraciones analíticas, no estados oficiales.','h']
+];
+
+var DG=[
+['Bien planteado','El producto es claro: mueble suministrado y montado, no IA (§14). Cada trabajo tiene una unidad económica de 10 registros y una métrica real, el beneficio por hora (§10). El documento avisa de que una imagen de IA no es un proyecto viable (§6.3) y separa lo verificado de lo supuesto. Las etapas crecen por capas.','h'],
+['Débilmente planteado','El objetivo económico no tiene horizonte ni base. Los criterios de éxito son cualitativos. La aplicación propia exige un esfuerzo que el documento no estima. Seis canales y seis etapas parecen mucho para 1 a 3 personas, y no hay un orden de prioridad entre canales.','y'],
+['Lo que falta','Calendario, responsables, presupuesto de inversión, precio de la oferta, zona, forma jurídica, proveedores, garantía, protección de datos y criterios de salida por etapa.','a'],
+['Riesgos más importantes','R2 (precio inviable), R6 (objetivo sin base), R7 (sin calendario ni presupuesto), R1 (imagen que no se puede construir) y R9 (datos de clientes).','i'],
+['Tres mejoras de mayor impacto','1) Cocina tipo con precio y margen calculados con costes reales. 2) Criterios de éxito con cifras para cada etapa. 3) Calendario, responsables y presupuesto mínimo para la Etapa 1. Justificación: son lo que bloquea la Etapa 2 y permite medir el resto.','r']
+];
+
+/* ===== UTILIDADES ===== */
+var $=function(s,e){return (e||document).querySelector(s)};
+function tag(t){return '<span class="tag t-'+t+'">'+TAG[t]+'</span>'}
+function cards(rows){return '<div class="grid">'+rows.map(function(r){return '<div class="card it">'+tag(r[2])+'<span class="ref">'+(r[3]||'')+'</span><h3>'+r[0]+'</h3><p>'+r[1]+'</p></div>'}).join('')+'</div>'}
+var TB=0;
+/* Tabla con ordenación por selector y filtro por columna */
+function table(cols,rows,filterIdx){
+  var id='tb'+(TB++);
+  var f='';
+  if(filterIdx!=null){
+    var vals=[];rows.forEach(function(r){if(vals.indexOf(r[filterIdx])<0)vals.push(r[filterIdx])});
+    f='<label>Filtrar: '+cols[filterIdx]+'<select data-f="'+id+'" aria-label="Filtrar por '+cols[filterIdx]+'"><option value="">Todos</option>'+vals.map(function(v){return '<option>'+v+'</option>'}).join('')+'</select></label>';
+  }
+  var s='<label>Ordenar por<select data-s="'+id+'" aria-label="Ordenar por"><option value="-1">Orden original</option>'+cols.map(function(c,i){return '<option value="'+i+'">'+c+'</option>'}).join('')+'</select></label>';
+  return '<div class="bar" id="'+id+'-bar">'+f+s+'</div><table id="'+id+'"><thead><tr>'+cols.map(function(c){return '<th scope="col">'+c+'</th>'}).join('')+'</tr></thead><tbody></tbody></table>'+
+  '<script type="application/json" id="'+id+'-d">'+JSON.stringify({c:cols,r:rows,f:filterIdx})+'<\/script>';
+}
+function fillTable(id){
+  var d=JSON.parse($('#'+id+'-d').textContent),fs=$('[data-f="'+id+'"]'),ss=$('[data-s="'+id+'"]');
+  var r=d.r.slice();
+  if(fs&&fs.value)r=r.filter(function(x){return x[d.f]===fs.value});
+  var k=parseInt(ss.value,10);
+  if(k>=0)r.sort(function(a,b){return String(a[k]).localeCompare(String(b[k]),'es',{numeric:true})});
+  $('#'+id+' tbody').innerHTML=r.length?r.map(function(x){return '<tr class="it">'+x.map(function(c,i){return '<td data-l="'+d.c[i]+'">'+c+'</td>'}).join('')+'</tr>'}).join(''):'<tr><td>Sin resultados para este filtro.</td></tr>';
+}
+
+/* ===== ENLACES: cada URL lleva siempre su botón «Abrir en otra ventana» ===== */
+var LINKS=[['Google Ads','https://ads.google.com','Publicidad de búsqueda local para captar renovaciones de cocina (§7).'],['Google AI Studio','https://aistudio.google.com','Modelos de imagen para visualizar la cocina del cliente, como Nano Banana (§6.3).'],['Meta Ads','https://www.facebook.com/business/ads','Campañas en Facebook e Instagram: antes y después y segmentación geográfica (§7.3).']];
+function urlCard(l){return '<div class="card it"><span class="tag t-h">Hecho</span><h3>'+l[0]+'</h3><p>'+l[2]+'</p><div class="url">'+l[1]+'</div><a class="go" href="'+l[1]+'" target="_blank" rel="noopener noreferrer" data-u="'+l[1]+'">Abrir en otra ventana ↗</a></div>'}
+
+/* ===== MÓDULOS ===== */
+var MODS=[
+{id:'inicio',n:'INICIO',h:function(){
+  return '<div class="hero"><span class="tag">PANEL DEL PROYECTO</span><h1>NOVA LLAR <span>by Rubén Sbarsky</span></h1><p>Empresa de suministro y montaje de mobiliario modular, nativa de la era de la IA. Panel construido solo con el contenido del manual «Hacer la empresa del futuro hoy».</p></div>'+
+  '<div class="grid">'+KPIS.map(function(k,i){return '<div class="card it"><div class="kpi'+(i==6?' na':'')+'">'+k[0]+'</div><div class="kl">'+k[1]+'</div></div>'}).join('')+'</div>'+
+  '<h2>Preguntas clave</h2>'+cards(OV)}},
+{id:'ficha',n:'Ficha',h:function(){return '<h1>Ficha del proyecto</h1><p class="lead">Alcance, límites y criterios tal como los fija el documento.</p>'+cards(FICHA)}},
+{id:'ruta',n:'Hoja de ruta',h:function(){
+  var nm=['Oficio','Marca','App','Comercial','Operación','Optimizar'];
+  return '<h1>Hoja de ruta</h1><p class="lead">Seis etapas por capas (§13).</p><div class="note">Es una secuencia conceptual del documento, no un calendario aprobado. No hay fechas, responsables ni criterios de salida.</div>'+
+  '<div class="chain" role="img" aria-label="Las seis etapas en el orden del documento">'+nm.map(function(n,i){return '<span><b>Etapa '+(i+1)+'</b> · '+n+'</span>'}).join('<i>→</i>')+'</div>'+
+  '<h2>Detalle por etapa</h2>'+ST.map(function(s,i){return '<details class="it"><summary>Etapa '+(i+1)+' · '+s[0]+'</summary><p>'+s[1]+'</p><p>'+tag('a')+' Fecha, responsable y criterio de salida: No especificado'+(i==2?'. Único criterio: «debe demostrar que ayuda a generar clientes», sin umbral.':'.')+'</p></details>'}).join('')}},
+{id:'eco',n:'Economía',h:function(){
+  return '<h1>Modelo económico</h1><p class="lead">Rentabilidad antes que volumen (§10).</p><p class="it">'+tag('h')+' Del dinero cobrado al beneficio personal:</p>'+
+  '<div class="chain">'+['Facturación sin IVA','Costes directos','Margen de contribución','Gastos fijos','Cotizaciones','Impuestos','Beneficio neto personal'].map(function(s){return '<span>'+s+'</span>'}).join('<i>→</i>')+'</div>'+
+  '<div class="note">«Una facturación de 1.500 euros no equivale a 1.500 euros limpios.» Presupuesto de inversión y precio de la oferta: No especificado.</div>'+
+  '<h2>Calculadora de un trabajo (con tus cifras)</h2><p class="lead">No lleva datos de ejemplo. Escribe los importes en euros y las horas reales. Fórmula: margen final = precio cobrado − suma de costes; beneficio por hora = margen final ÷ horas.</p>'+
+  '<div class="grid" id="calc">'+EC.slice(0,9).map(function(e,i){return '<label class="card">'+e+(i==6?' (h)':i>0?' (€)':' (€)')+'<br><input class="num" type="number" min="0" step="any" inputmode="decimal" data-c="'+i+'"></label>'}).join('')+'</div>'+
+  '<div class="card" style="margin-top:12px"><div class="kl">Margen final</div><div class="out" id="mg">Sin datos suficientes</div><div class="kl" style="margin-top:8px">Beneficio por hora real</div><div class="out" id="bh">Sin datos suficientes</div></div>'+
+  '<h2>Los 10 registros obligatorios por trabajo</h2><div class="chain">'+EC.map(function(e,i){return '<span class="it">'+(i+1)+'. '+e+'</span>'}).join('')+'</div>'}},
+{id:'rec',n:'Recursos',h:function(){return '<h1>Recursos</h1><p class="lead">Lo documentado frente a lo que falta.</p>'+cards(REC.map(function(r){return [r[0],r[1],r[2],'']}))+'<h2>Enlaces citados en el documento</h2><div class="grid">'+LINKS.map(urlCard).join('')+'</div>'}},
+{id:'rk',n:'Riesgos',h:function(){return '<h1>Riesgos</h1><p class="lead">«Explícito» viene del documento; «Observación» es un análisis propio. Prioridad: valoración preliminar, no un dato del documento.</p>'+table(['ID','Riesgo','Dónde','Consecuencia','Origen','Prioridad','Mitigación'],RK,5)}},
+{id:'dep',n:'Dependencias',h:function(){return '<h1>Dependencias</h1><p class="lead">Qué necesita qué. «Documento» sale del texto; «Inferencia» es deducción propia.</p>'+table(['Actividad','Depende de','Origen','Motivo'],DEP,2)}},
+{id:'dec',n:'Decisiones',h:function(){return '<h1>Decisiones pendientes</h1><p class="lead">Prioridad sugerida por el análisis, no estado oficial.</p>'+table(['Decisión','Motivo','Si no se decide','Información necesaria','Prioridad'],DEC,4)}},
+{id:'acc',n:'Acciones',h:function(){return '<h1>Próximas acciones</h1><p class="lead">'+tag('r')+' Recomendaciones derivadas del análisis. Ninguna es un compromiso aprobado y no hay responsables ni fechas documentados.</p>'+table(['Acción','Motivo','Resultado esperado','Depende de','Prioridad'],AC,4)+'<div class="note">Criterio de prioridad. Crítica: bloquea un resultado esencial. Alta: conviene resolverla pronto. Media: mejora sin bloquear.</div>'}},
+{id:'cal',n:'Calidad',h:function(){return '<h1>Calidad de la información</h1><p class="lead">Qué está documentado, qué se ha inferido y qué falta para un seguimiento fiable.</p>'+cards(QL.map(function(r){return [r[0],r[1],r[2],'']}))}},
+{id:'dg',n:'Diagnóstico',h:function(){return '<h1>Diagnóstico crítico</h1><p class="lead">Análisis sin suavizar, para mejorar el proyecto.</p>'+cards(DG.map(function(r){return [r[0],r[1],r[2],'']}))}}
+];
+
+/* Botones fijos al final de cada pestaña: anterior y siguiente */
+function pnav(i){
+  var h='<div class="pn">';
+  if(i>0)h+='<button data-go="'+MODS[i-1].id+'"><small>← Anterior</small>'+MODS[i-1].n+'</button>';
+  if(i<MODS.length-1)h+='<button class="nx" data-go="'+MODS[i+1].id+'"><small>Siguiente →</small>'+MODS[i+1].n+'</button>';
+  return h+'</div>';
+}
+/* ===== MONTAJE ===== */
+var nav=$('#nav'),pan=$('#panels'),cur='';
+MODS.forEach(function(m){
+  var b=document.createElement('button');b.textContent=m.n;b.dataset.id=m.id;b.addEventListener('click',function(){go(m.id)});nav.appendChild(b);
+  var p=document.createElement('section');p.className='panel';p.id='p-'+m.id;p.setAttribute('aria-label',m.n);p.innerHTML=m.h()+pnav(MODS.indexOf(m));pan.appendChild(p);
+  var li=document.createElement('li'),bi=document.createElement('button');bi.dataset.id=m.id;bi.textContent=(MODS.indexOf(m)+1)+'. '+m.n;bi.addEventListener('click',function(){closeDr();go(m.id)});li.appendChild(bi);$('#dl').appendChild(li);
+});
+/* Las tablas llevan su JSON en un <script>; se rellenan tras insertarlas */
+document.querySelectorAll('table[id^=tb]').forEach(function(t){fillTable(t.id)});
+document.querySelectorAll('select[data-f],select[data-s]').forEach(function(s){s.addEventListener('change',function(){fillTable(s.dataset.f||s.dataset.s)})});
+
+function go(id,hit){
+  if(!$('#p-'+id))id='inicio';
+  cur=id;
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.toggle('on',p.id==='p-'+id)});
+  document.querySelectorAll('#nav button,#dl button').forEach(function(b){if(b.dataset.id===id){b.setAttribute('aria-current','page');if(b.parentNode===nav&&nav.scrollTo)nav.scrollTo({left:b.offsetLeft-(nav.clientWidth-b.offsetWidth)/2,behavior:'smooth'})}else b.removeAttribute('aria-current')});
+  try{history.replaceState(null,'','#'+id)}catch(e){}
+  if(hit){hit.classList.add('hit');hit.scrollIntoView({block:'center'});setTimeout(function(){hit.classList.remove('hit')},2200)}else window.scrollTo(0,0);
+}
+
+/* Calculadora: solo calcula con datos introducidos */
+var inputs=document.querySelectorAll('#calc input');
+function calc(){
+  var v=[],ok=true;
+  inputs.forEach(function(i){var n=parseFloat(i.value);v.push(isNaN(n)?null:n)});
+  var precio=v[0],horas=v[6];
+  if(precio==null||horas==null||horas<=0){$('#mg').textContent='Sin datos suficientes';$('#bh').textContent='Sin datos suficientes';return}
+  var costes=0;v.forEach(function(n,i){if(i!==0&&i!==6&&n!=null)costes+=n});
+  var m=precio-costes,f=function(n){return n.toLocaleString('es-ES',{maximumFractionDigits:2})+' €'};
+  $('#mg').textContent=f(m);$('#bh').textContent=f(m/horas)+' / h';
+}
+inputs.forEach(function(i){i.addEventListener('input',calc)});
+
+/* Búsqueda: recorre los elementos .it de todos los módulos */
+var res=$('#res');
+$('#q').addEventListener('input',function(e){
+  var q=e.target.value.trim().toLowerCase();
+  if(q.length<2){res.style.display='none';return}
+  var out=[];
+  document.querySelectorAll('.panel .it').forEach(function(el){
+    if(el.textContent.toLowerCase().indexOf(q)>-1){out.push(el)}
+  });
+  res.style.display='block';
+  res.innerHTML=out.length?'':'<p style="margin:8px">Sin resultados.</p>';
+  out.slice(0,12).forEach(function(el){
+    var pid=el.closest('.panel').id.slice(2),m=MODS.filter(function(x){return x.id===pid})[0];
+    var b=document.createElement('button');
+    b.innerHTML='<strong>'+m.n+'</strong> · '+el.textContent.replace(/\s+/g,' ').slice(0,100)+'…';
+    b.addEventListener('click',function(){res.style.display='none';go(pid,el)});
+    res.appendChild(b);
+  });
+});
+
+/* Tema e impresión */
+var root=document.documentElement;
+root.dataset.theme=(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';
+$('#th').addEventListener('click',function(){root.dataset.theme=root.dataset.theme==='dark'?'light':'dark'});
+$('#pr').addEventListener('click',function(){window.print()});
+
+/* Índice (menú sándwich) */
+var dr=$('#dr'),bk=$('#bk');
+function openDr(){dr.classList.add('on');bk.classList.add('on');dr.setAttribute('aria-hidden','false');$('#ix').setAttribute('aria-expanded','true');$('#dl button[aria-current=page]').focus()}
+function closeDr(){dr.classList.remove('on');bk.classList.remove('on');dr.setAttribute('aria-hidden','true');$('#ix').setAttribute('aria-expanded','false')}
+$('#ix').addEventListener('click',openDr);$('#cx').addEventListener('click',closeDr);bk.addEventListener('click',closeDr);
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeDr()});
+
+/* Pie de pestaña: anterior / siguiente */
+pan.addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(b)go(b.dataset.go)});
+
+/* Enlaces: siempre en ventana nueva */
+document.addEventListener('click',function(e){var a=e.target.closest('a[data-u]');if(a){e.preventDefault();window.open(a.dataset.u,'_blank','noopener,noreferrer')}});
+
+/* Botones flotantes movibles (arrastrar con el dedo; un toque ejecuta la acción) */
+function fab(el,fn,fromBottom){
+  var sx,sy,ox,oy,mv=false,pid=null;
+  function place(x,y){x=Math.max(4,Math.min(innerWidth-el.offsetWidth-4,x));y=Math.max(4,Math.min(innerHeight-el.offsetHeight-4,y));el.style.left=x+'px';el.style.top=y+'px'}
+  place(innerWidth-el.offsetWidth-12,innerHeight-fromBottom);
+  el.addEventListener('pointerdown',function(e){pid=e.pointerId;try{el.setPointerCapture(pid)}catch(x){}sx=e.clientX;sy=e.clientY;var r=el.getBoundingClientRect();ox=r.left;oy=r.top;mv=false});
+  el.addEventListener('pointermove',function(e){if(pid!==e.pointerId)return;var dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)>6||Math.abs(dy)>6)mv=true;if(mv)place(ox+dx,oy+dy)});
+  el.addEventListener('pointerup',function(e){if(pid!==e.pointerId)return;pid=null;if(!mv)fn()});
+  el.addEventListener('pointercancel',function(){pid=null});
+  el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();fn()}});
+  window.addEventListener('resize',function(){var r=el.getBoundingClientRect();place(r.left,r.top)});
+}
+fab($('#fh'),function(){go('inicio')},170);
+fab($('#fu'),function(){window.scrollTo(0,0)},108);
+go((location.hash||'#inicio').slice(1));
+</script>
+</body>
+</html>
