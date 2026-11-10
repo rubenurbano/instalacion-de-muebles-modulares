@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>Hacer la Empresa del Futuro Hoy — Manual Estratégico</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#fffbeb',
+              100: '#fef3c7',
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+            },
+            surface: {
+              950: '#07090e',
+              900: '#0f1420',
+              800: '#171f32',
+              700: '#24304c'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Optimización de rendimiento para Samsung Galaxy A02s (360x800px, GPU eficiente) */
+    * {
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: #07090e;
+      color: #f8fafc;
+      overscroll-behavior-y: none;
+    }
+    .font-display {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    /* Barras de desplazamiento sutiles */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #07090e;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #24304c;
+      border-radius: 9999px;
+    }
+    /* Botones flotantes arrastrables sin retraso táctil */
+    .draggable-fab {
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+      will-change: left, top;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.14);
+      transition: transform 0.12s ease, background-color 0.2s ease;
+    }
+    .draggable-fab:active {
+      transform: scale(0.93);
+    }
+    /* Animación ligera para cambio de pestañas */
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .tab-animate {
+      animation: fadeSlideUp 0.22s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-surface-950 text-slate-100 antialiased selection:bg-brand-500 selection:text-slate-950">
+
+  <!-- CABECERA FIJA CON MENÚ SÁNDWICH -->
+  <header class="sticky top-0 z-30 bg-surface-950/95 backdrop-blur-md border-b border-slate-800/80">
+    <div class="max-w-3xl mx-auto px-3.5 py-2.5 flex items-center justify-between gap-2">
+      <!-- Botón Menú Sándwich (Índice) -->
+      <button id="openDrawerBtn" type="button" aria-label="Abrir Índice de Pestañas"
+        class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-surface-800 hover:bg-surface-700 active:scale-95 border border-slate-700/80 text-slate-100 transition shadow-sm">
+        <svg class="w-5 h-5 text-brand-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <span class="font-display font-bold text-xs tracking-wider uppercase text-brand-400">ÍNDICE</span>
+      </button>
+
+      <!-- Indicador de Pestaña Actual -->
+      <div class="flex flex-col items-end text-right min-w-0 flex-1">
+        <div class="flex items-center gap-1.5">
+          <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="headerStepCounter" class="text-[11px] font-semibold uppercase tracking-widest text-slate-400">PESTAÑA 1 DE 17</span>
+        </div>
+        <p id="headerStepTitle" class="text-xs font-medium text-slate-200 truncate max-w-[195px] sm:max-w-xs">
+          INICIO · Resumen Ejecutivo
+        </p>
+      </div>
+    </div>
+
+    <!-- Barra de progreso de lectura -->
+    <div class="w-full h-1 bg-surface-900 overflow-hidden">
+      <div id="progressBar" class="h-full bg-gradient-to-r from-brand-500 via-amber-400 to-emerald-400 transition-all duration-300" style="width: 5.88%;"></div>
+    </div>
+  </header>
+
+  <!-- CAJÓN LATERAL: ÍNDICE MENÚ SÁNDWICH -->
+  <div id="drawerBackdrop" class="fixed inset-0 z-40 bg-black/75 backdrop-blur-xs hidden opacity-0 transition-opacity duration-200"></div>
+  
+  <aside id="drawerPanel" aria-label="Índice del Tutorial"
+    class="fixed top-0 left-0 bottom-0 z-50 w-[86vw] max-w-sm bg-surface-900 border-r border-slate-800 flex flex-col transform -translate-x-full transition-transform duration-250 ease-out shadow-2xl">
+    
+    <!-- Cabecera del Índice -->
+    <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-surface-950/60">
+      <div>
+        <span class="text-[10px] font-bold uppercase tracking-widest text-brand-400 block">NAVEGACIÓN RÁPIDA</span>
+        <h2 class="font-display font-extrabold text-base text-white">Índice del Tutorial (17 Pestañas)</h2>
+      </div>
+      <button id="closeDrawerBtn" type="button" aria-label="Cerrar Índice"
+        class="p-2 rounded-xl bg-surface-800 text-slate-300 hover:text-white border border-slate-700">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Buscador rápido dentro del menú sándwich -->
+    <div class="p-3 border-b border-slate-800/80 bg-surface-900">
+      <div class="relative">
+        <input id="indexSearchInput" type="text" placeholder="Buscar sección o tema..."
+          class="w-full bg-surface-950 text-slate-100 placeholder-slate-500 text-xs rounded-xl pl-9 pr-3 py-2.5 border border-slate-800 focus:outline-none focus:border-brand-400">
+        <svg class="w-4 h-4 text-slate-500 absolute left-3 top-2.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Lista de todas las pestañas -->
+    <nav id="drawerNavList" class="flex-1 overflow-y-auto p-3 space-y-1.5 divide-y divide-slate-800/30">
+      <!-- Generado dinámicamente por JS -->
+    </nav>
+
+    <!-- Pie del menú sándwich -->
+    <div class="p-3.5 border-t border-slate-800 bg-surface-950/90 text-[11px] text-slate-400 flex items-center justify-between">
+      <span>Optimizado Samsung Galaxy A02s</span>
+      <span class="text-brand-400 font-semibold">Edición Agencia Digital</span>
+    </div>
+  </aside>
+
+  <!-- CONTENEDOR PRINCIPAL DE CONTENIDO -->
+  <main id="mainContentContainer" class="flex-1 max-w-3xl w-full mx-auto px-3.5 sm:px-6 pt-4 pb-28">
+    <!-- Contenido dinámico de la pestaña activa -->
+    <div id="tabContentArea" class="tab-animate"></div>
+
+    <!-- Botones de navegación al final del contenido de la pestaña -->
+    <div id="inPageBottomNav" class="mt-8 pt-6 border-t border-slate-800/90"></div>
+  </main>
+
+  <!-- BARRA FIJA INFERIOR DE NAVEGACIÓN ENTRE PESTAÑAS (ANTERIOR / PRÓXIMA) -->
+  <footer class="fixed bottom-0 left-0 right-0 z-30 bg-surface-950/95 backdrop-blur-md border-t border-slate-800/90 px-3 py-2.5 shadow-2xl">
+    <div class="max-w-3xl mx-auto flex items-center justify-between gap-2.5">
+      <!-- Botón Pestaña Anterior -->
+      <button id="fixedPrevBtn" type="button"
+        class="flex-1 flex items-center justify-center gap-2 py-3 px-3.5 rounded-xl font-display font-bold text-xs sm:text-sm border border-slate-700 bg-surface-800 text-slate-100 active:scale-95 transition">
+        <svg class="w-4 h-4 shrink-0 text-brand-400" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+        </svg>
+        <span id="fixedPrevText" class="truncate">Anterior</span>
+      </button>
+
+      <!-- Botón abrir Índice en el centro -->
+      <button id="footerIndexBtn" type="button" aria-label="Ver todas las pestañas"
+        class="px-3 py-3 rounded-xl bg-surface-900 border border-slate-800 text-slate-300 hover:text-white text-xs font-mono font-bold shrink-0 active:scale-95">
+        <span id="footerFraction">1/17</span>
+      </button>
+
+      <!-- Botón Próxima Pestaña -->
+      <button id="fixedNextBtn" type="button"
+        class="flex-1 flex items-center justify-center gap-2 py-3 px-3.5 rounded-xl font-display font-bold text-xs sm:text-sm bg-gradient-to-r from-brand-500 to-amber-500 text-slate-950 shadow-md shadow-brand-500/20 active:scale-95 transition">
+        <span id="fixedNextText" class="truncate">Próxima pestaña</span>
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </div>
+  </footer>
+
+  <!-- BOTÓN FLOTANTE MOVIBLE 1: LLEVA A "INICIO" DESDE CUALQUIER LUGAR -->
+  <button id="fabHome" type="button" title="Arrastrar o tocar para ir a INICIO"
+    style="right: 12px; bottom: 146px;"
+    class="draggable-fab fixed z-40 flex items-center gap-1.5 px-3.5 py-2.5 rounded-full bg-brand-500 text-slate-950 font-display font-extrabold text-xs tracking-wide border border-amber-300">
+    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+    </svg>
+    <span>INICIO</span>
+  </button>
+
+  <!-- BOTÓN FLOTANTE MOVIBLE 2: "ARRIBA" (LLEVA AL COMIENZO DE LA PESTAÑA ACTUAL) -->
+  <button id="fabTop" type="button" title="Arrastrar o tocar para ir ARRIBA de esta pestaña"
+    style="right: 12px; bottom: 92px;"
+    class="draggable-fab fixed z-40 flex items-center gap-1.5 px-3.5 py-2.5 rounded-full bg-surface-800 text-amber-300 font-display font-extrabold text-xs tracking-wide border border-amber-400/50">
+    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+    </svg>
+    <span>ARRIBA</span>
+  </button>
+
+  <!-- SCRIPTS DE DATOS Y FUNCIONALIDAD COMPLETA -->
+  <script>
+    /**
+     * Función auxiliar para renderizar enlaces URL cumpliendo la regla estricta:
+     * "Todos los enlaces URL deben tener un botón 'Abrir en otra Ventana' que haga exactamente eso siempre."
+     */
+    function createExternalUrlCard(title, url, description, categoryTag) {
+      return `
+        <div class="p-3.5 rounded-2xl bg-surface-900/95 border border-slate-800 hover:border-brand-500/50 transition flex flex-col justify-between gap-3 shadow-sm">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-1">
+              <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-brand-500/15 text-brand-400 border border-brand-500/30">${categoryTag}</span>
+              <span class="text-[11px] font-mono text-slate-400 truncate max-w-[160px]">${url}</span>
+            </div>
+            <h4 class="font-display font-bold text-sm text-white mt-1">${title}</h4>
+            <p class="text-xs text-slate-300 mt-1 leading-relaxed">${description}</p>
+          </div>
+          <div class="pt-1 flex items-center justify-between gap-2 border-t border-slate-800/80">
+            <span class="text-[11px] text-slate-400 truncate">${url}</span>
+            <a href="${url}" target="_blank" rel="noopener noreferrer"
+               onclick="window.open('${url}', '_blank', 'noopener,noreferrer'); return false;"
+               class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-brand-500 hover:bg-brand-400 text-slate-950 font-display font-bold text-xs shrink-0 shadow-sm active:scale-95 transition">
+              <span>Abrir en otra Ventana</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      `;
+    }
+
+    /**
+     * Base de datos íntegra del Tutorial dividida en 17 pestañas (INICIO + 16 Capítulos Estratégicos).
+     * IMPORTANTE: Solo en la pestaña de INICIO el título agrega "by Rubén Sbarsky"
+     */
+    const tutorialTabs = [
+      {
+        id: 'inicio',
+        badge: 'INICIO',
+        shortMenuTitle: 'INICIO · Portada y Hoja de Control',
+        // REGLA 1: Solo en la pestaña de INICIO, el título agrega "by Rubén Sbarsky"
+        title: 'HACER LA EMPRESA DEL FUTURO HOY by Rubén Sbarsky',
+        subtitle: 'Diseño estratégico de una empresa de montaje de muebles modulares nativa de la era de la Inteligencia Artificial',
+        pillars: 'Visión empresarial · Modelo de negocio · Marketing · Tecnología · Operaciones · Crecimiento',
+        contentHtml: `
+          <!-- Banner Principal de Agencia Digital -->
+          <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-surface-800 via-surface-900 to-surface-950 border border-amber-500/30 p-5 sm:p-7 shadow-xl mb-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/15 border border-brand-400/30 text-brand-400 text-xs font-semibold mb-3">
+              <span>MANUAL ESTRATÉGICO INTERACTIVO</span>
+            </div>
+            <h1 class="font-display font-extrabold text-2xl sm:text-4xl text-white tracking-tight leading-tight">
+              HACER LA EMPRESA DEL FUTURO HOY <span class="text-brand-400 block sm:inline mt-1 sm:mt-0">by Rubén Sbarsky</span>
+            </h1>
+            <p class="mt-3 text-sm sm:text-base text-slate-200 leading-relaxed font-medium">
+              Diseño estratégico de una empresa de montaje de muebles modulares nativa de la era de la Inteligencia Artificial.
+            </p>
+            <div class="mt-4 pt-4 border-t border-slate-800/90 flex flex-wrap gap-1.5">
+              <span class="px-2.5 py-1 rounded-lg bg-surface-950/90 border border-slate-800 text-xs text-amber-300 font-medium">Visión empresarial</span>
+              <span class="px-2.5 py-1 rounded-lg bg-surface-950/90 border border-slate-800 text-xs text-amber-300 font-medium">Modelo de negocio</span>
+              <span class="px-2.5 py-1 rounded-lg bg-surface-950/90 border border-slate-800 text-xs text-amber-300 font-medium">Marketing</span>
+              <span class="px-2.5 py-1 rounded-lg bg-surface-950/90 border border-slate-800 text-xs text-amber-300 font-medium">Tecnología</span>
+              <span class="px-2.5 py-1 rounded-lg bg-surface-950/90 border border-slate-800 text-xs text-amber-300 font-medium">Operaciones</span>
+              <span class="px-2.5 py-1 rounded-lg bg-surface-950/90 border border-slate-800 text-xs text-amber-300 font-medium">Crecimiento</span>
+            </div>
+          </div>
+
+          <!-- Guía de uso rápido en móvil -->
+          <div class="rounded-2xl bg-surface-900 border border-slate-800 p-4 mb-6">
+            <h2 class="font-display font-bold text-sm uppercase tracking-wider text-brand-400 mb-2.5 flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/>
+              </svg>
+              Controles Inteligentes del Tutorial
+            </h2>
+            <ul class="space-y-2 text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <li class="flex items-start gap-2">
+                <span class="text-brand-400 font-bold">1.</span>
+                <span><strong>Menú Sándwich (ÍNDICE):</strong> Arriba a la izquierda tienes acceso inmediato a las 17 pestañas completas del documento.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-brand-400 font-bold">2.</span>
+                <span><strong>Botones Flotantes Movibles (INICIO y ARRIBA):</strong> Puedes arrastrarlos con el dedo a cualquier rincón de tu pantalla para que nunca estorben tu lectura.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-brand-400 font-bold">3.</span>
+                <span><strong>Navegación Secuencial:</strong> Al final de cada pestaña y en la barra fija inferior puedes avanzar a la próxima pestaña o volver a la anterior.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Índice interactivo de tarjetas en INICIO -->
+          <div class="mb-6">
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="font-display font-extrabold text-lg text-white">Mapa Completo de Pestañas</h2>
+              <span class="text-xs text-slate-400">Toca cualquier módulo para ir</span>
+            </div>
+            <div id="homeGridIndex" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <!-- Se puebla automáticamente con las 16 secciones -->
+            </div>
+          </div>
+
+          <!-- Enlaces de Herramientas de Referencia con botón obligatorio "Abrir en otra Ventana" -->
+          <div class="mt-8 pt-6 border-t border-slate-800">
+            <h3 class="font-display font-bold text-base text-white mb-1">Ecosistema Digital de Referencia</h3>
+            <p class="text-xs text-slate-400 mb-3">Todos los enlaces URL cuentan con su botón dedicado para abrirse siempre en una nueva ventana:</p>
+            <div class="grid grid-cols-1 gap-3">
+              ${createExternalUrlCard(
+                'Google Ads — Captación de Demanda Activa',
+                'https://ads.google.com',
+                'Plataforma publicitaria mencionada en la sección de Marketing para captar búsquedas locales de renovación de cocinas.',
+                'MARKETING'
+              )}
+              ${createExternalUrlCard(
+                'Google Gemini / AI Studio — Infraestructura IA',
+                'https://aistudio.google.com',
+                'Entorno de modelos generativos e inteligencia visual como Nano Banana para transformación fotográfica y análisis.',
+                'TECNOLOGÍA IA'
+              )}
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 'cap-1',
+        badge: 'SECCIÓN 1',
+        shortMenuTitle: '1. La Visión',
+        title: '1. LA VISIÓN',
+        subtitle: 'Construir desde el primer día una empresa concebida para funcionar en el futuro, utilizando hoy las tecnologías disponibles.',
+        contentHtml: `
+          <div class="space-y-4 text-sm sm:text-base text-slate-200 leading-relaxed">
+            <div class="p-4 rounded-2xl bg-surface-900 border-l-4 border-brand-500">
+              <p class="font-medium text-white">
+                No queremos crear una empresa tradicional de montaje de muebles modulares a la que posteriormente añadiremos algunas herramientas de inteligencia artificial.
+              </p>
+            </div>
+
+            <p class="font-display font-bold text-lg text-brand-400">Queremos hacer algo diferente:</p>
+
+            <p>
+              Construir desde el primer día una empresa concebida para funcionar en el futuro, utilizando hoy las tecnologías que ya tenemos disponibles.
+            </p>
+            <p>
+              Una empresa pequeña, ágil, con costes estructurales reducidos, pero con una capacidad comercial, tecnológica, analítica y organizativa que tradicionalmente solo estaba al alcance de empresas mucho mayores.
+            </p>
+
+            <div class="p-4 rounded-2xl bg-surface-800/80 border border-slate-700/80 text-center">
+              <p class="font-display font-extrabold text-base sm:text-lg text-amber-300">
+                «No necesitamos ser una gran empresa para disponer de capacidades de gran empresa.»
+              </p>
+            </div>
+
+            <p>
+              La tecnología actual permite que una estructura de una, dos o tres personas pueda disponer de herramientas que antes requerían departamentos completos.
+            </p>
+
+            <div class="rounded-2xl bg-surface-900 border border-slate-800 p-4 sm:p-5">
+              <h3 class="font-display font-bold text-base text-white mb-3">La oportunidad consiste en combinar:</h3>
+              <ul class="space-y-2.5 text-xs sm:text-sm text-slate-200">
+                <li class="flex items-start gap-2.5"><span class="w-2 h-2 rounded-full bg-brand-400 mt-1.5 shrink-0"></span><span>Un oficio físico con demanda real.</span></li>
+                <li class="flex items-start gap-2.5"><span class="w-2 h-2 rounded-full bg-brand-400 mt-1.5 shrink-0"></span><span>Una marca comercial propia.</span></li>
+                <li class="flex items-start gap-2.5"><span class="w-2 h-2 rounded-full bg-brand-400 mt-1.5 shrink-0"></span><span>Marketing profesional y permanente.</span></li>
+                <li class="flex items-start gap-2.5"><span class="w-2 h-2 rounded-full bg-brand-400 mt-1.5 shrink-0"></span><span>Captación directa de clientes.</span></li>
+                <li class="flex items-start gap-2.5"><span class="w-2 h-2 rounded-full bg-brand-400 mt-1.5 shrink-0"></span><span>Inteligencia artificial aplicada a procesos empresariales.</span></li>
+                <li class="flex items-start gap-2.5"><span class="w-2 h-2 rounded-full bg-brand-400 mt-1.5 shrink-0"></span><span>Automatización de tareas administrativas y comerciales.</span></li>
+                <li class="flex items-start gap-2.5"><span class="w-2 h-2 rounded-full bg-brand-400 mt-1.5 shrink-0"></span><span>Proveedores y colaboradores externos.</span></li>
+                <li class="flex items-start gap-2.5"><span class="w-2 h-2 rounded-full bg-brand-400 mt-1.5 shrink-0"></span><span>Procedimientos operativos bien definidos.</span></li>
+                <li class="flex items-start gap-2.5"><span class="w-2 h-2 rounded-full bg-brand-400 mt-1.5 shrink-0"></span><span>Análisis permanente de costes, resultados y rentabilidad.</span></li>
+              </ul>
+            </div>
+
+            <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-500/15 to-emerald-500/10 border border-amber-400/30">
+              <p class="font-display font-bold text-white mb-1">El objetivo no es construir una empresa tecnológica.</p>
+              <p class="text-slate-200 text-xs sm:text-sm">
+                Somos una empresa que vende muebles suministrados y montados. La tecnología es nuestra infraestructura interna para vender mejor, trabajar mejor y ganar más.
+              </p>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 'cap-2',
+        badge: 'SECCIÓN 2',
+        shortMenuTitle: '2. El Principio Fundamental',
+        title: '2. EL PRINCIPIO FUNDAMENTAL: NO COMPETIR COMO UNA EMPRESA TRADICIONAL',
+        subtitle: 'Combinar una buena ejecución física con una infraestructura comercial y organizativa superior.',
+        contentHtml: `
+          <div class="space-y-4 text-sm sm:text-base text-slate-200 leading-relaxed">
+            <p>
+              La mayoría de los pequeños profesionales del montaje de muebles trabajan con modelos comerciales bastante convencionales.
+            </p>
+
+            <div class="rounded-2xl bg-surface-900 border border-slate-800 p-4">
+              <h3 class="font-display font-bold text-sm uppercase tracking-wider text-slate-300 mb-3">Su actividad suele depender de:</h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                <div class="p-2.5 rounded-xl bg-surface-950 border border-slate-800/80">• Recomendaciones personales.</div>
+                <div class="p-2.5 rounded-xl bg-surface-950 border border-slate-800/80">• Boca a boca.</div>
+                <div class="p-2.5 rounded-xl bg-surface-950 border border-slate-800/80">• Contactos con tiendas.</div>
+                <div class="p-2.5 rounded-xl bg-surface-950 border border-slate-800/80">• Colaboraciones con distribuidores.</div>
+                <div class="p-2.5 rounded-xl bg-surface-950 border border-slate-800/80">• Plataformas de profesionales.</div>
+                <div class="p-2.5 rounded-xl bg-surface-950 border border-slate-800/80">• Anuncios ocasionales.</div>
+                <div class="p-2.5 rounded-xl bg-surface-950 border border-slate-800/80">• Clientes anteriores.</div>
+                <div class="p-2.5 rounded-xl bg-surface-950 border border-slate-800/80">• Su propia disponibilidad para trabajar.</div>
+              </div>
+            </div>
+
+            <p>
+              Muchos pueden tener una excelente capacidad técnica, experiencia y buenos resultados en sus instalaciones.
+            </p>
+            <p>
+              Sin embargo, la capacidad de captar clientes, desarrollar una marca, analizar mercados, automatizar procesos y gestionar comercialmente el negocio no siempre recibe la misma atención.
+            </p>
+
+            <div class="p-4 rounded-2xl bg-surface-800/90 border border-brand-500/40">
+              <p class="font-display font-bold text-brand-400 mb-1">Aquí aparece nuestra oportunidad.</p>
+              <p class="text-xs sm:text-sm text-slate-200">
+                No pretendemos ser mejores profesionales del montaje simplemente porque utilicemos IA. La calidad del oficio debe demostrarse trabajando. Nuestra ventaja potencial está en combinar una buena ejecución física con una infraestructura comercial y organizativa muy superior a la que normalmente puede permitirse un pequeño profesional.
+              </p>
+            </div>
+
+            <!-- Tabla Comparativa de Asimetría Competitiva optimizada para móvil 360px -->
+            <div class="mt-5">
+              <h3 class="font-display font-extrabold text-base sm:text-lg text-white mb-3">Nuestra asimetría competitiva</h3>
+              <div class="space-y-2.5">
+                <div class="grid grid-cols-2 gap-2 px-3 py-2 rounded-xl bg-surface-800 text-[11px] font-display font-bold uppercase tracking-wider">
+                  <div class="text-slate-400">Empresa tradicional pequeña</div>
+                  <div class="text-brand-400">Nuestra empresa</div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 p-3 rounded-xl bg-surface-900 border border-slate-800 text-xs">
+                  <div class="text-slate-400 pr-1">Depende de recomendaciones</div>
+                  <div class="text-emerald-300 font-semibold pl-1 border-l border-slate-800">Genera demanda activamente</div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 p-3 rounded-xl bg-surface-900 border border-slate-800 text-xs">
+                  <div class="text-slate-400 pr-1">Publicidad ocasional</div>
+                  <div class="text-emerald-300 font-semibold pl-1 border-l border-slate-800">Marketing planificado y continuo</div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 p-3 rounded-xl bg-surface-900 border border-slate-800 text-xs">
+                  <div class="text-slate-400 pr-1">Gestión manual de consultas</div>
+                  <div class="text-emerald-300 font-semibold pl-1 border-l border-slate-800">Recepción y clasificación asistidas por IA</div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 p-3 rounded-xl bg-surface-900 border border-slate-800 text-xs">
+                  <div class="text-slate-400 pr-1">Presupuestos manuales</div>
+                  <div class="text-emerald-300 font-semibold pl-1 border-l border-slate-800">Presupuestación asistida por datos</div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 p-3 rounded-xl bg-surface-900 border border-slate-800 text-xs">
+                  <div class="text-slate-400 pr-1">Seguimiento irregular</div>
+                  <div class="text-emerald-300 font-semibold pl-1 border-l border-slate-800">Seguimiento sistemático</div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 p-3 rounded-xl bg-surface-900 border border-slate-800 text-xs">
+                  <div class="text-slate-400 pr-1">Poca medición comercial</div>
+                  <div class="text-emerald-300 font-semibold pl-1 border-l border-slate-800">Analítica de captación y conversión</div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 p-3 rounded-xl bg-surface-900 border border-slate-800 text-xs">
+                  <div class="text-slate-400 pr-1">Conocimiento disperso</div>
+                  <div class="text-emerald-300 font-semibold pl-1 border-l border-slate-800">Memoria empresarial centralizada</div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 p-3 rounded-xl bg-surface-900 border border-slate-800 text-xs">
+                  <div class="text-slate-400 pr-1">Decisiones intuitivas</div>
+                  <div class="text-emerald-300 font-semibold pl-1 border-l border-slate-800">Decisiones apoyadas en datos</div>
+                </div>
+              </div>
+              <p class="text-xs text-slate-400 italic mt-3">
+                Esta comparación describe nuestro modelo objetivo, no una afirmación de que todos los competidores trabajen de esa manera.
+              </p>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 'cap-3',
+        badge: 'SECCIÓN 3',
+        shortMenuTitle: '3. El Modelo Empresarial',
+        title: '3. EL MODELO EMPRESARIAL: PEQUEÑA ESTRUCTURA, GRANDES CAPACIDADES',
+        subtitle: 'Concentrar los recursos en aquello que produce valor real sin costes fijos innecesarios.',
+        contentHtml: `
+          <div class="space-y-4 text-sm sm:text-base text-slate-200 leading-relaxed">
+            <p class="font-medium text-white">Nuestra empresa debe tener una estructura ligera.</p>
+            <p>
+              No queremos oficinas innecesarias, personal administrativo prematuro, grandes inversiones ni costes fijos que obliguen a conseguir trabajo continuamente para sobrevivir.
+            </p>
+            <p class="text-brand-400 font-semibold">
+              Queremos concentrar los recursos en aquello que produce valor.
+            </p>
+
+            <h3 class="font-display font-extrabold text-base sm:text-lg text-white pt-2">Estructura básica</h3>
+
+            <div class="grid grid-cols-1 gap-3.5">
+              <!-- Pilar 1 -->
+              <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+                <div class="flex items-center gap-2.5 mb-2.5">
+                  <span class="px-2.5 py-1 rounded-lg bg-brand-500/20 text-brand-400 font-display font-bold text-xs">PILAR 1</span>
+                  <h4 class="font-display font-bold text-base text-white">Dirección y decisiones</h4>
+                </div>
+                <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 pl-2">
+                  <li>• Estrategia comercial.</li>
+                  <li>• Aprobación de presupuestos.</li>
+                  <li>• Negociación con proveedores.</li>
+                  <li>• Control financiero.</li>
+                  <li>• Decisiones operativas.</li>
+                </ul>
+              </div>
+
+              <!-- Pilar 2 -->
+              <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+                <div class="flex items-center gap-2.5 mb-2.5">
+                  <span class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 font-display font-bold text-xs">PILAR 2</span>
+                  <h4 class="font-display font-bold text-base text-white">Ejecución profesional</h4>
+                </div>
+                <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 pl-2">
+                  <li>• Visitas.</li>
+                  <li>• Mediciones.</li>
+                  <li>• Preparación.</li>
+                  <li>• Retirada de muebles antiguos.</li>
+                  <li>• Montaje de mobiliario nuevo.</li>
+                  <li>• Control de calidad.</li>
+                  <li>• Entrega al cliente.</li>
+                </ul>
+              </div>
+
+              <!-- Pilar 3 -->
+              <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+                <div class="flex items-center gap-2.5 mb-2.5">
+                  <span class="px-2.5 py-1 rounded-lg bg-sky-500/20 text-sky-300 font-display font-bold text-xs">PILAR 3</span>
+                  <h4 class="font-display font-bold text-base text-white">Infraestructura tecnológica</h4>
+                </div>
+                <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 pl-2">
+                  <li>• Inteligencia artificial.</li>
+                  <li>• Marketing.</li>
+                  <li>• CRM.</li>
+                  <li>• Automatización.</li>
+                  <li>• Presupuestación.</li>
+                  <li>• Gestión documental.</li>
+                  <li>• Analítica empresarial.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-surface-800 border-l-4 border-brand-400 mt-4">
+              <p class="font-display font-bold text-white mb-1">La IA no sustituye la responsabilidad humana.</p>
+              <p class="text-xs sm:text-sm text-slate-200">
+                Nos ayuda a investigar, preparar, clasificar, calcular, documentar y aprender. Las decisiones comerciales, técnicas y económicas importantes siguen siendo responsabilidad nuestra.
+              </p>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 'cap-4',
+        badge: 'SECCIÓN 4',
+        shortMenuTitle: '4. El Producto: Vender Resultados',
+        title: '4. EL PRODUCTO: VENDER RESULTADOS, NO HORAS DE TRABAJO',
+        subtitle: 'Ofrecer una solución comercial integrada donde el cliente compra una cocina renovada.',
+        contentHtml: `
+          <div class="space-y-4 text-sm sm:text-base text-slate-200 leading-relaxed">
+            <p>
+              Una de las decisiones estratégicas más importantes consiste en no presentarnos exclusivamente como montadores.
+            </p>
+
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <p class="text-xs uppercase font-bold tracking-wider text-slate-400 mb-2">No queremos que el cliente tenga que buscar por separado:</p>
+              <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300">
+                <li>• Quién retira los muebles antiguos.</li>
+                <li>• Quién consigue los muebles nuevos.</li>
+                <li>• Quién los transporta.</li>
+                <li>• Quién los monta.</li>
+              </ul>
+              <p class="mt-3 font-display font-bold text-brand-400 text-sm">Queremos ofrecer una solución comercial integrada.</p>
+            </div>
+
+            <!-- Tarjeta Oferta Principal -->
+            <div class="p-5 rounded-3xl bg-gradient-to-br from-brand-500/20 via-surface-900 to-surface-950 border border-brand-400/50 shadow-lg">
+              <span class="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-brand-500 text-slate-950">NUESTRA OFERTA PRINCIPAL</span>
+              <h3 class="font-display font-extrabold text-xl sm:text-2xl text-white mt-3">RENUEVA TU COCINA POR XXX €</h3>
+              <p class="text-xs text-amber-200 mt-1 mb-3">Una propuesta sencilla e integral:</p>
+              <ul class="space-y-2 text-xs sm:text-sm text-slate-100">
+                <li class="flex items-start gap-2"><span class="text-brand-400 font-bold">✓</span><span>Retirada de los muebles antiguos.</span></li>
+                <li class="flex items-start gap-2"><span class="text-brand-400 font-bold">✓</span><span>Suministro de mobiliario nuevo.</span></li>
+                <li class="flex items-start gap-2"><span class="text-brand-400 font-bold">✓</span><span>Montaje e instalación del nuevo mobiliario.</span></li>
+                <li class="flex items-start gap-2"><span class="text-brand-400 font-bold">✓</span><span>Retirada o gestión de los muebles antiguos según las condiciones de la oferta.</span></li>
+              </ul>
+            </div>
+
+            <p>
+              El precio anunciado deberá corresponder a una cocina tipo perfectamente definida. No debemos anunciar un precio universal que después resulte imposible respetar.
+            </p>
+
+            <div class="rounded-2xl bg-surface-900 border border-slate-800 p-4">
+              <h4 class="font-display font-bold text-sm text-white mb-2.5">Hay que especificar con total claridad:</h4>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-slate-300">
+                <div class="p-2 rounded-lg bg-surface-950">1. Configuración y dimensiones de referencia.</div>
+                <div class="p-2 rounded-lg bg-surface-950">2. Mobiliario incluido.</div>
+                <div class="p-2 rounded-lg bg-surface-950">3. Modelo y acabados.</div>
+                <div class="p-2 rounded-lg bg-surface-950">4. Transporte.</div>
+                <div class="p-2 rounded-lg bg-surface-950">5. Retirada.</div>
+                <div class="p-2 rounded-lg bg-surface-950">6. Montaje.</div>
+                <div class="p-2 rounded-lg bg-surface-950">7. Exclusiones.</div>
+                <div class="p-2 rounded-lg bg-surface-950">8. Condiciones de acceso y ejecución.</div>
+              </div>
+            </div>
+
+            <p>
+              Cuando la cocina no encaje en el modelo anunciado, se prepara un presupuesto personalizado. La propuesta comercial debe ser comprensible y atractiva.
+            </p>
+
+            <div class="p-4 rounded-2xl bg-surface-800 text-center">
+              <p class="font-display font-bold text-amber-300 text-sm sm:text-base">
+                «El cliente compra una cocina renovada, no una colección de tareas independientes.»
+              </p>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 'cap-5',
+        badge: 'SECCIÓN 5',
+        shortMenuTitle: '5. Eliminar Intermediarios',
+        title: '5. ELIMINAR INTERMEDIARIOS Y LLEGAR DIRECTAMENTE AL CLIENTE',
+        subtitle: 'Desarrollar un canal propio de captación y establecer relaciones directas con el cliente final.',
+        contentHtml: `
+          <div class="space-y-4 text-sm sm:text-base text-slate-200 leading-relaxed">
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <span class="text-[11px] font-bold uppercase text-rose-400 block mb-1">El modelo tradicional con intermediarios:</span>
+              <p class="font-mono text-xs sm:text-sm text-slate-300">
+                Fabricante → Distribuidor → Tienda → Instalador → Cliente
+              </p>
+              <p class="text-xs text-slate-400 mt-2">Cada participante tiene sus costes y necesita su margen.</p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-emerald-950/30 border border-emerald-500/40">
+              <span class="text-[11px] font-bold uppercase text-emerald-400 block mb-1">El recorrido directo que buscamos:</span>
+              <p class="font-mono text-xs sm:text-sm text-emerald-200 font-semibold">
+                Cliente → Nuestra marca → Nuestro asesoramiento → Suministro de mobiliario → Montaje → Entrega
+              </p>
+            </div>
+
+            <div class="rounded-2xl bg-surface-900 border border-slate-800 p-4">
+              <h4 class="font-display font-bold text-sm text-white mb-2.5">Esto nos permite controlar mejor:</h4>
+              <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-slate-300">
+                <li>• La relación comercial.</li>
+                <li>• La presentación del producto.</li>
+                <li>• La experiencia de compra.</li>
+                <li>• El presupuesto completo.</li>
+                <li>• El seguimiento.</li>
+                <li>• La reputación.</li>
+                <li>• La rentabilidad del proyecto.</li>
+              </ul>
+            </div>
+
+            <p>
+              No significa prescindir de todos los proveedores o colaboradores. Seguiremos necesitando fabricantes, distribuidores, transporte y, cuando corresponda, profesionales habilitados para trabajos ajenos al montaje de muebles.
+            </p>
+            <p class="font-medium text-brand-400">
+              La diferencia es que no dependemos exclusivamente de que una tienda nos entregue el trabajo. Nosotros buscamos al cliente, generamos la demanda y dirigimos la operación comercial.
+            </p>
+          </div>
+        `
+      },
+      {
+        id: 'cap-6',
+        badge: 'SECCIÓN 6',
+        shortMenuTitle: '6. La Aplicación Propia',
+        title: '6. LA APLICACIÓN PROPIA: EL CLIENTE VE LO QUE IMAGINA',
+        subtitle: 'Experiencia digital interactiva que permite al cliente visualizar su propia cocina renovada.',
+        contentHtml: `
+          <div class="space-y-4 text-sm sm:text-base text-slate-200 leading-relaxed">
+            <p>
+              Esta es una de las piezas más interesantes de nuestro modelo. No queremos limitarnos a una página web convencional con fotografías de cocinas de catálogo.
+            </p>
+            <p>
+              Queremos ofrecer una experiencia digital que permita al cliente visualizar cómo podría quedar su propia cocina renovada. La aplicación tendrá nuestra marca, nuestra identidad visual y nuestro planteamiento comercial.
+            </p>
+
+            <div class="p-3.5 rounded-2xl bg-surface-800 border border-amber-400/40 text-center">
+              <p class="font-display font-bold text-amber-300 text-sm">
+                El cliente no necesita conocer las herramientas de IA que utilizamos internamente. No vendemos IA. Vendemos muebles suministrados y montados.
+              </p>
+            </div>
+
+            <!-- 6.1 -->
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <h3 class="font-display font-bold text-base text-brand-400 mb-3">6.1. La experiencia del cliente (Recorrido en 10 pasos)</h3>
+              <ol class="space-y-2 text-xs sm:text-sm text-slate-200">
+                <li><strong class="text-brand-400">1.</strong> El cliente entra en nuestra aplicación.</li>
+                <li><strong class="text-brand-400">2.</strong> Fotografía su cocina o utiliza una fotografía existente.</li>
+                <li><strong class="text-brand-400">3.</strong> Puede seleccionar un estilo que le guste.</li>
+                <li><strong class="text-brand-400">4.</strong> La inteligencia artificial genera una propuesta visual sobre la cocina original.</li>
+                <li><strong class="text-brand-400">5.</strong> El cliente puede explorar diferentes alternativas.</li>
+                <li><strong class="text-brand-400">6.</strong> Puede comparar estilos, colores y configuraciones.</li>
+                <li><strong class="text-brand-400">7.</strong> Solicita una visita o una propuesta económica.</li>
+                <li><strong class="text-brand-400">8.</strong> Nosotros comprobamos las condiciones reales de la instalación.</li>
+                <li><strong class="text-brand-400">9.</strong> Preparamos un proyecto técnicamente viable.</li>
+                <li><strong class="text-brand-400">10.</strong> Presentamos el presupuesto definitivo.</li>
+              </ol>
+              <div class="mt-3 p-3 rounded-xl bg-surface-950 text-xs text-amber-200 italic">
+                «Tú imaginas tu cocina nueva. Nosotros te enseñamos cómo podría quedar y nos encargamos de hacerla realidad.»
+              </div>
+            </div>
+
+            <!-- 6.2 -->
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <h3 class="font-display font-bold text-base text-brand-400 mb-2">6.2. La visita presencial como herramienta comercial</h3>
+              <p class="text-xs sm:text-sm text-slate-300 mb-2.5">
+                La aplicación no sustituye la visita. La visita puede ser incluso más valiosa que una fotografía enviada por el cliente. Nos permite:
+              </p>
+              <ul class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-300">
+                <li>• Conocer personalmente al comprador.</li>
+                <li>• Comprender sus preferencias.</li>
+                <li>• Fotografiar desde diferentes ángulos.</li>
+                <li>• Comprobar las dimensiones.</li>
+                <li>• Observar las instalaciones.</li>
+                <li>• Detectar dificultades.</li>
+                <li>• Conocer condiciones de acceso.</li>
+                <li>• Explicar las posibilidades reales.</li>
+              </ul>
+              <p class="text-xs sm:text-sm text-slate-300 mt-2.5">
+                Durante la visita mostramos propuestas visuales personalizadas sobre su propia vivienda, ayudándole a tomar la decisión de compra.
+              </p>
+            </div>
+
+            <!-- 6.3 -->
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <h3 class="font-display font-bold text-base text-brand-400 mb-2">6.3. La tecnología visual (Nano Banana y verificación técnica)</h3>
+              <p class="text-xs sm:text-sm text-slate-300 mb-3">
+                Podemos utilizar herramientas de generación y edición de imágenes, como <strong>Nano Banana</strong>, para transformar fotografías de cocinas existentes. La aplicación propia actúa como interfaz comercial.
+              </p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+                <div class="p-3 rounded-xl bg-surface-950 border border-slate-800">
+                  <strong class="text-amber-300 block mb-1">Visualización comercial:</strong>
+                  Una imagen orientativa que permite explorar estilos y acabados.
+                </div>
+                <div class="p-3 rounded-xl bg-surface-950 border border-slate-800">
+                  <strong class="text-emerald-300 block mb-1">Proyecto técnico:</strong>
+                  Un diseño contrastado con medidas reales, módulos disponibles, referencias de producto, instalaciones y condiciones de montaje.
+                </div>
+              </div>
+              <p class="text-xs text-rose-300 mt-3">
+                Importante: Una imagen generada por IA no garantiza que los muebles representados existan o tengan las dimensiones necesarias. La conversión en proyecto real exige verificación.
+              </p>
+            </div>
+
+            <!-- Enlace externo con botón obligatorio "Abrir en otra Ventana" -->
+            <div class="pt-2">
+              ${createExternalUrlCard(
+                'Google AI Studio (Modelos de Imagen y Visión)',
+                'https://aistudio.google.com',
+                'Acceso a herramientas de edición y transformación generativa de imágenes para visualización arquitectónica.',
+                'HERRAMIENTA VISUAL'
+              )}
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 'cap-7',
+        badge: 'SECCIÓN 7',
+        shortMenuTitle: '7. Marketing de Gigantes',
+        title: '7. MARKETING: UNA EMPRESA PEQUEÑA CON MARKETING DE GIGANTES',
+        subtitle: 'El marketing como función permanente asistida por IA para investigar, producir y optimizar campañas.',
+        contentHtml: `
+          <div class="space-y-4 text-sm sm:text-base text-slate-200 leading-relaxed">
+            <p>
+              El marketing no debe ser una actividad ocasional. Debe ser una función permanente de la empresa.
+            </p>
+
+            <!-- 7.1 -->
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <h3 class="font-display font-bold text-base text-brand-400 mb-2">7.1. Identidad de marca</h3>
+              <p class="text-xs sm:text-sm text-slate-300 mb-2">Necesitamos una marca propia que transmita:</p>
+              <div class="flex flex-wrap gap-2 text-xs">
+                <span class="px-2.5 py-1 rounded-lg bg-surface-950 border border-slate-800 text-amber-300">Profesionalidad</span>
+                <span class="px-2.5 py-1 rounded-lg bg-surface-950 border border-slate-800 text-amber-300">Confianza</span>
+                <span class="px-2.5 py-1 rounded-lg bg-surface-950 border border-slate-800 text-amber-300">Modernidad</span>
+                <span class="px-2.5 py-1 rounded-lg bg-surface-950 border border-slate-800 text-amber-300">Claridad</span>
+                <span class="px-2.5 py-1 rounded-lg bg-surface-950 border border-slate-800 text-amber-300">Calidad</span>
+                <span class="px-2.5 py-1 rounded-lg bg-surface-950 border border-slate-800 text-amber-300">Especialización</span>
+              </div>
+            </div>
+
+            <!-- 7.2 -->
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <h3 class="font-display font-bold text-base text-brand-400 mb-2">7.2. Página web comercial</h3>
+              <p class="text-xs sm:text-sm text-slate-300 mb-2">Debe funcionar como un instrumento de captación y conversión:</p>
+              <ul class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-300">
+                <li>• Portada visualmente impactante.</li>
+                <li>• Propuesta comercial clara.</li>
+                <li>• Oferta de renovación de cocinas.</li>
+                <li>• Galería de transformaciones.</li>
+                <li>• Aplicación de visualización.</li>
+                <li>• Explicación del servicio.</li>
+                <li>• Proceso de trabajo.</li>
+                <li>• Formulario y solicitud de visita.</li>
+                <li>• Opiniones verificadas cuando existan.</li>
+              </ul>
+            </div>
+
+            <!-- 7.3 -->
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <h3 class="font-display font-bold text-base text-brand-400 mb-2">7.3. Publicidad y captación</h3>
+              <p class="text-xs sm:text-sm text-slate-300 mb-2">
+                Canales: Google Ads, Redes sociales, Facebook e Instagram, Grupos locales, Publicidad geográfica, Campañas de renovación de cocinas, Antes y después, Colaboraciones y Plataformas.
+              </p>
+              <p class="text-xs text-amber-300 font-medium">
+                Cada canal debe medirse por su capacidad de producir trabajos rentables, no por acumular seguidores o impresiones sin retorno.
+              </p>
+            </div>
+
+            <!-- 7.4 -->
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <h3 class="font-display font-bold text-base text-brand-400 mb-2">7.4. Experimentación permanente</h3>
+              <p class="text-xs sm:text-sm text-slate-300">
+                Probar diferentes anuncios, mensajes, fotografías, ofertas, zonas geográficas y públicos. Medir consultas, visitas, presupuestos aceptados, coste de captación y margen obtenido.
+              </p>
+            </div>
+
+            <!-- Enlaces publicitarios con botón "Abrir en otra Ventana" -->
+            <div class="grid grid-cols-1 gap-3 pt-2">
+              ${createExternalUrlCard(
+                'Google Ads — Campañas de Búsqueda Local',
+                'https://ads.google.com',
+                'Captación directa de propietarios buscando renovar o montar su cocina en tu zona geográfica.',
+                'CANAL GOOGLE'
+              )}
+              ${createExternalUrlCard(
+                'Meta Ads (Facebook e Instagram)',
+                'https://www.facebook.com/business/ads',
+                'Campañas visuales de Antes y Después y segmentación geográfica local.',
+                'REDES SOCIALES'
+              )}
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 'cap-8',
+        badge: 'SECCIÓN 8',
+        shortMenuTitle: '8. IA: Departamento Invisible',
+        title: '8. INTELIGENCIA ARTIFICIAL: EL DEPARTAMENTO INVISIBLE',
+        subtitle: 'Infraestructura compartida y memoria empresarial centralizada para dirigir el negocio.',
+        contentHtml: `
+          <div class="space-y-3.5 text-sm sm:text-base text-slate-200 leading-relaxed">
+            <p>
+              La IA debe estar integrada en la actividad diaria como una infraestructura compartida que relacione clientes, proveedores, presupuestos, trabajos, costes y resultados.
+            </p>
+
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <h3 class="font-display font-bold text-sm text-brand-400 mb-1.5">8.1. Inteligencia de mercado</h3>
+              <p class="text-xs sm:text-sm text-slate-300">
+                Investigar competidores, analizar ofertas, identificar oportunidades geográficas, proveedores, tendencias y canales. Los datos verificados siempre diferenciados de las hipótesis.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <h3 class="font-display font-bold text-sm text-brand-400 mb-1.5">8.2. Recepción y cualificación de clientes</h3>
+              <p class="text-xs sm:text-sm text-slate-300">
+                Recibir consultas, solicitar fotografías, recoger dimensiones, identificar tipo de proyecto, clasificar oportunidades y organizar visitas. <strong>Nunca confirma trabajos ni compromete precios sin autorización.</strong>
+              </p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <h3 class="font-display font-bold text-sm text-brand-400 mb-1.5">8.3. Presupuestación asistida</h3>
+              <p class="text-xs sm:text-sm text-slate-300">
+                Contempla referencias de mobiliario, precio de compra, cantidades, transporte, retirada, costes de montaje, desplazamientos, tiempo estimado, gastos asociados y margen previsto con tarifas reales. Nosotros revisamos y aprobamos.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <h3 class="font-display font-bold text-sm text-brand-400 mb-1.5">8.4. Operaciones y calidad</h3>
+              <p class="text-xs sm:text-sm text-slate-300">
+                Listas de materiales, secuencias de montaje, listas de comprobación, documentación fotográfica, registro de incidencias, control de pendientes y seguimiento de entregas.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <h3 class="font-display font-bold text-sm text-brand-400 mb-1.5">8.5. Marketing y reputación</h3>
+              <p class="text-xs sm:text-sm text-slate-300">
+                Textos publicitarios, publicaciones, imágenes conceptuales, respuestas, solicitudes de reseñas e informes. <strong>Las reseñas deben proceder siempre de clientes reales.</strong>
+              </p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <h3 class="font-display font-bold text-sm text-brand-400 mb-1.5">8.6. Dirección y analítica</h3>
+              <p class="text-xs sm:text-sm text-slate-300">
+                Responder con datos: ¿Qué canal genera más clientes y menor coste de captación? ¿Qué trabajos dejan mayor margen? ¿Cuánto tiempo consumimos? ¿Qué proveedores generan más incidencias? ¿Qué debemos dejar de hacer?
+              </p>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 'cap-9',
+        badge: 'SECCIÓN 9',
+        shortMenuTitle: '9. Operaciones y Trabajo Físico',
+        title: '9. OPERACIONES: LA TECNOLOGÍA DEBE MEJORAR EL TRABAJO FÍSICO',
+        subtitle: 'La ejecución sigue siendo el núcleo del producto: protocolos antes, durante y después de instalar.',
+        contentHtml: `
+          <div class="space-y-4 text-sm sm:text-base text-slate-200 leading-relaxed">
+            <div class="p-3.5 rounded-2xl bg-surface-800 border border-slate-700 text-center">
+              <p class="font-display font-bold text-amber-300">La ejecución sigue siendo el núcleo del producto. La IA no monta muebles.</p>
+            </div>
+
+            <!-- 9.1 -->
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <h3 class="font-display font-bold text-base text-brand-400 mb-2">9.1. Antes de la instalación</h3>
+              <ul class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs sm:text-sm text-slate-300">
+                <li>• Confirmación del proyecto.</li>
+                <li>• Verificación de medidas.</li>
+                <li>• Comprobación de referencias.</li>
+                <li>• Confirmación de disponibilidad.</li>
+                <li>• Planificación de transporte.</li>
+                <li>• Preparación de herramientas.</li>
+                <li>• Identificación de riesgos.</li>
+                <li>• Organización de la secuencia.</li>
+              </ul>
+            </div>
+
+            <!-- 9.2 -->
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <h3 class="font-display font-bold text-base text-emerald-400 mb-2">9.2. Durante la instalación</h3>
+              <ul class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs sm:text-sm text-slate-300">
+                <li>• Protección de la vivienda.</li>
+                <li>• Retirada de mobiliario antiguo.</li>
+                <li>• Comprobación del espacio.</li>
+                <li>• Recepción y verificación de materiales.</li>
+                <li>• Montaje de módulos.</li>
+                <li>• Instalación y ajustes.</li>
+                <li>• Comprobación de acabados.</li>
+                <li>• Registro de incidencias.</li>
+              </ul>
+            </div>
+
+            <!-- 9.3 -->
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <h3 class="font-display font-bold text-base text-sky-400 mb-2">9.3. Después de la instalación</h3>
+              <ul class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs sm:text-sm text-slate-300">
+                <li>• Revisión final.</li>
+                <li>• Fotografías del resultado.</li>
+                <li>• Confirmación con el cliente.</li>
+                <li>• Entrega y cobro.</li>
+                <li>• Gestión de incidencias pendientes.</li>
+                <li>• Solicitud de reseña.</li>
+                <li>• Registro de tiempos y costes.</li>
+                <li>• Análisis de rentabilidad.</li>
+              </ul>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-rose-950/30 border border-rose-500/40 text-xs sm:text-sm text-rose-200">
+              <strong>Nota regulatoria importante:</strong> Los trabajos de electricidad, gas, fontanería u otras especialidades reguladas quedan fuera de nuestro alcance salvo intervención de profesionales debidamente habilitados.
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 'cap-10',
+        badge: 'SECCIÓN 10',
+        shortMenuTitle: '10. El Modelo Económico',
+        title: '10. EL MODELO ECONÓMICO: RENTABILIDAD ANTES QUE VOLUMEN',
+        subtitle: 'Control de la unidad económica de cada trabajo y beneficio real por hora.',
+        contentHtml: `
+          <div class="space-y-4 text-sm sm:text-base text-slate-200 leading-relaxed">
+            <p class="font-display font-bold text-white">No queremos trabajar mucho para ganar poco.</p>
+            <p>
+              El objetivo económico de referencia es alcanzar aproximadamente <strong>1.500 euros mensuales limpios</strong>, tratando esa cifra como un objetivo de planificación y no como una garantía automática.
+            </p>
+
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <h3 class="font-display font-bold text-sm text-brand-400 mb-2">Si trabajamos como autónomos, hay que distinguir:</h3>
+              <div class="flex flex-wrap gap-2 text-xs">
+                <span class="px-2.5 py-1.5 rounded-lg bg-surface-950 border border-slate-800">Facturación sin IVA</span>
+                <span class="px-2.5 py-1.5 rounded-lg bg-surface-950 border border-slate-800">Costes directos</span>
+                <span class="px-2.5 py-1.5 rounded-lg bg-surface-950 border border-slate-800">Margen de contribución</span>
+                <span class="px-2.5 py-1.5 rounded-lg bg-surface-950 border border-slate-800">Gastos fijos</span>
+                <span class="px-2.5 py-1.5 rounded-lg bg-surface-950 border border-slate-800">Cotizaciones</span>
+                <span class="px-2.5 py-1.5 rounded-lg bg-surface-950 border border-slate-800">Impuestos</span>
+                <span class="px-2.5 py-1.5 rounded-lg bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 font-bold">Beneficio neto personal</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-2.5">
+                Una facturación de 1.500 euros no equivale a 1.500 euros limpios.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <h3 class="font-display font-bold text-base text-white mb-2.5">La unidad económica de cada trabajo (10 registros obligatorios):</h3>
+              <ol class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-slate-300">
+                <li class="p-2 rounded-lg bg-surface-950"><strong class="text-brand-400">1.</strong> Precio cobrado.</li>
+                <li class="p-2 rounded-lg bg-surface-950"><strong class="text-brand-400">2.</strong> Coste de los muebles.</li>
+                <li class="p-2 rounded-lg bg-surface-950"><strong class="text-brand-400">3.</strong> Transporte.</li>
+                <li class="p-2 rounded-lg bg-surface-950"><strong class="text-brand-400">4.</strong> Retirada.</li>
+                <li class="p-2 rounded-lg bg-surface-950"><strong class="text-brand-400">5.</strong> Materiales auxiliares.</li>
+                <li class="p-2 rounded-lg bg-surface-950"><strong class="text-brand-400">6.</strong> Costes de captación.</li>
+                <li class="p-2 rounded-lg bg-surface-950"><strong class="text-brand-400">7.</strong> Horas de trabajo.</li>
+                <li class="p-2 rounded-lg bg-surface-950"><strong class="text-brand-400">8.</strong> Desplazamientos.</li>
+                <li class="p-2 rounded-lg bg-surface-950"><strong class="text-brand-400">9.</strong> Gastos indirectos.</li>
+                <li class="p-2 rounded-lg bg-surface-950"><strong class="text-brand-400">10.</strong> Margen final.</li>
+              </ol>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-amber-500/15 border border-amber-400/40">
+              <p class="text-xs sm:text-sm text-amber-200 font-medium">
+                <strong>Métrica clave:</strong> El beneficio por hora real de trabajo, incluyendo las tareas comerciales, desplazamientos, compras y preparación.
+              </p>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 'cap-11',
+        badge: 'SECCIÓN 11',
+        shortMenuTitle: '11. Canales Comerciales',
+        title: '11. VARIOS CANALES COMERCIALES, UNA SOLA CAPACIDAD CENTRAL',
+        subtitle: 'Seis vías de captación que alimentan una misma capacidad profesional.',
+        contentHtml: `
+          <div class="space-y-4 text-sm sm:text-base text-slate-200 leading-relaxed">
+            <p>
+              No necesitamos crear seis negocios diferentes. Podemos desarrollar varios canales de captación que alimenten una misma capacidad profesional: el montaje de mobiliario modular.
+            </p>
+
+            <div class="grid grid-cols-1 gap-3">
+              <div class="p-3.5 rounded-2xl bg-surface-900 border border-slate-800">
+                <h4 class="font-display font-bold text-sm text-brand-400">1. Clientes particulares</h4>
+                <p class="text-xs text-slate-300 mt-1">Montajes y proyectos contratados directamente por particulares.</p>
+              </div>
+              <div class="p-3.5 rounded-2xl bg-surface-900 border border-slate-800">
+                <h4 class="font-display font-bold text-sm text-brand-400">2. Renovación completa de cocinas</h4>
+                <p class="text-xs text-slate-300 mt-1">Retirada del mobiliario antiguo, suministro de mobiliario nuevo y montaje.</p>
+              </div>
+              <div class="p-3.5 rounded-2xl bg-surface-900 border border-slate-800">
+                <h4 class="font-display font-bold text-sm text-brand-400">3. Tiendas y distribuidores</h4>
+                <p class="text-xs text-slate-300 mt-1">Colaboraciones para realizar instalaciones que ellos comercializan.</p>
+              </div>
+              <div class="p-3.5 rounded-2xl bg-surface-900 border border-slate-800">
+                <h4 class="font-display font-bold text-sm text-brand-400">4. Empresas de cocinas</h4>
+                <p class="text-xs text-slate-300 mt-1">Colaboraciones como especialistas externos de montaje.</p>
+              </div>
+              <div class="p-3.5 rounded-2xl bg-surface-900 border border-slate-800">
+                <h4 class="font-display font-bold text-sm text-brand-400">5. Plataformas digitales</h4>
+                <p class="text-xs text-slate-300 mt-1">Captación de encargos mediante plataformas de servicios.</p>
+              </div>
+              <div class="p-3.5 rounded-2xl bg-surface-900 border border-slate-800">
+                <h4 class="font-display font-bold text-sm text-brand-400">6. Colaboraciones profesionales</h4>
+                <p class="text-xs text-slate-300 mt-1">Relaciones con reformistas, inmobiliarias, administradores de fincas y otros profesionales.</p>
+              </div>
+            </div>
+
+            <p class="text-xs sm:text-sm text-slate-300">
+              Cada canal debe analizarse individualmente para diversificar la captación sin multiplicar innecesariamente la estructura empresarial.
+            </p>
+          </div>
+        `
+      },
+      {
+        id: 'cap-12',
+        badge: 'SECCIÓN 12',
+        shortMenuTitle: '12. Empresa que Aprende',
+        title: '12. UNA EMPRESA QUE APRENDE Y MEJORA',
+        subtitle: 'Convertir la información acumulada de cada proyecto en una ventaja competitiva creciente.',
+        contentHtml: `
+          <div class="space-y-4 text-sm sm:text-base text-slate-200 leading-relaxed">
+            <p>
+              La información acumulada debe convertirse en una ventaja creciente.
+            </p>
+
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <h3 class="font-display font-bold text-sm text-brand-400 mb-2.5">Después de cada trabajo debemos conocer:</h3>
+              <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-slate-300">
+                <li>• Qué tipo de proyecto fue.</li>
+                <li>• Cómo se consiguió el cliente.</li>
+                <li>• Cuánto costó captarlo.</li>
+                <li>• Qué proveedor intervino.</li>
+                <li>• Cuánto tiempo llevó.</li>
+                <li>• Qué problemas aparecieron.</li>
+                <li>• Qué margen dejó.</li>
+                <li>• Qué valoración recibió.</li>
+              </ul>
+            </div>
+
+            <p>
+              Con el tiempo podremos identificar patrones: qué cocinas son más rentables, qué localidad genera más oportunidades, qué proveedor responde mejor o qué campaña produce contactos sin conversión real.
+            </p>
+
+            <div class="p-4 rounded-2xl bg-surface-800 border-l-4 border-emerald-400">
+              <p class="font-display font-bold text-white text-sm sm:text-base">
+                «No queremos solamente acumular trabajos. Queremos acumular conocimiento empresarial.»
+              </p>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 'cap-13',
+        badge: 'SECCIÓN 13',
+        shortMenuTitle: '13. La Hoja de Ruta (6 Etapas)',
+        title: '13. LA HOJA DE RUTA: CONSTRUIR EL FUTURO POR ETAPAS',
+        subtitle: 'Crecimiento evolutivo por capas funcionales donde cada etapa genera valor antes de ampliar la siguiente.',
+        contentHtml: `
+          <div class="space-y-3.5 text-sm sm:text-base text-slate-200 leading-relaxed">
+            <p>
+              No necesitamos desarrollar todas las capacidades simultáneamente. La empresa debe crecer por capas funcionales:
+            </p>
+
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-brand-500 text-slate-950">ETAPA 1</span>
+              <h3 class="font-display font-bold text-base text-white mt-1.5">CONSTRUIR LA CAPACIDAD PROFESIONAL</h3>
+              <p class="text-xs text-slate-300 mt-1">
+                Formación y dominio del montaje, conocimiento de mobiliario modular, herramientas, procedimientos, calidad de ejecución, medición de tiempos y primeros trabajos verificables. La calidad del servicio es la base.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-brand-500 text-slate-950">ETAPA 2</span>
+              <h3 class="font-display font-bold text-base text-white mt-1.5">CREAR LA MARCA Y EL CANAL DIRECTO</h3>
+              <p class="text-xs text-slate-300 mt-1">
+                Nombre comercial, identidad visual, página web, oferta comercial, presencia local, canales de contacto y primeras campañas para captar clientes directamente.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-brand-500 text-slate-950">ETAPA 3</span>
+              <h3 class="font-display font-bold text-base text-white mt-1.5">DESARROLLAR LA EXPERIENCIA VISUAL</h3>
+              <p class="text-xs text-slate-300 mt-1">
+                Primera versión de la aplicación propia: subida de fotografías, generación de propuestas visuales, selección de estilos, solicitud de visita y recogida de datos. Debe demostrar que ayuda a generar clientes.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-brand-500 text-slate-950">ETAPA 4</span>
+              <h3 class="font-display font-bold text-base text-white mt-1.5">CONSTRUIR EL SISTEMA COMERCIAL</h3>
+              <p class="text-xs text-slate-300 mt-1">
+                Implementar CRM, registro de oportunidades, seguimiento, historial de clientes, presupuestación asistida, registro de proveedores y análisis de conversiones.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-brand-500 text-slate-950">ETAPA 5</span>
+              <h3 class="font-display font-bold text-base text-white mt-1.5">ORGANIZAR LA OPERACIÓN</h3>
+              <p class="text-xs text-slate-300 mt-1">
+                Procedimientos de trabajo, control de materiales, coordinación de proveedores, planificación, control de calidad y gestión de incidencias.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-surface-900 border border-slate-800">
+              <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-400 text-slate-950">ETAPA 6</span>
+              <h3 class="font-display font-bold text-base text-white mt-1.5">AUTOMATIZAR Y OPTIMIZAR</h3>
+              <p class="text-xs text-slate-300 mt-1">
+                Automatizar tareas repetitivas, integrar herramientas, mejorar la aplicación, analizar rentabilidad, optimizar campañas, reducir costes y aumentar la capacidad de trabajo.
+              </p>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 'cap-14',
+        badge: 'SECCIÓN 14',
+        shortMenuTitle: '14. Los 10 Principios Innegociables',
+        title: '14. PRINCIPIOS QUE NO DEBEMOS TRAICIONAR',
+        subtitle: 'El decálogo ético, operativo y financiero que protege el foco de la empresa.',
+        contentHtml: `
+          <div class="grid grid-cols-1 gap-3 text-xs sm:text-sm">
+            <div class="p-3.5 rounded-2xl bg-surface-900 border border-slate-800">
+              <strong class="text-brand-400 font-display block">1. No vendemos IA.</strong>
+              <span class="text-slate-300">Vendemos muebles suministrados y montados.</span>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-surface-900 border border-slate-800">
+              <strong class="text-brand-400 font-display block">2. No vendemos imágenes bonitas.</strong>
+              <span class="text-slate-300">Las imágenes ayudan a vender, pero el proyecto final debe ser técnicamente viable.</span>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-surface-900 border border-slate-800">
+              <strong class="text-brand-400 font-display block">3. No queremos una estructura grande.</strong>
+              <span class="text-slate-300">Queremos una estructura pequeña y eficiente.</span>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-surface-900 border border-slate-800">
+              <strong class="text-brand-400 font-display block">4. No queremos facturar por facturar.</strong>
+              <span class="text-slate-300">Queremos trabajos rentables.</span>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-surface-900 border border-slate-800">
+              <strong class="text-brand-400 font-display block">5. No dependemos de un único canal.</strong>
+              <span class="text-slate-300">Desarrollamos diferentes vías de captación.</span>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-surface-900 border border-slate-800">
+              <strong class="text-brand-400 font-display block">6. No inventamos información.</strong>
+              <span class="text-slate-300">Los precios, medidas, referencias, disponibilidad y costes deben verificarse.</span>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-surface-900 border border-slate-800">
+              <strong class="text-brand-400 font-display block">7. No automatizamos irresponsablemente.</strong>
+              <span class="text-slate-300">La aprobación humana es necesaria para presupuestos, compromisos y decisiones importantes.</span>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-surface-900 border border-slate-800">
+              <strong class="text-brand-400 font-display block">8. No confundimos tecnología con oficio.</strong>
+              <span class="text-slate-300">La tecnología mejora la organización y la venta. La ejecución debe ser profesional.</span>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-surface-900 border border-slate-800">
+              <strong class="text-brand-400 font-display block">9. No construimos software por entretenimiento.</strong>
+              <span class="text-slate-300">Cada herramienta debe resolver un problema real o mejorar una métrica empresarial.</span>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-surface-900 border border-slate-800">
+              <strong class="text-brand-400 font-display block">10. No queremos parecer una gran empresa.</strong>
+              <span class="text-slate-300">Queremos disponer de las capacidades útiles de una gran empresa sin soportar sus costes innecesarios.</span>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 'cap-15',
+        badge: 'SECCIÓN 15',
+        shortMenuTitle: '15. Definición Final',
+        title: '15. LA DEFINICIÓN FINAL DE NUESTRA EMPRESA',
+        subtitle: 'Síntesis estratégica de identidad, operación y propósito tecnológico.',
+        contentHtml: `
+          <div class="space-y-4 text-sm sm:text-base text-slate-200 leading-relaxed">
+            <div class="p-5 rounded-3xl bg-surface-900 border border-slate-800 space-y-3.5">
+              <p>
+                Somos una empresa especializada en <strong>suministro, retirada y montaje de mobiliario modular</strong>, con especial atención a la renovación completa de cocinas.
+              </p>
+              <p>
+                Nuestra actividad comercial se apoya en una marca propia, captación directa, visualización personalizada de proyectos, proveedores y una operación profesional.
+              </p>
+              <p>
+                Utilizamos inteligencia artificial, automatización y análisis de datos para desarrollar capacidades comerciales, administrativas y organizativas que tradicionalmente exigían estructuras mucho mayores.
+              </p>
+              <p>
+                Mantenemos una estructura ligera, decisiones rápidas y control estricto de la rentabilidad.
+              </p>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-gradient-to-r from-brand-500/20 to-amber-500/10 border border-brand-400/40 text-center">
+              <p class="font-display font-bold text-white text-base">
+                No pretendemos desarrollar tecnología para vender tecnología.
+              </p>
+              <p class="text-amber-300 font-medium text-sm mt-1">
+                Utilizamos la tecnología para vender y ejecutar mejor nuestro producto.
+              </p>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 'cap-16',
+        badge: 'SECCIÓN 16',
+        shortMenuTitle: '16. La Idea Rectora',
+        title: '16. LA IDEA RECTORA',
+        subtitle: 'Nacer con otra arquitectura empresarial nativa de la era de la Inteligencia Artificial.',
+        contentHtml: `
+          <div class="space-y-4 text-sm sm:text-base text-slate-200 leading-relaxed">
+            <p>
+              El mundo empresarial está cambiando. Una pequeña empresa ya no necesita reproducir la estructura de una gran compañía para disponer de algunas de sus capacidades.
+            </p>
+            <p>
+              Puede acceder a inteligencia artificial, automatización, herramientas de diseño, sistemas de análisis, marketing digital y plataformas de gestión con inversiones relativamente reducidas. Esto permite replantear desde cero cómo debe organizarse una pequeña empresa.
+            </p>
+            <p>
+              Nuestra oportunidad consiste en aprovechar ese cambio antes de que se convierta en una práctica habitual dentro del sector.
+            </p>
+            <p>
+              No queremos esperar a que las empresas tradicionales se digitalicen. No queremos empezar como ellas para transformarnos después. <strong>Queremos nacer con otra arquitectura empresarial.</strong>
+            </p>
+            <p>
+              Una empresa pequeña en tamaño, pero potente en capacidad comercial, tecnológica y organizativa. Una empresa que consiga clientes directamente, les ayude a visualizar lo que desean, les ofrezca una solución concreta y ejecute el trabajo con calidad. Una empresa que mida sus resultados, aprenda de cada instalación y mejore continuamente.
+            </p>
+
+            <!-- Manifiesto de cierre -->
+            <div class="p-5 sm:p-6 rounded-3xl bg-gradient-to-br from-brand-500/25 via-surface-900 to-surface-950 border-2 border-brand-400/60 shadow-2xl space-y-3 text-center my-6">
+              <p class="font-display font-extrabold text-sm sm:text-base text-amber-300 uppercase tracking-wide">
+                NO QUEREMOS DIGITALIZAR UNA EMPRESA TRADICIONAL DE MONTAJE.
+              </p>
+              <p class="font-display font-extrabold text-base sm:text-lg text-white uppercase leading-snug">
+                QUEREMOS DISEÑAR UNA EMPRESA NATIVA DE LA ERA DE LA INTELIGENCIA ARTIFICIAL CUYO PRODUCTO SEA EL SUMINISTRO Y MONTAJE DE MUEBLES MODULARES.
+              </p>
+              <div class="py-2">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-brand-500 text-slate-950 font-display font-extrabold text-sm tracking-wider">
+                  HACER LA EMPRESA DEL FUTURO HOY
+                </span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-200 font-medium pt-2 border-t border-slate-800">
+                La tecnología es nuestra infraestructura. El marketing es nuestro motor comercial. El montaje es nuestro producto. La rentabilidad es nuestra medida de éxito.
+              </p>
+            </div>
+          </div>
+        `
+      }
+    ];
+
+    // Estado de la pestaña activa
+    let currentTabIndex = 0;
+
+    // Referencias del DOM
+    const tabContentArea = document.getElementById('tabContentArea');
+    const inPageBottomNav = document.getElementById('inPageBottomNav');
+    const headerStepCounter = document.getElementById('headerStepCounter');
+    const headerStepTitle = document.getElementById('headerStepTitle');
+    const progressBar = document.getElementById('progressBar');
+    const footerFraction = document.getElementById('footerFraction');
+    const fixedPrevBtn = document.getElementById('fixedPrevBtn');
+    const fixedNextBtn = document.getElementById('fixedNextBtn');
+    const fixedPrevText = document.getElementById('fixedPrevText');
+    const fixedNextText = document.getElementById('fixedNextText');
+    const drawerBackdrop = document.getElementById('drawerBackdrop');
+    const drawerPanel = document.getElementById('drawerPanel');
+    const drawerNavList = document.getElementById('drawerNavList');
+    const indexSearchInput = document.getElementById('indexSearchInput');
+
+    /**
+     * Desplaza suavemente al comienzo de la pestaña actual (Funciona en todas las pestañas)
+     */
+    function scrollToCurrentTabTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }
+
+    /**
+     * Cambia a la pestaña indicada por su índice (0 a 16)
+     */
+    function goToTab(index) {
+      if (index < 0 || index >= tutorialTabs.length) return;
+      currentTabIndex = index;
+      const tab = tutorialTabs[currentTabIndex];
+
+      // Actualizar contadores e indicadores superiores
+      const stepNum = currentTabIndex + 1;
+      const totalSteps = tutorialTabs.length;
+      headerStepCounter.textContent = `PESTAÑA ${stepNum} DE ${totalSteps}`;
+      headerStepTitle.textContent = tab.shortMenuTitle;
+      footerFraction.textContent = `${stepNum}/${totalSteps}`;
+      progressBar.style.width = `${(stepNum / totalSteps) * 100}%`;
+
+      // Si no es la pestaña INICIO, mostramos una cabecera limpia de sección (sin "by Rubén Sbarsky")
+      let sectionHeaderHtml = '';
+      if (currentTabIndex > 0) {
+        sectionHeaderHtml = `
+          <div class="mb-5 pb-4 border-b border-slate-800">
+            <span class="inline-block text-[11px] font-display font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-md bg-brand-500/15 text-brand-400 border border-brand-500/30 mb-2">
+              ${tab.badge}
+            </span>
+            <h1 class="font-display font-extrabold text-xl sm:text-3xl text-white leading-tight">
+              ${tab.title}
+            </h1>
+            <p class="text-xs sm:text-sm text-slate-400 mt-1.5 leading-relaxed">
+              ${tab.subtitle}
+            </p>
+          </div>
+        `;
+      }
+
+      // Renderizar el contenido de la pestaña con animación suave
+      tabContentArea.classList.remove('tab-animate');
+      void tabContentArea.offsetWidth; // reflow
+      tabContentArea.classList.add('tab-animate');
+      tabContentArea.innerHTML = sectionHeaderHtml + tab.contentHtml;
+
+      // Si estamos en INICIO, poblar la cuadrícula interactiva de capítulos
+      if (currentTabIndex === 0) {
+        const homeGrid = document.getElementById('homeGridIndex');
+        if (homeGrid) {
+          homeGrid.innerHTML = tutorialTabs.slice(1).map((item, idx) => {
+            const targetIdx = idx + 1;
+            return `
+              <button type="button" onclick="goToTab(${targetIdx})"
+                class="text-left p-3.5 rounded-2xl bg-surface-900 hover:bg-surface-800 border border-slate-800 hover:border-brand-500/50 transition flex items-start justify-between gap-2.5 group active:scale-98">
+                <div class="min-w-0">
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-brand-400 block">${item.badge}</span>
+                  <h3 class="font-display font-bold text-xs sm:text-sm text-white group-hover:text-amber-300 transition truncate mt-0.5">${item.shortMenuTitle}</h3>
+                  <p class="text-[11px] text-slate-400 line-clamp-2 mt-1">${item.subtitle}</p>
+                </div>
+                <span class="p-1.5 rounded-lg bg-surface-950 text-slate-400 group-hover:text-brand-400 shrink-0 mt-1">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                  </svg>
+                </span>
+              </button>
+            `;
+          }).join('');
+        }
+      }
+
+      // Configurar botones Anterior y Próxima al final del contenido y en la barra fija inferior
+      const hasPrev = currentTabIndex > 0;
+      const hasNext = currentTabIndex < tutorialTabs.length - 1;
+      const prevTab = hasPrev ? tutorialTabs[currentTabIndex - 1] : null;
+      const nextTab = hasNext ? tutorialTabs[currentTabIndex + 1] : null;
+
+      // 1. Actualizar botones de la barra fija inferior
+      if (hasPrev) {
+        fixedPrevBtn.classList.remove('hidden');
+        fixedPrevText.textContent = `Anterior: ${prevTab.badge}`;
+      } else {
+        fixedPrevBtn.classList.add('hidden');
+      }
+
+      if (hasNext) {
+        fixedNextBtn.classList.remove('hidden');
+        fixedNextText.textContent = `Próxima: ${nextTab.badge}`;
+      } else {
+        fixedNextBtn.classList.add('hidden');
+      }
+
+      // 2. Actualizar bloque de navegación al final de cada pestaña
+      inPageBottomNav.innerHTML = `
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+          ${hasPrev ? `
+            <button type="button" onclick="goToTab(${currentTabIndex - 1})"
+              class="flex-1 p-3.5 rounded-2xl bg-surface-900 hover:bg-surface-800 border border-slate-800 text-left transition active:scale-98 flex items-center gap-3">
+              <div class="p-2 rounded-xl bg-surface-800 text-brand-400 shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                </svg>
+              </div>
+              <div class="min-w-0">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">PESTAÑA ANTERIOR</span>
+                <span class="font-display font-bold text-xs sm:text-sm text-white truncate block">${prevTab.shortMenuTitle}</span>
+              </div>
+            </button>
+          ` : `<div class="hidden sm:block flex-1"></div>`}
+
+          ${hasNext ? `
+            <button type="button" onclick="goToTab(${currentTabIndex + 1})"
+              class="flex-1 p-3.5 rounded-2xl bg-gradient-to-r from-brand-500/20 to-amber-500/10 hover:from-brand-500/30 border border-brand-400/50 text-right transition active:scale-98 flex items-center justify-end gap-3">
+              <div class="min-w-0">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-brand-400 block">PRÓXIMA PESTAÑA</span>
+                <span class="font-display font-bold text-xs sm:text-sm text-white truncate block">${nextTab.shortMenuTitle}</span>
+              </div>
+              <div class="p-2 rounded-xl bg-brand-500 text-slate-950 shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                </svg>
+              </div>
+            </button>
+          ` : `
+            <button type="button" onclick="goToTab(0)"
+              class="flex-1 p-3.5 rounded-2xl bg-emerald-500/20 border border-emerald-400/50 text-center transition active:scale-98 flex items-center justify-center gap-2">
+              <span class="font-display font-bold text-xs sm:text-sm text-emerald-300">Has completado el tutorial · Volver a INICIO</span>
+            </button>
+          `}
+        </div>
+      `;
+
+      // Actualizar estado activo en el menú sándwich
+      renderDrawerList(indexSearchInput.value);
+
+      // Volver siempre al inicio de la nueva pestaña
+      scrollToCurrentTabTop();
+    }
+
+    /**
+     * Renderiza la lista de pestañas dentro del Menú Sándwich (Índice)
+     */
+    function renderDrawerList(filterQuery = '') {
+      const normalized = filterQuery.trim().toLowerCase();
+      drawerNavList.innerHTML = tutorialTabs.map((item, idx) => {
+        const matches = !normalized ||
+          item.shortMenuTitle.toLowerCase().includes(normalized) ||
+          item.subtitle.toLowerCase().includes(normalized) ||
+          item.badge.toLowerCase().includes(normalized);
+
+        if (!matches) return '';
+
+        const isActive = idx === currentTabIndex;
+        return `
+          <button type="button" onclick="selectTabFromDrawer(${idx})"
+            class="w-full text-left p-2.5 rounded-xl transition flex items-center justify-between gap-2 ${
+              isActive
+                ? 'bg-brand-500 text-slate-950 font-bold shadow-sm'
+                : 'text-slate-200 hover:bg-surface-800'
+            }">
+            <div class="min-w-0">
+              <span class="text-[10px] uppercase tracking-wider block ${isActive ? 'text-slate-900 font-extrabold' : 'text-brand-400 font-semibold'}">
+                ${item.badge}
+              </span>
+              <span class="text-xs sm:text-sm truncate block ${isActive ? 'font-extrabold' : 'font-medium'}">
+                ${item.shortMenuTitle}
+              </span>
+            </div>
+            ${isActive ? `
+              <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-slate-950 text-brand-400 shrink-0">Activa</span>
+            ` : `
+              <svg class="w-4 h-4 text-slate-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+              </svg>
+            `}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function openDrawer() {
+      drawerBackdrop.classList.remove('hidden');
+      requestAnimationFrame(() => {
+        drawerBackdrop.classList.remove('opacity-0');
+        drawerPanel.classList.remove('-translate-x-full');
+      });
+    }
+
+    function closeDrawer() {
+      drawerBackdrop.classList.add('opacity-0');
+      drawerPanel.classList.add('-translate-x-full');
+      setTimeout(() => {
+        drawerBackdrop.classList.add('hidden');
+      }, 220);
+    }
+
+    window.selectTabFromDrawer = function(idx) {
+      closeDrawer();
+      goToTab(idx);
+    };
+
+    // Eventos del Menú Sándwich y barra fija inferior
+    document.getElementById('openDrawerBtn').addEventListener('click', openDrawer);
+    document.getElementById('footerIndexBtn').addEventListener('click', openDrawer);
+    document.getElementById('closeDrawerBtn').addEventListener('click', closeDrawer);
+    drawerBackdrop.addEventListener('click', closeDrawer);
+
+    indexSearchInput.addEventListener('input', (e) => {
+      renderDrawerList(e.target.value);
+    });
+
+    fixedPrevBtn.addEventListener('click', () => {
+      if (currentTabIndex > 0) goToTab(currentTabIndex - 1);
+    });
+
+    fixedNextBtn.addEventListener('click', () => {
+      if (currentTabIndex < tutorialTabs.length - 1) goToTab(currentTabIndex + 1);
+    });
+
+    /**
+     * Sistema de Botones Flotantes Movibles (Touch + Mouse)
+     * Distingue entre arrastrar el botón por la pantalla y tocarlo (click/tap) para ejecutar su acción.
+     */
+    function makeFloatingButtonDraggable(buttonEl, onTapCallback) {
+      let isDragging = false;
+      let hasMoved = false;
+      let startX = 0;
+      let startY = 0;
+      let initialLeft = 0;
+      let initialTop = 0;
+
+      function onPointerStart(clientX, clientY) {
+        isDragging = true;
+        hasMoved = false;
+        startX = clientX;
+        startY = clientY;
+        const rect = buttonEl.getBoundingClientRect();
+        initialLeft = rect.left;
+        initialTop = rect.top;
+        // Convertir posicionamiento a left/top para arrastre fluido
+        buttonEl.style.left = `${initialLeft}px`;
+        buttonEl.style.top = `${initialTop}px`;
+        buttonEl.style.right = 'auto';
+        buttonEl.style.bottom = 'auto';
+      }
+
+      function onPointerMove(clientX, clientY) {
+        if (!isDragging) return;
+        const dx = clientX - startX;
+        const dy = clientY - startY;
+
+        if (Math.abs(dx) > 6 || Math.abs(dy) > 6) {
+          hasMoved = true;
+        }
+
+        if (hasMoved) {
+          const rect = buttonEl.getBoundingClientRect();
+          const maxLeft = window.innerWidth - rect.width - 6;
+          const maxTop = window.innerHeight - rect.height - 6;
+          const newLeft = Math.max(6, Math.min(maxLeft, initialLeft + dx));
+          const newTop = Math.max(6, Math.min(maxTop, initialTop + dy));
+          buttonEl.style.left = `${newLeft}px`;
+          buttonEl.style.top = `${newTop}px`;
+        }
+      }
+
+      function onPointerEnd() {
+        if (!isDragging) return;
+        isDragging = false;
+        if (!hasMoved) {
+          onTapCallback();
+        }
+      }
+
+      // Eventos Táctiles (Samsung Galaxy A02s)
+      buttonEl.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          onPointerStart(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchmove', (e) => {
+        if (!isDragging || e.touches.length !== 1) return;
+        onPointerMove(e.touches[0].clientX, e.touches[0].clientY);
+      }, { passive: true });
+
+      window.addEventListener('touchend', () => {
+        onPointerEnd();
+      });
+
+      // Eventos de Ratón (Escritorio)
+      buttonEl.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        onPointerStart(e.clientX, e.clientY);
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        onPointerMove(e.clientX, e.clientY);
+      });
+
+      window.addEventListener('mouseup', () => {
+        onPointerEnd();
+      });
+    }
+
+    // Inicializar los dos botones flotantes movibles requeridos:
+    // 1. Botón flotante movible que lleva de cualquier lugar a INICIO
+    const fabHome = document.getElementById('fabHome');
+    makeFloatingButtonDraggable(fabHome, () => {
+      goToTab(0);
+    });
+
+    // 2. Botón flotante movible ARRIBA que lleva siempre al comienzo de la pestaña actual
+    const fabTop = document.getElementById('fabTop');
+    makeFloatingButtonDraggable(fabTop, () => {
+      scrollToCurrentTabTop();
+    });
+
+    // Mantener los botones flotantes dentro del área visible si gira la pantalla del móvil
+    window.addEventListener('resize', () => {
+      [fabHome, fabTop].forEach((btn) => {
+        if (btn.style.left && btn.style.top) {
+          const rect = btn.getBoundingClientRect();
+          const maxLeft = Math.max(6, window.innerWidth - rect.width - 6);
+          const maxTop = Math.max(6, window.innerHeight - rect.height - 6);
+          if (rect.left > maxLeft) btn.style.left = `${maxLeft}px`;
+          if (rect.top > maxTop) btn.style.top = `${maxTop}px`;
+        }
+      });
+    });
+
+    // Inicializar el tutorial en la pestaña INICIO al cargar
+    window.addEventListener('DOMContentLoaded', () => {
+      goToTab(0);
+    });
+  </script>
+</body>
+</html>
