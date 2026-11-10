@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<meta name="theme-color" content="#0a0e1a">
+<title>OPERACIÓN COMERCIAL IA | Montaje modular y cocinas</title>
+<style>
+:root{--bg:#0a0e1a;--panel:#0f172a;--panel2:#142039;--line:#263650;--text:#e8eef8;--muted:#9aabc4;--cyan:#38bdf8;--blue:#2563eb;--green:#34d399;--amber:#fbbf24;--red:#fb7185;--radius:15px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}body{background:var(--bg);color:var(--text);font:15px/1.58 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+header{height:62px;position:fixed;z-index:50;inset:0 0 auto;background:#0d1526;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:8px 12px}
+.menu{width:43px;height:43px;border:1px solid #34445f;border-radius:11px;background:#17243b;color:white;font-size:22px}
+.brand{min-width:0;flex:1}.brand small{display:block;color:var(--cyan);font-size:10px;letter-spacing:1.5px;font-weight:800}.brand strong{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.counter{font-size:12px;background:#1d3558;color:#bdeaff;border-radius:20px;padding:5px 9px;font-weight:800}
+main{max-width:850px;margin:auto;padding:78px 13px 110px}
+.tab{display:none}.tab.active{display:block;animation:appear .18s ease}@keyframes appear{from{opacity:.3;transform:translateY(4px)}to{opacity:1;transform:none}}
+.hero{padding:24px 20px;border:1px solid #29496c;border-radius:20px;background:radial-gradient(circle at 90% 10%,#16466a 0,transparent 40%),linear-gradient(140deg,#101c32,#0c1425);margin-bottom:14px}
+.eyebrow{color:var(--cyan);font-size:11px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase}
+h1{font-size:27px;line-height:1.13;margin:10px 0}h2{font-size:21px;line-height:1.2}h3{font-size:16px;margin-bottom:8px;color:#dceaff}
+p{color:#bdc9da;margin:8px 0}strong{color:#f3f7ff}a{color:#7dd3fc}
+.hero p{font-size:14px}.hero .signature{border-top:1px solid #334762;margin-top:18px;padding-top:12px;color:#c9d9ed;font-size:12px}
+.banner{padding:16px 17px;background:#12213a;border:1px solid #29415f;border-left:4px solid var(--cyan);border-radius:13px;margin-bottom:13px}
+.banner .eyebrow{margin-bottom:4px}.banner h2{font-size:20px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin:12px 0;box-shadow:0 5px 18px #0002}
+.card p:last-child{margin-bottom:0}.muted{color:var(--muted)}.small{font-size:12px}.tag{display:inline-block;padding:3px 8px;border:1px solid #35506f;border-radius:30px;color:#b9d9f8;font-size:11px;font-weight:800;margin:2px}
+.callout{border-left:3px solid var(--cyan);background:#10243a;padding:12px;border-radius:8px;margin:10px 0;color:#dceeff}
+.warn{border-left-color:var(--amber);background:#2b2413}.danger{border-left-color:var(--red);background:#2a1721}.good{border-left-color:var(--green);background:#10291f}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{background:#111e33;border:1px solid #293d59;padding:13px;border-radius:12px}.metric b{display:block;font-size:22px;color:#eaf7ff}.metric span{font-size:11px;color:var(--muted)}
+ul,ol{padding-left:21px;color:#bdc9da;margin:7px 0}li{margin:5px 0}
+.flow{display:flex;flex-direction:column;gap:7px}.flow div{padding:10px 12px;background:#13243c;border:1px solid #2b4666;border-radius:9px;text-align:center;font-weight:750}.flow i{font-style:normal;color:var(--cyan);text-align:center}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}th{text-align:left;background:#1a2c47;color:#dff3ff}td,th{padding:9px;border-bottom:1px solid #2a3a52;vertical-align:top}td{color:#c5d1e1}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+.btn{border:1px solid #365579;background:#173456;color:#e8f6ff;padding:10px 13px;border-radius:10px;font-weight:750;font-size:13px}
+.btn.primary{background:#075985;border-color:#0ea5e9}.btn.ghost{background:#172033}.btn.goodbtn{background:#14532d;border-color:#22c55e}.btn.dangerbtn{background:#51202b;border-color:#9f354a}
+.btnrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+label{display:block;color:#b9c9dd;font-size:12px;font-weight:750;margin:10px 0 4px}
+input,select,textarea{width:100%;background:#091321;border:1px solid #34445c;border-radius:9px;padding:11px;color:#eff6ff;outline:none}
+textarea{min-height:92px;resize:vertical}input:focus,select:focus,textarea:focus{border-color:var(--cyan)}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.prompt{background:#081321;border:1px dashed #426184;border-radius:10px;padding:13px;white-space:pre-wrap;color:#d2e4f8;font-size:12px;margin:8px 0}
+.kpi{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.kpi .metric{min-height:76px}
+.drawerShade{position:fixed;inset:0;background:#0009;z-index:80;display:none}.drawerShade.open{display:block}
+.drawer{position:fixed;z-index:90;top:0;bottom:0;left:0;width:min(88vw,350px);background:#0d1729;border-right:1px solid var(--line);transform:translateX(-105%);transition:.22s;display:flex;flex-direction:column}
+.drawer.open{transform:none}.drawerhead{padding:18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.drawerlist{overflow:auto;padding:8px}.drawerlist button{display:flex;width:100%;text-align:left;padding:11px 10px;margin:2px 0;border:0;border-radius:9px;background:transparent;color:#d4dfed;font-size:13px;gap:10px}.drawerlist button.active{background:#173456;color:#7dd3fc;border-left:3px solid var(--cyan)}
+.num{width:25px;flex:none;color:#70cfff;font-weight:900}
+.bottom{position:fixed;z-index:45;bottom:0;left:0;right:0;background:#0d1526;border-top:1px solid var(--line);display:flex;gap:10px;padding:9px max(12px,calc((100vw - 820px)/2));}
+.bottom button{flex:1;height:43px}.fab{position:fixed;z-index:60;bottom:72px;padding:9px 13px;border-radius:30px;border:2px solid #d7efff;background:#102b49;color:white;font-weight:900;font-size:12px;box-shadow:0 4px 16px #0009;touch-action:none;user-select:none}
+#home{left:10px}#top{right:10px;background:#075985}
+.check{display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-bottom:1px solid #26364e;color:#c9d6e7;font-size:13px}.check input{width:18px;height:18px;margin-top:2px;accent-color:#0ea5e9}
+.lead{border:1px solid #30435d;border-radius:10px;padding:11px;margin:8px 0;background:#0b1525}
+.leadhead{display:flex;justify-content:space-between;gap:8px}.status{font-size:10px;color:#a8dfff;border:1px solid #385879;border-radius:20px;padding:2px 7px}
+.footerNote{font-size:11px;color:#8294ad;text-align:center;margin:20px 0}
+@media(min-width:650px){main{padding-left:22px;padding-right:22px}.grid,.kpi{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{padding:32px}h1{font-size:36px}}
+@media(max-width:390px){h1{font-size:24px}.formgrid{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.card{padding:13px}}
+</style>
+</head>
+<body>
+<header>
+<button class="menu" id="openMenu" aria-label="Abrir índice">☰</button>
+<div class="brand"><small>OPERACIÓN COMERCIAL INTELIGENTE</small><strong id="headTitle">INICIO · VISIÓN GENERAL</strong></div>
+<span class="counter" id="counter">1 / 20</span>
+</header>
+<div class="drawerShade" id="shade"></div>
+<nav class="drawer" id="drawer">
+ <div class="drawerhead"><strong>ÍNDICE DE OPERACIÓN</strong><button class="btn" id="closeMenu">✕</button></div>
+ <div class="drawerlist" id="drawerList"></div>
+</nav>
+<main id="main">
+<section class="tab active" data-title="INICIO · VISIÓN GENERAL">
+ <div class="hero">
+  <div class="eyebrow">Diseño de negocio · Valencia · 2026</div>
+  <h1>OPERACIÓN COMERCIAL<br>DIRIGIDA POR IA</h1>
+  <h2 style="color:#8bdcff">Montaje de muebles modulares y cocinas</h2>
+  <p>Un sistema comercial en el que la inteligencia artificial es el núcleo de prospección, ventas, análisis, coordinación y mejora continua. La persona dirige y ejecuta; la IA multiplica su capacidad.</p>
+  <div class="signature">Arquitectura estratégica · Documento de trabajo · Rubén Sbarsky</div>
+ </div>
+ <div class="card">
+  <div class="eyebrow">La tesis central</div><h2>La IA no decora el negocio. Lo organiza.</h2>
+  <p>No se trata de poner un chatbot en una web. Se trata de diseñar la actividad para que cada oportunidad entre en un sistema inteligente que la identifica, enriquece, clasifica, prepara la respuesta, calcula escenarios, recuerda el siguiente paso y aprende del resultado.</p>
+  <div class="callout"><strong>Principio:</strong> ninguna oportunidad comercial debería depender de que alguien recuerde manualmente qué hacer después.</div>
+ </div>
+ <div class="grid">
+  <div class="metric"><b>01</b><span>Detectar oportunidades</span></div><div class="metric"><b>02</b><span>Comprender la necesidad</span></div><div class="metric"><b>03</b><span>Calificar y priorizar</span></div><div class="metric"><b>04</b><span>Preparar propuesta</span></div><div class="metric"><b>05</b><span>Coordinar ejecución</span></div><div class="metric"><b>06</b><span>Aprender y optimizar</span></div>
+ </div>
+ <div class="card"><h3>Mapa de la operación</h3>
+  <div class="flow"><div>FUENTES DE OPORTUNIDADES<br><small>Google · directorios · plataformas · recomendaciones · B2B</small></div><i>↓</i><div>CENTRO DE INTELIGENCIA IA<br><small>Investiga · interpreta · clasifica · recomienda · redacta</small></div><i>↓</i><div>CRM ÚNICO + HISTORIAL</div><i>↓</i><div>DECISIÓN HUMANA / APROBACIÓN</div><i>↓</i><div>VENTA · MONTAJE · COBRO · RESEÑA</div><i>↓</i><div>DATOS DE RESULTADO → APRENDIZAJE IA</div></div>
+ </div>
+ <div class="callout warn"><strong>Realismo técnico:</strong> esta versión HTML es el panel de trabajo local, con CRM y herramientas de preparación. La IA conectada, las búsquedas automáticas y el envío de comunicaciones requieren una API/backend o conectores. Nunca se debe incrustar una clave privada de IA dentro del HTML.</div>
+ <div class="card"><h3>Acceso rápido</h3><div class="grid" id="quickLinks"></div></div>
+</section>
+
+<section class="tab" data-title="01 · MODELO DE NEGOCIO">
+ <div class="banner"><div class="eyebrow">01 · Estrategia</div><h2>Modelo de negocio: IA como sistema nervioso</h2></div>
+ <div class="card"><h3>Qué vendemos</h3><p>Un resultado fiable de montaje, no simplemente horas: muebles correctamente montados, espacio protegido, comunicación clara, alcance acordado y gestión transparente de incidencias.</p>
+ <div class="grid"><div class="metric"><b>Particulares</b><span>Muebles en kit, armarios, conjuntos domésticos, desmontaje y remontaje.</span></div><div class="metric"><b>Empresas</b><span>Tiendas de cocinas, comercios, reformas, mudanzas, carpinterías y gestores.</span></div></div></div>
+ <div class="card"><h3>Catálogo por niveles de complejidad</h3>
+ <p><strong>Línea A · Mobiliario en kit:</strong> mesas, escritorios, cómodas, camas, muebles de TV, estanterías, armarios y auxiliares.</p>
+ <p><strong>Línea B · Modular avanzado:</strong> vestidores, composiciones de armarios, almacenaje, mobiliario de oficina y anclajes dentro de la competencia técnica.</p>
+ <p><strong>Línea C · Cocinas modulares:</strong> lectura de planos y despieces, comprobación de medidas, nivelación, montaje de módulos, frentes, herrajes, zócalos, remates y coordinación de encimera.</p></div>
+ <div class="card"><h3>La IA como capa transversal</h3><ul><li>Transforma mensajes desordenados en fichas estructuradas.</li><li>Detecta información que falta antes de presupuestar.</li><li>Busca y prioriza empresas potenciales.</li><li>Prepara comunicaciones personalizadas, nunca spam indiscriminado.</li><li>Compara presupuestos previstos con tiempos y costes reales.</li><li>Convierte cada trabajo terminado en datos reutilizables y contenido autorizado.</li></ul></div>
+ <div class="callout danger"><strong>Límites profesionales:</strong> electricidad, gas, fontanería y otras instalaciones reguladas deben quedar fuera salvo intervención de profesionales habilitados. La IA no certifica competencias ni sustituye la inspección del lugar.</div>
+</section>
+
+<section class="tab" data-title="02 · ARQUITECTURA IA">
+ <div class="banner"><div class="eyebrow">02 · Arquitectura</div><h2>Los seis agentes especializados</h2></div>
+ <p>Conviene diseñar agentes con responsabilidades estrechas y datos compartidos. Un único asistente generalista suele mezclar tareas y perder trazabilidad.</p>
+ <div class="card"><h3>Agente 1 · Radar comercial</h3><p>Investiga negocios y señales de demanda; identifica tiendas, instaladoras, carpinterías, reformas, mudanzas, interioristas y gestores de vivienda. Guarda fuente, fecha de verificación y evidencia. No inventa que una empresa subcontrata.</p></div>
+ <div class="card"><h3>Agente 2 · Recepción y cualificación</h3><p>Interpreta WhatsApp, correo o formulario; extrae cliente, localidad, tipo de mueble, referencias, fotos, urgencia, accesos y datos pendientes. Hace preguntas concretas y clasifica la oportunidad.</p></div>
+ <div class="card"><h3>Agente 3 · Presupuestación asistida</h3><p>Descompone alcance, estima horas con datos históricos, identifica costes y riesgos, genera escenarios y redacta el presupuesto. No inventa tarifas ni envía el precio sin aprobación.</p></div>
+ <div class="card"><h3>Agente 4 · Operaciones</h3><p>Prepara checklist, materiales, herramientas, secuencia de trabajo, riesgos, documentación y mensaje de confirmación. Después registra tiempos, incidencias y resultado.</p></div>
+ <div class="card"><h3>Agente 5 · Marketing y reputación</h3><p>Convierte trabajos reales autorizados en casos, publicaciones, respuestas a reseñas y páginas de servicio. No fabrica fotografías de trabajos realizados ni testimonios.</p></div>
+ <div class="card"><h3>Agente 6 · Dirección y analítica</h3><p>Lee los datos del CRM, detecta cuellos de botella, calcula rentabilidad por canal y tipo de trabajo, y propone experimentos. Explica qué datos sostienen cada recomendación.</p></div>
+ <div class="callout good"><strong>Regla de coordinación:</strong> los agentes no mantienen seis bases de datos separadas. Todos consultan el mismo registro de cliente, oportunidad, presupuesto y trabajo.</div>
+</section>
+
+<section class="tab" data-title="03 · FLUJO COMERCIAL">
+ <div class="banner"><div class="eyebrow">03 · Flujo</div><h2>Una oportunidad: de señal a cliente rentable</h2></div>
+ <div class="flow"><div>1. DETECCIÓN<br><small>Una empresa, consulta, recomendación o solicitud</small></div><i>↓</i><div>2. IDENTIFICACIÓN<br><small>Quién es, qué necesita y de dónde procede</small></div><i>↓</i><div>3. ENRIQUECIMIENTO<br><small>Datos públicos pertinentes y verificación</small></div><i>↓</i><div>4. CUALIFICACIÓN<br><small>Encaje, zona, urgencia, complejidad y viabilidad</small></div><i>↓</i><div>5. CONVERSACIÓN<br><small>Preguntas, fotos, medidas, referencias y aclaraciones</small></div><i>↓</i><div>6. EVALUACIÓN Y PRESUPUESTO<br><small>Alcance, coste, margen, riesgos y condiciones</small></div><i>↓</i><div>7. APROBACIÓN HUMANA<br><small>Precio, disponibilidad, alcance y aceptación</small></div><i>↓</i><div>8. EJECUCIÓN Y CONTROL</div><i>↓</i><div>9. COBRO · RESEÑA · RECOMENDACIÓN</div><i>↓</i><div>10. APRENDIZAJE DEL SISTEMA</div></div>
+ <div class="card"><h3>Estados normalizados del CRM</h3><p><span class="tag">Nuevo</span><span class="tag">En investigación</span><span class="tag">Contactado</span><span class="tag">Esperando datos</span><span class="tag">Cualificado</span><span class="tag">Presupuesto</span><span class="tag">Negociación</span><span class="tag">Aceptado</span><span class="tag">Programado</span><span class="tag">Realizado</span><span class="tag">Cobrado</span><span class="tag">Perdido</span></p></div>
+</section>
+
+<section class="tab" data-title="04 · RADAR Y PROSPECCIÓN">
+ <div class="banner"><div class="eyebrow">04 · Radar</div><h2>Prospección inteligente de clientes</h2></div>
+ <div class="card"><h3>Universo de empresas a investigar</h3><ul><li>Tiendas de cocinas y armarios.</li><li>Distribuidores de mobiliario modular.</li><li>Carpinterías y fabricantes.</li><li>Empresas de reformas e interiorismo.</li><li>Empresas de mudanzas.</li><li>Gestores de viviendas, alquiler y mantenimiento.</li><li>Oficinas, alojamientos y negocios que renuevan mobiliario.</li></ul><p>La lista inicial del plan anterior incluía negocios como SCHMIDT, Love Kitchen, Arrital, Nouespai Küchen, Mobalpa, Cocina Fácil, Novacuin, Fuster del Poble, Servihogar y Cocinas Llorens. Son pistas para verificar; no consta que hayan ofrecido colaboración.</p></div>
+ <div class="card"><h3>Ficha mínima de investigación</h3><div class="formgrid"><div><label>Empresa</label><input id="prosCompany" placeholder="Nombre comercial"></div><div><label>Municipio</label><input id="prosTown" placeholder="Valencia, Paterna..."></div><div><label>Tipo</label><select id="prosType"><option>Tienda de cocinas</option><option>Muebles</option><option>Reformas</option><option>Carpintería</option><option>Mudanzas</option><option>Gestión de viviendas</option><option>Otro</option></select></div><div><label>Fuente / URL</label><input id="prosSource" placeholder="Web o directorio"></div></div><label>Qué se ha verificado / hipótesis pendiente</label><textarea id="prosEvidence" placeholder="Actividad, contacto, indicio de necesidad. Separar hechos de hipótesis."></textarea><div class="btnrow"><button class="btn primary" onclick="addProspect()">Guardar prospecto</button><button class="btn" onclick="copyRadarPrompt()">Copiar prompt de investigación</button></div></div>
+ <div class="card"><h3>Prompt del agente Radar</h3><div class="prompt" id="radarPrompt">Actúa como analista de desarrollo comercial B2B para un profesional de montaje de mobiliario modular y cocinas en Valencia. Investiga empresas reales del segmento solicitado. Para cada resultado devuelve: nombre, actividad, municipio, web oficial, contacto empresarial público, evidencia concreta de que podría necesitar capacidad de montaje, hipótesis separada de los hechos, fecha de verificación y siguiente paso recomendado. No afirmes que subcontrata si no hay evidencia. No inventes teléfonos, personas ni direcciones. Prioriza calidad y proximidad, no cantidad.</div><button class="btn" onclick="copyText('radarPrompt')">Copiar instrucciones</button></div>
+ <div class="card"><h3>Prospectos guardados</h3><div id="prospectList" class="muted small">Todavía no hay prospectos locales.</div></div>
+</section>
+
+<section class="tab" data-title="05 · RECEPCIÓN Y CUALIFICACIÓN">
+ <div class="banner"><div class="eyebrow">05 · Entrada de demanda</div><h2>La IA convierte consultas en oportunidades claras</h2></div>
+ <div class="card"><h3>Formulario de recepción / ficha de oportunidad</h3><p>Utilízalo al recibir una llamada, mensaje o solicitud. Los campos alimentan el CRM local de este dispositivo.</p>
+ <div class="formgrid"><div><label>Nombre o empresa</label><input id="leadName" placeholder="Cliente"></div><div><label>Teléfono / contacto</label><input id="leadContact" placeholder="Dato de contacto"></div><div><label>Tipo de cliente</label><select id="leadKind"><option>Particular</option><option>Empresa</option><option>Colaborador</option><option>Plataforma</option></select></div><div><label>Canal de origen</label><select id="leadChannel"><option>WhatsApp</option><option>Teléfono</option><option>Google</option><option>Recomendación</option><option>Empresa contactada</option><option>Plataforma</option><option>Otro</option></select></div><div><label>Municipio</label><input id="leadTown" placeholder="Localidad"></div><div><label>Servicio</label><select id="leadService"><option>Mueble en kit</option><option>Armario / vestidor</option><option>Cocina modular</option><option>Desmontaje y remontaje</option><option>Mobiliario oficina</option><option>Otro</option></select></div><div><label>Urgencia</label><select id="leadUrgency"><option>Flexible</option><option>Esta semana</option><option>Urgente</option><option>Fecha concreta</option></select></div><div><label>Estado inicial</label><select id="leadStatus"><option>Nuevo</option><option>Esperando datos</option><option>En investigación</option><option>Contactado</option></select></div></div>
+ <label>Descripción y alcance solicitado</label><textarea id="leadDesc" placeholder="Qué quiere montar, cantidad, marca o referencia, medidas, planta, ascensor, aparcamiento..."></textarea>
+ <label>Información pendiente / riesgos</label><textarea id="leadMissing" placeholder="Fotos, instrucciones, pared, encimera, accesos, conexiones técnicas..."></textarea>
+ <div class="btnrow"><button class="btn primary" onclick="addLead()">Guardar oportunidad</button><button class="btn" onclick="makeLeadPrompt()">Preparar análisis IA</button></div></div>
+ <div class="card"><h3>Preguntas que la IA debe detectar como pendientes</h3><ul><li>¿Qué producto exacto es? Marca, modelo, referencia o enlace.</li><li>¿Cuántas unidades y qué dimensiones?</li><li>¿Hay manual, plano, despiece o fotografías?</li><li>¿Dónde se realiza? Planta, ascensor, aparcamiento y acceso.</li><li>¿Qué tipo de pared o soporte requiere fijación?</li><li>¿Hay que desmontar mobiliario existente?</li><li>¿Qué fecha y franja horaria se desean?</li><li>¿Incluye retirada de embalajes o gestión de residuos?</li><li>En cocinas: ¿qué trabajos corresponden a otros gremios?</li></ul></div>
+ <div class="card"><h3>Resultado de análisis para copiar a una IA</h3><textarea id="leadAnalysis" placeholder="Pulsa «Preparar análisis IA» para generar el contexto..."></textarea><button class="btn" onclick="copyText('leadAnalysis')">Copiar análisis</button></div>
+</section>
+
+<section class="tab" data-title="06 · CRM Y MEMORIA">
+ <div class="banner"><div class="eyebrow">06 · Memoria operativa</div><h2>El CRM es la memoria de la empresa</h2></div>
+ <div class="card"><h3>Registro de oportunidades</h3><p>Los datos se guardan en el almacenamiento local del navegador. No se sincronizan automáticamente con otros dispositivos ni con una IA remota.</p><div class="kpi" id="crmKpis"></div><div id="leadList"></div><div class="btnrow"><button class="btn" onclick="exportCSV()">Exportar oportunidades CSV</button><button class="btn dangerbtn" onclick="clearLeads()">Borrar CRM local</button></div></div>
+ <div class="card"><h3>Memoria estructurada que la IA debe consultar</h3><ul><li>Ficha del cliente y permiso/base para contacto.</li><li>Historial de conversaciones y compromisos.</li><li>Trabajos anteriores, incidencias y preferencias relevantes.</li><li>Precios realmente ofertados, aceptados y cobrados.</li><li>Horas previstas frente a horas reales.</li><li>Canal de captación y coste asociado.</li><li>Motivo de aceptación o pérdida.</li></ul></div>
+ <div class="callout warn">No introducir datos personales innecesarios, documentos de identidad, datos bancarios ni imágenes privadas en herramientas de IA sin evaluar proveedor, finalidad, seguridad y base jurídica. Minimizar y proteger.</div>
+</section>
+
+<section class="tab" data-title="07 · PRESUPUESTACIÓN IA">
+ <div class="banner"><div class="eyebrow">07 · Economía del trabajo</div><h2>Presupuestar con datos, no con intuición</h2></div>
+ <div class="card"><h3>Modelo económico editable</h3><p>Esta calculadora no fija tarifas de mercado. Introduce tus propios costes y criterios. Los resultados son escenarios internos, no un presupuesto automático.</p>
+ <div class="formgrid"><div><label>Horas de trabajo previstas</label><input type="number" id="hours" min="0" step=".5" value="3"></div><div><label>Valor objetivo por hora (€)</label><input type="number" id="hourRate" min="0" step="1" value="25"></div><div><label>Desplazamiento (€)</label><input type="number" id="travel" min="0" step=".5" value="0"></div><div><label>Consumibles (€)</label><input type="number" id="consumables" min="0" step=".5" value="0"></div><div><label>Otros costes directos (€)</label><input type="number" id="otherCost" min="0" step=".5" value="0"></div><div><label>Reserva por imprevistos (%)</label><input type="number" id="riskPct" min="0" max="100" step="1" value="10"></div><div><label>Margen objetivo (%)</label><input type="number" id="marginPct" min="0" max="90" step="1" value="20"></div><div><label>Impuestos indirectos (%) si aplican</label><input type="number" id="taxPct" min="0" max="30" step=".5" value="0"></div></div>
+ <div class="btnrow"><button class="btn primary" onclick="calculateQuote()">Calcular escenario</button></div><div class="callout" id="quoteResult">Introduce los datos y calcula. Comprueba fiscalidad y costes antes de ofertar.</div></div>
+ <div class="card"><h3>Fórmula de control</h3><p>Coste base = mano de obra + desplazamiento + consumibles + otros costes directos.</p><p>Reserva = coste base × porcentaje de imprevistos.</p><p>Precio antes de impuestos = coste total / (1 − margen objetivo).</p><p>Precio final = precio antes de impuestos + impuestos aplicables.</p><div class="callout warn">El margen no es lo mismo que sumar un porcentaje al coste. El tratamiento fiscal depende de la situación real y debe verificarse con asesoramiento competente.</div></div>
+ <div class="card"><h3>Prompt del agente de presupuestos</h3><div class="prompt" id="quotePrompt">Actúa como analista de presupuestos para montaje de muebles. No inventes precios de mercado ni tiempos sin evidencia. Analiza el alcance, identifica incógnitas, separa trabajos incluidos y excluidos, estima horas en rango justificando supuestos, enumera riesgos y costes que faltan. Usa únicamente los costes y tarifas que te proporcione. Devuelve escenario conservador, probable y exigente. Señala qué debe comprobar una persona antes de enviar el presupuesto. Nunca incluyas electricidad, gas o fontanería como trabajo propio si requiere profesional habilitado.</div><button class="btn" onclick="copyText('quotePrompt')">Copiar instrucciones</button></div>
+</section>
+
+<section class="tab" data-title="08 · VENTAS Y SEGUIMIENTO">
+ <div class="banner"><div class="eyebrow">08 · Conversión</div><h2>La IA prepara la conversación; la persona cierra</h2></div>
+ <div class="card"><h3>Secuencia comercial</h3><ol><li>Acusar recibo con rapidez y cortesía.</li><li>Confirmar que se ha entendido la necesidad.</li><li>Pedir solo los datos que faltan.</li><li>Determinar si el trabajo encaja en competencia, zona y agenda.</li><li>Preparar propuesta con alcance, precio y condiciones.</li><li>Resolver dudas y registrar objeciones.</li><li>Confirmar aceptación y fecha por escrito.</li><li>Hacer seguimiento solo con permiso y frecuencia razonable.</li></ol></div>
+ <div class="card"><h3>Mensajes base para particulares</h3><div class="prompt" id="msg1">Hola. Gracias por contactar. Para revisar bien el montaje, ¿podrías enviarme fotografías o el enlace del mueble, la referencia/modelo, la localidad y una breve descripción del lugar? Con esa información podré confirmar si puedo realizarlo y preparar un presupuesto con el alcance claro.</div><button class="btn" onclick="copyText('msg1')">Copiar</button></div>
+ <div class="card"><h3>Presentación B2B</h3><div class="prompt" id="msg2">Buenos días. Me pongo en contacto para presentar una posible colaboración en montaje de mobiliario modular y apoyo en proyectos de cocinas, dentro del alcance técnico que corresponda. Me gustaría conocer cómo organizan actualmente los montajes, si contemplan colaboradores externos y qué requisitos de experiencia, documentación y seguro solicitan. Si tiene sentido, puedo enviar una presentación y revisar una primera necesidad concreta. Muchas gracias.</div><button class="btn" onclick="copyText('msg2')">Copiar</button></div>
+ <div class="card"><h3>Seguimiento sin presión</h3><div class="prompt" id="msg3">Hola. Retomo el presupuesto que te envié para saber si has podido revisarlo. Si hay alguna duda sobre el alcance o las condiciones, puedo aclararla. Si finalmente no te encaja, no hay problema; agradecería que me lo indicaras para actualizar el seguimiento.</div><button class="btn" onclick="copyText('msg3')">Copiar</button></div>
+ <div class="callout">La IA puede sugerir cuándo hacer seguimiento, pero no debe enviar mensajes masivos ni insistir a personas que no desean recibirlos.</div>
+</section>
+
+<section class="tab" data-title="09 · IKEA Y DISTRIBUIDORES">
+ <div class="banner"><div class="eyebrow">09 · Canales de distribución</div><h2>IKEA, Leroy Merlin y plataformas</h2></div>
+ <div class="card"><h3>Investigar modelos de colaboración, no asumirlos</h3><p>La estrategia original contemplaba IKEA, Taskrabbit, IKEA Home Services, Hogami de Leroy Merlin, Cronoshare y Habitissimo. Cada uno tiene su propio modelo, requisitos, costes y disponibilidad territorial; deben verificarse antes de invertir tiempo o dinero.</p>
+ <ul><li><a href="https://www.ikea.com/es/es/customer-service/knowledge/articles/cb75bf2a-05b8-4ca8-9dd6-09e248c73658.html" target="_blank" rel="noopener">IKEA · servicio de montaje</a></li><li><a href="https://www.ikea.com/es/es/customer-service/knowledge/articles/25605898-b826-4f32-bfed-27e4d9b127f1.html" target="_blank" rel="noopener">IKEA · Taskrabbit</a></li><li><a href="https://home-services.ikea.com/es/es/professionals" target="_blank" rel="noopener">IKEA Home Services para profesionales</a></li><li><a href="https://hogami.leroymerlin.es/faqs/profesionales" target="_blank" rel="noopener">Hogami · FAQ profesionales</a></li><li><a href="https://hogami.leroymerlin.es/alta-profesional-empresa-servicios-hogar" target="_blank" rel="noopener">Hogami · alta profesional</a></li><li><a href="https://www.cronoshare.com/atencion-cliente/cronoshare-es-gratis" target="_blank" rel="noopener">Cronoshare · funcionamiento</a></li><li><a href="https://www.habitissimo.es/como_funciona" target="_blank" rel="noopener">Habitissimo · funcionamiento</a></li></ul></div>
+ <div class="card"><h3>Evaluación asistida por IA</h3><p>Para cada plataforma, registrar:</p><ul><li>¿Admite profesionales en la zona?</li><li>¿Cómo se paga: cuota, contacto, comisión o tarifa?</li><li>¿Quién factura al cliente?</li><li>¿Qué documentación y seguros pide?</li><li>¿Cómo se gestionan reclamaciones y garantías?</li><li>¿Cuántos contactos cualificados y trabajos pagados genera?</li><li>¿Cuál es el margen neto después de coste de captación?</li></ul><div class="callout warn">No pagar por contactos sin medir conversión y coste real. No confundir ser visible en una plataforma con tener una relación comercial o contrato.</div></div>
+</section>
+
+<section class="tab" data-title="10 · MARKETING Y CONTENIDOS">
+ <div class="banner"><div class="eyebrow">10 · Demanda y confianza</div><h2>Marketing producido con IA, sustentado en trabajos reales</h2></div>
+ <div class="card"><h3>Activos digitales mínimos</h3><ul><li>Perfil de Empresa de Google, si cumple las directrices aplicables.</li><li>WhatsApp Business con catálogo y respuestas organizadas.</li><li>Una página web sencilla con servicios, zona, proceso y contacto.</li><li>Portfolio de trabajos propios con permiso.</li><li>Reseñas auténticas, sin incentivos engañosos ni fabricación.</li></ul><a href="https://support.google.com/business/answer/3038177?hl=es" target="_blank" rel="noopener">Directrices del Perfil de Empresa de Google</a></div>
+ <div class="card"><h3>Motor de contenidos</h3><p>Tras cada trabajo, la IA recibe únicamente información autorizada y produce varias piezas: caso breve, publicación local, antes/después si existe permiso, preguntas frecuentes y aprendizaje técnico.</p><div class="prompt" id="contentPrompt">Eres responsable editorial de un servicio de montaje de mobiliario modular en Valencia. A partir de los datos reales que te proporcionaré, crea: 1) una publicación breve para redes, 2) un caso de trabajo de 120 palabras, 3) una FAQ útil y 4) una idea de fotografía. No inventes cliente, resultado, dificultad, marca ni tiempo. No afirmes que una tarea se hizo si no está documentada. Elimina nombres, direcciones y datos privados. Si faltan pruebas, indícalo.</div><button class="btn" onclick="copyText('contentPrompt')">Copiar prompt</button></div>
+ <div class="card"><h3>Regla de reputación</h3><p>Solicitar una reseña sincera al finalizar, sin condicionar el servicio ni pedir solo reseñas positivas. Responder con educación y no revelar datos privados del cliente.</p></div>
+</section>
+
+<section class="tab" data-title="11 · OPERACIONES Y CALIDAD">
+ <div class="banner"><div class="eyebrow">11 · Entrega</div><h2>La IA prepara el trabajo antes de llegar</h2></div>
+ <div class="card"><h3>Ficha de preparación de montaje</h3><ul><li>Confirmación del alcance y aceptación del presupuesto.</li><li>Dirección y contacto operativo, guardados con protección adecuada.</li><li>Referencias, manuales, planos y número de bultos.</li><li>Herramientas, consumibles y elementos de protección.</li><li>Accesos, aparcamiento, ascensor y restricciones.</li><li>Tipo de pared y fijaciones: verificar en el lugar.</li><li>Riesgos, elementos frágiles y protección del entorno.</li><li>Trabajos excluidos y coordinación con otros profesionales.</li><li>Fotos iniciales y finales solo con autorización.</li><li>Conformidad, cobro y cierre.</li></ul></div>
+ <div class="card"><h3>Parte de trabajo y aprendizaje</h3><div class="formgrid"><div><label>Horas reales</label><input id="actualHours" type="number" step=".25" placeholder="Horas"></div><div><label>Costes directos (€)</label><input id="actualCosts" type="number" step=".5" placeholder="€"></div></div><label>Incidencias / desviaciones</label><textarea id="actualIssues" placeholder="Qué pasó, causa y cómo evitarlo"></textarea><label>Resultado y mejora</label><textarea id="actualLearning" placeholder="Qué conviene guardar como conocimiento operativo"></textarea><button class="btn primary" onclick="buildJobReport()">Preparar informe para IA</button><textarea id="jobReport" placeholder="Informe estructurado..."></textarea><button class="btn" onclick="copyText('jobReport')">Copiar informe</button></div>
+ <div class="callout danger">No dejar que una IA decida por sí sola que una pared es segura, que una fijación es adecuada o que una instalación regulada puede manipularse. La inspección y responsabilidad técnica son humanas.</div>
+</section>
+
+<section class="tab" data-title="12 · INDICADORES Y DIRECCIÓN">
+ <div class="banner"><div class="eyebrow">12 · Dirección basada en datos</div><h2>El negocio aprende de sus números</h2></div>
+ <div class="card"><h3>Indicadores esenciales</h3><div class="tablewrap"><table><tr><th>Indicador</th><th>Cálculo / lectura</th></tr><tr><td>Tiempo de respuesta</td><td>Desde entrada hasta primera respuesta.</td></tr><tr><td>Tasa de cualificación</td><td>Oportunidades aptas / oportunidades recibidas.</td></tr><tr><td>Tasa de aceptación</td><td>Presupuestos aceptados / presupuestos enviados.</td></tr><tr><td>Coste de adquisición</td><td>Coste del canal / trabajos ganados atribuibles.</td></tr><tr><td>Margen de contribución</td><td>Ingreso menos costes directos atribuibles.</td></tr><tr><td>Rentabilidad por hora</td><td>Margen / todas las horas dedicadas.</td></tr><tr><td>Repetición y recomendación</td><td>Clientes que repiten o llegan recomendados.</td></tr><tr><td>Motivos de pérdida</td><td>Precio, fecha, zona, competencia, falta de respuesta.</td></tr></table></div></div>
+ <div class="card"><h3>Preguntas que la IA debe responder semanalmente</h3><ul><li>¿Qué canal trae oportunidades que terminan en trabajos cobrados?</li><li>¿Qué tipo de montaje ofrece mejor margen por hora?</li><li>¿Qué consultas consumen tiempo y no convierten?</li><li>¿Qué información suele faltar antes de presupuestar?</li><li>¿Qué causas explican retrasos o desviaciones?</li><li>¿Qué experimento pequeño merece probarse la semana próxima?</li></ul></div>
+ <div class="callout good">No optimizar por número de mensajes, seguidores o presupuestos enviados. Optimizar por trabajos adecuados, cobrados y rentables, sin sacrificar calidad.</div>
+</section>
+
+<section class="tab" data-title="13 · PLAN 30 / 90 DÍAS">
+ <div class="banner"><div class="eyebrow">13 · Implantación</div><h2>Construir el sistema por etapas</h2></div>
+ <div class="card"><h3>Días 1–7 · Fundamentos</h3><ul><li>Definir qué trabajos se dominan hoy y cuáles quedan excluidos.</li><li>Delimitar zona realista según transporte, tiempo y costes.</li><li>Definir ficha única de cliente y oportunidad.</li><li>Crear prompts maestros para Radar, Recepción y Presupuestos.</li><li>Registrar costes y tiempos reales desde el primer trabajo.</li></ul></div>
+ <div class="card"><h3>Días 8–30 · Validación comercial</h3><ul><li>Construir lista verificada de empresas B2B.</li><li>Contactar de forma personalizada y registrar respuestas.</li><li>Configurar canales de recepción y presencia local.</li><li>Probar el flujo completo con oportunidades reales.</li><li>Evaluar plataformas solo con costes y condiciones transparentes.</li><li>Revisar semanalmente calidad de datos y próximos pasos.</li></ul></div>
+ <div class="card"><h3>Días 31–60 · Integración</h3><ul><li>Conectar formularios y CRM mediante automatización segura.</li><li>Conectar correo o mensajería solo con permisos y controles adecuados.</li><li>Crear recordatorios y tareas a partir del estado del CRM.</li><li>Centralizar documentos, presupuestos y partes de trabajo.</li><li>Medir tiempos ahorrados y errores introducidos por IA.</li></ul></div>
+ <div class="card"><h3>Días 61–90 · Optimización</h3><ul><li>Analizar rentabilidad por canal, servicio y cliente.</li><li>Mejorar estimaciones con horas y costes reales.</li><li>Formalizar procedimientos repetibles.</li><li>Desarrollar especialización en cocinas modulares progresivamente.</li><li>Decidir qué automatizar, qué mantener humano y qué eliminar.</li></ul></div>
+</section>
+
+<section class="tab" data-title="14 · STACK TECNOLÓGICO">
+ <div class="banner"><div class="eyebrow">14 · Herramientas</div><h2>Una arquitectura pequeña, segura y ampliable</h2></div>
+ <div class="card"><h3>Fase 0 · Sin infraestructura compleja</h3><p>Este HTML como manual y panel local; ChatGPT u otra LLM para análisis y redacción; CRM exportable a CSV; almacenamiento local solo para pruebas no sensibles.</p></div>
+ <div class="card"><h3>Fase 1 · Datos compartidos y automatización</h3><p>Base de datos central (por ejemplo, Supabase o una alternativa equivalente), formularios, almacenamiento documental con permisos, automatizador de flujos y API de IA detrás de un servidor.</p></div>
+ <div class="card"><h3>Fase 2 · Agentes conectados</h3><p>Agentes con herramientas limitadas: buscar fuentes públicas, leer fichas autorizadas, crear borradores, actualizar estados y generar informes. Cada acción debe tener registro y permisos explícitos.</p></div>
+ <div class="card"><h3>Arquitectura lógica</h3><div class="flow"><div>INTERFAZ · MÓVIL / WEB</div><i>↓</i><div>API PROPIA · AUTENTICACIÓN Y PERMISOS</div><i>↓</i><div>ORQUESTADOR DE AGENTES IA</div><i>↓</i><div>CRM / BASE DE DATOS / DOCUMENTOS</div><i>↓</i><div>HERRAMIENTAS CON PERMISOS LIMITADOS</div><i>↓</i><div>LOG DE ACCIONES · SUPERVISIÓN · COPIAS</div></div></div>
+ <div class="callout danger"><strong>Seguridad:</strong> nunca poner API keys, contraseñas o credenciales en JavaScript público. No dar a un agente permisos generales de correo, pagos o eliminación de datos. Empezar en modo borrador y aprobación humana.</div>
+</section>
+
+<section class="tab" data-title="15 · GOBIERNO Y LÍMITES IA">
+ <div class="banner"><div class="eyebrow">15 · Control</div><h2>Autonomía con límites explícitos</h2></div>
+ <div class="card"><h3>Verde · Puede hacer con supervisión ligera</h3><ul><li>Resumir mensajes y extraer campos.</li><li>Clasificar solicitudes y detectar información faltante.</li><li>Redactar borradores de respuesta.</li><li>Preparar informes y comparar datos.</li><li>Generar checklist y contenido basado en hechos.</li></ul></div>
+ <div class="card"><h3>Ámbar · Requiere aprobación humana</h3><ul><li>Enviar propuestas comerciales o presupuestos.</li><li>Contactar empresas o clientes por primera vez.</li><li>Confirmar fechas, disponibilidad y compromisos.</li><li>Publicar contenido, responder reclamaciones o reseñas.</li><li>Modificar precios, descuentos o condiciones.</li></ul></div>
+ <div class="card"><h3>Rojo · No delegar a IA</h3><ul><li>Firmar contratos o aceptar obligaciones en nombre del profesional.</li><li>Realizar pagos, transferencias o contratar servicios.</li><li>Dar por segura una instalación sin inspección competente.</li><li>Inventar certificaciones, experiencia, reseñas o trabajos.</li><li>Tomar decisiones técnicas reguladas sin profesional habilitado.</li><li>Eliminar registros o enviar datos sensibles sin autorización.</li></ul></div>
+ <div class="card"><h3>Registro obligatorio de acciones</h3><p>Para cada automatización guardar: quién la inició, qué datos utilizó, qué modelo/herramienta intervino, qué propuso, quién aprobó, qué se ejecutó y cómo se puede revertir.</p></div>
+</section>
+
+<section class="tab" data-title="16 · LEGAL Y RESPONSABILIDAD">
+ <div class="banner"><div class="eyebrow">16 · Marco responsable</div><h2>Requisitos antes de operar</h2></div>
+ <div class="card"><h3>Actividad profesional</h3><p>Verificar alta fiscal y de Seguridad Social según modalidad real, obligaciones de facturación, prevención de riesgos, seguro de responsabilidad civil, condiciones de plataformas y habilitaciones exigibles para cada tarea. No asumir que montar mobiliario habilita para intervenir en instalaciones reguladas.</p></div>
+ <div class="card"><h3>Protección de datos</h3><ul><li>Recoger solo datos necesarios para gestionar la solicitud.</li><li>Informar sobre finalidad, responsable y derechos cuando corresponda.</li><li>Determinar base jurídica y plazos de conservación.</li><li>Revisar contratos y condiciones de proveedores IA.</li><li>No cargar fotos de domicilios, documentos o conversaciones completas sin necesidad.</li><li>Proteger accesos, copias y dispositivos.</li></ul><p>La normativa y obligaciones concretas deben revisarse con asesoramiento adecuado antes del despliegue.</p></div>
+ <div class="callout warn">La IA puede ayudar a preparar una lista de comprobación legal, pero no convierte una interpretación automática en asesoramiento jurídico, fiscal o laboral.</div>
+</section>
+
+<section class="tab" data-title="17 · EMPLEO Y COLABORACIONES">
+ <div class="banner"><div class="eyebrow">17 · Estrategia dual</div><h2>Cuenta propia y empleo no son caminos incompatibles</h2></div>
+ <div class="card"><h3>Dos vías en paralelo</h3><p><strong>Actividad independiente:</strong> validar demanda, costes, herramientas, documentación y rentabilidad antes de asumir compromisos económicos.</p><p><strong>Empleo por cuenta ajena:</strong> contactar tiendas, instaladoras, fabricantes, empresas de reformas y montadores; buscar aprendizaje, experiencia y estabilidad dentro de una organización.</p></div>
+ <div class="card"><h3>La IA como asistente profesional</h3><ul><li>Adaptar CV a cada oferta sin inventar experiencia.</li><li>Preparar presentación y respuestas para entrevistas.</li><li>Identificar empresas y vacantes verificables.</li><li>Registrar solicitudes, fechas y seguimientos.</li><li>Comparar condiciones reales de empleo y colaboración.</li></ul></div>
+ <div class="callout">El sistema comercial debe servir también para aprender cómo compra el mercado este servicio, qué requisitos exigen las empresas y qué especialización aumenta la empleabilidad.</div>
+</section>
+
+<section class="tab" data-title="18 · RIESGOS Y CONTINGENCIAS">
+ <div class="banner"><div class="eyebrow">18 · Resiliencia</div><h2>Riesgos que el sistema debe vigilar</h2></div>
+ <div class="card"><h3>Riesgos comerciales</h3><ul><li>Dependencia de un único canal o plataforma.</li><li>Contactos de baja calidad o costes de captación excesivos.</li><li>Presupuestos incompletos y subestimación de tiempos.</li><li>Desplazamientos no rentables.</li><li>Alcance ambiguo y trabajos añadidos no presupuestados.</li><li>Falta de cobro o cancelaciones.</li></ul></div>
+ <div class="card"><h3>Riesgos de IA</h3><ul><li>Alucinaciones: datos, direcciones o condiciones inventadas.</li><li>Clasificación errónea de un cliente o trabajo.</li><li>Estimaciones de horas sin base histórica.</li><li>Mensajes enviados a destinatarios equivocados.</li><li>Filtración de datos o credenciales.</li><li>Automatización que repite errores a escala.</li></ul></div>
+ <div class="card"><h3>Controles preventivos</h3><ul><li>Fuentes y fecha de verificación para datos externos.</li><li>Separar hecho, inferencia y dato pendiente.</li><li>Confirmación humana para acciones externas.</li><li>Presupuesto con alcance, exclusiones y condiciones.</li><li>Registro de cambios y posibilidad de detener automatizaciones.</li><li>Revisión semanal de errores y reclamaciones.</li></ul></div>
+</section>
+
+<section class="tab" data-title="19 · PLAN DE CONTROL">
+ <div class="banner"><div class="eyebrow">19 · Ejecución</div><h2>Lista maestra de implantación</h2></div>
+ <div class="card"><p>Marca las tareas completadas. El estado se conserva en este navegador.</p><div id="masterChecks">
+ <label class="check"><input type="checkbox">Definir catálogo real de servicios y exclusiones.</label>
+ <label class="check"><input type="checkbox">Definir zona y política de desplazamientos.</label>
+ <label class="check"><input type="checkbox">Crear CRM único y estados comerciales.</label>
+ <label class="check"><input type="checkbox">Configurar recepción y ficha de cualificación.</label>
+ <label class="check"><input type="checkbox">Preparar agente Radar con fuentes verificables.</label>
+ <label class="check"><input type="checkbox">Construir primera lista B2B y verificar cada empresa.</label>
+ <label class="check"><input type="checkbox">Definir modelo de costes y registro de tiempos.</label>
+ <label class="check"><input type="checkbox">Preparar plantilla de presupuesto y aprobación.</label>
+ <label class="check"><input type="checkbox">Definir procedimiento operativo de montaje.</label>
+ <label class="check"><input type="checkbox">Revisar requisitos legales, fiscales, seguro y datos.</label>
+ <label class="check"><input type="checkbox">Probar el flujo con oportunidades reales.</label>
+ <label class="check"><input type="checkbox">Medir conversión, margen y rentabilidad por hora.</label>
+ <label class="check"><input type="checkbox">Decidir qué integraciones merecen automatizarse.</label>
+ </div><div class="btnrow"><button class="btn" onclick="resetChecks()">Reiniciar checklist</button></div></div>
+</section>
+
+<section class="tab" data-title="20 · PROMPT MAESTRO IA">
+ <div class="banner"><div class="eyebrow">20 · Dirección de IA</div><h2>Prompt maestro: director de operaciones comerciales</h2></div>
+ <div class="card"><p>Este prompt establece el comportamiento del asistente central. Debe recibir después los datos reales del CRM, no inventarlos.</p><div class="prompt" id="masterPrompt">Eres el DIRECTOR DE INTELIGENCIA COMERCIAL de una actividad profesional de montaje de muebles modulares y cocinas en Valencia.
+
+MISIÓN
+Ayudar a construir una operación comercial rentable, verificable, ordenada y sostenible. La IA es el centro de análisis, coordinación y aprendizaje; la persona conserva la dirección, las decisiones y la responsabilidad de ejecución.
+
+REGLAS INNEGOCIABLES
+1. Nunca inventes empresas, contactos, teléfonos, direcciones, tarifas, demanda, certificaciones, experiencia, reseñas ni acuerdos.
+2. Separa siempre HECHOS VERIFICADOS, HIPÓTESIS, ESTIMACIONES y DATOS PENDIENTES.
+3. Para datos externos, indica fuente y fecha de comprobación.
+4. Si falta información que cambia la decisión, pregunta antes de concluir.
+5. No presupuestes trabajos técnicos regulados como si fueran montaje ordinario.
+6. No envíes mensajes, presupuestos, compromisos ni publicaciones sin aprobación humana.
+7. Protege datos personales y utiliza solo la información necesaria.
+8. Aprende de horas, costes, aceptación, incidencias y resultados reales.
+9. Optimiza por trabajos adecuados, cobrados y rentables, no por volumen superficial.
+10. Explica el razonamiento operativo de forma breve y muestra los supuestos.
+
+MÓDULOS
+A. RADAR: identificar empresas y oportunidades reales, verificar actividad y registrar evidencia.
+B. RECEPCIÓN: convertir consultas en fichas estructuradas y detectar datos faltantes.
+C. CUALIFICACIÓN: valorar encaje técnico, geográfico, económico y temporal.
+D. PRESUPUESTOS: calcular escenarios usando exclusivamente costes y tarifas aportados.
+E. VENTAS: preparar respuestas y seguimientos personalizados, sin spam.
+F. OPERACIONES: preparar checklist, herramientas, secuencia, riesgos y cierre.
+G. MARKETING: producir contenido únicamente a partir de trabajos reales autorizados.
+H. DIRECCIÓN: analizar indicadores, detectar problemas y proponer experimentos.
+
+FORMATO DE CADA INFORME
+- Situación actual
+- Hechos y evidencias
+- Datos que faltan
+- Diagnóstico
+- Opciones y riesgos
+- Recomendación
+- Acción siguiente
+- Quién debe aprobarla
+- Qué dato debe registrarse para aprender
+
+PRIORIDAD
+Si hay incertidumbre, no la ocultes. Si una acción puede generar coste, obligación legal, daño, exposición de datos o compromiso con terceros, detente y solicita aprobación.</div><div class="btnrow"><button class="btn primary" onclick="copyText('masterPrompt')">Copiar prompt maestro</button></div></div>
+ <div class="card"><h3>Cómo utilizarlo</h3><ol><li>Configurar este prompt como instrucción del agente central en la plataforma elegida.</li><li>Conectar únicamente fuentes de datos necesarias y autorizadas.</li><li>Probar primero con ejemplos ficticios o datos anonimizados.</li><li>Comparar sus resultados con decisiones humanas.</li><li>Activar integraciones una a una, manteniendo registro y aprobación.</li></ol></div>
+ <div class="footerNote">Fin del documento · Operación Comercial Dirigida por IA · Rubén Sbarsky</div>
+</section>
+</main>
+<button class="fab" id="home" title="Arrastrar o tocar para ir al inicio">⌂ INICIO</button>
+<button class="fab" id="top" title="Arrastrar o tocar para subir">↑ ARRIBA</button>
+<div class="bottom"><button class="btn ghost" id="prev">← Anterior</button><button class="btn primary" id="next">Siguiente →</button></div>
+<script>
+(()=>{
+const tabs=[...document.querySelectorAll('.tab')], names=tabs.map(t=>t.dataset.title), drawerList=document.getElementById('drawerList');
+let current=0;
+names.forEach((n,i)=>{let b=document.createElement('button');b.innerHTML='<span class="num">'+String(i).padStart(2,'0')+'</span><span>'+n+'</span>';b.onclick=()=>go(i);drawerList.appendChild(b)});
+const links=[...drawerList.children];
+function go(i){if(i<0||i>=tabs.length)return;current=i;tabs.forEach((t,j)=>t.classList.toggle('active',j===i));links.forEach((b,j)=>b.classList.toggle('active',j===i));document.getElementById('headTitle').textContent=names[i];document.getElementById('counter').textContent=(i+1)+' / '+tabs.length;document.getElementById('prev').disabled=i===0;document.getElementById('next').disabled=i===tabs.length-1;close();window.scrollTo({top:0,behavior:'smooth'});if(i===6)renderLeads();if(i===5)renderLeads();if(i===4)renderProspects()}
+window.go=go;
+function open(){document.getElementById('drawer').classList.add('open');document.getElementById('shade').classList.add('open')}
+function close(){document.getElementById('drawer').classList.remove('open');document.getElementById('shade').classList.remove('open')}
+document.getElementById('openMenu').onclick=open;document.getElementById('closeMenu').onclick=close;document.getElementById('shade').onclick=close;
+document.getElementById('prev').onclick=()=>go(current-1);document.getElementById('next').onclick=()=>go(current+1);
+document.getElementById('home').onclick=()=>go(0);document.getElementById('top').onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
+document.getElementById('quickLinks').innerHTML=names.slice(1).map((n,i)=>'<button class="btn ghost" onclick="go('+(i+1)+')">'+n+'</button>').join('');
+function drag(el){let sx=0,sy=0,l=0,t=0,moved=false,down=false;el.addEventListener('pointerdown',e=>{down=true;moved=false;sx=e.clientX;sy=e.clientY;let r=el.getBoundingClientRect();l=r.left;t=r.top;el.setPointerCapture(e.pointerId)});el.addEventListener('pointermove',e=>{if(!down)return;let dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>7)moved=true;if(moved){el.style.left=Math.max(3,Math.min(innerWidth-el.offsetWidth-3,l+dx))+'px';el.style.top=Math.max(3,Math.min(innerHeight-el.offsetHeight-3,t+dy))+'px';el.style.right='auto';el.style.bottom='auto'}});el.addEventListener('pointerup',()=>{down=false})}
+drag(document.getElementById('home'));drag(document.getElementById('top'));
+const get=(id)=>document.getElementById(id), read=(id)=>get(id)?.value||'';
+window.copyText=(id)=>{let el=get(id);let txt=el.value!==undefined?el.value:el.innerText;navigator.clipboard?.writeText(txt).then(()=>alert('Copiado al portapapeles')).catch(()=>{el.focus();el.select?.();alert('Selecciona y copia el texto')})};
+const load=(k)=>{try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return[]}},save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+window.addLead=()=>{let name=read('leadName').trim();if(!name){alert('Introduce un nombre o empresa');return}let a=load('opLeads');a.unshift({id:Date.now(),name,contact:read('leadContact'),kind:read('leadKind'),channel:read('leadChannel'),town:read('leadTown'),service:read('leadService'),urgency:read('leadUrgency'),status:read('leadStatus'),desc:read('leadDesc'),missing:read('leadMissing'),date:new Date().toLocaleDateString('es-ES')});save('opLeads',a);['leadName','leadContact','leadTown','leadDesc','leadMissing'].forEach(id=>get(id).value='');renderLeads();alert('Oportunidad guardada en este dispositivo')};
+window.makeLeadPrompt=()=>{let obj={nombre:read('leadName'),contacto:read('leadContact'),tipo:read('leadKind'),canal:read('leadChannel'),municipio:read('leadTown'),servicio:read('leadService'),urgencia:read('leadUrgency'),estado:read('leadStatus'),descripcion:read('leadDesc'),pendiente:read('leadMissing')};get('leadAnalysis').value='Analiza esta oportunidad para montaje de muebles. Separa hechos, hipótesis y datos pendientes. Evalúa encaje técnico, geográfico, económico y temporal. Formula las preguntas imprescindibles y recomienda el siguiente paso. No inventes precio ni disponibilidad.\\n\\nDATOS:\\n'+JSON.stringify(obj,null,2)};
+window.renderLeads=()=>{let a=load('opLeads');get('leadList').innerHTML=a.length?a.map(x=>'<div class="lead"><div class="leadhead"><strong>'+esc(x.name)+'</strong><span class="status">'+esc(x.status)+'</span></div><div class="small muted">'+esc(x.date)+' · '+esc(x.service)+' · '+esc(x.town)+' · '+esc(x.channel)+'</div><div class="small">'+esc(x.desc)+'</div><label>Actualizar estado</label><select onchange="updateLead('+x.id+',this.value)">'+['Nuevo','En investigación','Contactado','Esperando datos','Cualificado','Presupuesto','Negociación','Aceptado','Programado','Realizado','Cobrado','Perdido'].map(s=>'<option '+(s===x.status?'selected':'')+'>'+s+'</option>').join('')+'</select><button class="btn dangerbtn" style="margin-top:7px" onclick="deleteLead('+x.id+')">Eliminar</button></div>').join(''):'<p class="muted">No hay oportunidades guardadas.</p>';let won=a.filter(x=>['Aceptado','Programado','Realizado','Cobrado'].includes(x.status)).length;get('crmKpis').innerHTML='<div class="metric"><b>'+a.length+'</b><span>Oportunidades registradas</span></div><div class="metric"><b>'+won+'</b><span>En fase de trabajo o ganadas</span></div><div class="metric"><b>'+a.filter(x=>x.status==='Nuevo').length+'</b><span>Nuevas</span></div>'};
+window.updateLead=(id,s)=>{let a=load('opLeads');let x=a.find(z=>z.id===id);if(x)x.status=s;save('opLeads',a);renderLeads()};
+window.deleteLead=(id)=>{if(confirm('¿Eliminar esta oportunidad?')){save('opLeads',load('opLeads').filter(x=>x.id!==id));renderLeads()}};
+window.clearLeads=()=>{if(confirm('¿Borrar todas las oportunidades guardadas en este navegador?')){save('opLeads',[]);renderLeads()}};
+window.exportCSV=()=>{let a=load('opLeads');if(!a.length){alert('No hay datos');return}let keys=['date','name','contact','kind','channel','town','service','urgency','status','desc','missing'];let csv=[keys.join(';'),...a.map(x=>keys.map(k=>'"'+String(x[k]||'').replaceAll('"','""')+'"').join(';'))].join('\\n');let blob=new Blob(['\\ufeff'+csv],{type:'text/csv;charset=utf-8'});let u=URL.createObjectURL(blob),link=document.createElement('a');link.href=u;link.download='crm_operacion_comercial.csv';link.click();URL.revokeObjectURL(u)};
+window.addProspect=()=>{let n=read('prosCompany').trim();if(!n){alert('Introduce empresa');return}let a=load('opPros');a.unshift({id:Date.now(),name:n,town:read('prosTown'),type:read('prosType'),source:read('prosSource'),evidence:read('prosEvidence')});save('opPros',a);['prosCompany','prosTown','prosSource','prosEvidence'].forEach(x=>get(x).value='');renderProspects();alert('Prospecto guardado')};
+window.renderProspects=()=>{let a=load('opPros');get('prospectList').innerHTML=a.length?a.map(x=>'<div class="lead"><strong>'+esc(x.name)+'</strong><div class="small muted">'+esc(x.type)+' · '+esc(x.town)+'</div><div class="small">'+esc(x.evidence)+'</div></div>').join(''):'Todavía no hay prospectos locales.'};
+window.copyRadarPrompt=()=>copyText('radarPrompt');
+window.calculateQuote=()=>{let h=+read('hours'),r=+read('hourRate'),tr=+read('travel'),co=+read('consumables'),ot=+read('otherCost'),risk=+read('riskPct')/100,mar=+read('marginPct')/100,tax=+read('taxPct')/100;if([h,r,tr,co,ot,risk,mar,tax].some(v=>!Number.isFinite(v)||v<0)||mar>=1){get('quoteResult').textContent='Revisa los datos: no se admiten valores negativos y el margen debe ser inferior al 100%.';return}let labour=h*r,base=labour+tr+co+ot,res=base*risk,cost=base+res,pre=cost/(1-mar),total=pre*(1+tax);get('quoteResult').innerHTML='<strong>Mano de obra:</strong> '+eur(labour)+'<br><strong>Costes directos:</strong> '+eur(base)+'<br><strong>Reserva:</strong> '+eur(res)+'<br><strong>Coste estimado total:</strong> '+eur(cost)+'<br><strong>Precio antes de impuestos:</strong> '+eur(pre)+'<br><strong>Precio final con porcentaje introducido:</strong> '+eur(total)+'<br><small>Escenario orientativo. Verifica impuestos, costes omitidos, alcance y horas.</small>'};
+window.buildJobReport=()=>{get('jobReport').value='PARTE DE TRABAJO PARA ANÁLISIS IA\\nHoras reales: '+read('actualHours')+'\\nCostes directos: '+read('actualCosts')+' €\\nIncidencias: '+read('actualIssues')+'\\nAprendizajes: '+read('actualLearning')+'\\n\\nCompara con la estimación inicial si está disponible. Identifica causas de desviación y una mejora operativa concreta. No generalices a partir de una sola observación.'};
+function eur(n){return new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(n)}
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+const checks=[...document.querySelectorAll('#masterChecks input')];checks.forEach((c,i)=>{c.checked=load('opChecks')[i]||false;c.addEventListener('change',()=>{let a=checks.map(x=>x.checked);save('opChecks',a)})});
+window.resetChecks=()=>{if(confirm('¿Reiniciar la lista?')){checks.forEach(c=>c.checked=false);save('opChecks',checks.map(()=>false))}};
+renderLeads();renderProspects();go(0);
+})();
+</script>
+</body>
+</html>
