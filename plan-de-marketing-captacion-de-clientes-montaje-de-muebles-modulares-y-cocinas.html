@@ -1,0 +1,2219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="theme-color" content="#0f172a">
+  <title>Plan de Marketing Montaje de Muebles - Valencia</title>
+  <style>
+    /* ==========================================================================
+       OPTIMIZACIÓN ESPECÍFICA PARA SAMSUNG GALAXY A02s (360x800dp / 720x1600px)
+       Cero dependencias externas, fuentes nativas Android/Sistema, bajo uso RAM.
+       ========================================================================== */
+    :root {
+      --bg-body: #f1f5f9;
+      --bg-card: #ffffff;
+      --primary: #0f172a;
+      --primary-mid: #1e293b;
+      --accent: #0284c7;
+      --accent-dark: #0369a1;
+      --accent-soft: #e0f2fe;
+      --success: #15803d;
+      --success-soft: #dcfce7;
+      --warning-bg: #fef3c7;
+      --warning-border: #f59e0b;
+      --warning-text: #92400e;
+      --danger-bg: #fee2e2;
+      --danger-border: #ef4444;
+      --danger-text: #991b1b;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-color: #cbd5e1;
+      --header-h: 58px;
+      --footer-h: 66px;
+      --radius: 12px;
+      --shadow: 0 2px 5px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      font-family: Roboto, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* ==========================================================================
+       CABECERA FIJA Y BOTÓN MENÚ SÁNDWICH
+       ========================================================================== */
+    .app-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--header-h);
+      background-color: var(--primary);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    }
+
+    .menu-btn {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #ffffff;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .menu-btn:active {
+      background: rgba(255, 255, 255, 0.28);
+    }
+
+    .menu-btn span {
+      display: block;
+      width: 22px;
+      height: 2.5px;
+      background-color: #ffffff;
+      border-radius: 2px;
+    }
+
+    .header-title-wrap {
+      flex: 1;
+      padding: 0 10px;
+      overflow: hidden;
+    }
+
+    .header-subtitle {
+      font-size: 11px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      display: block;
+      line-height: 1.1;
+    }
+
+    .header-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+    }
+
+    .tab-badge {
+      background-color: var(--accent);
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 20px;
+      flex-shrink: 0;
+    }
+
+    /* ==========================================================================
+       MENÚ SÁNDWICH LATERAL (ÍNDICE COMPLETO DE LAS 22 PESTAÑAS)
+       ========================================================================== */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(15, 23, 42, 0.65);
+      z-index: 1500;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .drawer-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 88%;
+      max-width: 320px;
+      background-color: var(--bg-card);
+      z-index: 1600;
+      transform: translateX(-102%);
+      transition: transform 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 4px 0 16px rgba(0, 0, 0, 0.35);
+    }
+
+    .drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      background-color: var(--primary);
+      color: #ffffff;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #334155;
+    }
+
+    .drawer-header h2 {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+    }
+
+    .close-drawer-btn {
+      background: rgba(255, 255, 255, 0.14);
+      border: none;
+      color: #ffffff;
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .drawer-list {
+      list-style: none;
+      overflow-y: auto;
+      flex: 1;
+      padding: 8px;
+    }
+
+    .drawer-item {
+      margin-bottom: 3px;
+    }
+
+    .drawer-link {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      padding: 11px 10px;
+      border-radius: 9px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      cursor: pointer;
+    }
+
+    .drawer-link:active {
+      background-color: #e2e8f0;
+    }
+
+    .drawer-link.active {
+      background-color: var(--accent-soft);
+      color: var(--accent-dark);
+      border-left: 4px solid var(--accent);
+    }
+
+    .drawer-num {
+      background-color: #e2e8f0;
+      color: var(--primary);
+      min-width: 28px;
+      height: 26px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11.5px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .drawer-link.active .drawer-num {
+      background-color: var(--accent);
+      color: #ffffff;
+    }
+
+    /* ==========================================================================
+       CONTENEDOR PRINCIPAL Y PESTAÑAS
+       ========================================================================== */
+    .main-container {
+      padding-top: calc(var(--header-h) + 12px);
+      padding-bottom: calc(var(--footer-h) + 92px);
+      padding-left: 10px;
+      padding-right: 10px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .tab-pane {
+      display: none;
+    }
+
+    .tab-pane.active {
+      display: block;
+      animation: fadeIn 0.16s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(3px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ==========================================================================
+       TARJETAS, BLOQUES, TABLAS ADAPTATIVAS Y COMPONENTES
+       ========================================================================== */
+    .hero-box {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      color: #ffffff;
+      border-radius: var(--radius);
+      padding: 18px 15px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-tag {
+      display: inline-block;
+      background-color: rgba(56, 189, 248, 0.25);
+      color: #bae6fd;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .hero-box h1 {
+      font-size: 19px;
+      line-height: 1.25;
+      margin-bottom: 6px;
+      font-weight: 800;
+    }
+
+    .hero-box h2 {
+      font-size: 15px;
+      color: #93c5fd;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .hero-box p {
+      font-size: 13.5px;
+      color: #e2e8f0;
+    }
+
+    .author-badge {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 14px;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .section-banner {
+      background-color: var(--primary);
+      color: #ffffff;
+      padding: 13px 15px;
+      border-radius: var(--radius);
+      margin-bottom: 12px;
+      border-left: 5px solid #38bdf8;
+    }
+
+    .section-banner .sec-num {
+      font-size: 11.5px;
+      color: #38bdf8;
+      font-weight: 700;
+      text-transform: uppercase;
+      display: block;
+    }
+
+    .section-banner h2 {
+      font-size: 17px;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-top: 2px;
+    }
+
+    .card {
+      background-color: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 14px;
+      margin-bottom: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow);
+    }
+
+    .card-title {
+      font-size: 15.5px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .card-subtitle {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin: 10px 0 6px 0;
+    }
+
+    .card-number {
+      background-color: var(--accent-soft);
+      color: var(--accent-dark);
+      font-size: 12px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+
+    .card p {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .quote-box {
+      background-color: #f8fafc;
+      border-left: 4px solid var(--accent);
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      color: var(--text-main);
+      margin: 8px 0;
+    }
+
+    .script-box {
+      background-color: #0f172a;
+      color: #f8fafc;
+      padding: 13px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      line-height: 1.45;
+      margin: 8px 0;
+      border-left: 4px solid #38bdf8;
+      white-space: pre-line;
+    }
+
+    .goal-pill {
+      background-color: var(--success-soft);
+      color: var(--success);
+      border-left: 3px solid var(--success);
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 13.5px;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    .ext-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #f8fafc;
+      border: 1.5px solid #bae6fd;
+      color: var(--accent-dark);
+      text-decoration: none;
+      padding: 10px 12px;
+      border-radius: 9px;
+      font-size: 13.5px;
+      font-weight: 700;
+      margin-top: 7px;
+      word-break: break-all;
+    }
+
+    .ext-link:active {
+      background-color: var(--accent-soft);
+      border-color: var(--accent);
+    }
+
+    .ext-link span.url-text {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .ext-link-arrow {
+      font-size: 16px;
+      font-weight: bold;
+      margin-left: 8px;
+      flex-shrink: 0;
+      color: var(--accent);
+    }
+
+    .alert-box {
+      padding: 13px;
+      border-radius: var(--radius);
+      margin-bottom: 12px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .alert-warning {
+      background-color: var(--warning-bg);
+      border-left: 5px solid var(--warning-border);
+      color: var(--warning-text);
+    }
+
+    .alert-danger {
+      background-color: var(--danger-bg);
+      border-left: 5px solid var(--danger-border);
+      color: var(--danger-text);
+    }
+
+    /* Tablas responsivas para 360px */
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    table.mobile-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      min-width: 290px;
+    }
+
+    table.mobile-table th {
+      background-color: var(--primary);
+      color: #ffffff;
+      text-align: left;
+      padding: 8px 9px;
+      font-weight: 700;
+    }
+
+    table.mobile-table td {
+      padding: 8px 9px;
+      border-bottom: 1px solid #e2e8f0;
+      color: var(--text-main);
+      vertical-align: top;
+    }
+
+    table.mobile-table tr:nth-child(even) td {
+      background-color: #f8fafc;
+    }
+
+    /* Chips / Etiquetas */
+    .chip-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 8px;
+    }
+
+    .chip {
+      background-color: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      color: var(--primary);
+      padding: 7px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    /* Listas limpias */
+    .clean-list {
+      list-style: none;
+      margin-top: 6px;
+    }
+
+    .clean-list li {
+      position: relative;
+      padding: 7px 6px 7px 26px;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 14px;
+      color: var(--text-main);
+    }
+
+    .clean-list li:last-child {
+      border-bottom: none;
+    }
+
+    .clean-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 6px;
+      top: 7px;
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .cross-list li::before {
+      content: "✕";
+      color: #dc2626;
+    }
+
+    /* Checklist interactivo para pestaña 18 */
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 9px 6px;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .check-item input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      accent-color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* Índice rápido dentro de la pestaña INICIO */
+    .quick-index-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 7px;
+      margin-top: 10px;
+    }
+
+    .quick-index-btn {
+      background-color: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 11px 12px;
+      text-align: left;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .quick-index-btn:active {
+      background-color: var(--accent-soft);
+      border-color: var(--accent);
+    }
+
+    /* ==========================================================================
+       BARRA INFERIOR FIJA (ANTERIOR / PRÓXIMA PESTAÑA)
+       ========================================================================== */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: var(--footer-h);
+      background-color: #ffffff;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      gap: 10px;
+      z-index: 1000;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    .nav-step-btn {
+      flex: 1;
+      height: 48px;
+      border-radius: 10px;
+      font-size: 14.5px;
+      font-weight: 800;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      padding: 0 10px;
+    }
+
+    .btn-prev {
+      background-color: #e2e8f0;
+      color: var(--primary);
+    }
+
+    .btn-prev:active {
+      background-color: #cbd5e1;
+    }
+
+    .btn-next {
+      background-color: var(--accent);
+      color: #ffffff;
+    }
+
+    .btn-next:active {
+      background-color: var(--accent-dark);
+    }
+
+    .nav-step-btn.hidden-step {
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* ==========================================================================
+       BOTONES FLOTANTES MOVIBLES (INICIO y ARRIBA)
+       ========================================================================== */
+    .draggable-fab {
+      position: fixed;
+      z-index: 1200;
+      min-width: 80px;
+      height: 44px;
+      padding: 0 12px;
+      border-radius: 24px;
+      font-size: 12.5px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      color: #ffffff;
+      border: 2px solid #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.42);
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+      cursor: grab;
+    }
+
+    .draggable-fab:active {
+      transform: scale(0.96);
+    }
+
+    #fabInicio {
+      background-color: #0f172a;
+      left: 10px;
+      bottom: 78px;
+    }
+
+    #fabArriba {
+      background-color: #0284c7;
+      right: 10px;
+      bottom: 78px;
+    }
+
+    .fab-hint {
+      font-size: 12.5px;
+      background-color: #e0f2fe;
+      color: #0369a1;
+      padding: 10px 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      border: 1px dashed #38bdf8;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CABECERA FIJA CON BOTÓN MENÚ SÁNDWICH -->
+  <header class="app-header">
+    <button class="menu-btn" id="openMenuBtn" aria-label="Abrir índice de pestañas">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="header-title-wrap">
+      <span class="header-subtitle">Plan Marketing Valencia</span>
+      <span class="header-title" id="headerCurrentTitle">INICIO</span>
+    </div>
+    <span class="tab-badge" id="headerBadge">1 / 22</span>
+  </header>
+
+  <!-- FONDO OSCURO Y MENÚ SÁNDWICH (ÍNDICE COMPLETO DE PESTAÑAS) -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <nav class="drawer" id="drawerMenu" aria-label="Índice del tutorial">
+    <div class="drawer-header">
+      <h2>ÍNDICE DEL TUTORIAL</h2>
+      <button class="close-drawer-btn" id="closeMenuBtn" aria-label="Cerrar menú">✕</button>
+    </div>
+    <ul class="drawer-list" id="drawerList">
+      <li class="drawer-item"><button class="drawer-link active" data-tab="0"><span class="drawer-num">🏠</span><span>INICIO – Portada y Propósito</span></button></li>
+      <li class="drawer-item"><button class="drawer-link" data-tab="1"><span class="drawer-num">0</span><span>Resumen Ejecutivo</span></button></li>
+      <li class="drawer-item"><button class="drawer-link" data-tab="2"><span class="drawer-num">1</span><span>Definición del Servicio</span></button></li>
+      <li class="drawer-item"><button class="drawer-link" data-tab="3"><span class="drawer-num">2</span><span>Posicionamiento y Diferenciación</span></button></li>
+      <li class="drawer-item"><button class="drawer-link" data-tab="4"><span class="drawer-num">3</span><span>Clientes Objetivo y Prioridad</span></button></li>
+      <li class="drawer-item"><button class="drawer-link" data-tab="5"><span class="drawer-num">4</span><span>Investigación Local: Valencia</span></button></li>
+      <li class="drawer-item"><button class="drawer-link" data-tab="6"><span class="drawer-num">5</span><span>Canales de Captación</span></button></li>
+      <li class="drawer-item"><button class="drawer-link" data-tab="7"><span class="drawer-num">6</span><span>IKEA, Leroy Merlin y Grandes</span></button></li>
+      <li class="drawer-item"><button class="drawer-link" data-tab="8"><span class="drawer-num">7</span><span>Marketing B2B (Empresas)</span></button></li>
+      <li class="drawer-item"><button class="drawer-link" data-tab="9"><span class="drawer-num">8</span><span>Marketing para Particulares</span></button></li>
+      <li class="drawer-item"><button class="drawer-link" data-tab="10"><span class="drawer-num">9</span><span>Presupuestos y Precios</span></button></li>
+      <li class="drawer-item"><button class="drawer-link" data-tab="11"><span class="drawer-num">10</span><span>Proceso de Venta (Paso 1 a 7)</span></button></li>
+      <li class="drawer-item"><button class="drawer-link" data-tab="12"><span class="drawer-num">11</span><span>Sistema de Control (CRM Mínimo)</span></button></li>
+      <li class="drawer-item"><button class="drawer-link" data-tab="13"><span class="drawer-num">12</span><span>Plan de Acción: Primeros 30 Días</span></button></li>
+      <li class="drawer-item"><button class="drawer-link" data-tab="14"><span class="drawer-num">13</span><span>Plan de Desarrollo: Días 31 a 90</span></button></li>
+      <li class="drawer-item"><button class="drawer-link" data-tab="15"><span class="drawer-num">14</span><span>Contenidos para Publicar</span></button></li>
+      <li class="drawer-item"><button class="drawer-link" data-tab="16"><span class="drawer-num">15</span><span>Empleo por Cuenta Ajena</span></button></li>
+      <li class="drawer-item"><button class="drawer-link" data-tab="17"><span class="drawer-num">16</span><span>Requisitos Legales, Fiscales y RC</span></button></li>
+      <li class="drawer-item"><button class="drawer-link" data-tab="18"><span class="drawer-num">17</span><span>Riesgos Comerciales y Control</span></button></li>
+      <li class="drawer-item"><button class="drawer-link" data-tab="19"><span class="drawer-num">18</span><span>Lista de Comprobación Operativa</span></button></li>
+      <li class="drawer-item"><button class="drawer-link" data-tab="20"><span class="drawer-num">19</span><span>Fuentes y Referencias Oficiales</span></button></li>
+      <li class="drawer-item"><button class="drawer-link" data-tab="21"><span class="drawer-num">20</span><span>Conclusión: El Sistema Comercial</span></button></li>
+    </ul>
+  </nav>
+
+  <!-- CONTENIDO DE TODAS LAS PESTAÑAS DEL TUTORIAL -->
+  <main class="main-container" id="mainContent">
+
+    <!-- =================================================================
+         PESTAÑA 0 (INICIO): PORTADA, AUTOR Y PROPÓSITO
+         (MENCIÓN 1 DE 3 DEL AUTOR RUBÉN SBARSKY)
+         ================================================================= -->
+    <section class="tab-pane active" data-index="0" data-title="INICIO">
+      <div class="hero-box">
+        <span class="hero-tag">Valencia, España | 3 de noviembre de 2026</span>
+        <h1>PLAN DE MARKETING Y CAPTACIÓN DE CLIENTES</h1>
+        <h2>Montaje de muebles modulares y cocinas en Valencia</h2>
+        <p>Estrategia comercial, posicionamiento, canales de captación y sistema operativo.</p>
+        <div class="author-badge">
+          <span>✍️ <strong>Autor del tutorial:</strong> Rubén Sbarsky</span>
+          <span style="font-size:12px; color:#bae6fd;">Documento de trabajo</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>🎯 PROPÓSITO</span></div>
+        <div class="quote-box">
+          Construir una actividad profesional de montaje de mobiliario modular en Valencia mediante un sistema comercial verificable: definir qué se ofrece, a quién, cómo se consigue cada cliente, cómo se presupuesta, cómo se ejecuta el trabajo y cómo se transforma cada servicio en reputación y nuevas oportunidades.
+        </div>
+      </div>
+
+      <div class="alert-box alert-warning">
+        ⚖️ <strong>Criterio editorial:</strong> Este documento distingue entre hechos comprobados, recomendaciones estratégicas y cuestiones que deben verificarse antes de contratar, anunciar o ejecutar un servicio. No presenta como acuerdos comerciales las empresas que únicamente se identifican como posibles clientes. No inventa tarifas, volúmenes de mercado, tasas de conversión ni requisitos que no estén respaldados por una fuente.
+      </div>
+
+      <div class="fab-hint">
+        💡 <strong>Optimizado para Samsung Galaxy A02s:</strong> Puedes arrastrar con el dedo los botones flotantes <strong>🏠 INICIO</strong> y <strong>⬆️ ARRIBA</strong> a cualquier posición de la pantalla.
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>📑 ÍNDICE COMPLETO DE PESTAÑAS</span></div>
+        <p>Toca cualquier capítulo o usa el menú sándwich superior (☰):</p>
+        <div class="quick-index-grid">
+          <button class="quick-index-btn" onclick="goToTab(1)"><span>0. Resumen Ejecutivo</span><span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(2)"><span>1. Definición del Servicio</span><span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(3)"><span>2. Posicionamiento: Cómo Diferenciarse</span><span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(4)"><span>3. Clientes Objetivo y Prioridad</span><span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(5)"><span>4. Investigación Local: Valencia</span><span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(6)"><span>5. Canales de Captación</span><span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(7)"><span>6. IKEA, Leroy Merlin y Distribuidores</span><span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(8)"><span>7. Marketing B2B: Empresas Clientes</span><span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(9)"><span>8. Marketing para Particulares</span><span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(10)"><span>9. Presupuestos y Precios</span><span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(11)"><span>10. Proceso de Venta (Paso 1 a 7)</span><span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(12)"><span>11. Sistema de Captación y CRM Mínimo</span><span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(13)"><span>12. Plan de Acción: Primeros 30 Días</span><span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(14)"><span>13. Plan de Desarrollo: Días 31 a 90</span><span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(15)"><span>14. Contenidos para Publicar</span><span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(16)"><span>15. Empleo por Cuenta Ajena</span><span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(17)"><span>16. Requisitos Legales, Fiscales y RC</span><span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(18)"><span>17. Riesgos Comerciales y Control</span><span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(19)"><span>18. Lista de Comprobación Operativa</span><span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(20)"><span>19. Fuentes y Referencias Verificables</span><span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(21)"><span>20. Conclusión: El Sistema Comercial</span><span>➔</span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 1: 0. RESUMEN EJECUTIVO
+         ================================================================= -->
+    <section class="tab-pane" data-index="1" data-title="0. Resumen Ejecutivo">
+      <div class="section-banner">
+        <span class="sec-num">Apartado 0</span>
+        <h2>RESUMEN EJECUTIVO</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>DOS MERCADOS COMPLEMENTARIOS</span></div>
+        <p>La actividad de montaje de muebles modulares puede comercializarse a través de dos mercados diferentes y complementarios:</p>
+        <ul class="clean-list">
+          <li><strong>1. Cliente particular:</strong> necesita montar muebles comprados por su cuenta, instalar una cocina modular, completar un dormitorio, montar armarios o resolver un desmontaje y posterior montaje.</li>
+          <li><strong>2. Cliente profesional o empresa:</strong> tienda de cocinas, comercio de muebles, carpintería, empresa de reformas, empresa de mudanzas, interiorista, gestor de viviendas o plataforma que deriva solicitudes.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>LOS CUATRO MOTORES COMERCIALES</span></div>
+        <p>La estrategia recomendada no consiste en depender de un único portal ni en anunciarse indiscriminadamente. Consiste en crear un pequeño sistema comercial con cuatro motores:</p>
+        <ul class="clean-list">
+          <li><strong>Captación directa local:</strong> Google, recomendaciones, anuncios y contactos con negocios.</li>
+          <li><strong>Plataformas de servicios:</strong> utilizar selectivamente las que permitan acceder a solicitudes reales y medir el coste de adquisición.</li>
+          <li><strong>Colaboraciones B2B:</strong> presentar una propuesta profesional a tiendas y empresas que necesiten capacidad de montaje.</li>
+          <li><strong>Reputación acumulativa:</strong> fotografías autorizadas, presupuestos claros, cumplimiento, reseñas auténticas y recomendaciones.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>DECISIÓN ESTRATÉGICA PRINCIPAL</span></div>
+        <div class="goal-pill">
+          Posicionarse como profesional de montaje de mobiliario modular, con especialización progresiva en cocinas modulares, sin limitar la captación a una sola marca.
+        </div>
+        <p style="margin-top:10px;">El montaje de muebles en kit puede facilitar la entrada y generar trabajos puntuales. Las cocinas modulares pueden ofrecer proyectos de mayor alcance, pero también exigen más conocimientos, precisión, coordinación con otros gremios y delimitación de responsabilidades. No deben anunciarse servicios técnicos que todavía no se dominen o para los que se requiera habilitación específica.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>DOS MODELOS DE ACTIVIDAD</span></div>
+        <div class="table-wrap">
+          <table class="mobile-table">
+            <thead>
+              <tr>
+                <th>Modelo</th>
+                <th>Cliente</th>
+                <th>Forma de trabajar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Empleo por cuenta ajena</strong></td>
+                <td>Tienda, fabricante, instaladora o empresa de reformas</td>
+                <td>Contrato laboral y organización de la empresa</td>
+              </tr>
+              <tr>
+                <td><strong>Profesional independiente</strong></td>
+                <td>Particular o empresa</td>
+                <td>Presupuestos, facturación, obligaciones fiscales y de Seguridad Social</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:10px;">Se pueden explorar ambos caminos, pero no deben confundirse. Las plataformas y redes de colaboradores pueden exigir documentación profesional, seguro, alta y condiciones específicas.</p>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 2: 1. DEFINICIÓN DEL SERVICIO
+         ================================================================= -->
+    <section class="tab-pane" data-index="2" data-title="1. Definición del Servicio">
+      <div class="section-banner">
+        <span class="sec-num">Apartado 1</span>
+        <h2>DEFINICIÓN DEL SERVICIO</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>1.1. QUÉ SE VENDE REALMENTE</span></div>
+        <p>El cliente no compra simplemente «horas de montaje». Compra un resultado:</p>
+        <ul class="clean-list">
+          <li>Muebles montados conforme a las instrucciones del fabricante.</li>
+          <li>Piezas alineadas y niveladas dentro de las tolerancias del producto y del espacio.</li>
+          <li>Herrajes y accesorios colocados correctamente.</li>
+          <li>Un espacio de trabajo protegido y ordenado.</li>
+          <li>Comunicación clara sobre lo que está incluido y lo que no.</li>
+          <li>Información previa si aparece una incidencia, una pieza defectuosa o una condición que impide continuar con seguridad.</li>
+        </ul>
+        <p style="margin-top:8px;">La promesa comercial debe ser concreta, demostrable y prudente. No se debe prometer perfección absoluta, ausencia de incidencias ni plazos imposibles.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>1.2. CATÁLOGO DE SERVICIOS</span></div>
+        <p>El catálogo debe dividirse por niveles de complejidad. Solo se publicarán como disponibles los trabajos que el profesional pueda ejecutar correctamente y con las herramientas, conocimientos y habilitaciones necesarias.</p>
+
+        <div class="card-subtitle">Línea A — Mobiliario en kit</div>
+        <ul class="clean-list">
+          <li>Mesas y escritorios.</li>
+          <li>Mesillas y cómodas.</li>
+          <li>Muebles de salón y muebles de TV.</li>
+          <li>Estanterías y módulos de almacenaje.</li>
+          <li>Camas y estructuras de dormitorio.</li>
+          <li>Armarios modulares.</li>
+          <li>Muebles auxiliares.</li>
+          <li>Desmontaje y remontaje de mobiliario, cuando el estado y el sistema constructivo lo permitan.</li>
+        </ul>
+
+        <div class="card-subtitle">Línea B — Mobiliario modular de mayor complejidad</div>
+        <ul class="clean-list">
+          <li>Composiciones de armarios.</li>
+          <li>Vestidores modulares.</li>
+          <li>Sistemas de almacenaje.</li>
+          <li>Mobiliario de oficina.</li>
+          <li>Conjuntos modulares para habitaciones.</li>
+          <li>Muebles que requieren fijación o anclaje, siempre que el soporte, el sistema de fijación y la instalación estén dentro de la competencia del profesional.</li>
+        </ul>
+
+        <div class="card-subtitle">Línea C — Cocinas modulares</div>
+        <p>La instalación de cocinas debe tratarse como una especialidad y no como una simple variante del montaje de un mueble. Según el proyecto y el alcance contratado, puede implicar:</p>
+        <ul class="clean-list">
+          <li>Revisión del plano y del listado de módulos.</li>
+          <li>Comprobación de medidas y condiciones del espacio.</li>
+          <li>Presentación y nivelación de módulos.</li>
+          <li>Montaje y fijación de muebles bajos y altos.</li>
+          <li>Colocación de frentes, puertas, cajones y herrajes.</li>
+          <li>Ajuste de puertas y frentes.</li>
+          <li>Colocación de zócalos, tapetas y remates.</li>
+          <li>Coordinación con la instalación de encimera.</li>
+          <li>Coordinación con fontanería y electricidad, cuando corresponda.</li>
+        </ul>
+      </div>
+
+      <div class="alert-box alert-danger">
+        ⛔ <strong>Límite esencial:</strong> Los trabajos de electricidad, gas, fontanería u otras instalaciones reguladas no deben incluirse automáticamente en una oferta de montaje de muebles. Deben ejecutarlos profesionales habilitados cuando la normativa lo exija. El alcance debe quedar escrito antes de aceptar el trabajo.
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>1.3. QUÉ NO SE DEBE ANUNCIAR SIN COMPROBARLO</span></div>
+        <ul class="clean-list cross-list">
+          <li>Modificación de instalaciones eléctricas o de gas.</li>
+          <li>Modificación de tomas de agua o desagües.</li>
+          <li>Trabajos sobre encimeras que requieran maquinaria o experiencia no disponibles.</li>
+          <li>Corte de materiales sin equipo, protección y capacitación adecuados.</li>
+          <li>Anclajes a soportes cuya naturaleza no se haya comprobado.</li>
+          <li>Trabajos estructurales o de albañilería ajenos al alcance profesional.</li>
+          <li>Instalación de electrodomésticos que requiera conexión técnica no habilitada.</li>
+        </ul>
+        <div class="goal-pill">Regla comercial: ofrecer únicamente lo que se puede ejecutar con competencia, seguridad y responsabilidad.</div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 3: 2. POSICIONAMIENTO: CÓMO DIFERENCIARSE
+         ================================================================= -->
+    <section class="tab-pane" data-index="3" data-title="2. Posicionamiento">
+      <div class="section-banner">
+        <span class="sec-num">Apartado 2</span>
+        <h2>POSICIONAMIENTO: CÓMO DIFERENCIARSE</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>2.1. POSICIONAMIENTO RECOMENDADO</span></div>
+        <div class="quote-box">
+          <strong>Montaje profesional de muebles modulares en Valencia. Mobiliario doméstico, armarios y cocinas modulares. Presupuesto claro, alcance definido y comunicación directa.</strong>
+        </div>
+        <p>Es una formulación de trabajo, no una afirmación de experiencia o certificación. Debe adaptarse a la experiencia real y a los servicios efectivamente disponibles.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>2.2. NO COMPETIR ÚNICAMENTE POR PRECIO</span></div>
+        <p>Competir solo por ser el más barato es una estrategia frágil. El cliente puede comparar presupuestos, pero también valora:</p>
+        <ul class="clean-list">
+          <li>Que le respondan.</li>
+          <li>Que entiendan qué ha comprado.</li>
+          <li>Que revisen la información antes de desplazarse.</li>
+          <li>Que expliquen qué incluye el precio.</li>
+          <li>Que respeten el domicilio.</li>
+          <li>Que avisen si surge un problema.</li>
+          <li>Que no aparezcan costes inesperados.</li>
+          <li>Que el resultado sea limpio y funcional.</li>
+        </ul>
+        <p style="margin-top:8px;">La diferenciación debe apoyarse en procesos verificables, no en adjetivos vacíos como «el mejor», «el más rápido» o «garantía total».</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>2.3. TRES MENSAJES COMERCIALES SEGÚN CLIENTE</span></div>
+
+        <div class="card-subtitle">Para particulares</div>
+        <div class="script-box">«Montaje de muebles modulares y mobiliario doméstico en Valencia. Envíame fotos, referencias de los muebles y ubicación para revisar el trabajo y preparar un presupuesto claro».</div>
+
+        <div class="card-subtitle">Para tiendas y estudios de cocinas</div>
+        <div class="script-box">«Colaboración para trabajos de montaje de mobiliario modular y apoyo de instalación, según alcance, disponibilidad y experiencia acreditable. Podemos revisar planos, mediciones y necesidades antes de presupuestar».</div>
+
+        <div class="card-subtitle">Para empresas de mudanzas y reformas</div>
+        <div class="script-box">«Servicio de desmontaje y montaje de mobiliario, armarios y módulos, coordinado con el calendario de la mudanza o reforma. Alcance y condiciones definidos previamente».</div>
+
+        <p style="margin-top:8px;">No se deben utilizar estas frases para afirmar experiencia, cobertura, herramientas, seguro o disponibilidad que no se tengan.</p>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 4: 3. CLIENTES OBJETIVO Y PRIORIDAD COMERCIAL
+         ================================================================= -->
+    <section class="tab-pane" data-index="4" data-title="3. Clientes Objetivo">
+      <div class="section-banner">
+        <span class="sec-num">Apartado 3</span>
+        <h2>CLIENTES OBJETIVO Y PRIORIDAD COMERCIAL</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>3.1. SEGMENTOS DE CLIENTES</span></div>
+        <div class="table-wrap">
+          <table class="mobile-table">
+            <thead>
+              <tr>
+                <th>Segmento</th>
+                <th>Necesidad habitual</th>
+                <th>Oportunidad comercial</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Particulares (kit)</strong></td>
+                <td>Montaje puntual</td>
+                <td>Captación directa y plataformas</td>
+              </tr>
+              <tr>
+                <td><strong>Amueblar vivienda</strong></td>
+                <td>Varios muebles en una visita</td>
+                <td>Presupuesto por conjunto</td>
+              </tr>
+              <tr>
+                <td><strong>Mudanzas</strong></td>
+                <td>Desmontaje y remontaje</td>
+                <td>Alianzas con mudanzas</td>
+              </tr>
+              <tr>
+                <td><strong>Tiendas de muebles</strong></td>
+                <td>Entregas con montaje</td>
+                <td>Colaboración recurrente</td>
+              </tr>
+              <tr>
+                <td><strong>Tiendas de cocinas</strong></td>
+                <td>Montaje y apoyo instalación</td>
+                <td>Relación B2B prioritaria</td>
+              </tr>
+              <tr>
+                <td><strong>Empresas de reformas</strong></td>
+                <td>Subcontratación o refuerzo</td>
+                <td>Trabajos por proyecto</td>
+              </tr>
+              <tr>
+                <td><strong>Carpinterías</strong></td>
+                <td>Apoyo en montaje</td>
+                <td>Colaboración según especialidad</td>
+              </tr>
+              <tr>
+                <td><strong>Gestores de alquiler</strong></td>
+                <td>Reposición de mobiliario</td>
+                <td>Mantenimiento recurrente</td>
+              </tr>
+              <tr>
+                <td><strong>Oficinas y negocios</strong></td>
+                <td>Mobiliario de trabajo</td>
+                <td>Trabajos por lote</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:8px;">No se afirma que todos estos segmentos tengan demanda disponible en un volumen determinado. Son segmentos lógicos para validar mediante prospección y registro de resultados.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>3.2. PRIORIZACIÓN</span></div>
+        <ul class="clean-list">
+          <li><strong>Prioridad 1 — Empresas de cocinas y mobiliario modular:</strong> pueden necesitar apoyo de montaje en proyectos completos o picos de trabajo. Averiguar si subcontratan y qué requisitos piden.</li>
+          <li><strong>Prioridad 2 — Particulares de la zona de servicio:</strong> permiten empezar a construir cartera, fotografías autorizadas y reseñas manteniendo el coste bajo control.</li>
+          <li><strong>Prioridad 3 — Mudanzas y reformas:</strong> pueden generar encargos combinados o derivaciones delimitando responsabilidades.</li>
+          <li><strong>Prioridad 4 — Plataformas de intermediación:</strong> facilitan acceso a solicitudes, pero pueden cobrar por contacto o reducir margen.</li>
+          <li><strong>Prioridad 5 — Empleo por cuenta ajena:</strong> permite aprender procesos de empresa y adquirir experiencia con supervisión.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 5: 4. INVESTIGACIÓN LOCAL: VALENCIA Y ÁREA METROPOLITANA
+         ================================================================= -->
+    <section class="tab-pane" data-index="5" data-title="4. Investigación Valencia">
+      <div class="section-banner">
+        <span class="sec-num">Apartado 4</span>
+        <h2>INVESTIGACIÓN LOCAL: VALENCIA Y ÁREA METROPOLITANA</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>4.1. ZONA INICIAL DE TRABAJO</span></div>
+        <p>No conviene anunciar una cobertura ilimitada. Definir una zona realista según transporte, disponibilidad, duración de los trabajos y coste de desplazamiento:</p>
+        <div class="chip-container">
+          <span class="chip">Valencia</span>
+          <span class="chip">Burjassot</span>
+          <span class="chip">Paterna</span>
+          <span class="chip">Mislata</span>
+          <span class="chip">Quart de Poblet</span>
+          <span class="chip">Manises</span>
+          <span class="chip">Xirivella</span>
+          <span class="chip">Aldaia</span>
+          <span class="chip">Alaquàs</span>
+          <span class="chip">Torrent</span>
+          <span class="chip">Picanya</span>
+          <span class="chip">Godella</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>4.2. NEGOCIOS LOCALES PARA INVESTIGAR</span></div>
+        <p>Son <strong>contactos potenciales para una presentación comercial</strong>, no empresas que hayan confirmado que contratan montadores externos:</p>
+        <div class="table-wrap">
+          <table class="mobile-table">
+            <thead>
+              <tr>
+                <th>Empresa</th>
+                <th>Dirección publicada</th>
+                <th>Actividad</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>SCHMIDT Valencia – Marqués del Turia</strong></td>
+                <td>Gran Via del Marqués del Túria, 29, Valencia</td>
+                <td>Cocinas, armarios y mobiliario a medida</td>
+              </tr>
+              <tr>
+                <td><strong>SCHMIDT Valencia – Fernando el Católico</strong></td>
+                <td>Gran Via de Ferran el Catòlic, 19, Valencia</td>
+                <td>Cocinas y mobiliario para el hogar</td>
+              </tr>
+              <tr>
+                <td><strong>Cocinas Valencia / Love Kitchen</strong></td>
+                <td>C/ de Conca, 14, Valencia</td>
+                <td>Diseño y reforma de cocinas</td>
+              </tr>
+              <tr>
+                <td><strong>Arrital Valencia</strong></td>
+                <td>C/ de Borriana, 51, Valencia</td>
+                <td>Showroom de cocinas</td>
+              </tr>
+              <tr>
+                <td><strong>Nouespai Küchen</strong></td>
+                <td>C/ d'Aparicio Albiñana, 2, Valencia</td>
+                <td>Cocinas y mobiliario</td>
+              </tr>
+              <tr>
+                <td><strong>Mobalpa Valencia</strong></td>
+                <td>Gran Via del Marqués del Túria, 49, Valencia</td>
+                <td>Cocinas y mobiliario a medida</td>
+              </tr>
+              <tr>
+                <td><strong>Cocina Fácil</strong></td>
+                <td>Av. de la Ilustración, 6, Burjassot</td>
+                <td>Cocinas, armarios y mobiliario</td>
+              </tr>
+              <tr>
+                <td><strong>SCHMIDT Burjassot</strong></td>
+                <td>Av. de la Ilustración, 6, Burjassot</td>
+                <td>Cocinas y mobiliario</td>
+              </tr>
+              <tr>
+                <td><strong>Novacuin</strong></td>
+                <td>C/ de les Filipines, 17, Valencia</td>
+                <td>Diseño y fabricación de cocinas</td>
+              </tr>
+              <tr>
+                <td><strong>Hijos de Ramón García Carboneras / Fuster del Poble</strong></td>
+                <td>Carrer Bonavista, 47, Picanya</td>
+                <td>Carpintería, armarios y cocinas</td>
+              </tr>
+              <tr>
+                <td><strong>Carpinteros Servihogar</strong></td>
+                <td>Carrer dels Ferradors, 42, Xirivella</td>
+                <td>Carpintería y mobiliario a medida</td>
+              </tr>
+              <tr>
+                <td><strong>Cocinas Llorens</strong></td>
+                <td>Carrer Fusters, 16, Godella</td>
+                <td>Diseño, fabricación e instalación de cocinas</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card-subtitle">Cómo utilizar esta lista:</div>
+        <ul class="clean-list">
+          <li>1. Comprobar en la web o por teléfono que el negocio sigue activo y que los datos no han cambiado.</li>
+          <li>2. Identificar a la persona responsable de instalaciones, operaciones o gerencia.</li>
+          <li>3. Preguntar si trabajan con montadores externos, plantilla propia o empresas colaboradoras.</li>
+          <li>4. Averiguar qué documentación y experiencia exigen.</li>
+          <li>5. Enviar una presentación breve y específica.</li>
+          <li>6. Registrar fecha, interlocutor, respuesta y próximo paso.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>4.3. CONSULTAS PARA AMPLIAR LA LISTA LOCAL</span></div>
+        <div class="chip-container">
+          <span class="chip">«tiendas de cocinas Valencia»</span>
+          <span class="chip">«fabricantes de cocinas Valencia»</span>
+          <span class="chip">«montaje de cocinas Valencia»</span>
+          <span class="chip">«armarios a medida Valencia»</span>
+          <span class="chip">«carpinterías Valencia»</span>
+          <span class="chip">«mobiliario de oficina Valencia»</span>
+          <span class="chip">«empresas de reformas Valencia»</span>
+          <span class="chip">«mudanzas montaje muebles Valencia»</span>
+          <span class="chip">«tiendas de muebles Valencia»</span>
+          <span class="chip">«interioristas Valencia»</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 6: 5. CANALES DE CAPTACIÓN: QUÉ UTILIZAR Y CÓMO
+         ================================================================= -->
+    <section class="tab-pane" data-index="6" data-title="5. Canales de Captación">
+      <div class="section-banner">
+        <span class="sec-num">Apartado 5</span>
+        <h2>CANALES DE CAPTACIÓN: QUÉ UTILIZAR Y CÓMO</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>5.1. GOOGLE BUSINESS PROFILE</span><span class="card-number">Prioritario</span></div>
+        <p>Para un profesional que se desplaza al domicilio del cliente, Google contempla los perfiles de empresas de área de servicio (ocultando dirección y mostrando zona de servicio).</p>
+        <a class="ext-link" href="https://www.google.com/intl/es_es/business/" target="_blank" rel="noopener noreferrer">
+          <div>Página oficial Google Business<span class="url-text">https://www.google.com/intl/es_es/business/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://support.google.com/business/answer/3038177?hl=es" target="_blank" rel="noopener noreferrer">
+          <div>Ayuda y directrices oficiales<span class="url-text">https://support.google.com/business/answer/3038177?hl=es</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://support.google.com/business/answer/3039617?hl=es" target="_blank" rel="noopener noreferrer">
+          <div>Gestión de zonas de servicio<span class="url-text">https://support.google.com/business/answer/3039617?hl=es</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>5.2. WEB PROPIA: UNA PÁGINA, UNA FUNCIÓN</span></div>
+        <p>Una página sencilla y rápida que resuelva: qué servicio se ofrece, en qué zona se trabaja, qué muebles se montan, qué trabajos no se realizan, fotografías reales con autorización, cómo pedir presupuesto, teléfono/WhatsApp y aviso de privacidad.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>5.3. WHATSAPP BUSINESS</span></div>
+        <p>Organizar contactos con etiquetas: «Nuevo», «Falta información», «Presupuesto enviado», «Aceptado», «Realizado», «Seguimiento».</p>
+        <div class="card-subtitle">Mensaje inicial sugerido:</div>
+        <div class="script-box">«Hola. Gracias por contactar. Para revisar el montaje, envíame por favor la localidad, algunas fotografías del espacio, la marca o referencia del mueble y, si es posible, el enlace o las instrucciones del producto. Con esa información podré valorar el trabajo y decirte qué datos faltan para preparar el presupuesto».</div>
+        <a class="ext-link" href="https://www.whatsapp.com/business/" target="_blank" rel="noopener noreferrer">
+          <div>WhatsApp Business Oficial<span class="url-text">https://www.whatsapp.com/business/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>5.4. MILANUNCIOS Y WALLAPOP</span></div>
+        <div class="script-box">Título: «Montaje de muebles modulares en Valencia»
+
+Texto: «Servicio de montaje de mobiliario modular y muebles en kit en Valencia y alrededores. Para valorar el trabajo, envía fotografías, referencias del mueble y localidad. Presupuesto previo según tipo de mueble, cantidad, complejidad y desplazamiento. Se confirma por escrito el alcance del servicio antes de reservar».</div>
+        <a class="ext-link" href="https://www.milanuncios.com/" target="_blank" rel="noopener noreferrer">
+          <div>Milanuncios<span class="url-text">https://www.milanuncios.com/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://es.wallapop.com/" target="_blank" rel="noopener noreferrer">
+          <div>Wallapop<span class="url-text">https://es.wallapop.com/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>5.5. PLATAFORMAS DE SERVICIOS PROFESIONALES</span></div>
+        <p>Revisar su modelo de cobro antes de comprar contactos:</p>
+        <a class="ext-link" href="https://www.cronoshare.com/registro/profesionales" target="_blank" rel="noopener noreferrer">
+          <div>Cronoshare (Usa «cronos» para contactar)<span class="url-text">https://www.cronoshare.com/registro/profesionales</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.habitissimo.es/registrar/empresa" target="_blank" rel="noopener noreferrer">
+          <div>Habitissimo (Pago por contacto recibido)<span class="url-text">https://www.habitissimo.es/registrar/empresa</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.taskrabbit.es/" target="_blank" rel="noopener noreferrer">
+          <div>Taskrabbit (Colaborador montaje IKEA)<span class="url-text">https://www.taskrabbit.es/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.taskia.es/" target="_blank" rel="noopener noreferrer">
+          <div>Taskia<span class="url-text">https://www.taskia.es/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.zaask.es/" target="_blank" rel="noopener noreferrer">
+          <div>Zaask<span class="url-text">https://www.zaask.es/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.fixando.es/" target="_blank" rel="noopener noreferrer">
+          <div>Fixando<span class="url-text">https://www.fixando.es/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.prontopro.es/" target="_blank" rel="noopener noreferrer">
+          <div>ProntoPro<span class="url-text">https://www.prontopro.es/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 7: 6. IKEA, LEROY MERLIN Y GRANDES DISTRIBUIDORES
+         ================================================================= -->
+    <section class="tab-pane" data-index="7" data-title="6. IKEA y Leroy Merlin">
+      <div class="section-banner">
+        <span class="sec-num">Apartado 6</span>
+        <h2>IKEA, LEROY MERLIN Y GRANDES DISTRIBUIDORES</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>6.1. IKEA: DISTINGUIR DOS VÍAS DIFERENTES</span></div>
+        <div class="card-subtitle">A. Montaje de muebles IKEA mediante Taskrabbit</div>
+        <p>IKEA España ofrece montaje en colaboración con Taskrabbit. No significa que IKEA contrate directamente como empleado a cada montador.</p>
+        <a class="ext-link" href="https://www.ikea.com/es/es/customer-service/services/assembly/" target="_blank" rel="noopener noreferrer">
+          <div>Página de montaje IKEA<span class="url-text">https://www.ikea.com/es/es/customer-service/services/assembly/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+
+        <div class="card-subtitle">B. IKEA Home Services para profesionales</div>
+        <p>Plataforma para profesionales independientes de mejoras del hogar con presencia anunciada en Valencia. Comprobar en el formulario qué categorías admite en cada momento.</p>
+        <a class="ext-link" href="https://home-services.ikea.com/es/es/professionals" target="_blank" rel="noopener noreferrer">
+          <div>IKEA Home Services Profesionales<span class="url-text">https://home-services.ikea.com/es/es/professionals</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>6.2. LEROY MERLIN: RED HOGAMI</span></div>
+        <p>Exige documentación identificativa, acreditación de alta como autónomo o empresa, certificados de estar al corriente con Seguridad Social y Agencia Tributaria, póliza y recibo de seguro de responsabilidad civil y formación online de la plataforma.</p>
+        <a class="ext-link" href="https://hogami.leroymerlin.es/alta-profesional-empresa-servicios-hogar" target="_blank" rel="noopener noreferrer">
+          <div>Alta de profesionales Hogami<span class="url-text">https://hogami.leroymerlin.es/alta-profesional-empresa-servicios-hogar</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://hogami.leroymerlin.es/faqs/profesionales" target="_blank" rel="noopener noreferrer">
+          <div>FAQs Profesionales Hogami<span class="url-text">https://hogami.leroymerlin.es/faqs/profesionales</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>6.3. OTROS DISTRIBUIDORES A INVESTIGAR</span></div>
+        <p>Pregunta exacta recomendada al contactar:</p>
+        <div class="script-box">«¿Gestionan el montaje con personal propio o trabajan también con profesionales y empresas colaboradoras externas? Si aceptan colaboradores, ¿qué requisitos de experiencia, documentación, seguro y zona de cobertura solicitan?»</div>
+        <a class="ext-link" href="https://www.bricodepot.es/" target="_blank" rel="noopener noreferrer"><div>Brico Depôt</div><span class="ext-link-arrow">↗</span></a>
+        <a class="ext-link" href="https://www.obramat.es/" target="_blank" rel="noopener noreferrer"><div>OBRAMAT</div><span class="ext-link-arrow">↗</span></a>
+        <a class="ext-link" href="https://www.bauhaus.es/" target="_blank" rel="noopener noreferrer"><div>BAUHAUS</div><span class="ext-link-arrow">↗</span></a>
+        <a class="ext-link" href="https://www.conforama.es/" target="_blank" rel="noopener noreferrer"><div>Conforama</div><span class="ext-link-arrow">↗</span></a>
+        <a class="ext-link" href="https://www.jysk.es/" target="_blank" rel="noopener noreferrer"><div>JYSK</div><span class="ext-link-arrow">↗</span></a>
+        <a class="ext-link" href="https://kavehome.com/" target="_blank" rel="noopener noreferrer"><div>Kave Home</div><span class="ext-link-arrow">↗</span></a>
+        <a class="ext-link" href="https://www.maisonsdumonde.com/" target="_blank" rel="noopener noreferrer"><div>Maisons du Monde</div><span class="ext-link-arrow">↗</span></a>
+        <a class="ext-link" href="https://www.mueblesboom.com/" target="_blank" rel="noopener noreferrer"><div>Muebles BOOM</div><span class="ext-link-arrow">↗</span></a>
+        <a class="ext-link" href="https://www.mobalpa.es/" target="_blank" rel="noopener noreferrer"><div>Mobalpa</div><span class="ext-link-arrow">↗</span></a>
+        <a class="ext-link" href="https://www.home-design.schmidt/" target="_blank" rel="noopener noreferrer"><div>Schmidt</div><span class="ext-link-arrow">↗</span></a>
+        <a class="ext-link" href="https://www.sklum.com/" target="_blank" rel="noopener noreferrer"><div>Sklum</div><span class="ext-link-arrow">↗</span></a>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 8: 7. MARKETING B2B: CONSEGUIR EMPRESAS COMO CLIENTES
+         (MENCIÓN 2 DE 3 DEL AUTOR RUBÉN SBARSKY)
+         ================================================================= -->
+    <section class="tab-pane" data-index="8" data-title="7. Marketing B2B">
+      <div class="section-banner">
+        <span class="sec-num">Apartado 7</span>
+        <h2>MARKETING B2B: CONSEGUIR EMPRESAS COMO CLIENTES</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>7.1 Y 7.2. QUÉ EMPRESAS BUSCAR Y QUÉ OFRECER</span></div>
+        <p>Tiendas de cocinas, armarios, muebles, carpinterías, reformas, interiorismo, oficinas, mudanzas y gestores de viviendas. Presentar una solución operativa:</p>
+        <ul class="clean-list">
+          <li>Apoyo en picos de trabajo, si existe disponibilidad.</li>
+          <li>Montaje de módulos y mobiliario dentro de la especialidad acreditada.</li>
+          <li>Comunicación con el responsable del proyecto y confirmación previa del alcance.</li>
+          <li>Registro de incidencias y piezas faltantes.</li>
+          <li>Fotografías de finalización autorizadas y respeto por el calendario acordado.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>7.3. GUION DE LLAMADA B2B</span></div>
+        <div class="script-box">«Buenos días. Me llamo [nombre]. Estoy orientando mi actividad al montaje de mobiliario modular y quiero consultar si trabajan con montadores externos o colaboradores para instalaciones. Me gustaría saber quién gestiona esa parte y qué requisitos solicitan. Si les encaja, puedo enviar una presentación breve con los servicios que puedo realizar y mi disponibilidad».
+
+Si trabajan con personal propio:
+«Entiendo. ¿En ocasiones necesitan refuerzo puntual o disponen de un procedimiento para registrar proveedores externos?».</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>7.4. CORREO DE PRESENTACIÓN B2B</span></div>
+        <p>Plantilla estructurada en este tutorial por <strong>Rubén Sbarsky</strong> para contactar con estudios y tiendas de Valencia:</p>
+        <div class="script-box">Asunto: Propuesta de colaboración – montaje de mobiliario modular en Valencia
+
+«Buenos días:
+
+Mi nombre es [nombre] y estoy desarrollando mi actividad en el ámbito del montaje de mobiliario modular en Valencia.
+
+Me pongo en contacto con ustedes para consultar si trabajan con profesionales o empresas colaboradoras para realizar montajes o prestar apoyo en instalaciones.
+
+Mi propuesta es estudiar posibles colaboraciones dentro de los trabajos que pueda ejecutar con la formación, experiencia, herramientas y documentación correspondientes.
+
+Si contemplan esta modalidad, agradecería que me indicaran los requisitos de acceso, el tipo de trabajos que externalizan y la documentación necesaria.
+
+Muchas gracias por su tiempo.
+Un saludo, [nombre] | [teléfono] | [zona de trabajo]»</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>7.5. SISTEMA DE SEGUIMIENTO</span></div>
+        <div class="table-wrap">
+          <table class="mobile-table">
+            <thead>
+              <tr>
+                <th>Momento</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Día 1</strong></td><td>Identificar empresa y responsable</td></tr>
+              <tr><td><strong>Día 2–3</strong></td><td>Llamada o correo personalizado</td></tr>
+              <tr><td><strong>Día 5–7</strong></td><td>Seguimiento breve si no hubo respuesta</td></tr>
+              <tr><td><strong>Día 10–14</strong></td><td>Segundo seguimiento, sin insistencia excesiva</td></tr>
+              <tr><td><strong>Después</strong></td><td>Registrar resultado y próxima fecha de contacto</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 9: 8. MARKETING PARA PARTICULARES
+         ================================================================= -->
+    <section class="tab-pane" data-index="9" data-title="8. Marketing Particulares">
+      <div class="section-banner">
+        <span class="sec-num">Apartado 8</span>
+        <h2>MARKETING PARA PARTICULARES</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>8.1. LAS 5 PREGUNTAS QUE DEBE RESPONDER EL ANUNCIO</span></div>
+        <ul class="clean-list">
+          <li>1. ¿Qué montas?</li>
+          <li>2. ¿En qué zona trabajas?</li>
+          <li>3. ¿Cómo se solicita presupuesto?</li>
+          <li>4. ¿Qué información necesitas?</li>
+          <li>5. ¿Qué incluye y qué no incluye el servicio?</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>8.2. ANUNCIO MODELO PARA PARTICULARES</span></div>
+        <div class="script-box">Título: Montaje de muebles modulares en Valencia
+
+«Servicio de montaje de muebles modulares y mobiliario en kit en Valencia y alrededores.
+
+Para valorar el trabajo, envía:
+- Localidad.
+- Marca y referencia del mueble.
+- Fotografías del espacio y de los paquetes, si están disponibles.
+- Enlace al producto o instrucciones.
+- Cantidad de muebles.
+- Si se necesita desmontaje o retirada de embalajes.
+
+Revisaré la información y te indicaré si puedo realizar el trabajo y qué incluye el presupuesto. El alcance, el precio y la fecha se confirman antes de reservar».</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>8.3 Y 8.4. FOTOGRAFÍAS Y RESEÑAS</span></div>
+        <p><strong>Fotografías:</strong> pedir siempre permiso antes de fotografiar, no mostrar datos personales ni caras, y nunca usar fotos de catálogo como trabajos propios.</p>
+        <div class="card-subtitle">Mensaje para solicitar reseña al terminar:</div>
+        <div class="script-box">«Gracias por confiar en mi trabajo. Si estás conforme con el resultado, una reseña sincera me ayudaría a dar a conocer el servicio. Puedes comentar cómo fue la comunicación, el cumplimiento de lo acordado y el resultado».</div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 10: 9. PRESUPUESTOS Y PRECIOS: MÉTODO SIN INVENTAR TARIFAS
+         ================================================================= -->
+    <section class="tab-pane" data-index="10" data-title="9. Presupuestos y Precios">
+      <div class="section-banner">
+        <span class="sec-num">Apartado 9</span>
+        <h2>PRESUPUESTOS Y PRECIOS: MÉTODO SIN INVENTAR TARIFAS</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>9.1 Y 9.2. VARIABLES Y FÓRMULA DE CÁLCULO</span></div>
+        <div class="quote-box">
+          <strong>Precio mínimo del trabajo =</strong> coste de mano de obra + desplazamiento + consumibles + costes directos + parte proporcional de costes generales + margen.
+        </div>
+        <p>Variables clave: tipo y cantidad de módulos, complejidad, tiempo estimado, acceso y aparcamiento, distancia, necesidad de segunda persona, consumibles, tipo de pared/anclajes, desmontaje previo y coordinación con otros gremios.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>9.3. TRES FORMATOS DE PRESUPUESTO</span></div>
+        <ul class="clean-list">
+          <li><strong>A. Precio por unidad o mueble:</strong> cuando el producto y alcance son repetibles y bien definidos.</li>
+          <li><strong>B. Precio por conjunto:</strong> para varios muebles de una misma vivienda o composición modular.</li>
+          <li><strong>C. Precio por proyecto:</strong> para cocinas o trabajos complejos tras revisar planos, medidas y responsabilidades.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>9.4. PLANTILLA DE PRESUPUESTO</span></div>
+        <div class="script-box">PRESUPUESTO Nº [número]
+Profesional / empresa: [datos]
+Cliente: [datos necesarios] | Fecha: [fecha] | Ubicación: [localidad]
+
+Trabajo solicitado: [Descripción concreta del mobiliario y del montaje]
+
+Incluye:
+- [Tareas y cantidad de módulos]
+- [Ajustes incluidos y desplazamiento si corresponde]
+
+No incluye:
+- Fontanería, Electricidad, Gas, Albañilería
+- Encimera o cortes / Retirada de embalajes (si no están incluidos)
+
+Precio:
+Base imponible: [importe] + Impuestos aplicables: [importe] = Total: [importe]
+
+Condiciones:
+- Fecha prevista y duración estimada
+- Forma de pago y validez del presupuesto
+- Incidencias y cambios de alcance: se comunicarán y presupuestarán antes de ejecutarse.</div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 11: 10. PROCESO DE VENTA: DE LA CONSULTA AL TRABAJO TERMINADO
+         ================================================================= -->
+    <section class="tab-pane" data-index="11" data-title="10. Proceso de Venta">
+      <div class="section-banner">
+        <span class="sec-num">Apartado 10</span>
+        <h2>PROCESO DE VENTA: DE LA CONSULTA AL TRABAJO TERMINADO</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>PASO 1 — RECIBIR LA CONSULTA</span><span class="card-number">1/7</span></div>
+        <p>Registrar nombre o referencia del cliente, teléfono o canal, localidad, tipo de trabajo y fecha deseada.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>PASO 2 — PEDIR INFORMACIÓN SUFICIENTE</span><span class="card-number">2/7</span></div>
+        <p>Solicitar marca y modelo, enlace, instrucciones, número de bultos, fotos del espacio, medidas, tipo de pared (si hay fijaciones) y accesos (ascensor/escaleras).</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>PASO 3 — EVALUAR SI SE PUEDE ACEPTAR</span><span class="card-number">3/7</span></div>
+        <p>¿Sé realizar este trabajo? ¿Tengo herramientas? ¿Necesito otra persona? ¿El soporte es seguro? Si alguna condición esencial no está clara, pedir más información o rechazar el trabajo.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>PASO 4 — ENVIAR PRESUPUESTO ESCRITO</span><span class="card-number">4/7</span></div>
+        <p>Indicar trabajo exacto, qué incluye, qué excluye, precio e impuestos, desplazamiento, fecha, duración estimada y condiciones de pago.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>PASO 5 — CONFIRMAR CITA</span><span class="card-number">5/7</span></div>
+        <p>Mensaje con fecha, franja horaria, dirección, alcance acordado, preparación previa que debe hacer el cliente y teléfono.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>PASO 6 — EJECUTAR</span><span class="card-number">6/7</span></div>
+        <p>Revisar paquetes y piezas, comprobar instrucciones, proteger el espacio, trabajar con seguridad y comunicar cualquier incidencia antes de improvisar.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>PASO 7 — CERRAR EL TRABAJO</span><span class="card-number">7/7</span></div>
+        <p>Mostrar el resultado al cliente, recoger herramientas y residuos propios, confirmar revisión, emitir factura o justificante correspondiente y solicitar reseña auténtica.</p>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 12: 11. SISTEMA DE CAPTACIÓN Y CONTROL: EL CRM MÍNIMO
+         ================================================================= -->
+    <section class="tab-pane" data-index="12" data-title="11. CRM e Indicadores">
+      <div class="section-banner">
+        <span class="sec-num">Apartado 11</span>
+        <h2>SISTEMA DE CAPTACIÓN Y CONTROL: EL CRM MÍNIMO</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>11.1. CAMPOS DE LA HOJA DE CONTROL</span></div>
+        <div class="table-wrap">
+          <table class="mobile-table">
+            <thead>
+              <tr><th>Campo</th><th>Uso</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>ID / Fecha</strong></td><td>Número único y fecha de entrada</td></tr>
+              <tr><td><strong>Nombre / Tipo</strong></td><td>Particular o empresa</td></tr>
+              <tr><td><strong>Canal / Localidad</strong></td><td>Origen del contacto y municipio</td></tr>
+              <tr><td><strong>Servicio / Estado</strong></td><td>Mueble, armario, cocina / Nuevo, aceptado, realizado</td></tr>
+              <tr><td><strong>Importe / Coste</strong></td><td>Valor presupuestado y coste de captación</td></tr>
+              <tr><td><strong>Motivo pérdida</strong></td><td>Precio, fecha, distancia, no responde</td></tr>
+              <tr><td><strong>Próxima acción</strong></td><td>Qué hacer, cuándo y resultado cobrado</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>11.2 Y 11.3. FÓRMULAS E INDICADORES CLAVE</span></div>
+        <ul class="clean-list">
+          <li><strong>Tasa de aceptación:</strong> Presupuestos aceptados / presupuestos enviados × 100.</li>
+          <li><strong>Coste de adquisición por trabajo:</strong> Coste total del canal / trabajos conseguidos por ese canal.</li>
+          <li><strong>Margen de contribución:</strong> Ingreso del trabajo − costes directos atribuibles.</li>
+          <li><strong>Rentabilidad por hora efectiva:</strong> Margen de contribución / horas totales dedicadas (incluyendo preparación, desplazamiento y cierre).</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 13: 12. PLAN DE ACCIÓN: PRIMEROS 30 DÍAS
+         ================================================================= -->
+    <section class="tab-pane" data-index="13" data-title="12. Plan Primeros 30 Días">
+      <div class="section-banner">
+        <span class="sec-num">Apartado 12</span>
+        <h2>PLAN DE ACCIÓN: PRIMEROS 30 DÍAS</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>SEMANA 1 — PREPARACIÓN</span></div>
+        <ul class="clean-list">
+          <li>Definir los servicios que se pueden realizar hoy y delimitar zona realista.</li>
+          <li>Preparar teléfono, correo, plantilla de presupuesto y hoja CRM.</li>
+          <li>Redactar un anuncio honesto y revisar herramientas, protección y transporte.</li>
+        </ul>
+        <div class="goal-pill">Resultado esperado: oferta clara y sistema mínimo de gestión.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>SEMANA 2 — PRESENCIA DIGITAL</span></div>
+        <ul class="clean-list">
+          <li>Crear o preparar el Perfil de Empresa de Google cumpliendo sus directrices.</li>
+          <li>Configurar WhatsApp Business y publicar anuncio en canales gratuitos.</li>
+          <li>Preparar web sencilla, portfolio propio autorizado y alertas de empleo.</li>
+        </ul>
+        <div class="goal-pill">Resultado esperado: presencia local coherente y vías de contacto funcionales.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>SEMANA 3 — PROSPECCIÓN B2B</span></div>
+        <ul class="clean-list">
+          <li>Revisar la lista de tiendas y empresas locales y contactar de forma personalizada.</li>
+          <li>Preguntar por su sistema de montaje y requisitos de colaboración.</li>
+          <li>Enviar presentación cuando lo soliciten y registrar todas las respuestas.</li>
+        </ul>
+        <div class="goal-pill">Resultado esperado: conocer cómo compran servicios de montaje las empresas de la zona.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>SEMANA 4 — MEDICIÓN Y AJUSTE</span></div>
+        <ul class="clean-list">
+          <li>Revisar consultas por canal, conversión en presupuestos y motivos de rechazo.</li>
+          <li>Calcular el coste de los contactos pagados y ajustar anuncio y zona.</li>
+        </ul>
+        <div class="goal-pill">Resultado esperado: primeras conclusiones basadas en datos propios.</div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 14: 13. PLAN DE DESARROLLO: DÍAS 31 A 90
+         ================================================================= -->
+    <section class="tab-pane" data-index="14" data-title="13. Plan Días 31 a 90">
+      <div class="section-banner">
+        <span class="sec-num">Apartado 13</span>
+        <h2>PLAN DE DESARROLLO: DÍAS 31 A 90</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>FASE A — CONSOLIDAR EL SERVICIO</span></div>
+        <ul class="clean-list">
+          <li>Documentar los procedimientos de montaje repetibles.</li>
+          <li>Identificar los trabajos que dejan mejor margen y mejorar estimación de tiempos.</li>
+          <li>Ampliar el portfolio con autorización y pedir reseñas a clientes reales.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>FASE B — MEJORAR LA CAPTACIÓN</span></div>
+        <ul class="clean-list">
+          <li>Mantener los canales que producen trabajos rentables y descartar los que no compensan.</li>
+          <li>Reforzar el contacto con tiendas y empresas y publicar ejemplos reales.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>FASE C — ESPECIALIZACIÓN EN COCINAS MODULARES</span></div>
+        <p>Antes de ofrecer una instalación completa:</p>
+        <ul class="clean-list">
+          <li>Conocer sistemas de módulos y herrajes e interpretar planos y despieces.</li>
+          <li>Saber medir, comprobar condiciones del espacio, nivelación y fijaciones.</li>
+          <li>Comprender los límites de encimeras, remates y coordinación con otros gremios.</li>
+          <li>Conocer requisitos de seguridad y trabajar inicialmente bajo supervisión cuando sea necesario.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 15: 14. CONTENIDOS PARA PUBLICAR: QUÉ DECIR Y QUÉ MOSTRAR
+         ================================================================= -->
+    <section class="tab-pane" data-index="15" data-title="14. Contenidos a Publicar">
+      <div class="section-banner">
+        <span class="sec-num">Apartado 14</span>
+        <h2>CONTENIDOS PARA PUBLICAR: QUÉ DECIR Y QUÉ MOSTRAR</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>10 TEMAS ÚTILES DE CONTENIDO</span></div>
+        <ul class="clean-list">
+          <li>1. Qué información enviar para presupuestar un mueble.</li>
+          <li>2. Por qué es importante revisar las instrucciones antes del montaje.</li>
+          <li>3. Qué comprobar antes de montar un armario.</li>
+          <li>4. Qué información necesita un montador antes de instalar módulos.</li>
+          <li>5. Diferencia entre montaje de muebles en kit e instalación de cocina.</li>
+          <li>6. Cómo preparar una habitación para el montaje.</li>
+          <li>7. Qué hacer si falta una pieza.</li>
+          <li>8. Por qué se revisan las fijaciones.</li>
+          <li>9. Qué incluye un presupuesto de montaje.</li>
+          <li>10. Cómo coordinar montaje y mudanza.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>EJEMPLOS DE PUBLICACIÓN</span></div>
+        <div class="card-subtitle">Publicación comercial directa</div>
+        <div class="script-box">¿Necesitas montar muebles en Valencia?
+Para valorar correctamente un montaje, lo más útil es enviar la marca y referencia del mueble, el enlace del producto, algunas fotografías y la localidad. Así se puede revisar el tipo de trabajo y preparar un presupuesto con el alcance definido antes de reservar.</div>
+
+        <div class="card-subtitle">Publicación educativa</div>
+        <div class="script-box">Una cocina modular no es simplemente una colección de armarios.
+Antes del montaje hay que revisar medidas, módulos, instrucciones, condiciones del espacio y coordinación con otros trabajos. Por eso, un presupuesto responsable debe definir qué tareas incluye y cuáles corresponden a otros profesionales.</div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 16: 15. EMPLEO POR CUENTA AJENA: ESTRATEGIA PARALELA
+         ================================================================= -->
+    <section class="tab-pane" data-index="16" data-title="15. Empleo Cuenta Ajena">
+      <div class="section-banner">
+        <span class="sec-num">Apartado 15</span>
+        <h2>EMPLEO POR CUENTA AJENA: ESTRATEGIA PARALELA</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>PORTALES DE EMPLEO</span></div>
+        <a class="ext-link" href="https://labora.gva.es/" target="_blank" rel="noopener noreferrer"><div>LABORA (GVA)<span class="url-text">https://labora.gva.es/</span></div><span class="ext-link-arrow">↗</span></a>
+        <a class="ext-link" href="https://puntlabora.gva.es/" target="_blank" rel="noopener noreferrer"><div>Punt LABORA<span class="url-text">https://puntlabora.gva.es/</span></div><span class="ext-link-arrow">↗</span></a>
+        <a class="ext-link" href="https://www.infojobs.net/" target="_blank" rel="noopener noreferrer"><div>InfoJobs<span class="url-text">https://www.infojobs.net/</span></div><span class="ext-link-arrow">↗</span></a>
+        <a class="ext-link" href="https://es.indeed.com/" target="_blank" rel="noopener noreferrer"><div>Indeed<span class="url-text">https://es.indeed.com/</span></div><span class="ext-link-arrow">↗</span></a>
+        <a class="ext-link" href="https://www.linkedin.com/jobs/" target="_blank" rel="noopener noreferrer"><div>LinkedIn Empleo<span class="url-text">https://www.linkedin.com/jobs/</span></div><span class="ext-link-arrow">↗</span></a>
+        <a class="ext-link" href="https://jobtoday.com/es/" target="_blank" rel="noopener noreferrer"><div>Job Today<span class="url-text">https://jobtoday.com/es/</span></div><span class="ext-link-arrow">↗</span></a>
+        <a class="ext-link" href="https://empleate.gob.es/" target="_blank" rel="noopener noreferrer"><div>Empléate<span class="url-text">https://empleate.gob.es/</span></div><span class="ext-link-arrow">↗</span></a>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>PALABRAS CLAVE Y CANDIDATURA</span></div>
+        <div class="chip-container">
+          <span class="chip">Montador de muebles</span>
+          <span class="chip">Montador de cocinas</span>
+          <span class="chip">Ayudante de montador</span>
+          <span class="chip">Instalador de mobiliario</span>
+          <span class="chip">Carpintero montador</span>
+          <span class="chip">Montador de armarios</span>
+          <span class="chip">Montaje de mobiliario comercial</span>
+          <span class="chip">Instalador de cocinas modulares</span>
+          <span class="chip">Operario de montaje</span>
+        </div>
+        <p style="margin-top:10px;">Destacar formación específica real, capacidad para seguir planos, herramientas que se manejan, disponibilidad y movilidad. No atribuirse experiencia que todavía no se tiene.</p>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 17: 16. REQUISITOS LEGALES, FISCALES Y DE RESPONSABILIDAD
+         ================================================================= -->
+    <section class="tab-pane" data-index="17" data-title="16. Requisitos Legales">
+      <div class="section-banner">
+        <span class="sec-num">Apartado 16</span>
+        <h2>REQUISITOS LEGALES, FISCALES Y DE RESPONSABILIDAD</h2>
+      </div>
+
+      <div class="alert-box alert-warning">
+        ℹ️ Esta sección es orientativa y no sustituye el asesoramiento de una gestoría ni la consulta de la normativa aplicable al caso concreto.
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>16.1 Y 16.2. AUTÓNOMOS Y FACTURACIÓN</span></div>
+        <p>Quien desarrolla una actividad económica por cuenta propia de forma personal y habitual debe tramitar el alta en el RETA (Seguridad Social) y el alta censal en la Agencia Tributaria antes de iniciar la actividad.</p>
+        <a class="ext-link" href="https://portal.seg-social.gob.es/wps/wcm/connect/importass/importass_contenidos/categorias/altas,+bajas+y+modificaciones/altas+y+afiliacion+de+trabajadores/alta_trabajo_autonomo" target="_blank" rel="noopener noreferrer">
+          <div>Importass – Alta en trabajo autónomo<span class="url-text">portal.seg-social.gob.es</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://sede.agenciatributaria.gob.es/" target="_blank" rel="noopener noreferrer">
+          <div>Sede Agencia Tributaria<span class="url-text">https://sede.agenciatributaria.gob.es/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.boe.es/buscar/act.php?id=BOE-A-2012-14696" target="_blank" rel="noopener noreferrer">
+          <div>BOE – Reglamento de facturación<span class="url-text">RD 1619/2012</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.boe.es/eli/es/rd/2026/03/25/238" target="_blank" rel="noopener noreferrer">
+          <div>BOE – Factura electrónica B2B (RD 238/2026)<span class="url-text">https://www.boe.es/eli/es/rd/2026/03/25/238</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>16.3, 16.4 Y 16.5. SEGURO RC, SEGURIDAD Y ACUERDOS</span></div>
+        <ul class="clean-list">
+          <li><strong>Seguro de Responsabilidad Civil:</strong> comprobar actividades cubiertas, daños a terceros, trabajos en viviendas, franquicias y límites.</li>
+          <li><strong>Prevención y seguridad:</strong> usar EPIs, comprobar tipo de pared y posibles conducciones antes de perforar, y nunca improvisar conexiones eléctricas, de gas o agua.</li>
+          <li><strong>Por escrito:</strong> dejar siempre documentado qué se monta, qué se excluye y cómo se aprueban cambios.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 18: 17. RIESGOS COMERCIALES Y CÓMO CONTROLARLOS
+         ================================================================= -->
+    <section class="tab-pane" data-index="18" data-title="17. Riesgos Comerciales">
+      <div class="section-banner">
+        <span class="sec-num">Apartado 17</span>
+        <h2>RIESGOS COMERCIALES Y CÓMO CONTROLARLOS</h2>
+      </div>
+
+      <div class="card">
+        <div class="table-wrap">
+          <table class="mobile-table">
+            <thead>
+              <tr>
+                <th>Riesgo</th>
+                <th>Prevención</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Presupuestar sin conocer el producto</strong></td><td>Solicitar referencia, instrucciones y fotos</td></tr>
+              <tr><td><strong>Desplazarse sin confirmar alcance</strong></td><td>Confirmar por escrito antes de la cita</td></tr>
+              <tr><td><strong>Trabajo demasiado complejo</strong></td><td>Evaluar competencia y rechazar si hace falta</td></tr>
+              <tr><td><strong>Competir solo por precio</strong></td><td>Explicar alcance, proceso y calidad verificable</td></tr>
+              <tr><td><strong>Pagar contactos que no convierten</strong></td><td>Medir coste por trabajo conseguido</td></tr>
+              <tr><td><strong>Confundir montaje con instalación técnica</strong></td><td>Delimitar tareas y recurrir a habilitados</td></tr>
+              <tr><td><strong>Daños en el domicilio</strong></td><td>Protección, revisión previa y seguro RC</td></tr>
+              <tr><td><strong>Piezas faltantes o defectuosas</strong></td><td>Documentar y comunicar antes de continuar</td></tr>
+              <tr><td><strong>Retrasos por otros gremios</strong></td><td>Definir dependencias y coordinación</td></tr>
+              <tr><td><strong>Reseñas falsas o fotos sin permiso</strong></td><td>Usar solo testimonios e imágenes auténticos</td></tr>
+              <tr><td><strong>Exceso de zona de servicio</strong></td><td>Limitar cobertura a desplazamientos viables</td></tr>
+              <tr><td><strong>Dependencia de una plataforma</strong></td><td>Construir cartera propia y relaciones directas</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 19: 18. LISTA DE COMPROBACIÓN OPERATIVA (CHECKLIST)
+         ================================================================= -->
+    <section class="tab-pane" data-index="19" data-title="18. Checklist Operativa">
+      <div class="section-banner">
+        <span class="sec-num">Apartado 18</span>
+        <h2>LISTA DE COMPROBACIÓN OPERATIVA (INTERACTIVA)</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>1. ANTES DE ANUNCIAR</span></div>
+        <label class="check-item"><input type="checkbox"><span>Servicios definidos y realistas.</span></label>
+        <label class="check-item"><input type="checkbox"><span>Zona de trabajo definida.</span></label>
+        <label class="check-item"><input type="checkbox"><span>Teléfono y canal de contacto preparados.</span></label>
+        <label class="check-item"><input type="checkbox"><span>Anuncio revisado.</span></label>
+        <label class="check-item"><input type="checkbox"><span>Fotografías propias autorizadas o ausencia de portfolio explicada.</span></label>
+        <label class="check-item"><input type="checkbox"><span>Condiciones de presupuesto preparadas.</span></label>
+        <label class="check-item"><input type="checkbox"><span>Requisitos legales revisados según modalidad de trabajo.</span></label>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>2. ANTES DE PRESUPUESTAR</span></div>
+        <label class="check-item"><input type="checkbox"><span>Referencia del producto e instrucciones disponibles.</span></label>
+        <label class="check-item"><input type="checkbox"><span>Cantidad de módulos, fotos y medidas necesarias.</span></label>
+        <label class="check-item"><input type="checkbox"><span>Localidad, acceso y necesidad de segunda persona.</span></label>
+        <label class="check-item"><input type="checkbox"><span>Alcance, exclusiones, tiempo y costes estimados.</span></label>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>3. ANTES DE EJECUTAR</span></div>
+        <label class="check-item"><input type="checkbox"><span>Presupuesto aceptado y fecha confirmada.</span></label>
+        <label class="check-item"><input type="checkbox"><span>Material, piezas y herramientas adecuadas revisados.</span></label>
+        <label class="check-item"><input type="checkbox"><span>Protección del espacio, riesgos y soportes evaluados.</span></label>
+        <label class="check-item"><input type="checkbox"><span>Trabajos ajenos al alcance excluidos o coordinados.</span></label>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>4. AL TERMINAR</span></div>
+        <label class="check-item"><input type="checkbox"><span>Revisión final e incidencias comunicadas.</span></label>
+        <label class="check-item"><input type="checkbox"><span>Espacio recogido y cliente informado.</span></label>
+        <label class="check-item"><input type="checkbox"><span>Factura o justificante correspondiente y registro actualizado.</span></label>
+        <label class="check-item"><input type="checkbox"><span>Solicitud de reseña auténtica, si procede.</span></label>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 20: 19. FUENTES Y REFERENCIAS VERIFICABLES
+         ================================================================= -->
+    <section class="tab-pane" data-index="20" data-title="19. Fuentes Verificables">
+      <div class="section-banner">
+        <span class="sec-num">Apartado 19</span>
+        <h2>FUENTES Y REFERENCIAS VERIFICABLES</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>IKEA Y LEROY MERLIN / HOGAMI</span></div>
+        <a class="ext-link" href="https://www.ikea.com/es/es/customer-service/knowledge/articles/cb75bf2a-05b8-4ca8-9dd6-09e248c73658.html" target="_blank" rel="noopener noreferrer"><div>Servicio de montaje IKEA España</div><span class="ext-link-arrow">↗</span></a>
+        <a class="ext-link" href="https://www.ikea.com/es/es/customer-service/knowledge/articles/25605898-b826-4f32-bfed-27e4d9b127f1.html" target="_blank" rel="noopener noreferrer"><div>Montaje mediante Taskrabbit</div><span class="ext-link-arrow">↗</span></a>
+        <a class="ext-link" href="https://home-services.ikea.com/es/es/professionals" target="_blank" rel="noopener noreferrer"><div>IKEA Home Services para profesionales</div><span class="ext-link-arrow">↗</span></a>
+        <a class="ext-link" href="https://hogami.leroymerlin.es/faqs/profesionales" target="_blank" rel="noopener noreferrer"><div>Hogami – FAQs para profesionales</div><span class="ext-link-arrow">↗</span></a>
+        <a class="ext-link" href="https://hogami.leroymerlin.es/alta-profesional-empresa-servicios-hogar" target="_blank" rel="noopener noreferrer"><div>Hogami – Alta de profesional</div><span class="ext-link-arrow">↗</span></a>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>GOOGLE Y PLATAFORMAS</span></div>
+        <a class="ext-link" href="https://support.google.com/business/answer/3038177?hl=es" target="_blank" rel="noopener noreferrer"><div>Directrices del Perfil de Empresa de Google</div><span class="ext-link-arrow">↗</span></a>
+        <a class="ext-link" href="https://support.google.com/business/answer/2853879?hl=es" target="_blank" rel="noopener noreferrer"><div>Gestionar dirección en Google Business</div><span class="ext-link-arrow">↗</span></a>
+        <a class="ext-link" href="https://www.cronoshare.com/atencion-cliente/cronoshare-es-gratis" target="_blank" rel="noopener noreferrer"><div>Cronoshare – Costes y funcionamiento</div><span class="ext-link-arrow">↗</span></a>
+        <a class="ext-link" href="https://www.habitissimo.es/como_funciona" target="_blank" rel="noopener noreferrer"><div>Habitissimo – Cómo funciona</div><span class="ext-link-arrow">↗</span></a>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 21: 20. CONCLUSIÓN: EL SISTEMA COMERCIAL
+         (MENCIÓN 3 DE 3 DEL AUTOR RUBÉN SBARSKY)
+         ================================================================= -->
+    <section class="tab-pane" data-index="21" data-title="20. Conclusión">
+      <div class="section-banner">
+        <span class="sec-num">Apartado 20</span>
+        <h2>CONCLUSIÓN: EL SISTEMA COMERCIAL</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>EL FLUJO DEL SISTEMA</span></div>
+        <div class="quote-box" style="text-align:center; font-weight:700;">
+          Oferta clara → presencia local → prospección → consulta → evaluación → presupuesto → ejecución → reseña → recomendación.
+        </div>
+        <p>La prioridad no es estar en todas las plataformas. Es descubrir qué combinación de canales genera trabajos adecuados, con un coste de captación sostenible y un nivel de calidad que permita repetir y recomendar el servicio.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>LOS 10 PILARES DE LA ESTRATEGIA</span></div>
+        <ul class="clean-list">
+          <li>1. Empezar con el catálogo de montaje que realmente se domina.</li>
+          <li>2. Construir presencia local y canales de contacto propios.</li>
+          <li>3. Presentarse a tiendas y empresas de cocinas y mobiliario.</li>
+          <li>4. Investigar IKEA, Taskrabbit y Hogami sin confundir sus modelos.</li>
+          <li>5. Probar plataformas midiendo el coste real de cada oportunidad.</li>
+          <li>6. Documentar trabajos auténticos y conseguir reseñas legítimas.</li>
+          <li>7. Desarrollar progresivamente la especialización en cocinas modulares.</li>
+          <li>8. Mantener una búsqueda paralela de empleo si resulta conveniente.</li>
+          <li>9. Revisar requisitos fiscales, de Seguridad Social, seguro y habilitaciones antes de operar por cuenta propia.</li>
+          <li>10. Tomar decisiones comerciales a partir de resultados medidos.</li>
+        </ul>
+      </div>
+
+      <div class="card" style="background-color: #0f172a; color: #ffffff;">
+        <p style="color: #e2e8f0; font-weight: 600;">«La ventaja competitiva no será publicar más anuncios. Será responder mejor, presupuestar con precisión, cumplir lo acordado y construir relaciones profesionales que generen nuevos trabajos».</p>
+        <p style="color: #38bdf8; font-weight: 800; margin-top: 10px; margin-bottom: 0;">✔ FIN DEL TUTORIAL — Autor: Rubén Sbarsky</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- BOTONES FLOTANTES MOVIBLES (INICIO Y ARRIBA) -->
+  <button id="fabInicio" class="draggable-fab" title="Ir a INICIO desde cualquier lugar (Arrastrable)">
+    🏠 INICIO
+  </button>
+
+  <button id="fabArriba" class="draggable-fab" title="Ir al comienzo de la pestaña actual (Arrastrable)">
+    ⬆️ ARRIBA
+  </button>
+
+  <!-- BARRA INFERIOR FIJA CON BOTÓN ANTERIOR Y PRÓXIMA PESTAÑA -->
+  <footer class="bottom-nav">
+    <button id="prevTabBtn" class="nav-step-btn btn-prev hidden-step">
+      ◀ Anterior
+    </button>
+    <button id="nextTabBtn" class="nav-step-btn btn-next">
+      Próxima ▶
+    </button>
+  </footer>
+
+  <script>
+    (function () {
+      const tabs = Array.from(document.querySelectorAll('.tab-pane'));
+      const drawerLinks = Array.from(document.querySelectorAll('.drawer-link'));
+      const headerCurrentTitle = document.getElementById('headerCurrentTitle');
+      const headerBadge = document.getElementById('headerBadge');
+      const prevTabBtn = document.getElementById('prevTabBtn');
+      const nextTabBtn = document.getElementById('nextTabBtn');
+      const openMenuBtn = document.getElementById('openMenuBtn');
+      const closeMenuBtn = document.getElementById('closeMenuBtn');
+      const drawerMenu = document.getElementById('drawerMenu');
+      const drawerOverlay = document.getElementById('drawerOverlay');
+      const fabInicio = document.getElementById('fabInicio');
+      const fabArriba = document.getElementById('fabArriba');
+
+      let currentTabIndex = 0;
+      const totalTabs = tabs.length;
+
+      // Lleva siempre al comienzo de la pestaña actual
+      function scrollToTopOfCurrentTab() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      }
+
+      // Cambia de pestaña y actualiza controles
+      window.goToTab = function (index) {
+        if (index < 0 || index >= totalTabs) return;
+        currentTabIndex = index;
+
+        tabs.forEach((tab, idx) => {
+          tab.classList.toggle('active', idx === currentTabIndex);
+        });
+
+        drawerLinks.forEach((link, idx) => {
+          link.classList.toggle('active', idx === currentTabIndex);
+        });
+
+        const activeTitle = tabs[currentTabIndex].getAttribute('data-title') || 'Tutorial';
+        headerCurrentTitle.textContent = activeTitle;
+        headerBadge.textContent = (currentTabIndex + 1) + ' / ' + totalTabs;
+
+        prevTabBtn.classList.toggle('hidden-step', currentTabIndex === 0);
+        nextTabBtn.classList.toggle('hidden-step', currentTabIndex === totalTabs - 1);
+
+        closeDrawer();
+        scrollToTopOfCurrentTab();
+      };
+
+      function openDrawer() {
+        drawerMenu.classList.add('open');
+        drawerOverlay.classList.add('open');
+      }
+
+      function closeDrawer() {
+        drawerMenu.classList.remove('open');
+        drawerOverlay.classList.remove('open');
+      }
+
+      openMenuBtn.addEventListener('click', openDrawer);
+      closeMenuBtn.addEventListener('click', closeDrawer);
+      drawerOverlay.addEventListener('click', closeDrawer);
+
+      drawerLinks.forEach((btn) => {
+        btn.addEventListener('click', function () {
+          const targetIdx = parseInt(this.getAttribute('data-tab'), 10);
+          window.goToTab(targetIdx);
+        });
+      });
+
+      prevTabBtn.addEventListener('click', function () {
+        if (currentTabIndex > 0) window.goToTab(currentTabIndex - 1);
+      });
+
+      nextTabBtn.addEventListener('click', function () {
+        if (currentTabIndex < totalTabs - 1) window.goToTab(currentTabIndex + 1);
+      });
+
+      // Función para hacer arrastrables los botones flotantes (INICIO y ARRIBA)
+      function makeDraggableButton(buttonEl, onClickCallback) {
+        let isDragging = false;
+        let hasMoved = false;
+        let startX = 0;
+        let startY = 0;
+        let initialLeft = 0;
+        let initialTop = 0;
+
+        function onPointerDown(e) {
+          isDragging = true;
+          hasMoved = false;
+
+          const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+          const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+          startX = clientX;
+          startY = clientY;
+
+          const rect = buttonEl.getBoundingClientRect();
+          initialLeft = rect.left;
+          initialTop = rect.top;
+
+          buttonEl.style.left = initialLeft + 'px';
+          buttonEl.style.top = initialTop + 'px';
+          buttonEl.style.right = 'auto';
+          buttonEl.style.bottom = 'auto';
+        }
+
+        function onPointerMove(e) {
+          if (!isDragging) return;
+
+          const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+          const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+          const deltaX = clientX - startX;
+          const deltaY = clientY - startY;
+
+          if (Math.abs(deltaX) > 6 || Math.abs(deltaY) > 6) {
+            hasMoved = true;
+          }
+
+          if (hasMoved) {
+            if (e.cancelable) e.preventDefault();
+
+            const maxLeft = window.innerWidth - buttonEl.offsetWidth - 4;
+            const maxTop = window.innerHeight - buttonEl.offsetHeight - 4;
+
+            const newLeft = Math.max(4, Math.min(initialLeft + deltaX, maxLeft));
+            const newTop = Math.max(4, Math.min(initialTop + deltaY, maxTop));
+
+            buttonEl.style.left = newLeft + 'px';
+            buttonEl.style.top = newTop + 'px';
+          }
+        }
+
+        function onPointerUp() {
+          if (!isDragging) return;
+          isDragging = false;
+          if (!hasMoved) {
+            onClickCallback();
+          }
+        }
+
+        buttonEl.addEventListener('touchstart', onPointerDown, { passive: true });
+        window.addEventListener('touchmove', onPointerMove, { passive: false });
+        window.addEventListener('touchend', onPointerUp);
+
+        buttonEl.addEventListener('mousedown', onPointerDown);
+        window.addEventListener('mousemove', onPointerMove);
+        window.addEventListener('mouseup', onPointerUp);
+
+        window.addEventListener('resize', function () {
+          if (buttonEl.style.top) {
+            const rect = buttonEl.getBoundingClientRect();
+            const maxLeft = window.innerWidth - buttonEl.offsetWidth - 4;
+            const maxTop = window.innerHeight - buttonEl.offsetHeight - 4;
+            if (rect.left > maxLeft) buttonEl.style.left = Math.max(4, maxLeft) + 'px';
+            if (rect.top > maxTop) buttonEl.style.top = Math.max(4, maxTop) + 'px';
+          }
+        });
+      }
+
+      makeDraggableButton(fabInicio, function () {
+        window.goToTab(0);
+      });
+
+      makeDraggableButton(fabArriba, function () {
+        scrollToTopOfCurrentTab();
+      });
+    })();
+  </script>
+</body>
+</html>
