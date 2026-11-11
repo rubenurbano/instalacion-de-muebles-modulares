@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Plan de Marketing - NOVA LLAR by Rubén Sbarsky</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Space Grotesk -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        nova: {
+                            night: '#070B19',
+                            card: '#0F172A',
+                            border: '#1E293B',
+                            amber: '#F59E0B',
+                            amberLight: '#FBBF24',
+                            cyan: '#06B6D4',
+                            cyanLight: '#22D3EE',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Optimización para Samsung Galaxy A02s (720x1600px, ratio 20:9, pantalla táctil) */
+        * {
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            background-color: #070B19;
+            color: #F8FAFC;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Ocultar barra de scroll en carrusel horizontal pero permitir desplazamiento táctil fluido */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Estética de Agencia Digital Premium */
+        .glass-header {
+            background: rgba(7, 11, 25, 0.88);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .premium-card {
+            background: linear-gradient(145deg, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.65) 100%);
+            border: 1px solid rgba(51, 65, 85, 0.6);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+        }
+
+        .amber-glow {
+            box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.35);
+        }
+
+        .cyan-glow {
+            box-shadow: 0 0 25px -5px rgba(6, 182, 212, 0.35);
+        }
+
+        /* Animación suave para cambios de pestaña */
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Botones flotantes arrastrables */
+        .draggable-fab {
+            position: fixed;
+            z-index: 80;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+            cursor: grab;
+            transition: transform 0.15s ease, box-shadow 0.2s ease;
+        }
+        .draggable-fab:active {
+            cursor: grabbing;
+            transform: scale(1.08);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-nova-amber selection:text-nova-night">
+
+    <!-- CABECERA PERMANENTE FIJA (Menú Sándwich + Marca + Barra de Pestañas Horizontal) -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-header border-b border-slate-800/80 shadow-2xl">
+        <!-- Fila Superior: Botón Índice Sándwich + Identidad Visual NOVA LLAR -->
+        <div class="max-w-4xl mx-auto px-3 py-2.5 flex items-center justify-between gap-2">
+            <button id="openIndexBtn" onclick="toggleDrawer(true)" aria-label="Abrir Índice Completo"
+                class="flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-amber-500/20 to-cyan-500/15 border border-amber-500/40 text-amber-300 font-semibold text-xs sm:text-sm active:scale-95 transition-all shadow-md">
+                <i class="fa-solid fa-bars text-base text-amber-400"></i>
+                <span class="tracking-wide font-display">ÍNDICE</span>
+            </button>
+
+            <div class="flex items-center gap-2.5 cursor-pointer" onclick="switchTab(0)">
+                <!-- Logotipo SVG Pájaro Carpintero Cibernético (Azul noche, ámbar madera y cian) -->
+                <div class="w-9 h-9 rounded-xl bg-slate-900 border border-cyan-500/40 flex items-center justify-center shadow-inner relative overflow-hidden">
+                    <svg viewBox="0 0 64 64" class="w-7 h-7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="32" cy="32" r="28" fill="#0F172A" stroke="#06B6D4" stroke-width="2" stroke-dasharray="6 3"/>
+                        <!-- Cresta Ámbar Madera -->
+                        <path d="M26 14L38 10L34 22Z" fill="#F59E0B"/>
+                        <!-- Cabeza y Pico Cibernético -->
+                        <path d="M22 22C22 18 27 16 33 16C39 16 42 20 42 25C42 30 37 34 31 34H22V22Z" fill="#06B6D4"/>
+                        <!-- Pico largo de carpintero -->
+                        <path d="M42 22L56 25L42 29V22Z" fill="#FBBF24"/>
+                        <!-- Ojo cibernético -->
+                        <circle cx="34" cy="23" r="2.5" fill="#070B19"/>
+                        <circle cx="34" cy="23" r="1" fill="#22D3EE"/>
+                        <!-- Cuerpo geométrico -->
+                        <path d="M22 34H35L29 52H18L22 34Z" fill="#F59E0B"/>
+                        <path d="M24 37H31M22 43H29" stroke="#070B19" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="text-right">
+                    <div class="flex items-center justify-end gap-1.5">
+                        <span class="font-display font-bold text-sm sm:text-base tracking-tight text-white">NOVA LLAR</span>
+                        <span class="inline-block w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                    </div>
+                    <p class="text-[10px] text-slate-400 font-medium leading-none">Valencia + 50 km · 11/11/2026</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fila Inferior: Barra de Pestañas Visible de Forma Permanente con Desplazamiento Táctil Horizontal y Auto-Centrado -->
+        <div class="border-t border-slate-800/70 bg-slate-950/70">
+            <nav id="tabsCarousel" aria-label="Secciones del Plan de Marketing"
+                class="max-w-4xl mx-auto flex items-center gap-1.5 overflow-x-auto no-scrollbar px-3 py-2 scroll-smooth">
+                <!-- Pestañas inyectadas dinámicamente por JS -->
+            </nav>
+        </div>
+    </header>
+
+    <!-- MENÚ SÁNDWICH (DRAWER VERTICAL COMPLETO DE TODAS LAS PESTAÑAS) -->
+    <div id="indexDrawerBackdrop" onclick="toggleDrawer(false)"
+        class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300"></div>
+
+    <aside id="indexDrawer" aria-label="Menú Índice Completo"
+        class="fixed top-0 left-0 bottom-0 z-50 w-[86vw] max-w-sm bg-nova-night border-r border-slate-800 shadow-2xl transform -translate-x-full transition-transform duration-300 flex flex-col">
+        <!-- Cabecera del Menú Sándwich -->
+        <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/70">
+            <div class="flex items-center gap-2.5">
+                <span class="w-8 h-8 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
+                    <i class="fa-solid fa-compass"></i>
+                </span>
+                <div>
+                    <h2 class="font-display font-bold text-white text-sm">ÍNDICE DEL TUTORIAL</h2>
+                    <p class="text-[11px] text-slate-400">Acceso directo a las 16 secciones</p>
+                </div>
+            </div>
+            <button onclick="toggleDrawer(false)" aria-label="Cerrar Índice"
+                class="w-9 h-9 rounded-xl bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center active:scale-95">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+
+        <!-- Lista Vertical Completa -->
+        <div id="drawerList" class="flex-1 overflow-y-auto p-3 space-y-1.5">
+            <!-- Se llena por JS -->
+        </div>
+
+        <!-- Pie del Drawer -->
+        <div class="p-3.5 border-t border-slate-800 bg-slate-950/90 text-center">
+            <p class="text-[11px] text-slate-400">NOVA LLAR · Suministro y Montaje Modular</p>
+            <p class="text-[10px] text-amber-400 font-semibold mt-0.5">by Rubén Sbarsky · 11/11/2026</p>
+        </div>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL (Optimizado para lectura móvil en Samsung Galaxy A02s) -->
+    <main id="mainContainer" class="flex-1 max-w-3xl w-full mx-auto pt-[118px] pb-28 px-3.5 sm:px-6">
+
+        <!-- ==========================================
+             PESTAÑA 0: INICIO (Solo aquí lleva "by Rubén Sbarsky" en el título)
+             ========================================== -->
+        <section id="tab-0" class="tab-pane active" data-title="INICIO" data-icon="fa-house-chimney">
+            <!-- Hero Card Agencia Digital -->
+            <div class="relative rounded-3xl overflow-hidden border border-amber-500/30 bg-gradient-to-br from-slate-900 via-slate-900 to-cyan-950/60 p-5 sm:p-7 shadow-2xl mb-5">
+                <div class="absolute -top-16 -right-16 w-44 h-44 bg-amber-500/15 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="absolute -bottom-16 -left-16 w-44 h-44 bg-cyan-500/15 rounded-full blur-2xl pointer-events-none"></div>
+
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-400/30 text-amber-300 text-xs font-semibold mb-3">
+                    <i class="fa-solid fa-bolt text-amber-400"></i>
+                    <span>DOCUMENTO DE TRABAJO · 11 DE NOVIEMBRE DE 2026</span>
+                </div>
+
+                <!-- Título EXCLUSIVO de INICIO con "by Rubén Sbarsky" -->
+                <h1 class="font-display text-2xl sm:text-4xl font-extrabold text-white leading-tight tracking-tight">
+                    Plan de marketing - NOVA LLAR <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-cyan-400">by Rubén Sbarsky</span>
+                </h1>
+
+                <p class="mt-3 text-sm sm:text-base font-semibold text-cyan-300">
+                    Suministro y montaje de mobiliario modular · Renovación de cocinas
+                </p>
+                <p class="mt-1 text-xs sm:text-sm text-slate-300 flex items-center gap-1.5">
+                    <i class="fa-solid fa-location-dot text-amber-400"></i>
+                    <span>Valencia capital y área de 50 km (zona confirmada por ti) · Documento de trabajo · 11 de noviembre de 2026</span>
+                </p>
+            </div>
+
+            <!-- Cita / Nota Metodológica Integra -->
+            <div class="premium-card rounded-2xl p-4 sm:p-5 border-l-4 border-l-cyan-400 mb-5">
+                <div class="flex items-center gap-2 text-cyan-400 font-bold text-xs uppercase tracking-wider mb-2">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>Contexto y Base Documental</span>
+                </div>
+                <p class="text-slate-200 text-sm leading-relaxed">
+                    Documento preparado para acompañar el plan de negocio. Se apoya en el material del proyecto en Notion (<span class="text-amber-300 font-medium">«Montaje de Muebles Modulares»</span>, <span class="text-amber-300 font-medium">«HACER LA EMPRESA DEL FUTURO HOY»</span>, <span class="text-amber-300 font-medium">«Sistema comercial»</span> y <span class="text-amber-300 font-medium">«Directorio de captación y oportunidades - Valencia»</span>) y en el directorio de canales con contactos entregado el 11/11/2026. Lo decidido se distingue de lo pendiente. Las cifras de objetivos y presupuestos son <strong class="text-white underline decoration-amber-400">supuestos de planificación para validar</strong>, no compromisos ni gasto aprobado. Ninguna acción de este plan está ejecutada todavía.
+                </p>
+            </div>
+
+            <!-- Tarjetas de Vista Rápida e Interacción -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                <div onclick="switchTab(1)" class="premium-card rounded-2xl p-4 cursor-pointer active:scale-[0.99] transition border hover:border-amber-500/50">
+                    <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center mb-2.5">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-white text-sm">3 Objetivos Rectores</h3>
+                    <p class="text-xs text-slate-400 mt-1">Primeros trabajos durante Saltoki, canal directo propio y medición estricta.</p>
+                </div>
+
+                <div onclick="switchTab(2)" class="premium-card rounded-2xl p-4 cursor-pointer active:scale-[0.99] transition border hover:border-cyan-500/50">
+                    <div class="w-9 h-9 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center mb-2.5">
+                        <i class="fa-solid fa-database"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-white text-sm">70 Empresas + 52 CRM</h3>
+                    <p class="text-xs text-slate-400 mt-1">Directorio en Valencia + 50 km y plaza confirmada en curso Saltoki.</p>
+                </div>
+
+                <div onclick="switchTab(6)" class="premium-card rounded-2xl p-4 cursor-pointer active:scale-[0.99] transition border hover:border-emerald-500/50">
+                    <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-2.5">
+                        <i class="fa-solid fa-calendar-check"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-white text-sm">Hoja de Ruta 90 Días</h3>
+                    <p class="text-xs text-slate-400 mt-1">Del 16 de noviembre de 2026 al 13 de febrero de 2027 en 4 fases.</p>
+                </div>
+            </div>
+
+            <div class="nav-footer-slot"></div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 1: RESUMEN EJECUTIVO
+             ========================================== -->
+        <section id="tab-1" class="tab-pane" data-title="Resumen Ejecutivo" data-icon="fa-compass-drafting">
+            <div class="mb-5">
+                <span class="text-xs font-bold uppercase tracking-widest text-amber-400">Visión Estratégica</span>
+                <h2 class="font-display text-2xl sm:text-3xl font-bold text-white mt-1">Resumen ejecutivo</h2>
+            </div>
+
+            <div class="premium-card rounded-2xl p-5 mb-5 border-l-4 border-l-amber-400">
+                <p class="text-slate-100 text-sm sm:text-base leading-relaxed">
+                    NOVA LLAR vende <strong class="text-amber-300 font-bold">muebles suministrados y montados</strong>, con especial atención a la renovación completa de cocinas. La inteligencia artificial es la infraestructura interna de la empresa; el cliente no compra IA, compra una cocina renovada o un montaje bien hecho.
+                </p>
+            </div>
+
+            <h3 class="font-display font-bold text-white text-base mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-list-ol text-cyan-400"></i>
+                <span>El plan de marketing tiene tres objetivos, en este orden:</span>
+            </h3>
+
+            <div class="space-y-3 mb-5">
+                <div class="premium-card rounded-2xl p-4 flex items-start gap-3.5">
+                    <span class="w-8 h-8 rounded-xl bg-amber-500 text-slate-950 font-display font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+                    <p class="text-sm text-slate-200 leading-relaxed">
+                        <strong class="text-white">Conseguir los primeros trabajos reales</strong> con coste de captación mínimo, mientras dura la formación técnica en Saltoki (16/11/2026 - 07/12/2026, 22 días naturales).
+                    </p>
+                </div>
+
+                <div class="premium-card rounded-2xl p-4 flex items-start gap-3.5">
+                    <span class="w-8 h-8 rounded-xl bg-cyan-400 text-slate-950 font-display font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+                    <p class="text-sm text-slate-200 leading-relaxed">
+                        <strong class="text-white">Construir el canal directo propio</strong> (marca, Google, anuncios gratuitos, web) para no depender de intermediarios.
+                    </p>
+                </div>
+
+                <div class="premium-card rounded-2xl p-4 flex items-start gap-3.5">
+                    <span class="w-8 h-8 rounded-xl bg-emerald-400 text-slate-950 font-display font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+                    <p class="text-sm text-slate-200 leading-relaxed">
+                        <strong class="text-white">Medir todo desde el primer contacto</strong> para invertir después solo en los canales que producen trabajos rentables.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Regla Rectora -->
+            <div class="rounded-2xl bg-gradient-to-r from-amber-500/20 via-amber-500/10 to-transparent border border-amber-500/40 p-4">
+                <div class="flex items-center gap-2 text-amber-300 font-bold text-xs uppercase tracking-wider mb-1">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>Regla rectora (ya definida en el proyecto)</span>
+                </div>
+                <p class="text-white font-semibold text-sm sm:text-base">
+                    No invertir en publicidad de pago hasta comprobar qué canales generan clientes reales.
+                </p>
+            </div>
+
+            <div class="nav-footer-slot"></div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 2: PUNTO DE PARTIDA
+             ========================================== -->
+        <section id="tab-2" class="tab-pane" data-title="Punto de Partida" data-icon="fa-flag-checkered">
+            <div class="mb-5">
+                <span class="text-xs font-bold uppercase tracking-widest text-cyan-400">Diagnóstico Inicial</span>
+                <h2 class="font-display text-2xl sm:text-3xl font-bold text-white mt-1">De dónde partimos (situación a 11/11/2026)</h2>
+            </div>
+
+            <!-- Activos Disponibles -->
+            <div class="premium-card rounded-2xl p-4 sm:p-5 mb-5 border-t-4 border-t-emerald-400">
+                <h3 class="font-display font-bold text-emerald-400 text-base mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Activos disponibles:</span>
+                </h3>
+                <ul class="space-y-3 text-sm text-slate-200">
+                    <li class="flex items-start gap-2.5">
+                        <i class="fa-solid fa-check text-emerald-400 mt-1 shrink-0"></i>
+                        <span>Marca: <strong class="text-white">NOVA LLAR</strong> con logotipo elegido (pájaro carpintero cibernético; azul noche, ámbar madera y cian).</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <i class="fa-solid fa-check text-emerald-400 mt-1 shrink-0"></i>
+                        <span>Idea de negocio y modelo definidos en Notion: oferta, canales, flujo operativo y reglas de gobierno de la IA.</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <i class="fa-solid fa-check text-emerald-400 mt-1 shrink-0"></i>
+                        <span><strong class="text-white">Directorio de canales con unas 70 empresas reales</strong> en Valencia + 50 km (tiendas de cocinas, reformas, carpinterías, interioristas, grandes superficies, plataformas, inmobiliarias, ETTs, distribuidores), con teléfonos y fuentes; algunos datos pendientes de confirmar.</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <i class="fa-solid fa-check text-emerald-400 mt-1 shrink-0"></i>
+                        <span>CRM de prospección con 52 registros, todos en estado <strong class="text-amber-300">«Pendiente de verificar»</strong>.</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <i class="fa-solid fa-check text-emerald-400 mt-1 shrink-0"></i>
+                        <span>Biblioteca de mensajes comerciales en borrador (5 plantillas).</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <i class="fa-solid fa-check text-emerald-400 mt-1 shrink-0"></i>
+                        <span>Plaza confirmada en el curso de <strong class="text-cyan-300">Instalación de Muebles Modulares de Saltoki</strong> (16/11 - 07/12/2026).</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Sin constancia documentada -->
+            <div class="premium-card rounded-2xl p-4 sm:p-5 mb-5 border-t-4 border-t-amber-500">
+                <h3 class="font-display font-bold text-amber-400 text-base mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span>Sin constancia documentada, a fecha de hoy, de:</span>
+                </h3>
+                <ul class="space-y-3 text-sm text-slate-200">
+                    <li class="flex items-start gap-2.5">
+                        <i class="fa-solid fa-hourglass-half text-amber-400 mt-1 shrink-0"></i>
+                        <span>Trabajos ejecutados, fotografías propias, reseñas o referencias de clientes.</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <i class="fa-solid fa-hourglass-half text-amber-400 mt-1 shrink-0"></i>
+                        <span>Página web, ficha de Google Business Profile ni perfiles en redes sociales.</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <i class="fa-solid fa-hourglass-half text-amber-400 mt-1 shrink-0"></i>
+                        <span>Precio de la oferta ancla «RENUEVA TU COCINA POR XXX €»: el «XXX» sigue sin definir.</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <i class="fa-solid fa-hourglass-half text-amber-400 mt-1 shrink-0"></i>
+                        <span>Tarifas de montaje y valor objetivo por hora (decisión pendiente en el plan de negocio).</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <i class="fa-solid fa-hourglass-half text-amber-400 mt-1 shrink-0"></i>
+                        <span>Alta como autónomo, seguro y demás requisitos (verificación pendiente según el propio proyecto).</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Conclusión -->
+            <div class="rounded-2xl bg-cyan-950/40 border border-cyan-500/40 p-4">
+                <p class="text-sm text-slate-100 leading-relaxed">
+                    <strong class="text-cyan-300 font-bold">Conclusión:</strong> el marketing empieza por los canales gratuitos y por la verificación de contactos, y se intensifica al terminar la formación y disponer de material propio que mostrar.
+                </p>
+            </div>
+
+            <div class="nav-footer-slot"></div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 3: POSICIONAMIENTO Y MENSAJE
+             ========================================== -->
+        <section id="tab-3" class="tab-pane" data-title="Posicionamiento y Mensaje" data-icon="fa-bullhorn">
+            <div class="mb-5">
+                <span class="text-xs font-bold uppercase tracking-widest text-amber-400">Identidad Verbal y Propuesta</span>
+                <h2 class="font-display text-2xl sm:text-3xl font-bold text-white mt-1">Posicionamiento y mensaje</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-4">
+                <div class="premium-card rounded-2xl p-4 border-l-4 border-l-emerald-400">
+                    <div class="text-xs font-bold uppercase text-emerald-400 mb-1 flex items-center gap-1.5">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Qué somos</span>
+                    </div>
+                    <p class="text-sm text-slate-200 leading-relaxed">
+                        Empresa especializada en suministro, retirada y montaje de mobiliario modular, con especial atención a la renovación completa de cocinas.
+                    </p>
+                </div>
+
+                <div class="premium-card rounded-2xl p-4 border-l-4 border-l-rose-500">
+                    <div class="text-xs font-bold uppercase text-rose-400 mb-1 flex items-center gap-1.5">
+                        <i class="fa-solid fa-circle-xmark"></i>
+                        <span>Qué no somos</span>
+                    </div>
+                    <p class="text-sm text-slate-200 leading-relaxed">
+                        Un profesional improvisado que ofrece trabajos sueltos, ni una empresa que vende tecnología.
+                    </p>
+                </div>
+            </div>
+
+            <div class="premium-card rounded-2xl p-4 mb-5 border border-cyan-500/30">
+                <div class="text-xs font-bold uppercase text-cyan-400 mb-1 flex items-center gap-1.5">
+                    <i class="fa-solid fa-microchip"></i>
+                    <span>Recomendación estratégica sobre la IA</span>
+                </div>
+                <p class="text-sm text-slate-200 leading-relaxed">
+                    No usar la inteligencia artificial como argumento de venta hacia el cliente. Es el motor interno que hace la respuesta rápida y el seguimiento perfecto; el mensaje comercial habla de cocinas, muebles y ejecución profesional.
+                </p>
+            </div>
+
+            <h3 class="font-display font-bold text-white text-sm sm:text-base mb-3">
+                Mensajes por público (borradores propuestos, pendientes de tu aprobación y de definir el alcance real del servicio):
+            </h3>
+
+            <!-- Tabla / Tarjetas adaptativas de Mensajes por Público -->
+            <div class="space-y-3 mb-5">
+                <div class="premium-card rounded-2xl p-4">
+                    <span class="inline-block px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 font-bold text-xs mb-2">
+                        Público: Particular con cocina vieja
+                    </span>
+                    <p class="text-sm text-white italic leading-relaxed">
+                        «Renueva tu cocina: retiramos los muebles antiguos, suministramos los nuevos y los dejamos instalados. Tú imaginas tu cocina nueva; nosotros te enseñamos cómo podría quedar y la hacemos realidad.»
+                    </p>
+                </div>
+
+                <div class="premium-card rounded-2xl p-4">
+                    <span class="inline-block px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 font-bold text-xs mb-2">
+                        Público: Particular con muebles en kit
+                    </span>
+                    <p class="text-sm text-white italic leading-relaxed">
+                        «Montaje profesional de muebles y armarios, con cita, precio cerrado y acabado cuidado.»
+                    </p>
+                </div>
+
+                <div class="premium-card rounded-2xl p-4">
+                    <span class="inline-block px-2.5 py-1 rounded-lg bg-purple-500/20 text-purple-300 font-bold text-xs mb-2">
+                        Público: Tienda de cocinas / reformas / interiorista
+                    </span>
+                    <p class="text-sm text-white italic leading-relaxed">
+                        «Capacidad de montaje externa para sus instalaciones, con control de calidad y documentación de cada trabajo.»
+                    </p>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <div class="rounded-2xl bg-amber-500/10 border border-amber-500/40 p-4">
+                    <p class="text-sm text-slate-200 leading-relaxed">
+                        <strong class="text-amber-300 font-bold">Oferta ancla:</strong> «RENUEVA TU COCINA POR XXX €». Antes de publicarla hay que definir (pendiente de decisión): cocina tipo de referencia, mobiliario incluido, acabados, transporte, retirada, montaje, exclusiones y precio. Hasta entonces no se anuncia ningún precio.
+                    </p>
+                </div>
+
+                <div class="premium-card rounded-2xl p-4 flex items-center justify-between">
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Tono de marca:</span>
+                    <span class="text-sm font-bold text-cyan-300">Profesional, claro, cercano y visual.</span>
+                </div>
+            </div>
+
+            <div class="nav-footer-slot"></div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 4: PÚBLICOS OBJETIVO
+             ========================================== -->
+        <section id="tab-4" class="tab-pane" data-title="Públicos Objetivo" data-icon="fa-users-viewfinder">
+            <div class="mb-5">
+                <span class="text-xs font-bold uppercase tracking-widest text-cyan-400">Segmentación de Mercado</span>
+                <h2 class="font-display text-2xl sm:text-3xl font-bold text-white mt-1">Públicos objetivo</h2>
+            </div>
+
+            <div class="space-y-4 mb-5">
+                <div class="premium-card rounded-2xl p-5 border-l-4 border-l-amber-400">
+                    <div class="flex items-center gap-2.5 mb-2">
+                        <span class="w-7 h-7 rounded-lg bg-amber-500 text-slate-950 font-bold text-xs flex items-center justify-center">1</span>
+                        <h3 class="font-display font-bold text-white text-base">Particulares (B2C)</h3>
+                    </div>
+                    <p class="text-sm text-slate-200 leading-relaxed">
+                        Propietarios e inquilinos de Valencia y área metropolitana que compran muebles en kit o quieren renovar la cocina sin una reforma integral. Es el canal que construye marca propia y relación directa con el cliente final.
+                    </p>
+                </div>
+
+                <div class="premium-card rounded-2xl p-5 border-l-4 border-l-cyan-400">
+                    <div class="flex items-center gap-2.5 mb-2">
+                        <span class="w-7 h-7 rounded-lg bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center">2</span>
+                        <h3 class="font-display font-bold text-white text-base">Empresas prescriptoras y contratantes (B2B)</h3>
+                    </div>
+                    <p class="text-sm text-slate-200 leading-relaxed">
+                        Tiendas de cocinas, empresas de reformas, carpinterías, interioristas, inmobiliarias y gestores de viviendas. Pueden aportar volumen y recurrencia; su rentabilidad relativa frente al canal de particulares es una hipótesis a medir, no un hecho.
+                    </p>
+                </div>
+
+                <div class="premium-card rounded-2xl p-5 border-l-4 border-l-emerald-400">
+                    <div class="flex items-center gap-2.5 mb-2">
+                        <span class="w-7 h-7 rounded-lg bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center">3</span>
+                        <h3 class="font-display font-bold text-white text-base">Vía de empleo/subcontratación</h3>
+                    </div>
+                    <p class="text-sm text-slate-200 leading-relaxed">
+                        Redes de instaladores de grandes superficies (IKEA/Taskrabbit, Leroy Merlin) y plataformas de servicios. Sirve para aprender el oficio, generar ingresos tempranos y conocer precios reales del mercado.
+                    </p>
+                </div>
+            </div>
+
+            <div class="rounded-2xl bg-slate-900 border border-slate-700 p-4 text-center">
+                <p class="text-sm text-slate-200 font-medium">
+                    La estrategia combina los tres. Cuál acaba siendo el principal lo decidirán los datos de <strong class="text-amber-300">margen por hora</strong> de los primeros meses.
+                </p>
+            </div>
+
+            <div class="nav-footer-slot"></div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 5: CANALES Y ACCIONES CONCRETAS
+             ========================================== -->
+        <section id="tab-5" class="tab-pane" data-title="Canales y Acciones" data-icon="fa-network-wired">
+            <div class="mb-5">
+                <span class="text-xs font-bold uppercase tracking-widest text-amber-400">Ejecución Multicanal</span>
+                <h2 class="font-display text-2xl sm:text-3xl font-bold text-white mt-1">Canales y acciones concretas</h2>
+            </div>
+
+            <!-- 5.1 Canales gratuitos -->
+            <div class="mb-7">
+                <h3 class="font-display font-bold text-lg text-amber-300 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-rocket"></i>
+                    <span>5.1 Canales gratuitos - activación inmediata (fase 1)</span>
+                </h3>
+
+                <div class="space-y-3.5">
+                    <!-- Google Business Profile -->
+                    <div class="premium-card rounded-2xl p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-display font-bold text-white text-base">Google Business Profile</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 font-semibold">Fase 1</span>
+                        </div>
+                        <p class="text-xs text-slate-400 uppercase font-bold mb-1">Acción concreta:</p>
+                        <p class="text-sm text-slate-200 leading-relaxed mb-3">
+                            Crear la ficha de NOVA LLAR con zona de servicio Valencia + 50 km, logo, descripción y horario. Es donde la gente busca «montador de muebles cerca». Publicarla solo cuando la actividad esté operativa y cumpla los requisitos de elegibilidad de Google (negocio real que atiende clientes); mientras tanto, preparar el texto.
+                        </p>
+                        <p class="text-xs text-slate-400 uppercase font-bold mb-1">Regla verificada / fuente:</p>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Alta gratuita: <span class="text-cyan-300 break-all">https://www.google.com/intl/es_es/business/</span> Requisitos de elegibilidad a verificar antes de publicar.
+                        </p>
+                        <div class="mt-2.5">
+                            <a href="https://www.google.com/intl/es_es/business/" target="_blank" rel="noopener noreferrer"
+                                class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/40 text-cyan-300 text-xs font-bold active:scale-95 transition">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                <span>Abrir en otra Ventana</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Milanuncios y Wallapop -->
+                    <div class="premium-card rounded-2xl p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-display font-bold text-white text-base">Milanuncios y Wallapop</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 font-semibold">Fase 1</span>
+                        </div>
+                        <p class="text-xs text-slate-400 uppercase font-bold mb-1">Acción concreta:</p>
+                        <p class="text-sm text-slate-200 leading-relaxed mb-3">
+                            Publicar anuncio propio de montaje de muebles y armarios, con fotos reales cuando existan.
+                        </p>
+                        <p class="text-xs text-slate-400 uppercase font-bold mb-1">Regla verificada / fuente:</p>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Wallapop admite anuncios de servicios salvo categorías prohibidas; el montaje de muebles no está entre ellas (Política de Servicio Prohibido, act. abril 2026: <span class="text-cyan-300 break-all">https://about.wallapop.com/politica-de-servicio-prohibido/</span>). Confirmar las normas de Milanuncios antes de publicar.
+                        </p>
+                        <div class="mt-2.5">
+                            <a href="https://about.wallapop.com/politica-de-servicio-prohibido/" target="_blank" rel="noopener noreferrer"
+                                class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/40 text-cyan-300 text-xs font-bold active:scale-95 transition">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                <span>Abrir en otra Ventana</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Facebook -->
+                    <div class="premium-card rounded-2xl p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-display font-bold text-white text-base">Facebook: página y grupos locales</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 font-semibold">Fase 1</span>
+                        </div>
+                        <p class="text-xs text-slate-400 uppercase font-bold mb-1">Acción concreta:</p>
+                        <p class="text-sm text-slate-200 leading-relaxed mb-3">
+                            Crear la página de marca y participar en grupos de vecinos de Valencia, Torrent, Paterna, Mislata, Burjassot, Quart de Poblet, Aldaia, Alaquàs, Manises y Xirivella. <strong class="text-amber-300">Comprobar las normas de cada grupo antes de publicar publicidad.</strong>
+                        </p>
+                        <p class="text-xs text-slate-400 uppercase font-bold mb-1">Regla verificada / fuente:</p>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Facebook Marketplace queda <strong class="text-rose-400">excluido de momento</strong>: no se ha podido verificar en la fuente oficial si admite anuncios de servicios; solo se usaría si se confirma que está permitido. Referencia oficial consultada: <span class="text-cyan-300 break-all">https://www.meta.com/safety/scam-prevention/marketplace-safety/</span>
+                        </p>
+                        <div class="mt-2.5">
+                            <a href="https://www.meta.com/safety/scam-prevention/marketplace-safety/" target="_blank" rel="noopener noreferrer"
+                                class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/40 text-cyan-300 text-xs font-bold active:scale-95 transition">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                <span>Abrir en otra Ventana</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Instagram -->
+                    <div class="premium-card rounded-2xl p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-display font-bold text-white text-base">Instagram</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 font-semibold">Fase 1</span>
+                        </div>
+                        <p class="text-sm text-slate-200 leading-relaxed mb-2">
+                            <strong>Acción concreta:</strong> Perfil de marca con el logo. Publicar solo cuando haya fotos reales de trabajos.
+                        </p>
+                        <p class="text-xs text-slate-300">
+                            <strong>Regla verificada / fuente:</strong> Mismo criterio de contenido real.
+                        </p>
+                    </div>
+
+                    <!-- Nextdoor -->
+                    <div class="premium-card rounded-2xl p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-display font-bold text-white text-base">Nextdoor</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 font-semibold">Fase 1</span>
+                        </div>
+                        <p class="text-xs text-slate-400 uppercase font-bold mb-1">Acción concreta:</p>
+                        <p class="text-sm text-slate-200 leading-relaxed mb-3">
+                            Alta como servicio local y página comercial de barrio, condicionado a confirmar la disponibilidad y elegibilidad reales en tu zona al darse de alta.
+                        </p>
+                        <p class="text-xs text-slate-400 uppercase font-bold mb-1">Regla verificada / fuente:</p>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Su web ofrece páginas comerciales para empresas locales en España: <span class="text-cyan-300 break-all">https://business.nextdoor.com/es-es/small-business/product/business-page</span> (no confirma por sí sola la cobertura de cada zona).
+                        </p>
+                        <div class="mt-2.5">
+                            <a href="https://business.nextdoor.com/es-es/small-business/product/business-page" target="_blank" rel="noopener noreferrer"
+                                class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/40 text-cyan-300 text-xs font-bold active:scale-95 transition">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                <span>Abrir en otra Ventana</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Boca a boca -->
+                    <div class="premium-card rounded-2xl p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-display font-bold text-white text-base">Boca a boca</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 font-semibold">Continuo</span>
+                        </div>
+                        <p class="text-sm text-slate-200 leading-relaxed">
+                            <strong>Acción concreta:</strong> Avisar a conocidos de Valencia; cada trabajo terminado pide reseña y recomendación. (Regla: Continuo).
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 p-3.5">
+                    <p class="text-xs sm:text-sm text-slate-200">
+                        <strong class="text-amber-300">Regla:</strong> en esta fase solo se publicita lo que realmente se puede ejecutar hoy. Sin fotos propias, el anuncio es de montaje; las imágenes de cocinas renovadas llegan cuando haya trabajos documentados.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 5.2 Plataformas de servicios -->
+            <div class="mb-7">
+                <h3 class="font-display font-bold text-lg text-cyan-300 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-sliders"></i>
+                    <span>5.2 Plataformas de servicios - prueba controlada (fase 2)</span>
+                </h3>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                    <div class="premium-card rounded-2xl p-4">
+                        <h4 class="font-display font-bold text-white text-sm mb-1">Taskrabbit</h4>
+                        <p class="text-xs text-slate-300 mb-2"><strong>Acción:</strong> Alta como tasker de montaje de muebles.</p>
+                        <p class="text-xs text-slate-400 mb-2.5"><strong>Precaución:</strong> Confirmar condiciones y comisiones actuales en <span class="text-cyan-300">https://www.taskrabbit.es/</span> antes de registrarse.</p>
+                        <a href="https://www.taskrabbit.es/" target="_blank" rel="noopener noreferrer"
+                            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/40 text-cyan-300 text-xs font-bold active:scale-95 transition">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            <span>Abrir en otra Ventana</span>
+                        </a>
+                    </div>
+
+                    <div class="premium-card rounded-2xl p-4">
+                        <h4 class="font-display font-bold text-white text-sm mb-1">Cronoshare</h4>
+                        <p class="text-xs text-slate-300 mb-2"><strong>Acción:</strong> Registro y evaluación.</p>
+                        <p class="text-xs text-slate-400"><strong>Precaución:</strong> Cobra por contactar clientes: medir el coste por contacto real antes de pagar.</p>
+                    </div>
+
+                    <div class="premium-card rounded-2xl p-4">
+                        <h4 class="font-display font-bold text-white text-sm mb-1">Habitissimo</h4>
+                        <p class="text-xs text-slate-300 mb-2"><strong>Acción:</strong> Explorar oportunidades.</p>
+                        <p class="text-xs text-slate-400"><strong>Precaución:</strong> Coste por lead: comparar con el margen probable del trabajo.</p>
+                    </div>
+
+                    <div class="premium-card rounded-2xl p-4">
+                        <h4 class="font-display font-bold text-white text-sm mb-1">Wolly / Webel</h4>
+                        <p class="text-xs text-slate-300 mb-2"><strong>Acción:</strong> Valorar tras las anteriores.</p>
+                        <p class="text-xs text-slate-400"><strong>Precaución:</strong> Misma regla de medición.</p>
+                    </div>
+                </div>
+
+                <div class="rounded-2xl bg-amber-500/15 border border-amber-500/40 p-4">
+                    <p class="text-xs sm:text-sm text-slate-100 leading-relaxed">
+                        <strong class="text-amber-300">Regla de oro (del propio proyecto):</strong> registrar para cada plataforma cuánto cuesta cada contacto, cuántos contactos se convierten en trabajos y qué margen deja cada trabajo. Una plataforma que no se amortiza se abandona.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 5.3 Colaboraciones B2B -->
+            <div class="mb-7">
+                <h3 class="font-display font-bold text-lg text-amber-300 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-handshake"></i>
+                    <span>5.3 Colaboraciones B2B - prospección ordenada (fase 2, intensificada tras la formación)</span>
+                </h3>
+                <p class="text-sm text-slate-300 mb-3">
+                    Usar el directorio de canales ya entregado y el CRM, siguiendo el sistema comercial ya definido:
+                </p>
+                <div class="space-y-2.5 mb-3">
+                    <div class="premium-card rounded-2xl p-3.5 text-sm text-slate-200">
+                        <strong class="text-amber-300">1. Verificar antes de contactar:</strong> empresa activa, sede, web oficial, teléfono de la fuente correcta. Registrar fuente y fecha. Los 52 registros del CRM están «Pendiente de verificar»: la primera tarea comercial es completar esa verificación.
+                    </div>
+                    <div class="premium-card rounded-2xl p-3.5 text-sm text-slate-200">
+                        <strong class="text-amber-300">2. Primer lote de 10 contactos:</strong> mezcla de tiendas de cocinas (Schmidt, Mobalpa, Sabella y otras del directorio), empresas de reformas y una carpintería. Mensajes personalizados a partir de las plantillas A-C de la biblioteca; <strong class="text-white">cada envío requiere tu aprobación previa</strong>.
+                    </div>
+                    <div class="premium-card rounded-2xl p-3.5 text-sm text-slate-200">
+                        <strong class="text-amber-300">3. Cadencia de seguimiento (ya definida):</strong> día 0 primer contacto; día 4-5 laborable primer seguimiento; día 10-12 segundo y último. Después, pausar o descartar. Nunca insistir si lo piden.
+                    </div>
+                    <div class="premium-card rounded-2xl p-3.5 text-sm text-slate-200">
+                        <strong class="text-amber-300">4. Objetivo de la fase:</strong> 10-15 contactos con resultado registrado para saber qué tipo de empresa responde mejor.
+                    </div>
+                </div>
+                <p class="text-xs sm:text-sm text-cyan-300 font-medium">
+                    <strong>Prioridad sugerida:</strong> tiendas de cocinas del área, después reformas e interioristas (prescriptores), después inmobiliarias y home staging.
+                </p>
+            </div>
+
+            <!-- 5.4 Grandes superficies -->
+            <div class="mb-7">
+                <h3 class="font-display font-bold text-lg text-cyan-300 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-store"></i>
+                    <span>5.4 Grandes superficies - solicitudes de alta (fase 2)</span>
+                </h3>
+                <div class="space-y-3 mb-3">
+                    <div class="premium-card rounded-2xl p-4">
+                        <p class="text-sm text-slate-200 leading-relaxed mb-2.5">
+                            <strong class="text-white">IKEA:</strong> estudiar la entrada en su red de profesionales (IKEA Home Services: <span class="text-cyan-300 break-all">https://home-services.ikea.com/es/es/professionals</span>). La instalación de cocinas IKEA es un servicio aparte que se contrata en tienda; el acceso a esa red debe verificarse.
+                        </p>
+                        <a href="https://home-services.ikea.com/es/es/professionals" target="_blank" rel="noopener noreferrer"
+                            class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/40 text-cyan-300 text-xs font-bold active:scale-95 transition">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            <span>Abrir en otra Ventana</span>
+                        </a>
+                    </div>
+
+                    <div class="premium-card rounded-2xl p-4">
+                        <p class="text-sm text-slate-200 leading-relaxed mb-2.5">
+                            <strong class="text-white">Leroy Merlin:</strong> solicitud de alta como instalador colaborador (formulario oficial: <span class="text-cyan-300 break-all">https://www.leroymerlin.es/servicios/alta-instaladores.html</span>). Condiciones por verificar.
+                        </p>
+                        <a href="https://www.leroymerlin.es/servicios/alta-instaladores.html" target="_blank" rel="noopener noreferrer"
+                            class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/40 text-cyan-300 text-xs font-bold active:scale-95 transition">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            <span>Abrir en otra Ventana</span>
+                        </a>
+                    </div>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-300 italic">
+                    Estas vías pueden dar volumen temprano y aprendizaje, pero con condiciones ajenas: complemento, no base del negocio.
+                </p>
+            </div>
+
+            <!-- 5.5 Canal propio digital -->
+            <div>
+                <h3 class="font-display font-bold text-lg text-emerald-300 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-globe"></i>
+                    <span>5.5 Canal propio digital - web y visualización (tras la decisión de inversión de la fase 4)</span>
+                </h3>
+                <p class="text-sm text-slate-300 mb-3">Cuando haya trabajos documentados y precios definidos:</p>
+                <div class="space-y-2.5">
+                    <div class="premium-card rounded-2xl p-4 text-sm text-slate-200">
+                        <strong class="text-emerald-300">1. Página web comercial</strong> orientada a captación: propuesta clara, oferta de renovación de cocinas, galería de transformaciones reales, proceso de trabajo, formulario y solicitud de visita. Una máquina de convertir visitas en oportunidades, no una tarjeta de visita.
+                    </div>
+                    <div class="premium-card rounded-2xl p-4 text-sm text-slate-200">
+                        <strong class="text-emerald-300">2. Aplicación de visualización</strong> («tú imaginas tu cocina»): el cliente fotografía su cocina y ve propuestas de estilo generadas con IA. Primera versión mínima, solo si demuestra que ayuda a conseguir clientes.
+                    </div>
+                    <div class="premium-card rounded-2xl p-4 text-sm text-slate-200">
+                        <strong class="text-emerald-300">3. Publicidad de pago (Google Ads / Meta), solo en esta fase:</strong> campañas geolocalizadas de renovación de cocinas y montaje, con presupuesto de prueba pequeño y medición estricta del coste por oportunidad.
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-footer-slot"></div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 6: CALENDARIO DE 90 DÍAS
+             ========================================== -->
+        <section id="tab-6" class="tab-pane" data-title="Calendario 90 Días" data-icon="fa-calendar-days">
+            <div class="mb-5">
+                <span class="text-xs font-bold uppercase tracking-widest text-cyan-400">Cronograma de Ejecución</span>
+                <h2 class="font-display text-2xl sm:text-3xl font-bold text-white mt-1">Calendario de 90 días: 16 de noviembre de 2026 - 13 de febrero de 2027</h2>
+                <p class="text-xs sm:text-sm text-slate-300 mt-1">Anclado en la formación de Saltoki. Fechas calculadas sobre el calendario; ajustables.</p>
+            </div>
+
+            <div class="space-y-4">
+                <!-- Fase 1 -->
+                <div class="premium-card rounded-2xl p-4 sm:p-5 border-l-4 border-l-amber-400">
+                    <span class="inline-block px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold mb-2">
+                        16 nov - 7 dic 2026 (22 días, curso Saltoki)
+                    </span>
+                    <h3 class="font-display font-bold text-white text-base sm:text-lg mb-3">Fase 1 · Formación + cimientos</h3>
+                    <ul class="space-y-2 text-sm text-slate-200">
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-angle-right text-amber-400 mt-1"></i><span>Completar la formación técnica y aprovechar al profesor como fuente de conocimiento del oficio (precios habituales, tiempos reales, dificultades).</span></li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-angle-right text-amber-400 mt-1"></i><span>Crear Google Business Profile, página de Facebook e Instagram y perfil de Nextdoor.</span></li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-angle-right text-amber-400 mt-1"></i><span>Preparar textos de anuncios y revisar la biblioteca de mensajes.</span></li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-angle-right text-amber-400 mt-1"></i><span>Verificar los 52 registros del CRM (identidad, web, teléfono, fuente, fecha).</span></li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-angle-right text-amber-400 mt-1"></i><span>Definir catálogo de servicios real, exclusiones y política de desplazamientos (decisión pendiente del plan de negocio).</span></li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-angle-right text-amber-400 mt-1"></i><span>Avanzar requisitos profesionales: alta, seguro, protección de datos.</span></li>
+                    </ul>
+                </div>
+
+                <!-- Fase 2 -->
+                <div class="premium-card rounded-2xl p-4 sm:p-5 border-l-4 border-l-cyan-400">
+                    <span class="inline-block px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-xs font-bold mb-2">
+                        8 dic 2026 - 3 ene 2027
+                    </span>
+                    <h3 class="font-display font-bold text-white text-base sm:text-lg mb-3">Fase 2 · Primeras oportunidades</h3>
+                    <ul class="space-y-2 text-sm text-slate-200">
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-angle-right text-cyan-400 mt-1"></i><span>Publicar anuncios gratuitos (Milanuncios, Wallapop, grupos de Facebook).</span></li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-angle-right text-cyan-400 mt-1"></i><span>Alta en Taskrabbit y evaluación de Cronoshare/Habitissimo.</span></li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-angle-right text-cyan-400 mt-1"></i><span>Solicitar alta en IKEA Home Services y Leroy Merlin.</span></li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-angle-right text-cyan-400 mt-1"></i><span>Primer lote de 10 contactos B2B verificados, con mensajes aprobados por ti.</span></li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-angle-right text-cyan-400 mt-1"></i><span>Registrar cada contacto, respuesta, hora invertida y siguiente acción.</span></li>
+                    </ul>
+                </div>
+
+                <!-- Fase 3 -->
+                <div class="premium-card rounded-2xl p-4 sm:p-5 border-l-4 border-l-emerald-400">
+                    <span class="inline-block px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold mb-2">
+                        4 ene - 31 ene 2027
+                    </span>
+                    <h3 class="font-display font-bold text-white text-base sm:text-lg mb-3">Fase 3 · Primeros trabajos y medición</h3>
+                    <ul class="space-y-2 text-sm text-slate-200">
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-angle-right text-emerald-400 mt-1"></i><span>Ejecutar los primeros trabajos; documentar con fotos (autorización del cliente) y solicitar reseñas auténticas.</span></li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-angle-right text-emerald-400 mt-1"></i><span>Definir la «cocina tipo» y el precio de la oferta ancla con costes reales de proveedores (Saltoki y otros).</span></li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-angle-right text-emerald-400 mt-1"></i><span>Revisión con 10-15 contactos registrados: reajustar la matriz de oportunidades y concentrar esfuerzo en lo que funciona.</span></li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-angle-right text-emerald-400 mt-1"></i><span>Decisión: qué canales se mantienen, cuáles se abandonan y si se empieza la web.</span></li>
+                    </ul>
+                </div>
+
+                <!-- Fase 4 -->
+                <div class="premium-card rounded-2xl p-4 sm:p-5 border-l-4 border-l-purple-400">
+                    <span class="inline-block px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 text-xs font-bold mb-2">
+                        1 feb - 13 feb 2027
+                    </span>
+                    <h3 class="font-display font-bold text-white text-base sm:text-lg mb-3">Fase 4 · Decisión de inversión (web y publicidad de pago del apartado 5.5)</h3>
+                    <ul class="space-y-2 text-sm text-slate-200">
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-angle-right text-purple-400 mt-1"></i><span>Con datos reales de captación: decidir presupuesto de web y primera campaña de pago.</span></li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-angle-right text-purple-400 mt-1"></i><span>Revisar el objetivo económico (1.500 €/mes netos como referencia de planificación, no garantía) frente a los márgenes reales observados.</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="nav-footer-slot"></div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 7: PLAN SEMANAL TIPO
+             ========================================== -->
+        <section id="tab-7" class="tab-pane" data-title="Rutina Semanal" data-icon="fa-clock-rotate-left">
+            <div class="mb-5">
+                <span class="text-xs font-bold uppercase tracking-widest text-amber-400">Operativa Comercial</span>
+                <h2 class="font-display text-2xl sm:text-3xl font-bold text-white mt-1">Plan semanal tipo (fases 1 y 2)</h2>
+                <p class="text-sm text-slate-300 mt-2">
+                    Supuesto de planificación: unas <strong class="text-amber-300">5-7 horas semanales</strong> de trabajo comercial durante el curso y <strong class="text-cyan-300">10-12 después</strong>. Ajustar a tu disponibilidad real.
+                </p>
+            </div>
+
+            <div class="space-y-3">
+                <div class="premium-card rounded-2xl p-4">
+                    <div class="flex items-center justify-between gap-2 mb-1.5">
+                        <span class="font-bold text-white text-sm">Verificar registros del CRM (fuentes y fechas)</span>
+                        <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-semibold shrink-0">10-15 reg/sem</span>
+                    </div>
+                    <p class="text-xs text-slate-300"><strong>Frecuencia:</strong> 10-15 registros/semana hasta completar los 52</p>
+                    <p class="text-xs text-cyan-300 mt-1"><strong>Responsable:</strong> IA prepara, tú confirmas</p>
+                </div>
+
+                <div class="premium-card rounded-2xl p-4">
+                    <div class="flex items-center justify-between gap-2 mb-1.5">
+                        <span class="font-bold text-white text-sm">Preparar mensajes B2B personalizados</span>
+                        <span class="text-xs px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-semibold shrink-0">3-5/semana</span>
+                    </div>
+                    <p class="text-xs text-slate-300"><strong>Frecuencia:</strong> 3-5/semana desde fase 2</p>
+                    <p class="text-xs text-cyan-300 mt-1"><strong>Responsable:</strong> IA redacta, tú apruebas y envías</p>
+                </div>
+
+                <div class="premium-card rounded-2xl p-4">
+                    <div class="flex items-center justify-between gap-2 mb-1.5">
+                        <span class="font-bold text-white text-sm">Publicar/renovar anuncios gratuitos</span>
+                        <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-semibold shrink-0">1-2/semana</span>
+                    </div>
+                    <p class="text-xs text-slate-300"><strong>Frecuencia:</strong> 1-2/semana</p>
+                    <p class="text-xs text-cyan-300 mt-1"><strong>Responsable:</strong> Tú, con textos aprobados</p>
+                </div>
+
+                <div class="premium-card rounded-2xl p-4">
+                    <div class="flex items-center justify-between gap-2 mb-1.5">
+                        <span class="font-bold text-white text-sm">Responder consultas recibidas</span>
+                        <span class="text-xs px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-semibold shrink-0">&lt; 24 h</span>
+                    </div>
+                    <p class="text-xs text-slate-300"><strong>Frecuencia:</strong> Diario, en menos de 24 h</p>
+                    <p class="text-xs text-cyan-300 mt-1"><strong>Responsable:</strong> IA prepara borrador, tú envías</p>
+                </div>
+
+                <div class="premium-card rounded-2xl p-4">
+                    <div class="flex items-center justify-between gap-2 mb-1.5">
+                        <span class="font-bold text-white text-sm">Registrar contactos, horas y costes en el CRM</span>
+                        <span class="text-xs px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-semibold shrink-0">Continuo</span>
+                    </div>
+                    <p class="text-xs text-slate-300"><strong>Frecuencia:</strong> Tras cada interacción</p>
+                    <p class="text-xs text-cyan-300 mt-1"><strong>Responsable:</strong> IA registra, tú revisas</p>
+                </div>
+
+                <div class="premium-card rounded-2xl p-4">
+                    <div class="flex items-center justify-between gap-2 mb-1.5">
+                        <span class="font-bold text-white text-sm">Revisión semanal del cuadro de mando</span>
+                        <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-semibold shrink-0">30 min</span>
+                    </div>
+                    <p class="text-xs text-slate-300"><strong>Frecuencia:</strong> 30 min, día fijo</p>
+                    <p class="text-xs text-cyan-300 mt-1"><strong>Responsable:</strong> Juntos</p>
+                </div>
+            </div>
+
+            <div class="nav-footer-slot"></div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 8: OBJETIVOS NUMÉRICOS DE CAPTACIÓN
+             ========================================== -->
+        <section id="tab-8" class="tab-pane" data-title="Objetivos y Metas" data-icon="fa-chart-simple">
+            <div class="mb-5">
+                <span class="text-xs font-bold uppercase tracking-widest text-cyan-400">Embudo 90 Días</span>
+                <h2 class="font-display text-2xl sm:text-3xl font-bold text-white mt-1">Objetivos numéricos de captación (supuestos de planificación)</h2>
+                <p class="text-sm text-slate-300 mt-2">
+                    Objetivos de embudo para el periodo de 90 días, a validar con la realidad. No son previsiones de mercado: son metas de trabajo para medir si el sistema funciona.
+                </p>
+            </div>
+
+            <!-- Grid de Métricas -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+                <div class="premium-card rounded-2xl p-4 flex items-center justify-between">
+                    <span class="text-sm text-slate-200">Registros del CRM verificados</span>
+                    <span class="font-display font-bold text-lg text-amber-400">52 de 52</span>
+                </div>
+                <div class="premium-card rounded-2xl p-4 flex items-center justify-between">
+                    <span class="text-sm text-slate-200">Contactos B2B realizados (con aprobación)</span>
+                    <span class="font-display font-bold text-lg text-cyan-400">20-30</span>
+                </div>
+                <div class="premium-card rounded-2xl p-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-slate-200">Conversaciones útiles B2B</span>
+                        <span class="font-display font-bold text-lg text-cyan-400">5-8</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-1">(supone respuesta del 20-30 %, a confirmar)</p>
+                </div>
+                <div class="premium-card rounded-2xl p-4 flex items-center justify-between">
+                    <span class="text-sm text-slate-200">Anuncios gratuitos activos</span>
+                    <span class="font-display font-bold text-lg text-emerald-400">3-5</span>
+                </div>
+                <div class="premium-card rounded-2xl p-4 flex items-center justify-between">
+                    <span class="text-sm text-slate-200">Altas en plataformas</span>
+                    <span class="font-display font-bold text-lg text-emerald-400">2-3</span>
+                </div>
+                <div class="premium-card rounded-2xl p-4 flex items-center justify-between">
+                    <span class="text-sm text-slate-200">Consultas de particulares recibidas</span>
+                    <span class="font-display font-bold text-lg text-amber-400">10-20</span>
+                </div>
+                <div class="premium-card rounded-2xl p-4 flex items-center justify-between">
+                    <span class="text-sm text-slate-200">Primeros trabajos cobrados</span>
+                    <span class="font-display font-bold text-lg text-amber-400">3-6</span>
+                </div>
+                <div class="premium-card rounded-2xl p-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-slate-200">Reseñas auténticas publicadas</span>
+                        <span class="font-display font-bold text-lg text-amber-400">3-6</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-1">(una por trabajo)</p>
+                </div>
+            </div>
+
+            <!-- Criterios de Stop/Go -->
+            <h3 class="font-display font-bold text-white text-base mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-traffic-light text-amber-400"></i>
+                <span>Criterios de stop/go (puertas de control):</span>
+            </h3>
+
+            <div class="space-y-3">
+                <div class="rounded-2xl bg-rose-950/35 border border-rose-500/40 p-4">
+                    <span class="inline-block px-2 py-0.5 rounded bg-rose-500 text-white font-bold text-xs mb-1">STOP · Plataforma de pago</span>
+                    <p class="text-sm text-slate-200 leading-relaxed">
+                        Si el coste acumulado de contactos supera el margen de los trabajos que ha producido, o si tras 10 contactos pagados no hay ningún trabajo. Se abandona sin más.
+                    </p>
+                </div>
+
+                <div class="rounded-2xl bg-rose-950/35 border border-rose-500/40 p-4">
+                    <span class="inline-block px-2 py-0.5 rounded bg-rose-500 text-white font-bold text-xs mb-1">STOP · Tipo de anuncio o grupo</span>
+                    <p class="text-sm text-slate-200 leading-relaxed">
+                        Si genera consultas que nunca se convierten en presupuesto tras 3-4 semanas.
+                    </p>
+                </div>
+
+                <div class="rounded-2xl bg-emerald-950/35 border border-emerald-500/40 p-4">
+                    <span class="inline-block px-2 py-0.5 rounded bg-emerald-500 text-slate-950 font-bold text-xs mb-1">GO · Web y publicidad de pago (apartado 5.5, decisión de la fase 4)</span>
+                    <p class="text-sm text-slate-200 leading-relaxed">
+                        Solo cuando se cumplan las tres condiciones: (1) al menos 5 trabajos cobrados y documentados, (2) precio de la oferta ancla definido con costes reales, (3) un canal gratuito que ya produce consultas de forma regular.
+                    </p>
+                </div>
+
+                <div class="rounded-2xl bg-emerald-950/35 border border-emerald-500/40 p-4">
+                    <span class="inline-block px-2 py-0.5 rounded bg-emerald-500 text-slate-950 font-bold text-xs mb-1">GO · Escalar cualquier canal</span>
+                    <p class="text-sm text-slate-200 leading-relaxed">
+                        Cuando su margen cobrado por hora supere el valor objetivo por hora que se defina en el plan de negocio.
+                    </p>
+                </div>
+            </div>
+
+            <div class="nav-footer-slot"></div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 9: PRESUPUESTO DE MARKETING
+             ========================================== -->
+        <section id="tab-9" class="tab-pane" data-title="Escenarios de Presupuesto" data-icon="fa-coins">
+            <div class="mb-5">
+                <span class="text-xs font-bold uppercase tracking-widest text-amber-400">Control Financiero</span>
+                <h2 class="font-display text-2xl sm:text-3xl font-bold text-white mt-1">Presupuesto de marketing: tres escenarios ilustrativos</h2>
+                <p class="text-sm text-slate-300 mt-2">
+                    Escenarios para decidir con datos, no cantidades aprobadas. Antes de cualquier pago real se te pedirá confirmación con el importe exacto.
+                </p>
+            </div>
+
+            <div class="space-y-4 mb-5">
+                <!-- Escenario A -->
+                <div class="premium-card rounded-2xl p-5 border-t-4 border-t-emerald-400">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="font-display font-bold text-white text-lg">A. Cero</h3>
+                        <span class="font-display font-extrabold text-2xl text-emerald-400">0 € <span class="text-xs font-normal text-slate-400">/mes</span></span>
+                    </div>
+                    <p class="text-sm text-slate-200 mb-2"><strong>Qué cubre:</strong> Solo canales gratuitos: Google Business Profile, anuncios, grupos, Nextdoor, B2B manual.</p>
+                    <p class="text-xs text-emerald-300 font-semibold"><strong>Cuándo encaja:</strong> Fases 1 y 2; siempre disponible.</p>
+                </div>
+
+                <!-- Escenario B -->
+                <div class="premium-card rounded-2xl p-5 border-t-4 border-t-amber-400">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="font-display font-bold text-white text-lg">B. Prueba de plataformas</h3>
+                        <span class="font-display font-extrabold text-2xl text-amber-400">30-80 € <span class="text-xs font-normal text-slate-400">/mes</span></span>
+                    </div>
+                    <p class="text-sm text-slate-200 mb-2"><strong>Qué cubre:</strong> Contactos de pago en Cronoshare/Habitissimo, con tope mensual y registro de coste por contacto.</p>
+                    <p class="text-xs text-amber-300 font-semibold"><strong>Cuándo encaja:</strong> Fase 2, solo si los contactos gratuitos no bastan.</p>
+                </div>
+
+                <!-- Escenario C -->
+                <div class="premium-card rounded-2xl p-5 border-t-4 border-t-cyan-400">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="font-display font-bold text-white text-lg">C. Web + primera campaña</h3>
+                        <span class="font-display font-extrabold text-xl text-cyan-400">150-400 € <span class="text-xs font-normal text-slate-400">+ web</span></span>
+                    </div>
+                    <p class="text-xs text-slate-400 mb-2">Cantidad mensual (supuesto): 150-400 € (más coste puntual de web)</p>
+                    <p class="text-sm text-slate-200 mb-2"><strong>Qué cubre:</strong> Un solo canal de pago (Google Ads o Meta), campaña geolocalizada de prueba de 2-4 semanas.</p>
+                    <p class="text-xs text-cyan-300 font-semibold"><strong>Cuándo encaja:</strong> Solo tras la decisión de inversión de la fase 4, con la puerta de control del apartado 8 superada.</p>
+                </div>
+            </div>
+
+            <div class="rounded-2xl bg-slate-900 border border-amber-500/40 p-4">
+                <p class="text-sm text-slate-200 leading-relaxed">
+                    <strong class="text-amber-300">Método de decisión:</strong> empezar en A, pasar a B solo si hace falta volumen, y a C solo con la puerta de control superada. En cualquier escenario, escalar solo el canal cuyo coste por trabajo cobrado deje el margen objetivo.
+                </p>
+            </div>
+
+            <div class="nav-footer-slot"></div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 10: MÉTRICAS Y CUADRO DE MANDO
+             ========================================== -->
+        <section id="tab-10" class="tab-pane" data-title="Métricas y Control" data-icon="fa-gauge-high">
+            <div class="mb-5">
+                <span class="text-xs font-bold uppercase tracking-widest text-cyan-400">Analítica de Negocio</span>
+                <h2 class="font-display text-2xl sm:text-3xl font-bold text-white mt-1">Métricas y cuadro de mando</h2>
+                <p class="text-sm text-slate-300 mt-2">
+                    Todo el marketing se mide con el sistema ya definido en el proyecto. Por canal y por trabajo:
+                </p>
+            </div>
+
+            <div class="space-y-3 mb-5">
+                <div class="premium-card rounded-2xl p-4 flex items-start gap-3">
+                    <i class="fa-solid fa-phone-volume text-amber-400 mt-1"></i>
+                    <p class="text-sm text-slate-200">Contactos recibidos y su coste (tiempo y dinero).</p>
+                </div>
+                <div class="premium-card rounded-2xl p-4 flex items-start gap-3">
+                    <i class="fa-solid fa-filter-circle-dollar text-cyan-400 mt-1"></i>
+                    <p class="text-sm text-slate-200">Cadena completa: conversación útil, presupuesto, trabajo aceptado, trabajo cobrado.</p>
+                </div>
+                <div class="premium-card rounded-2xl p-4 flex items-start gap-3">
+                    <i class="fa-solid fa-stopwatch text-emerald-400 mt-1"></i>
+                    <p class="text-sm text-slate-200"><strong class="text-white">Margen por hora real</strong> de cada trabajo (incluyendo prospección, desplazamientos y preparación).</p>
+                </div>
+                <div class="premium-card rounded-2xl p-4 flex items-start gap-3">
+                    <i class="fa-solid fa-scale-balanced text-purple-400 mt-1"></i>
+                    <p class="text-sm text-slate-200">Coste de captación por canal y margen final por canal.</p>
+                </div>
+            </div>
+
+            <div class="premium-card rounded-2xl p-4 mb-4 border-l-4 border-l-cyan-400">
+                <p class="text-sm text-slate-200 leading-relaxed">
+                    <strong class="text-cyan-300">Revisión semanal (ya definida):</strong> qué canal produjo conversaciones útiles, cuál produjo trabajos cobrados, cuál dejó mejor margen por hora, qué contactos requieren acción, qué hipótesis quedaron refutadas y qué se deja de hacer la semana siguiente.
+                </p>
+            </div>
+
+            <div class="rounded-2xl bg-gradient-to-r from-amber-500/20 to-cyan-500/20 border border-amber-400/50 p-4">
+                <p class="text-sm text-white leading-relaxed">
+                    <strong class="text-amber-300">Criterio decisivo:</strong> no se declara ganador un canal por visitas, mensajes o presupuestos. La medida es <strong class="underline decoration-cyan-400">margen cobrado, ajustado por tiempo y riesgo</strong>.
+                </p>
+            </div>
+
+            <div class="nav-footer-slot"></div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 11: REGLAS Y LÍMITES DEL MARKETING
+             ========================================== -->
+        <section id="tab-11" class="tab-pane" data-title="Reglas y Límites" data-icon="fa-scale-unbalanced-flip">
+            <div class="mb-5">
+                <span class="text-xs font-bold uppercase tracking-widest text-amber-400">Ética, Legalidad y Gobierno</span>
+                <h2 class="font-display text-2xl sm:text-3xl font-bold text-white mt-1">Reglas y límites del marketing</h2>
+                <p class="text-sm text-slate-300 mt-1">Del propio gobierno del proyecto, aplicados a este plan:</p>
+            </div>
+
+            <div class="space-y-3">
+                <div class="premium-card rounded-2xl p-4 flex items-start gap-3">
+                    <span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">1</span>
+                    <p class="text-sm text-slate-200 leading-relaxed"><strong class="text-white">Nada se publica ni se envía sin tu aprobación:</strong> anuncios, mensajes a empresas, presupuestos, precios y publicaciones.</p>
+                </div>
+
+                <div class="premium-card rounded-2xl p-4 flex items-start gap-3">
+                    <span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">2</span>
+                    <p class="text-sm text-slate-200 leading-relaxed"><strong class="text-white">Nada inventado:</strong> ni experiencia, ni reseñas, ni certificaciones, ni precios, ni acuerdos. Las reseñas solo proceden de clientes reales.</p>
+                </div>
+
+                <div class="premium-card rounded-2xl p-4 flex items-start gap-3">
+                    <span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">3</span>
+                    <p class="text-sm text-slate-200 leading-relaxed"><strong class="text-white">No se anuncian servicios que no se dominen.</strong> Electricidad, gas y fontanería quedan fuera salvo profesionales habilitados.</p>
+                </div>
+
+                <div class="premium-card rounded-2xl p-4 flex items-start gap-3">
+                    <span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">4</span>
+                    <p class="text-sm text-slate-200 leading-relaxed"><strong class="text-white">Protección de datos:</strong> solo se recoge la información necesaria; se respeta cualquier petición de no volver a contactar y las normas de cada grupo o plataforma.</p>
+                </div>
+
+                <div class="premium-card rounded-2xl p-4 flex items-start gap-3">
+                    <span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">5</span>
+                    <p class="text-sm text-slate-200 leading-relaxed"><strong class="text-white">Sin envíos masivos automatizados:</strong> cada mensaje B2B se personaliza con una razón real y comprobada.</p>
+                </div>
+
+                <div class="premium-card rounded-2xl p-4 flex items-start gap-3 border border-cyan-500/30">
+                    <span class="w-6 h-6 rounded-full bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">6</span>
+                    <p class="text-sm text-slate-200 leading-relaxed"><strong class="text-white">Permiso para contactar:</strong> tu aprobación y la personalización no bastan por sí solas. La comunicación comercial no solicitada por correo electrónico o WhatsApp exige el consentimiento del destinatario o una vía legalmente permitida y verificada. El contacto B2B se hará por los canales donde cada empresa se ofrece a recibir consultas comerciales (formularios web, teléfonos o correos publicados para ese fin); antes de cualquier campaña de contacto directo se confirmará la vía adecuada.</p>
+                </div>
+
+                <div class="premium-card rounded-2xl p-4 flex items-start gap-3">
+                    <span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">7</span>
+                    <p class="text-sm text-slate-200 leading-relaxed"><strong class="text-white">Una imagen generada por IA es visualización comercial, no un proyecto técnico:</strong> nunca se presenta como resultado garantizado.</p>
+                </div>
+            </div>
+
+            <div class="nav-footer-slot"></div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 12: DECISIONES PENDIENTES
+             ========================================== -->
+        <section id="tab-12" class="tab-pane" data-title="Decisiones Pendientes" data-icon="fa-clipboard-question">
+            <div class="mb-5">
+                <span class="text-xs font-bold uppercase tracking-widest text-rose-400">Desbloqueo de Fases</span>
+                <h2 class="font-display text-2xl sm:text-3xl font-bold text-white mt-1">Decisiones pendientes (bloquean fases del plan)</h2>
+            </div>
+
+            <div class="space-y-3">
+                <div class="premium-card rounded-2xl p-4 flex items-center gap-3.5 border-l-4 border-l-amber-400">
+                    <span class="font-display font-bold text-amber-400 text-lg">01</span>
+                    <p class="text-sm text-white font-medium">Catálogo de servicios inicial y exclusiones.</p>
+                </div>
+                <div class="premium-card rounded-2xl p-4 flex items-center gap-3.5 border-l-4 border-l-amber-400">
+                    <span class="font-display font-bold text-amber-400 text-lg">02</span>
+                    <p class="text-sm text-white font-medium">Política de desplazamientos dentro de la zona confirmada (Valencia + 50 km).</p>
+                </div>
+                <div class="premium-card rounded-2xl p-4 flex items-center gap-3.5 border-l-4 border-l-amber-400">
+                    <span class="font-display font-bold text-amber-400 text-lg">03</span>
+                    <p class="text-sm text-white font-medium">Tarifas de montaje y valor objetivo por hora.</p>
+                </div>
+                <div class="premium-card rounded-2xl p-4 flex items-center gap-3.5 border-l-4 border-l-amber-400">
+                    <span class="font-display font-bold text-amber-400 text-lg">04</span>
+                    <p class="text-sm text-white font-medium">Definición de la cocina tipo y precio de la oferta ancla.</p>
+                </div>
+                <div class="premium-card rounded-2xl p-4 flex items-center gap-3.5 border-l-4 border-l-amber-400">
+                    <span class="font-display font-bold text-amber-400 text-lg">05</span>
+                    <p class="text-sm text-white font-medium">Alta, seguro y requisitos fiscales y de protección de datos.</p>
+                </div>
+                <div class="premium-card rounded-2xl p-4 flex items-center gap-3.5 border-l-4 border-l-amber-400">
+                    <span class="font-display font-bold text-amber-400 text-lg">06</span>
+                    <p class="text-sm text-white font-medium">Elección de escenario de presupuesto para las fases 2 y 3.</p>
+                </div>
+            </div>
+
+            <div class="nav-footer-slot"></div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 13: PRÓXIMOS PASOS INMEDIATOS
+             ========================================== -->
+        <section id="tab-13" class="tab-pane" data-title="Próximos Pasos" data-icon="fa-shoe-prints">
+            <div class="mb-5">
+                <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Acción Inmediata</span>
+                <h2 class="font-display text-2xl sm:text-3xl font-bold text-white mt-1">Próximos pasos inmediatos</h2>
+            </div>
+
+            <div class="space-y-3.5">
+                <div class="premium-card rounded-2xl p-4 flex items-start gap-3.5 border border-emerald-500/30">
+                    <span class="w-8 h-8 rounded-xl bg-emerald-500 text-slate-950 font-display font-bold flex items-center justify-center shrink-0">1</span>
+                    <p class="text-sm text-slate-100 leading-relaxed pt-1">
+                        Crear la ficha de Google Business Profile de NOVA LLAR (con tu aprobación del texto).
+                    </p>
+                </div>
+
+                <div class="premium-card rounded-2xl p-4 flex items-start gap-3.5 border border-emerald-500/30">
+                    <span class="w-8 h-8 rounded-xl bg-emerald-500 text-slate-950 font-display font-bold flex items-center justify-center shrink-0">2</span>
+                    <p class="text-sm text-slate-100 leading-relaxed pt-1">
+                        Verificar los 52 contactos del CRM y preparar el primer lote de 10.
+                    </p>
+                </div>
+
+                <div class="premium-card rounded-2xl p-4 flex items-start gap-3.5 border border-emerald-500/30">
+                    <span class="w-8 h-8 rounded-xl bg-emerald-500 text-slate-950 font-display font-bold flex items-center justify-center shrink-0">3</span>
+                    <p class="text-sm text-slate-100 leading-relaxed pt-1">
+                        Redactar los textos de los anuncios gratuitos para tu aprobación.
+                    </p>
+                </div>
+
+                <div class="premium-card rounded-2xl p-4 flex items-start gap-3.5 border border-emerald-500/30">
+                    <span class="w-8 h-8 rounded-xl bg-emerald-500 text-slate-950 font-display font-bold flex items-center justify-center shrink-0">4</span>
+                    <p class="text-sm text-slate-100 leading-relaxed pt-1">
+                        Confirmar en las webs oficiales las condiciones actuales de alta de Taskrabbit, IKEA Home Services y Leroy Merlin, y las normas de anuncios de Milanuncios.
+                    </p>
+                </div>
+            </div>
+
+            <div class="nav-footer-slot"></div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 14: FUENTES EXTERNAS CONSULTADAS
+             ========================================== -->
+        <section id="tab-14" class="tab-pane" data-title="Fuentes Oficiales" data-icon="fa-link">
+            <div class="mb-5">
+                <span class="text-xs font-bold uppercase tracking-widest text-cyan-400">Anexo Documental</span>
+                <h2 class="font-display text-2xl sm:text-3xl font-bold text-white mt-1">Anexo. Fuentes externas consultadas (11/11/2026)</h2>
+            </div>
+
+            <div class="space-y-3 mb-6">
+                <!-- Wallapop -->
+                <div class="premium-card rounded-2xl p-4">
+                    <p class="text-sm font-bold text-white">Wallapop, Política de Servicio Prohibido (actualizada abril 2026):</p>
+                    <p class="text-xs text-cyan-300 break-all mt-1 mb-3">https://about.wallapop.com/politica-de-servicio-prohibido/</p>
+                    <a href="https://about.wallapop.com/politica-de-servicio-prohibido/" target="_blank" rel="noopener noreferrer"
+                        class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold active:scale-95 transition shadow">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span>Abrir en otra Ventana</span>
+                    </a>
+                </div>
+
+                <!-- Meta Marketplace -->
+                <div class="premium-card rounded-2xl p-4">
+                    <p class="text-sm font-bold text-white">Meta, seguridad en Marketplace (las publicaciones deben cumplir las políticas de comercio; categorías prohibidas):</p>
+                    <p class="text-xs text-cyan-300 break-all mt-1 mb-3">https://www.meta.com/safety/scam-prevention/marketplace-safety/</p>
+                    <a href="https://www.meta.com/safety/scam-prevention/marketplace-safety/" target="_blank" rel="noopener noreferrer"
+                        class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold active:scale-95 transition shadow">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span>Abrir en otra Ventana</span>
+                    </a>
+                </div>
+
+                <!-- Nextdoor -->
+                <div class="premium-card rounded-2xl p-4">
+                    <p class="text-sm font-bold text-white">Nextdoor para empresas locales en España:</p>
+                    <p class="text-xs text-cyan-300 break-all mt-1 mb-3">https://business.nextdoor.com/es-es/small-business/product/business-page</p>
+                    <a href="https://business.nextdoor.com/es-es/small-business/product/business-page" target="_blank" rel="noopener noreferrer"
+                        class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold active:scale-95 transition shadow">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span>Abrir en otra Ventana</span>
+                    </a>
+                </div>
+
+                <!-- Google Business Profile -->
+                <div class="premium-card rounded-2xl p-4">
+                    <p class="text-sm font-bold text-white">Google Business Profile:</p>
+                    <p class="text-xs text-cyan-300 break-all mt-1 mb-3">https://www.google.com/intl/es_es/business/</p>
+                    <a href="https://www.google.com/intl/es_es/business/" target="_blank" rel="noopener noreferrer"
+                        class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold active:scale-95 transition shadow">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span>Abrir en otra Ventana</span>
+                    </a>
+                </div>
+
+                <!-- IKEA Home Services -->
+                <div class="premium-card rounded-2xl p-4">
+                    <p class="text-sm font-bold text-white">IKEA Home Services, red de profesionales:</p>
+                    <p class="text-xs text-cyan-300 break-all mt-1 mb-3">https://home-services.ikea.com/es/es/professionals</p>
+                    <a href="https://home-services.ikea.com/es/es/professionals" target="_blank" rel="noopener noreferrer"
+                        class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold active:scale-95 transition shadow">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span>Abrir en otra Ventana</span>
+                    </a>
+                </div>
+
+                <!-- Leroy Merlin -->
+                <div class="premium-card rounded-2xl p-4">
+                    <p class="text-sm font-bold text-white">Leroy Merlin, alta de instaladores:</p>
+                    <p class="text-xs text-cyan-300 break-all mt-1 mb-3">https://www.leroymerlin.es/servicios/alta-instaladores.html</p>
+                    <a href="https://www.leroymerlin.es/servicios/alta-instaladores.html" target="_blank" rel="noopener noreferrer"
+                        class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold active:scale-95 transition shadow">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span>Abrir en otra Ventana</span>
+                    </a>
+                </div>
+
+                <!-- Taskrabbit España -->
+                <div class="premium-card rounded-2xl p-4">
+                    <p class="text-sm font-bold text-white">Taskrabbit España:</p>
+                    <p class="text-xs text-cyan-300 break-all mt-1 mb-3">https://www.taskrabbit.es/</p>
+                    <a href="https://www.taskrabbit.es/" target="_blank" rel="noopener noreferrer"
+                        class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold active:scale-95 transition shadow">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span>Abrir en otra Ventana</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="rounded-2xl bg-slate-900/90 border border-slate-700 p-4 text-xs text-slate-300 italic leading-relaxed">
+                Plan de marketing de NOVA LLAR · versión 2 · 11/11/2026. Documento de trabajo: las cifras marcadas como supuesto de planificación y las decisiones del apartado 12 requieren tu confirmación antes de ejecutarse.
+            </div>
+
+            <div class="nav-footer-slot"></div>
+        </section>
+
+        <!-- ==========================================
+             PESTAÑA 15: CRÉDITOS (Última pestaña obligatoria)
+             ========================================== -->
+        <section id="tab-15" class="tab-pane" data-title="CRÉDITOS" data-icon="fa-award">
+            <div class="relative rounded-3xl overflow-hidden border border-amber-500/40 bg-gradient-to-br from-slate-900 via-slate-950 to-amber-950/30 p-6 sm:p-8 text-center shadow-2xl">
+                <div class="w-16 h-16 rounded-2xl bg-amber-500/20 border border-amber-400/40 text-amber-400 flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <i class="fa-solid fa-crown text-3xl"></i>
+                </div>
+
+                <span class="text-xs font-bold uppercase tracking-widest text-cyan-400">Autoría y Registro Oficial</span>
+                <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-white mt-1 mb-6">
+                    CRÉDITOS
+                </h2>
+
+                <div class="space-y-4 max-w-md mx-auto text-left">
+                    <div class="premium-card rounded-2xl p-4 flex items-center gap-4 border border-amber-500/30">
+                        <div class="w-11 h-11 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center font-bold text-lg shrink-0">
+                            <i class="fa-solid fa-user-tie"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400 uppercase font-semibold">Autor / Dirección</p>
+                            <p class="font-display font-bold text-lg text-white">Rubén Sbarsky</p>
+                        </div>
+                    </div>
+
+                    <div class="premium-card rounded-2xl p-4 flex items-center gap-4 border border-cyan-500/30">
+                        <div class="w-11 h-11 rounded-xl bg-cyan-400 text-slate-950 flex items-center justify-center font-bold text-lg shrink-0">
+                            📆
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400 uppercase font-semibold">Fecha 📆</p>
+                            <p class="font-display font-bold text-lg text-white">11/11/2026</p>
+                        </div>
+                    </div>
+
+                    <div class="premium-card rounded-2xl p-4 flex items-center gap-4 border border-emerald-500/30">
+                        <div class="w-11 h-11 rounded-xl bg-emerald-400 text-slate-950 flex items-center justify-center font-bold text-lg shrink-0">
+                            🕰
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400 uppercase font-semibold">Hora 🕰</p>
+                            <p class="font-display font-bold text-lg text-white">10:40:07</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-5 border-t border-slate-800/80 text-xs text-slate-400">
+                    CRÉDITOS: <strong class="text-white">Rubén Sbarsky</strong>, Fecha 📆: <strong class="text-amber-300">11/11/2026</strong>, Hora 🕰: <strong class="text-cyan-300">10:40:07</strong>
+                </div>
+            </div>
+
+            <div class="nav-footer-slot"></div>
+        </section>
+
+    </main>
+
+    <!-- BOTONES FLOTANTES ARRASTRABLES (Móvil / Touch & Mouse) -->
+    <!-- 1. Botón Flotante Movible: Ir a INICIO desde cualquier lugar -->
+    <button id="fabInicio" title="Arrastrar o tocar para ir a INICIO"
+        style="bottom: 92px; left: 14px;"
+        class="draggable-fab flex items-center gap-2 px-3.5 py-2.5 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-display font-bold text-xs shadow-2xl border border-amber-300/60 amber-glow">
+        <i class="fa-solid fa-house-chimney text-sm"></i>
+        <span>INICIO</span>
+    </button>
+
+    <!-- 2. Botón Flotante Movible: ARRIBA (Comienzo de la pestaña actual) -->
+    <button id="fabArriba" title="Arrastrar o tocar para subir al comienzo de la pestaña actual"
+        style="bottom: 92px; right: 14px;"
+        class="draggable-fab flex items-center gap-2 px-3.5 py-2.5 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-display font-bold text-xs shadow-2xl border border-cyan-300/60 cyan-glow">
+        <i class="fa-solid fa-arrow-up text-sm"></i>
+        <span>ARRIBA</span>
+    </button>
+
+    <script>
+        // Estado global de navegación de pestañas
+        const tabPanes = Array.from(document.querySelectorAll('.tab-pane'));
+        const tabsCarousel = document.getElementById('tabsCarousel');
+        const drawerList = document.getElementById('drawerList');
+        let currentTabIndex = 0;
+
+        // Inicializar Barra Superior de Pestañas, Menú Sándwich y Botones de Fin de Pestaña
+        function initNavigation() {
+            tabsCarousel.innerHTML = '';
+            drawerList.innerHTML = '';
+
+            tabPanes.forEach((pane, idx) => {
+                const title = pane.getAttribute('data-title');
+                const icon = pane.getAttribute('data-icon') || 'fa-circle-dot';
+
+                // 1. Crear botón en la barra horizontal superior permanente
+                const tabBtn = document.createElement('button');
+                tabBtn.id = `top-tab-btn-${idx}`;
+                tabBtn.type = 'button';
+                tabBtn.onclick = () => switchTab(idx);
+                tabBtn.className = getTopTabClass(idx === currentTabIndex);
+                tabBtn.innerHTML = `
+                    <i class="fa-solid ${icon} text-xs"></i>
+                    <span class="whitespace-nowrap">${title}</span>
+                `;
+                tabsCarousel.appendChild(tabBtn);
+
+                // 2. Crear elemento en el menú vertical sándwich (ÍNDICE)
+                const drawerItem = document.createElement('button');
+                drawerItem.id = `drawer-item-${idx}`;
+                drawerItem.type = 'button';
+                drawerItem.onclick = () => {
+                    switchTab(idx);
+                    toggleDrawer(false);
+                };
+                drawerItem.className = getDrawerItemClass(idx === currentTabIndex);
+                drawerItem.innerHTML = `
+                    <div class="flex items-center gap-3 text-left">
+                        <span class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${idx === currentTabIndex ? 'bg-amber-500 text-slate-950' : 'bg-slate-800 text-cyan-400'}">
+                            <i class="fa-solid ${icon} text-xs"></i>
+                        </span>
+                        <div>
+                            <p class="font-display font-bold text-xs sm:text-sm ${idx === currentTabIndex ? 'text-amber-300' : 'text-slate-100'}">${title}</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-xs ${idx === currentTabIndex ? 'text-amber-400' : 'text-slate-600'}"></i>
+                `;
+                drawerList.appendChild(drawerItem);
+
+                // 3. Crear los botones fijos al final de cada pestaña (Anterior / Próxima)
+                const footerSlot = pane.querySelector('.nav-footer-slot');
+                if (footerSlot) {
+                    const prevExists = idx > 0;
+                    const nextExists = idx < tabPanes.length - 1;
+                    const prevTitle = prevExists ? tabPanes[idx - 1].getAttribute('data-title') : '';
+                    const nextTitle = nextExists ? tabPanes[idx + 1].getAttribute('data-title') : '';
+
+                    footerSlot.innerHTML = `
+                        <div class="mt-8 pt-5 border-t border-slate-800/90">
+                            <div class="grid grid-cols-2 gap-3">
+                                ${prevExists ? `
+                                    <button type="button" onclick="switchTab(${idx - 1})"
+                                        class="flex flex-col items-start justify-center p-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 border border-slate-700/80 active:scale-95 transition text-left shadow-lg">
+                                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                                            <i class="fa-solid fa-arrow-left text-amber-400"></i> Anterior
+                                        </span>
+                                        <span class="font-display font-bold text-xs sm:text-sm text-white truncate w-full mt-1">${prevTitle}</span>
+                                    </button>
+                                ` : `<div></div>`}
+
+                                ${nextExists ? `
+                                    <button type="button" onclick="switchTab(${idx + 1})"
+                                        class="flex flex-col items-end justify-center p-3.5 rounded-2xl bg-gradient-to-r from-amber-500/20 to-cyan-500/20 hover:from-amber-500/30 hover:to-cyan-500/30 border border-amber-400/50 active:scale-95 transition text-right shadow-lg">
+                                        <span class="text-[10px] font-bold uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
+                                            Próxima <i class="fa-solid fa-arrow-right text-cyan-300"></i>
+                                        </span>
+                                        <span class="font-display font-bold text-xs sm:text-sm text-white truncate w-full mt-1">${nextTitle}</span>
+                                    </button>
+                                ` : `
+                                    <button type="button" onclick="switchTab(0)"
+                                        class="flex flex-col items-end justify-center p-3.5 rounded-2xl bg-emerald-500/20 border border-emerald-400/50 active:scale-95 transition text-right shadow-lg">
+                                        <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-300 flex items-center gap-1.5">
+                                            Volver a <i class="fa-solid fa-house text-emerald-300"></i>
+                                        </span>
+                                        <span class="font-display font-bold text-xs sm:text-sm text-white truncate w-full mt-1">INICIO</span>
+                                    </button>
+                                `}
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        function getTopTabClass(isActive) {
+            if (isActive) {
+                return 'flex items-center gap-2 px-3.5 py-2 rounded-xl font-display font-bold text-xs bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 shadow-md shrink-0 transition-all scale-[1.02]';
+            }
+            return 'flex items-center gap-2 px-3.5 py-2 rounded-xl font-medium text-xs bg-slate-900/90 text-slate-300 hover:text-white border border-slate-800 shrink-0 active:scale-95 transition-all';
+        }
+
+        function getDrawerItemClass(isActive) {
+            if (isActive) {
+                return 'w-full flex items-center justify-between p-3 rounded-2xl bg-amber-500/15 border border-amber-500/40 transition';
+            }
+            return 'w-full flex items-center justify-between p-3 rounded-2xl hover:bg-slate-900/90 border border-transparent transition';
+        }
+
+        // Cambiar de pestaña con auto-centrado horizontal y subida al inicio de la pestaña
+        function switchTab(index) {
+            if (index < 0 || index >= tabPanes.length) return;
+            currentTabIndex = index;
+
+            tabPanes.forEach((pane, idx) => {
+                if (idx === index) {
+                    pane.classList.add('active');
+                } else {
+                    pane.classList.remove('active');
+                }
+
+                const topBtn = document.getElementById(`top-tab-btn-${idx}`);
+                if (topBtn) topBtn.className = getTopTabClass(idx === index);
+
+                const dItem = document.getElementById(`drawer-item-${idx}`);
+                if (dItem) {
+                    const title = pane.getAttribute('data-title');
+                    const icon = pane.getAttribute('data-icon') || 'fa-circle-dot';
+                    dItem.className = getDrawerItemClass(idx === index);
+                    dItem.innerHTML = `
+                        <div class="flex items-center gap-3 text-left">
+                            <span class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${idx === index ? 'bg-amber-500 text-slate-950' : 'bg-slate-800 text-cyan-400'}">
+                                <i class="fa-solid ${icon} text-xs"></i>
+                            </span>
+                            <div>
+                                <p class="font-display font-bold text-xs sm:text-sm ${idx === index ? 'text-amber-300' : 'text-slate-100'}">${title}</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-xs ${idx === index ? 'text-amber-400' : 'text-slate-600'}"></i>
+                    `;
+                }
+            });
+
+            // Auto-centrar la pestaña activa en la barra superior horizontal
+            const activeTabBtn = document.getElementById(`top-tab-btn-${index}`);
+            if (activeTabBtn) {
+                const containerWidth = tabsCarousel.offsetWidth;
+                const btnLeft = activeTabBtn.offsetLeft;
+                const btnWidth = activeTabBtn.offsetWidth;
+                const scrollTarget = btnLeft - (containerWidth / 2) + (btnWidth / 2);
+                tabsCarousel.scrollTo({
+                    left: scrollTarget,
+                    behavior: 'smooth'
+                });
+            }
+
+            // Llevar al comienzo de la pestaña actual
+            scrollToTopOfCurrentTab();
+        }
+
+        // Subir al comienzo de la pestaña actual (funciona en todas las pestañas)
+        function scrollToTopOfCurrentTab() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+        }
+
+        // Abrir / Cerrar el Menú Sándwich (Índice Vertical Completo)
+        function toggleDrawer(open) {
+            const drawer = document.getElementById('indexDrawer');
+            const backdrop = document.getElementById('indexDrawerBackdrop');
+            if (open) {
+                backdrop.classList.remove('hidden');
+                setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
+                drawer.classList.remove('-translate-x-full');
+            } else {
+                backdrop.classList.add('opacity-0');
+                drawer.classList.add('-translate-x-full');
+                setTimeout(() => backdrop.classList.add('hidden'), 300);
+            }
+        }
+
+        // Hacer que un botón flotante sea arrastrable (táctil y ratón) y ejecute su acción al hacer clic/tap
+        function makeDraggable(buttonEl, onClickCallback) {
+            let isDragging = false;
+            let hasMoved = false;
+            let startX = 0;
+            let startY = 0;
+            let initialLeft = 0;
+            let initialTop = 0;
+
+            const startDrag = (clientX, clientY) => {
+                isDragging = true;
+                hasMoved = false;
+                startX = clientX;
+                startY = clientY;
+                const rect = buttonEl.getBoundingClientRect();
+                initialLeft = rect.left;
+                initialTop = rect.top;
+                buttonEl.style.bottom = 'auto';
+                buttonEl.style.right = 'auto';
+                buttonEl.style.left = `${initialLeft}px`;
+                buttonEl.style.top = `${initialTop}px`;
+            };
+
+            const moveDrag = (clientX, clientY) => {
+                if (!isDragging) return;
+                const dx = clientX - startX;
+                const dy = clientY - startY;
+                if (Math.abs(dx) > 6 || Math.abs(dy) > 6) {
+                    hasMoved = true;
+                }
+                if (hasMoved) {
+                    const maxLeft = window.innerWidth - buttonEl.offsetWidth - 6;
+                    const maxTop = window.innerHeight - buttonEl.offsetHeight - 6;
+                    const newLeft = Math.max(6, Math.min(maxLeft, initialLeft + dx));
+                    const newTop = Math.max(6, Math.min(maxTop, initialTop + dy));
+                    buttonEl.style.left = `${newLeft}px`;
+                    buttonEl.style.top = `${newTop}px`;
+                }
+            };
+
+            const endDrag = () => {
+                if (!isDragging) return;
+                isDragging = false;
+                if (!hasMoved) {
+                    onClickCallback();
+                }
+            };
+
+            // Eventos Táctiles (Samsung Galaxy A02s)
+            buttonEl.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    startDrag(e.touches[0].clientX, e.touches[0].clientY);
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchmove', (e) => {
+                if (isDragging && e.touches.length === 1) {
+                    moveDrag(e.touches[0].clientX, e.touches[0].clientY);
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchend', () => {
+                endDrag();
+            });
+
+            // Eventos de Ratón (Escritorio)
+            buttonEl.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                startDrag(e.clientX, e.clientY);
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    moveDrag(e.clientX, e.clientY);
+                }
+            });
+
+            window.addEventListener('mouseup', () => {
+                endDrag();
+            });
+        }
+
+        // Inicialización al cargar la página
+        window.addEventListener('DOMContentLoaded', () => {
+            initNavigation();
+
+            const fabInicio = document.getElementById('fabInicio');
+            const fabArriba = document.getElementById('fabArriba');
+
+            makeDraggable(fabInicio, () => switchTab(0));
+            makeDraggable(fabArriba, () => scrollToTopOfCurrentTab());
+        });
+    </script>
+</body>
+</html>
