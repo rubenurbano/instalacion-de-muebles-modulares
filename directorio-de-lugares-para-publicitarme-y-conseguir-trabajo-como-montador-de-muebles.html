@@ -1,0 +1,1658 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="theme-color" content="#0f172a">
+  <title>Directorio Montador de Muebles - Valencia</title>
+  <style>
+    /* ==========================================================================
+       VARIABLES Y OPTIMIZACIÓN PARA SAMSUNG GALAXY A02s (360x800dp / 720x1600px)
+       Sin dependencias externas, fuentes del sistema, bajo consumo de GPU/RAM.
+       ========================================================================== */
+    :root {
+      --bg-body: #f1f5f9;
+      --bg-card: #ffffff;
+      --primary: #0f172a;
+      --primary-light: #1e293b;
+      --accent: #0284c7;
+      --accent-dark: #0369a1;
+      --accent-soft: #e0f2fe;
+      --success: #15803d;
+      --success-soft: #dcfce7;
+      --warning-bg: #fef3c7;
+      --warning-border: #f59e0b;
+      --warning-text: #92400e;
+      --danger-bg: #fee2e2;
+      --danger-border: #ef4444;
+      --danger-text: #991b1b;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-color: #cbd5e1;
+      --header-h: 58px;
+      --footer-h: 66px;
+      --radius: 12px;
+      --shadow: 0 2px 5px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      font-family: Roboto, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* ==========================================================================
+       CABECERA FIJA Y BOTÓN MENÚ SÁNDWICH
+       ========================================================================== */
+    .app-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--header-h);
+      background-color: var(--primary);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    }
+
+    .menu-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .menu-btn:active {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .menu-btn span {
+      display: block;
+      width: 22px;
+      height: 2.5px;
+      background-color: #ffffff;
+      border-radius: 2px;
+    }
+
+    .header-title-wrap {
+      flex: 1;
+      padding: 0 10px;
+      overflow: hidden;
+    }
+
+    .header-subtitle {
+      font-size: 11px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: block;
+      line-height: 1.1;
+    }
+
+    .header-title {
+      font-size: 15px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+    }
+
+    .tab-badge {
+      background-color: var(--accent);
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: 20px;
+      flex-shrink: 0;
+    }
+
+    /* ==========================================================================
+       MENÚ SÁNDWICH LATERAL (ÍNDICE DE PESTAÑAS)
+       ========================================================================== */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(15, 23, 42, 0.65);
+      z-index: 1500;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
+    }
+
+    .drawer-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 86%;
+      max-width: 310px;
+      background-color: var(--bg-card);
+      z-index: 1600;
+      transform: translateX(-102%);
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 4px 0 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      background-color: var(--primary);
+      color: #ffffff;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #334155;
+    }
+
+    .drawer-header h2 {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    .close-drawer-btn {
+      background: rgba(255, 255, 255, 0.12);
+      border: none;
+      color: #ffffff;
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .drawer-list {
+      list-style: none;
+      overflow-y: auto;
+      flex: 1;
+      padding: 8px;
+    }
+
+    .drawer-item {
+      margin-bottom: 4px;
+    }
+
+    .drawer-link {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      padding: 13px 12px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .drawer-link:active {
+      background-color: #e2e8f0;
+    }
+
+    .drawer-link.active {
+      background-color: var(--accent-soft);
+      color: var(--accent-dark);
+      border-left: 4px solid var(--accent);
+    }
+
+    .drawer-num {
+      background-color: #e2e8f0;
+      color: var(--primary);
+      min-width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .drawer-link.active .drawer-num {
+      background-color: var(--accent);
+      color: #ffffff;
+    }
+
+    /* ==========================================================================
+       CONTENEDOR PRINCIPAL Y PESTAÑAS
+       ========================================================================== */
+    .main-container {
+      padding-top: calc(var(--header-h) + 14px);
+      padding-bottom: calc(var(--footer-h) + 95px);
+      padding-left: 12px;
+      padding-right: 12px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .tab-pane {
+      display: none;
+    }
+
+    .tab-pane.active {
+      display: block;
+      animation: fadeIn 0.18s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ==========================================================================
+       TARJETAS, ENLACES Y COMPONENTES VISUALES DEL TUTORIAL
+       ========================================================================== */
+    .hero-box {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      color: #ffffff;
+      border-radius: var(--radius);
+      padding: 18px 16px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-tag {
+      display: inline-block;
+      background-color: rgba(56, 189, 248, 0.25);
+      color: #bae6fd;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .hero-box h1 {
+      font-size: 20px;
+      line-height: 1.25;
+      margin-bottom: 6px;
+      font-weight: 800;
+    }
+
+    .hero-box p {
+      font-size: 14px;
+      color: #e2e8f0;
+    }
+
+    .section-banner {
+      background-color: var(--primary);
+      color: #ffffff;
+      padding: 14px 16px;
+      border-radius: var(--radius);
+      margin-bottom: 14px;
+      border-left: 5px solid #38bdf8;
+    }
+
+    .section-banner .sec-num {
+      font-size: 12px;
+      color: #38bdf8;
+      font-weight: 700;
+      text-transform: uppercase;
+      display: block;
+    }
+
+    .section-banner h2 {
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-top: 2px;
+    }
+
+    .card {
+      background-color: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 15px;
+      margin-bottom: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow);
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .card-number {
+      background-color: var(--accent-soft);
+      color: var(--accent-dark);
+      font-size: 13px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+
+    .card p {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .goal-pill {
+      background-color: var(--success-soft);
+      color: var(--success);
+      border-left: 3px solid var(--success);
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 13.5px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .ext-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #f8fafc;
+      border: 1.5px solid #bae6fd;
+      color: var(--accent-dark);
+      text-decoration: none;
+      padding: 11px 12px;
+      border-radius: 9px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 8px;
+      word-break: break-all;
+    }
+
+    .ext-link:active {
+      background-color: var(--accent-soft);
+      border-color: var(--accent);
+    }
+
+    .ext-link span.url-text {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--text-muted);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .ext-link-arrow {
+      font-size: 16px;
+      font-weight: bold;
+      margin-left: 8px;
+      flex-shrink: 0;
+      color: var(--accent);
+    }
+
+    .alert-box {
+      padding: 14px;
+      border-radius: var(--radius);
+      margin-bottom: 12px;
+      font-size: 14.5px;
+      font-weight: 600;
+    }
+
+    .alert-warning {
+      background-color: var(--warning-bg);
+      border-left: 5px solid var(--warning-border);
+      color: var(--warning-text);
+    }
+
+    .alert-danger {
+      background-color: var(--danger-bg);
+      border-left: 5px solid var(--danger-border);
+      color: var(--danger-text);
+    }
+
+    /* Chips / Etiquetas para palabras clave y zonas */
+    .chip-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .chip {
+      background-color: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      color: var(--primary);
+      padding: 8px 11px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 600;
+    }
+
+    /* Listas limpias */
+    .clean-list {
+      list-style: none;
+      margin-top: 8px;
+    }
+
+    .clean-list li {
+      position: relative;
+      padding: 9px 10px 9px 30px;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .clean-list li:last-child {
+      border-bottom: none;
+    }
+
+    .clean-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 8px;
+      top: 9px;
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    /* Índice rápido dentro de la pestaña INICIO */
+    .quick-index-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .quick-index-btn {
+      background-color: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 12px;
+      text-align: left;
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .quick-index-btn:active {
+      background-color: var(--accent-soft);
+      border-color: var(--accent);
+    }
+
+    /* ==========================================================================
+       BARRA INFERIOR FIJA (ANTERIOR / PRÓXIMA PESTAÑA)
+       ========================================================================== */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: var(--footer-h);
+      background-color: #ffffff;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      gap: 10px;
+      z-index: 1000;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    .nav-step-btn {
+      flex: 1;
+      height: 48px;
+      border-radius: 10px;
+      font-size: 14.5px;
+      font-weight: 800;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      padding: 0 10px;
+    }
+
+    .btn-prev {
+      background-color: #e2e8f0;
+      color: var(--primary);
+    }
+
+    .btn-prev:active {
+      background-color: #cbd5e1;
+    }
+
+    .btn-next {
+      background-color: var(--accent);
+      color: #ffffff;
+    }
+
+    .btn-next:active {
+      background-color: var(--accent-dark);
+    }
+
+    .nav-step-btn.hidden-step {
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* ==========================================================================
+       BOTONES FLOTANTES MOVIBLES (INICIO y ARRIBA)
+       ========================================================================== */
+    .draggable-fab {
+      position: fixed;
+      z-index: 1200;
+      min-width: 78px;
+      height: 44px;
+      padding: 0 12px;
+      border-radius: 24px;
+      font-size: 12.5px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      color: #ffffff;
+      border: 2px solid #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.4);
+      touch-action: none; /* Esencial para arrastrar con fluidez en móvil */
+      user-select: none;
+      -webkit-user-select: none;
+      cursor: grab;
+    }
+
+    .draggable-fab:active {
+      transform: scale(0.96);
+    }
+
+    #fabInicio {
+      background-color: #0f172a;
+      /* Posición inicial esquina inferior izquierda sobre la barra */
+      left: 12px;
+      bottom: 80px;
+    }
+
+    #fabArriba {
+      background-color: #0284c7;
+      /* Posición inicial esquina inferior derecha sobre la barra */
+      right: 12px;
+      bottom: 80px;
+    }
+
+    .fab-hint {
+      font-size: 12px;
+      background-color: #e0f2fe;
+      color: #0369a1;
+      padding: 10px 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      border: 1px dashed #38bdf8;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CABECERA FIJA CON BOTÓN MENÚ SÁNDWICH -->
+  <header class="app-header">
+    <button class="menu-btn" id="openMenuBtn" aria-label="Abrir índice de pestañas">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="header-title-wrap">
+      <span class="header-subtitle">Directorio Valencia</span>
+      <span class="header-title" id="headerCurrentTitle">INICIO</span>
+    </div>
+    <span class="tab-badge" id="headerBadge">1 / 10</span>
+  </header>
+
+  <!-- FONDO OSCURO Y MENÚ SÁNDWICH (ÍNDICE) -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <nav class="drawer" id="drawerMenu" aria-label="Índice del tutorial">
+    <div class="drawer-header">
+      <h2>ÍNDICE DEL TUTORIAL</h2>
+      <button class="close-drawer-btn" id="closeMenuBtn" aria-label="Cerrar menú">✕</button>
+    </div>
+    <ul class="drawer-list" id="drawerList">
+      <li class="drawer-item">
+        <button class="drawer-link active" data-tab="0">
+          <span class="drawer-num">0</span>
+          <span>INICIO – Objetivo y Guía</span>
+        </button>
+      </li>
+      <li class="drawer-item">
+        <button class="drawer-link" data-tab="1">
+          <span class="drawer-num">1</span>
+          <span>Plataformas de Anuncios</span>
+        </button>
+      </li>
+      <li class="drawer-item">
+        <button class="drawer-link" data-tab="2">
+          <span class="drawer-num">2</span>
+          <span>Grandes Superficies y Cadenas</span>
+        </button>
+      </li>
+      <li class="drawer-item">
+        <button class="drawer-link" data-tab="3">
+          <span class="drawer-num">3</span>
+          <span>Portales de Empleo</span>
+        </button>
+      </li>
+      <li class="drawer-item">
+        <button class="drawer-link" data-tab="4">
+          <span class="drawer-num">4</span>
+          <span>Redes Sociales y Local</span>
+        </button>
+      </li>
+      <li class="drawer-item">
+        <button class="drawer-link" data-tab="5">
+          <span class="drawer-num">5</span>
+          <span>Empresas de Cocinas Valencia</span>
+        </button>
+      </li>
+      <li class="drawer-item">
+        <button class="drawer-link" data-tab="6">
+          <span class="drawer-num">6</span>
+          <span>Otros Sectores y Directorios</span>
+        </button>
+      </li>
+      <li class="drawer-item">
+        <button class="drawer-link" data-tab="7">
+          <span class="drawer-num">7</span>
+          <span>Prioridades Recomendadas</span>
+        </button>
+      </li>
+      <li class="drawer-item">
+        <button class="drawer-link" data-tab="8">
+          <span class="drawer-num">8</span>
+          <span>Servicios que Puedo Ofrecer</span>
+        </button>
+      </li>
+      <li class="drawer-item">
+        <button class="drawer-link" data-tab="9">
+          <span class="drawer-num">9</span>
+          <span>Estrategia Comercial</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- CONTENIDO DE TODAS LAS PESTAÑAS DEL TUTORIAL -->
+  <main class="main-container" id="mainContent">
+
+    <!-- =================================================================
+         PESTAÑA 0: INICIO
+         ================================================================= -->
+    <section class="tab-pane active" data-index="0" data-title="INICIO">
+      <div class="hero-box">
+        <span class="hero-tag">Valencia y alrededores – España</span>
+        <h1>DIRECTORIO DE LUGARES PARA PUBLICITARME Y CONSEGUIR TRABAJO COMO MONTADOR DE MUEBLES</h1>
+        <p>Guía práctica interactiva optimizada para móvil.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <span>🎯 OBJETIVO PRINCIPAL</span>
+        </div>
+        <p>Conseguir clientes particulares, colaboraciones con empresas y ofertas de empleo como montador de muebles, especialmente <strong>cocinas modulares, muebles IKEA, armarios y mobiliario doméstico</strong>.</p>
+      </div>
+
+      <div class="fab-hint">
+        💡 <strong>Controles táctiles:</strong> Puedes arrastrar libremente por la pantalla los botones flotantes <strong>🏠 INICIO</strong> y <strong>⬆️ ARRIBA</strong> para colocarlos donde te resulte más cómodo.
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <span>📑 ACCESO RÁPIDO A LAS PESTAÑAS</span>
+        </div>
+        <p>Toca cualquier apartado o usa el menú sándwich superior (☰):</p>
+        <div class="quick-index-grid">
+          <button class="quick-index-btn" onclick="goToTab(1)"><span>1. Plataformas de Anuncios y Clientes</span> <span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(2)"><span>2. Grandes Superficies y Cadenas</span> <span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(3)"><span>3. Portales de Empleo y Palabras Clave</span> <span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(4)"><span>4. Redes Sociales y Publicidad Local</span> <span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(5)"><span>5. Empresas de Cocinas en Valencia</span> <span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(6)"><span>6. Otros Sectores y Directorios</span> <span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(7)"><span>7. Prioridades Recomendadas (1 a 10)</span> <span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(8)"><span>8. Servicios que Puedo Ofrecer</span> <span>➔</span></button>
+          <button class="quick-index-btn" onclick="goToTab(9)"><span>9. Estrategia Comercial</span> <span>➔</span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 1: PLATAFORMAS PARA PUBLICAR ANUNCIOS Y CONSEGUIR CLIENTES
+         ================================================================= -->
+    <section class="tab-pane" data-index="1" data-title="1. Plataformas de Anuncios">
+      <div class="section-banner">
+        <span class="sec-num">Sección 1</span>
+        <h2>PLATAFORMAS PARA PUBLICAR ANUNCIOS Y CONSEGUIR CLIENTES</h2>
+      </div>
+
+      <div class="alert-box alert-warning">
+        ⚠️ <strong>IMPORTANTE:</strong> Algunas plataformas cobran por contactar con clientes o acceder a solicitudes. Comprobar las condiciones antes de pagar.
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>MILANUNCIOS</span><span class="card-number">#1</span></div>
+        <a class="ext-link" href="https://www.milanuncios.com" target="_blank" rel="noopener noreferrer">
+          <div>Abrir Milanuncios<span class="url-text">https://www.milanuncios.com</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>WALLAPOP</span><span class="card-number">#2</span></div>
+        <a class="ext-link" href="https://es.wallapop.com" target="_blank" rel="noopener noreferrer">
+          <div>Abrir Wallapop<span class="url-text">https://es.wallapop.com</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>CRONOSHARE – Registro de profesionales</span><span class="card-number">#3</span></div>
+        <a class="ext-link" href="https://www.cronoshare.com/registro/profesionales" target="_blank" rel="noopener noreferrer">
+          <div>Registro Profesionales Cronoshare<span class="url-text">https://www.cronoshare.com/registro/profesionales</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>TASKIA</span><span class="card-number">#4</span></div>
+        <a class="ext-link" href="https://www.taskia.es/anuncios" target="_blank" rel="noopener noreferrer">
+          <div>Abrir Taskia Anuncios<span class="url-text">https://www.taskia.es/anuncios</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>TASKRABBIT – Montaje de muebles</span><span class="card-number">#5</span></div>
+        <a class="ext-link" href="https://www.taskrabbit.es/servicios/montaje-muebles" target="_blank" rel="noopener noreferrer">
+          <div>Taskrabbit Montaje de Muebles<span class="url-text">https://www.taskrabbit.es/servicios/montaje-muebles</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>ZAASK</span><span class="card-number">#6</span></div>
+        <a class="ext-link" href="https://www.zaask.es" target="_blank" rel="noopener noreferrer">
+          <div>Abrir Zaask<span class="url-text">https://www.zaask.es</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>HABITISSIMO</span><span class="card-number">#7</span></div>
+        <a class="ext-link" href="https://www.habitissimo.es" target="_blank" rel="noopener noreferrer">
+          <div>Abrir Habitissimo<span class="url-text">https://www.habitissimo.es</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>PRONTOPRO</span><span class="card-number">#8</span></div>
+        <a class="ext-link" href="https://www.prontopro.es" target="_blank" rel="noopener noreferrer">
+          <div>Abrir ProntoPro<span class="url-text">https://www.prontopro.es</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>FIXANDO</span><span class="card-number">#9</span></div>
+        <a class="ext-link" href="https://www.fixando.es" target="_blank" rel="noopener noreferrer">
+          <div>Abrir Fixando<span class="url-text">https://www.fixando.es</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>DOMESTIKO</span><span class="card-number">#10</span></div>
+        <a class="ext-link" href="https://www.domestiko.com" target="_blank" rel="noopener noreferrer">
+          <div>Abrir Domestiko<span class="url-text">https://www.domestiko.com</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>CITISERVI</span><span class="card-number">#11</span></div>
+        <a class="ext-link" href="https://www.citiservi.es" target="_blank" rel="noopener noreferrer">
+          <div>Abrir Citiservi<span class="url-text">https://www.citiservi.es</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>HAZMEPRECIO</span><span class="card-number">#12</span></div>
+        <a class="ext-link" href="https://www.hazmeprecio.com" target="_blank" rel="noopener noreferrer">
+          <div>Abrir Hazmeprecio<span class="url-text">https://www.hazmeprecio.com</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 2: GRANDES SUPERFICIES Y CADENAS DE MUEBLES
+         ================================================================= -->
+    <section class="tab-pane" data-index="2" data-title="2. Grandes Superficies">
+      <div class="section-banner">
+        <span class="sec-num">Sección 2</span>
+        <h2>GRANDES SUPERFICIES Y CADENAS DE MUEBLES</h2>
+      </div>
+
+      <!-- IKEA -->
+      <div class="card">
+        <div class="card-title"><span>IKEA</span><span class="card-number">Principal</span></div>
+        <a class="ext-link" href="https://www.ikea.com/es/es/" target="_blank" rel="noopener noreferrer">
+          <div>Web Oficial IKEA<span class="url-text">https://www.ikea.com/es/es/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://home-services.ikea.com/es/es/professionals" target="_blank" rel="noopener noreferrer">
+          <div>IKEA Home Services (Profesionales)<span class="url-text">https://home-services.ikea.com/es/es/professionals</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.taskrabbit.es/" target="_blank" rel="noopener noreferrer">
+          <div>Taskrabbit<span class="url-text">https://www.taskrabbit.es/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.ikea.com/es/es/this-is-ikea/work-with-us/" target="_blank" rel="noopener noreferrer">
+          <div>Empleo IKEA<span class="url-text">https://www.ikea.com/es/es/this-is-ikea/work-with-us/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <div class="goal-pill">OBJETIVO: Entrar en su red de profesionales de montaje e instalación.</div>
+      </div>
+
+      <!-- LEROY MERLIN -->
+      <div class="card">
+        <div class="card-title"><span>LEROY MERLIN</span><span class="card-number">Principal</span></div>
+        <a class="ext-link" href="https://www.leroymerlin.es/" target="_blank" rel="noopener noreferrer">
+          <div>Web Leroy Merlin<span class="url-text">https://www.leroymerlin.es/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.leroymerlin.es/servicios/alta-instaladores.html" target="_blank" rel="noopener noreferrer">
+          <div>Alta de instaladores<span class="url-text">https://www.leroymerlin.es/servicios/alta-instaladores.html</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://empleo.leroymerlin.es/" target="_blank" rel="noopener noreferrer">
+          <div>Portal de empleo<span class="url-text">https://empleo.leroymerlin.es/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://hogami.leroymerlin.es/alta-profesional-empresa-servicios-hogar" target="_blank" rel="noopener noreferrer">
+          <div>Hogami – Alta profesional<span class="url-text">https://hogami.leroymerlin.es/alta-profesional-empresa-servicios-hogar</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <div class="goal-pill">OBJETIVO: Colaborar como instalador de muebles, cocinas y otros productos.</div>
+      </div>
+
+      <!-- BRICO DEPOT -->
+      <div class="card">
+        <div class="card-title"><span>BRICO DEPÔT</span></div>
+        <a class="ext-link" href="https://www.bricodepot.es/" target="_blank" rel="noopener noreferrer">
+          <div>Web Brico Depôt<span class="url-text">https://www.bricodepot.es/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <div class="goal-pill">OBJETIVO: Consultar por empresas colaboradoras y servicios de instalación.</div>
+      </div>
+
+      <!-- OBRAMAT -->
+      <div class="card">
+        <div class="card-title"><span>OBRAMAT</span></div>
+        <a class="ext-link" href="https://www.obramat.es/" target="_blank" rel="noopener noreferrer">
+          <div>Web Obramat<span class="url-text">https://www.obramat.es/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <div class="goal-pill">OBJETIVO: Contactar con su red profesional y explorar oportunidades de instalación.</div>
+      </div>
+
+      <!-- BAUHAUS -->
+      <div class="card">
+        <div class="card-title"><span>BAUHAUS</span></div>
+        <a class="ext-link" href="https://www.bauhaus.es/" target="_blank" rel="noopener noreferrer">
+          <div>Web Bauhaus<span class="url-text">https://www.bauhaus.es/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <div class="goal-pill">OBJETIVO: Consultar oportunidades de instalación y colaboración.</div>
+      </div>
+
+      <!-- CONFORAMA -->
+      <div class="card">
+        <div class="card-title"><span>CONFORAMA</span></div>
+        <a class="ext-link" href="https://www.conforama.es/" target="_blank" rel="noopener noreferrer">
+          <div>Web Conforama<span class="url-text">https://www.conforama.es/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.conforama.es/empleo" target="_blank" rel="noopener noreferrer">
+          <div>Conforama Empleo<span class="url-text">https://www.conforama.es/empleo</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <div class="goal-pill">OBJETIVO: Montaje de dormitorios, armarios, salones y mobiliario modular.</div>
+      </div>
+
+      <!-- JYSK -->
+      <div class="card">
+        <div class="card-title"><span>JYSK</span></div>
+        <a class="ext-link" href="https://www.jysk.es/" target="_blank" rel="noopener noreferrer">
+          <div>Web JYSK<span class="url-text">https://www.jysk.es/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://empleo.jysk.es/vacantes-es" target="_blank" rel="noopener noreferrer">
+          <div>Empleo JYSK<span class="url-text">https://empleo.jysk.es/vacantes-es</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+
+      <!-- OTRAS CADENAS Y MARCAS -->
+      <div class="card">
+        <div class="card-title"><span>OTRAS CADENAS Y MARCAS</span></div>
+        <a class="ext-link" href="https://kavehome.com" target="_blank" rel="noopener noreferrer">
+          <div>KAVE HOME<span class="url-text">https://kavehome.com</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.maisonsdumonde.com" target="_blank" rel="noopener noreferrer">
+          <div>MAISONS DU MONDE<span class="url-text">https://www.maisonsdumonde.com</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.mueblesboom.com" target="_blank" rel="noopener noreferrer">
+          <div>MUEBLES BOOM<span class="url-text">https://www.mueblesboom.com</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.mobalpa.es" target="_blank" rel="noopener noreferrer">
+          <div>MOBALPA<span class="url-text">https://www.mobalpa.es</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.home-design.schmidt" target="_blank" rel="noopener noreferrer">
+          <div>SCHMIDT<span class="url-text">https://www.home-design.schmidt</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.mobel6000.com" target="_blank" rel="noopener noreferrer">
+          <div>MOBEL 6000<span class="url-text">https://www.mobel6000.com</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.banak.com" target="_blank" rel="noopener noreferrer">
+          <div>BANAK<span class="url-text">https://www.banak.com</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.elcorteingles.es" target="_blank" rel="noopener noreferrer">
+          <div>EL CORTE INGLÉS<span class="url-text">https://www.elcorteingles.es</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.sklum.com" target="_blank" rel="noopener noreferrer">
+          <div>SKLUM<span class="url-text">https://www.sklum.com</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <div class="goal-pill">OBJETIVO: Presentar una propuesta de colaboración para realizar montajes a domicilio.</div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 3: PORTALES DE EMPLEO
+         ================================================================= -->
+    <section class="tab-pane" data-index="3" data-title="3. Portales de Empleo">
+      <div class="section-banner">
+        <span class="sec-num">Sección 3</span>
+        <h2>PORTALES DE EMPLEO Y PALABRAS CLAVE</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>PORTALES Y ETT</span></div>
+        <a class="ext-link" href="https://www.infojobs.net" target="_blank" rel="noopener noreferrer">
+          <div>INFOJOBS<span class="url-text">https://www.infojobs.net</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://es.indeed.com" target="_blank" rel="noopener noreferrer">
+          <div>INDEED<span class="url-text">https://es.indeed.com</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.linkedin.com/jobs/" target="_blank" rel="noopener noreferrer">
+          <div>LINKEDIN EMPLEO<span class="url-text">https://www.linkedin.com/jobs/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://jobtoday.com/es" target="_blank" rel="noopener noreferrer">
+          <div>JOB TODAY<span class="url-text">https://jobtoday.com/es</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.domestiko.com" target="_blank" rel="noopener noreferrer">
+          <div>DOMESTIKO<span class="url-text">https://www.domestiko.com</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://labora.gva.es" target="_blank" rel="noopener noreferrer">
+          <div>LABORA (Generalitat Valenciana)<span class="url-text">https://labora.gva.es</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://puntlabora.gva.es" target="_blank" rel="noopener noreferrer">
+          <div>PUNT LABORA<span class="url-text">https://puntlabora.gva.es</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://empleate.gob.es" target="_blank" rel="noopener noreferrer">
+          <div>EMPLÉATE – SEPE<span class="url-text">https://empleate.gob.es</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.adecco.es" target="_blank" rel="noopener noreferrer">
+          <div>ADECCO<span class="url-text">https://www.adecco.es</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.randstad.es" target="_blank" rel="noopener noreferrer">
+          <div>RANDSTAD<span class="url-text">https://www.randstad.es</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.eurofirms.com/es/es/" target="_blank" rel="noopener noreferrer">
+          <div>EUROFIRMS<span class="url-text">https://www.eurofirms.com/es/es/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.manpower.es" target="_blank" rel="noopener noreferrer">
+          <div>MANPOWER<span class="url-text">https://www.manpower.es</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>🔍 PALABRAS CLAVE PARA BUSCAR TRABAJO</span></div>
+        <p>Usa estas combinaciones en las alertas de los portales de empleo:</p>
+        <div class="chip-container">
+          <span class="chip">Montador de muebles</span>
+          <span class="chip">Montador de cocinas</span>
+          <span class="chip">Instalador de muebles modulares</span>
+          <span class="chip">Montador de mobiliario</span>
+          <span class="chip">Instalador de mobiliario comercial</span>
+          <span class="chip">Montador de armarios</span>
+          <span class="chip">Carpintero montador</span>
+          <span class="chip">Montador de muebles en kit</span>
+          <span class="chip">Técnico de instalaciones</span>
+          <span class="chip">Ayudante de montaje</span>
+          <span class="chip">Instalador de cocinas IKEA</span>
+          <span class="chip">Montador de mobiliario de oficina</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 4: REDES SOCIALES Y PUBLICIDAD LOCAL
+         ================================================================= -->
+    <section class="tab-pane" data-index="4" data-title="4. Redes Sociales y Local">
+      <div class="section-banner">
+        <span class="sec-num">Sección 4</span>
+        <h2>REDES SOCIALES Y PUBLICIDAD LOCAL</h2>
+      </div>
+
+      <div class="alert-box alert-warning">
+        ⚠️ <strong>IMPORTANTE:</strong> Comprobar las normas de cada grupo antes de publicar anuncios comerciales.
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>PLATAFORMAS SOCIALES Y PERFIL LOCAL</span></div>
+        <a class="ext-link" href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+          <div>FACEBOOK<span class="url-text">https://www.facebook.com</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.facebook.com/marketplace/" target="_blank" rel="noopener noreferrer">
+          <div>FACEBOOK MARKETPLACE<span class="url-text">https://www.facebook.com/marketplace/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.facebook.com/search/groups/?q=servicios%20valencia" target="_blank" rel="noopener noreferrer">
+          <div>GRUPOS DE FACEBOOK DE VALENCIA<span class="url-text">https://www.facebook.com/search/groups/?q=servicios%20valencia</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+          <div>INSTAGRAM<span class="url-text">https://www.instagram.com</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer">
+          <div>TIKTOK<span class="url-text">https://www.tiktok.com</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://nextdoor.es" target="_blank" rel="noopener noreferrer">
+          <div>NEXTDOOR (Barrios y Vecinos)<span class="url-text">https://nextdoor.es</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.google.com/intl/es_es/business/" target="_blank" rel="noopener noreferrer">
+          <div>GOOGLE BUSINESS PROFILE<span class="url-text">https://www.google.com/intl/es_es/business/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>📍 GRUPOS Y ZONAS DONDE PUBLICAR</span></div>
+        <p>Buscar grupos de:</p>
+        <div class="chip-container">
+          <span class="chip">Vecinos de Valencia</span>
+          <span class="chip">Argentinos en Valencia</span>
+          <span class="chip">Españoles en Valencia</span>
+          <span class="chip">Vecinos de Torrent</span>
+          <span class="chip">Vecinos de Paterna</span>
+          <span class="chip">Vecinos de Mislata</span>
+          <span class="chip">Vecinos de Burjassot</span>
+          <span class="chip">Vecinos de Quart de Poblet</span>
+          <span class="chip">Vecinos de Aldaia</span>
+          <span class="chip">Vecinos de Alaquàs</span>
+          <span class="chip">Vecinos de Manises</span>
+          <span class="chip">Vecinos de Xirivella</span>
+          <span class="chip">Compra y venta Valencia</span>
+          <span class="chip">Reformas y profesionales Valencia</span>
+          <span class="chip">Servicios a domicilio Valencia</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 5: EMPRESAS DE COCINAS Y REFORMAS EN VALENCIA
+         ================================================================= -->
+    <section class="tab-pane" data-index="5" data-title="5. Empresas de Cocinas">
+      <div class="section-banner">
+        <span class="sec-num">Sección 5</span>
+        <h2>EMPRESAS DE COCINAS Y REFORMAS EN VALENCIA</h2>
+      </div>
+
+      <div class="card">
+        <p>Contactar directamente con empresas que venden cocinas y muebles modulares. Posibles contactos comerciales:</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>SCHMIDT VALENCIA</span></div>
+        <a class="ext-link" href="https://www.home-design.schmidt" target="_blank" rel="noopener noreferrer">
+          <div>Web Oficial Schmidt<span class="url-text">https://www.home-design.schmidt</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>COCINA FÁCIL</span></div>
+        <p>📍 Buscar empresa y contacto en <strong>Burjassot</strong>.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>COCINAS VALENCIA</span></div>
+        <p>📍 Buscar empresa y contacto en <strong>Calle Conca</strong>.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>NOVACUIN</span></div>
+        <p>📍 Buscar empresa y contacto en <strong>Calle Filipinas</strong>.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>MOBALPA</span></div>
+        <a class="ext-link" href="https://www.mobalpa.es" target="_blank" rel="noopener noreferrer">
+          <div>Web Oficial Mobalpa<span class="url-text">https://www.mobalpa.es</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>NOUESPAI KÜCHEN</span></div>
+        <p>📍 Buscar empresa y contacto en <strong>Campanar</strong>.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>ARRITAL VALENCIA</span></div>
+        <p>📍 Buscar empresa y contacto en <strong>Calle Burriana</strong>.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>SABELLA HOME</span></div>
+        <p>📍 Buscar empresa y contacto en <strong>Guillem de Castro</strong>.</p>
+      </div>
+
+      <div class="alert-box alert-warning">
+        ℹ️ <strong>NOTA:</strong> Son posibles contactos comerciales. No se ha confirmado que todas contraten montadores externos.
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 6: OTROS SECTORES QUE NECESITAN MONTADORES
+         ================================================================= -->
+    <section class="tab-pane" data-index="6" data-title="6. Otros Sectores">
+      <div class="section-banner">
+        <span class="sec-num">Sección 6</span>
+        <h2>OTROS SECTORES QUE NECESITAN MONTADORES</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>🏢 CONTACTAR TAMBIÉN CON:</span></div>
+        <ul class="clean-list">
+          <li>Empresas de mudanzas.</li>
+          <li>Empresas de reformas integrales.</li>
+          <li>Carpinterías y ebanisterías.</li>
+          <li>Tiendas independientes de cocinas.</li>
+          <li>Empresas de mobiliario de oficinas.</li>
+          <li>Empresas de montaje de stands.</li>
+          <li>Empresas de interiorismo.</li>
+          <li>Inmobiliarias.</li>
+          <li>Empresas de mantenimiento de apartamentos turísticos.</li>
+          <li>Constructoras y promotoras inmobiliarias.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>📒 DIRECTORIOS PARA LOCALIZAR EMPRESAS</span></div>
+        <a class="ext-link" href="https://www.paginasamarillas.es/" target="_blank" rel="noopener noreferrer">
+          <div>PÁGINAS AMARILLAS<span class="url-text">https://www.paginasamarillas.es/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer">
+          <div>GOOGLE MAPS<span class="url-text">https://www.google.com/maps</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.europages.es/" target="_blank" rel="noopener noreferrer">
+          <div>EUROPAGES<span class="url-text">https://www.europages.es/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+        <a class="ext-link" href="https://www.axesor.es/" target="_blank" rel="noopener noreferrer">
+          <div>AXESOR<span class="url-text">https://www.axesor.es/</span></div>
+          <span class="ext-link-arrow">↗</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 7: PRIORIDADES RECOMENDADAS
+         ================================================================= -->
+    <section class="tab-pane" data-index="7" data-title="7. Prioridades">
+      <div class="section-banner">
+        <span class="sec-num">Sección 7</span>
+        <h2>PRIORIDADES RECOMENDADAS (ORDEN DE ACTUACIÓN)</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>IKEA Home Services</span><span class="card-number">Paso 1</span></div>
+        <p>Intentar entrar en su red de profesionales.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>Leroy Merlin</span><span class="card-number">Paso 2</span></div>
+        <p>Solicitar incorporación a su red de instaladores.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>Taskrabbit</span><span class="card-number">Paso 3</span></div>
+        <p>Registrarse como profesional de montaje.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>Milanuncios</span><span class="card-number">Paso 4</span></div>
+        <p>Publicar un anuncio propio.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>Wallapop</span><span class="card-number">Paso 5</span></div>
+        <p>Publicar servicios de montaje.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>Cronoshare</span><span class="card-number">Paso 6</span></div>
+        <p>Registrarse y evaluar los costes.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>Taskia</span><span class="card-number">Paso 7</span></div>
+        <p>Ofrecer servicios de montaje.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>Habitissimo</span><span class="card-number">Paso 8</span></div>
+        <p>Explorar oportunidades de reformas e instalaciones.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>Empresas locales de cocinas</span><span class="card-number">Paso 9</span></div>
+        <p>Ofrecer colaboración directa.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>Portales de empleo</span><span class="card-number">Paso 10</span></div>
+        <p>Activar alertas de trabajo.</p>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 8: SERVICIOS QUE PUEDO OFRECER
+         ================================================================= -->
+    <section class="tab-pane" data-index="8" data-title="8. Servicios a Ofrecer">
+      <div class="section-banner">
+        <span class="sec-num">Sección 8</span>
+        <h2>SERVICIOS QUE PUEDO OFRECER</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>🛠️ CATÁLOGO DE SERVICIOS DE MONTAJE</span></div>
+        <ul class="clean-list">
+          <li>Montaje de cocinas modulares.</li>
+          <li>Montaje de muebles IKEA.</li>
+          <li>Montaje de armarios y vestidores.</li>
+          <li>Montaje de dormitorios.</li>
+          <li>Montaje de muebles de salón.</li>
+          <li>Montaje de estanterías.</li>
+          <li>Montaje de escritorios.</li>
+          <li>Montaje de mobiliario de oficina.</li>
+          <li>Desmontaje y remontaje de muebles.</li>
+          <li>Instalación de mobiliario modular.</li>
+        </ul>
+      </div>
+
+      <div class="alert-box alert-danger">
+        ⛔ <strong>PRECAUCIÓN LEGAL Y TÉCNICA:</strong><br>
+        No ofrecer servicios de instalación eléctrica, fontanería o trabajos especializados si no se dispone de la formación y habilitación necesarias.
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PESTAÑA 9: ESTRATEGIA COMERCIAL
+         ================================================================= -->
+    <section class="tab-pane" data-index="9" data-title="9. Estrategia Comercial">
+      <div class="section-banner">
+        <span class="sec-num">Sección 9</span>
+        <h2>ESTRATEGIA COMERCIAL</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>🚀 ENFOQUE DE ESPECIALIZACIÓN</span></div>
+        <p><strong>No limitar la actividad a IKEA.</strong></p>
+        <p>Especializarse progresivamente en:</p>
+        <div class="goal-pill" style="font-size: 15px; text-align: center; margin-bottom: 10px;">
+          MONTAJE DE COCINAS MODULARES Y MOBILIARIO
+        </div>
+        <p>Es un segmento interesante porque permite conseguir trabajos de mayor envergadura y establecer relaciones recurrentes con tiendas y empresas.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>📋 PRIMER OBJETIVO (HOJA DE RUTA)</span></div>
+        <ul class="clean-list">
+          <li>Crear anuncios gratuitos.</li>
+          <li>Registrarse en las plataformas.</li>
+          <li>Contactar con tiendas de cocinas.</li>
+          <li>Contactar con IKEA y Leroy Merlin.</li>
+          <li>Conseguir los primeros trabajos.</li>
+          <li>Obtener fotografías y valoraciones de clientes.</li>
+          <li>Construir una reputación profesional.</li>
+        </ul>
+      </div>
+
+      <div class="alert-box alert-warning">
+        💡 <strong>REGLA DE INVERSIÓN:</strong><br>
+        No invertir inicialmente en publicidad de pago sin comprobar antes qué plataformas generan clientes reales.
+      </div>
+
+      <div class="card" style="text-align: center; background-color: #0f172a; color: #ffffff;">
+        <p style="color: #38bdf8; font-weight: 800; margin-bottom: 0;">✔ FIN DEL DIRECTORIO</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- BOTONES FLOTANTES MOVIBLES (INICIO Y ARRIBA) -->
+  <button id="fabInicio" class="draggable-fab" title="Ir a INICIO (Arrastrable)">
+    🏠 INICIO
+  </button>
+
+  <button id="fabArriba" class="draggable-fab" title="Ir al comienzo de esta pestaña (Arrastrable)">
+    ⬆️ ARRIBA
+  </button>
+
+  <!-- BARRA INFERIOR FIJA CON BOTÓN ANTERIOR Y PRÓXIMA PESTAÑA -->
+  <footer class="bottom-nav">
+    <button id="prevTabBtn" class="nav-step-btn btn-prev hidden-step">
+      ◀ Anterior
+    </button>
+    <button id="nextTabBtn" class="nav-step-btn btn-next">
+      Próxima ▶
+    </button>
+  </footer>
+
+  <script>
+    (function () {
+      // Referencias del DOM
+      const tabs = Array.from(document.querySelectorAll('.tab-pane'));
+      const drawerLinks = Array.from(document.querySelectorAll('.drawer-link'));
+      const headerCurrentTitle = document.getElementById('headerCurrentTitle');
+      const headerBadge = document.getElementById('headerBadge');
+      const prevTabBtn = document.getElementById('prevTabBtn');
+      const nextTabBtn = document.getElementById('nextTabBtn');
+      const openMenuBtn = document.getElementById('openMenuBtn');
+      const closeMenuBtn = document.getElementById('closeMenuBtn');
+      const drawerMenu = document.getElementById('drawerMenu');
+      const drawerOverlay = document.getElementById('drawerOverlay');
+      const fabInicio = document.getElementById('fabInicio');
+      const fabArriba = document.getElementById('fabArriba');
+
+      let currentTabIndex = 0;
+      const totalTabs = tabs.length;
+
+      // Función para subir al comienzo de la pestaña actual
+      function scrollToTopOfCurrentTab() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      }
+
+      // Función principal para cambiar de pestaña
+      window.goToTab = function (index) {
+        if (index < 0 || index >= totalTabs) return;
+        currentTabIndex = index;
+
+        // Mostrar únicamente la pestaña activa
+        tabs.forEach((tab, idx) => {
+          if (idx === currentTabIndex) {
+            tab.classList.add('active');
+          } else {
+            tab.classList.remove('active');
+          }
+        });
+
+        // Actualizar estado activo en el menú sándwich
+        drawerLinks.forEach((link, idx) => {
+          if (idx === currentTabIndex) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+
+        // Actualizar título superior y contador
+        const activeTitle = tabs[currentTabIndex].getAttribute('data-title') || 'Tutorial';
+        headerCurrentTitle.textContent = activeTitle;
+        headerBadge.textContent = (currentTabIndex + 1) + ' / ' + totalTabs;
+
+        // Configurar botón Anterior (oculto si estamos en la primera pestaña)
+        if (currentTabIndex === 0) {
+          prevTabBtn.classList.add('hidden-step');
+        } else {
+          prevTabBtn.classList.remove('hidden-step');
+        }
+
+        // Configurar botón Próxima (oculto si estamos en la última pestaña)
+        if (currentTabIndex === totalTabs - 1) {
+          nextTabBtn.classList.add('hidden-step');
+        } else {
+          nextTabBtn.classList.remove('hidden-step');
+        }
+
+        // Cerrar menú sándwich si estaba abierto y llevar al principio de la pestaña
+        closeDrawer();
+        scrollToTopOfCurrentTab();
+      };
+
+      // Apertura y cierre del menú sándwich
+      function openDrawer() {
+        drawerMenu.classList.add('open');
+        drawerOverlay.classList.add('open');
+      }
+
+      function closeDrawer() {
+        drawerMenu.classList.remove('open');
+        drawerOverlay.classList.remove('open');
+      }
+
+      openMenuBtn.addEventListener('click', openDrawer);
+      closeMenuBtn.addEventListener('click', closeDrawer);
+      drawerOverlay.addEventListener('click', closeDrawer);
+
+      // Eventos en los enlaces del menú sándwich
+      drawerLinks.forEach((btn) => {
+        btn.addEventListener('click', function () {
+          const targetIdx = parseInt(this.getAttribute('data-tab'), 10);
+          window.goToTab(targetIdx);
+        });
+      });
+
+      // Eventos de navegación fija inferior (Anterior / Próxima)
+      prevTabBtn.addEventListener('click', function () {
+        if (currentTabIndex > 0) {
+          window.goToTab(currentTabIndex - 1);
+        }
+      });
+
+      nextTabBtn.addEventListener('click', function () {
+        if (currentTabIndex < totalTabs - 1) {
+          window.goToTab(currentTabIndex + 1);
+        }
+      });
+
+      // Lógica para hacer los botones flotantes (INICIO y ARRIBA) movibles al arrastrar
+      // diferenciando entre un toque rápido (clic) y un arrastre por la pantalla.
+      function makeDraggableButton(buttonEl, onClickCallback) {
+        let isDragging = false;
+        let hasMoved = false;
+        let startX = 0;
+        let startY = 0;
+        let initialLeft = 0;
+        let initialTop = 0;
+
+        function onPointerDown(e) {
+          isDragging = true;
+          hasMoved = false;
+
+          const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+          const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+          startX = clientX;
+          startY = clientY;
+
+          const rect = buttonEl.getBoundingClientRect();
+          initialLeft = rect.left;
+          initialTop = rect.top;
+
+          // Fijar coordenadas left/top explícitas para permitir movimiento libre
+          buttonEl.style.left = initialLeft + 'px';
+          buttonEl.style.top = initialTop + 'px';
+          buttonEl.style.right = 'auto';
+          buttonEl.style.bottom = 'auto';
+        }
+
+        function onPointerMove(e) {
+          if (!isDragging) return;
+
+          const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+          const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+          const deltaX = clientX - startX;
+          const deltaY = clientY - startY;
+
+          // Si se mueve más de 6 píxeles se considera arrastre y no toque
+          if (Math.abs(deltaX) > 6 || Math.abs(deltaY) > 6) {
+            hasMoved = true;
+          }
+
+          if (hasMoved) {
+            if (e.cancelable) e.preventDefault();
+
+            const btnWidth = buttonEl.offsetWidth;
+            const btnHeight = buttonEl.offsetHeight;
+            const maxLeft = window.innerWidth - btnWidth - 4;
+            const maxTop = window.innerHeight - btnHeight - 4;
+
+            let newLeft = Math.max(4, Math.min(initialLeft + deltaX, maxLeft));
+            let newTop = Math.max(4, Math.min(initialTop + deltaY, maxTop));
+
+            buttonEl.style.left = newLeft + 'px';
+            buttonEl.style.top = newTop + 'px';
+          }
+        }
+
+        function onPointerUp() {
+          if (!isDragging) return;
+          isDragging = false;
+
+          if (!hasMoved) {
+            onClickCallback();
+          }
+        }
+
+        // Soporte táctil para móvil (Samsung Galaxy A02s)
+        buttonEl.addEventListener('touchstart', onPointerDown, { passive: true });
+        window.addEventListener('touchmove', onPointerMove, { passive: false });
+        window.addEventListener('touchend', onPointerUp);
+
+        // Soporte de ratón por si se abre en ordenador
+        buttonEl.addEventListener('mousedown', onPointerDown);
+        window.addEventListener('mousemove', onPointerMove);
+        window.addEventListener('mouseup', onPointerUp);
+
+        // Reajustar dentro de los bordes si se gira la pantalla del teléfono
+        window.addEventListener('resize', function () {
+          if (buttonEl.style.top) {
+            const rect = buttonEl.getBoundingClientRect();
+            const maxLeft = window.innerWidth - buttonEl.offsetWidth - 4;
+            const maxTop = window.innerHeight - buttonEl.offsetHeight - 4;
+            if (rect.left > maxLeft) buttonEl.style.left = Math.max(4, maxLeft) + 'px';
+            if (rect.top > maxTop) buttonEl.style.top = Math.max(4, maxTop) + 'px';
+          }
+        });
+      }
+
+      // Activar botón flotante movible "INICIO" -> Lleva siempre a la pestaña 0 (INICIO)
+      makeDraggableButton(fabInicio, function () {
+        window.goToTab(0);
+      });
+
+      // Activar botón flotante movible "ARRIBA" -> Sube al comienzo de la pestaña actual
+      makeDraggableButton(fabArriba, function () {
+        scrollToTopOfCurrentTab();
+      });
+    })();
+  </script>
+</body>
+</html>
