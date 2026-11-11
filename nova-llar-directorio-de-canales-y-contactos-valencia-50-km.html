@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>NOVA LLAR - Directorio de Canales y Contactos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #07090e;
+      --card-dark: #111622;
+      --border-dark: #1e2738;
+      --accent: #f59e0b;
+      --accent-light: #fbbf24;
+    }
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-dark);
+      color: #f1f5f9;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+    }
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+    .glass-bar {
+      background: rgba(11, 15, 25, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .card-premium {
+      background: linear-gradient(145deg, #121826 0%, #0d121d 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.6);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .card-premium:active {
+      transform: scale(0.99);
+    }
+    .tab-btn-active {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: #050811 !important;
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+      border-color: transparent !important;
+    }
+    .draggable-fab {
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+      z-index: 90;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.7), 0 0 0 2px rgba(245, 158, 11, 0.4);
+    }
+    .draggable-fab:active {
+      transform: scale(1.08);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-tab {
+      animation: fadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-black">
+
+  <!-- HEADER Y BARRA DE PESTAÑAS PERMANENTE -->
+  <header class="fixed top-0 left-0 right-0 z-50 glass-bar border-b border-slate-800/80 shadow-2xl">
+    <!-- Top Brand & Botón Índice Sándwich -->
+    <div class="flex items-center justify-between px-3 py-2.5 max-w-4xl mx-auto">
+      <div class="flex items-center gap-2.5">
+        <button id="menuToggleBtn" onclick="toggleDrawer(true)" aria-label="Abrir Índice" class="flex items-center gap-2 bg-slate-800/90 hover:bg-slate-700 active:bg-amber-500 active:text-black text-amber-400 font-bold px-3 py-2 rounded-xl border border-slate-700/80 shadow-md transition-all text-xs tracking-wider uppercase">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+          <span>ÍNDICE</span>
+        </button>
+        <div onclick="switchTab('inicio')" class="cursor-pointer">
+          <span class="text-xs font-extrabold tracking-widest text-amber-500 block leading-none">VALENCIA + 50 KM</span>
+          <span class="text-sm font-black tracking-tight text-white">NOVA LLAR</span>
+        </div>
+      </div>
+
+      <!-- Indicador de progreso de pestañas -->
+      <div class="flex items-center gap-2">
+        <span id="tabCounter" class="text-[11px] font-bold bg-slate-900/90 text-slate-300 px-2.5 py-1 rounded-lg border border-slate-800">1 / 12</span>
+      </div>
+    </div>
+
+    <!-- Barra de Pestañas con Desplazamiento Táctil Horizontal y Auto-centrado -->
+    <nav id="topTabBar" class="flex items-center gap-2 overflow-x-auto no-scrollbar px-3 py-2 border-t border-slate-800/60 max-w-4xl mx-auto scroll-smooth">
+      <!-- Renderizado dinámico por JS -->
+    </nav>
+  </header>
+
+  <!-- CAJÓN LATERAL / MODAL DE ÍNDICE (MENÚ SÁNDWICH) -->
+  <div id="drawerOverlay" onclick="toggleDrawer(false)" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-200"></div>
+  <aside id="drawerMenu" class="fixed top-0 left-0 bottom-0 w-[85%] max-w-sm bg-[#0c101a] border-r border-slate-800 z-50 transform -translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
+    <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/50">
+      <div>
+        <span class="text-[10px] font-extrabold uppercase tracking-widest text-amber-400 block">Navegación Completa</span>
+        <h2 class="text-base font-extrabold text-white">Índice del Directorio</h2>
+      </div>
+      <button onclick="toggleDrawer(false)" class="p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white active:bg-rose-600">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div id="drawerList" class="flex-1 overflow-y-auto p-3 space-y-1.5">
+      <!-- Renderizado dinámico por JS -->
+    </div>
+    <div class="p-3 border-t border-slate-800 bg-slate-950/80 text-center">
+      <p class="text-[11px] text-slate-400 font-medium">NOVA LLAR • Rubén Sbarsky • 11/11/2026</p>
+    </div>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL (ESPACIO PARA HEADER SUPERIOR Y BARRA INFERIOR) -->
+  <main id="mainContent" class="flex-1 pt-[108px] pb-[96px] px-3 max-w-3xl w-full mx-auto">
+    <!-- Las secciones se inyectan y muestran aquí -->
+  </main>
+
+  <!-- BARRA INFERIOR FIJA: BOTONES ANTERIOR Y PRÓXIMA PESTAÑA -->
+  <footer class="fixed bottom-0 left-0 right-0 z-40 glass-bar border-t border-slate-800/90 px-3 py-2.5 shadow-2xl">
+    <div class="max-w-3xl mx-auto flex items-center justify-between gap-2.5">
+      <button id="prevTabBtn" onclick="navigateRelative(-1)" class="flex-1 flex items-center justify-center gap-2 py-3 px-3 rounded-xl font-bold text-xs bg-slate-800/90 text-slate-200 border border-slate-700 active:bg-amber-500 active:text-black transition-all disabled:opacity-30 disabled:pointer-events-none">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        <span id="prevTabLabel" class="truncate">Anterior</span>
+      </button>
+
+      <button id="nextTabBtn" onclick="navigateRelative(1)" class="flex-1 flex items-center justify-center gap-2 py-3 px-3 rounded-xl font-bold text-xs bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 shadow-lg shadow-amber-500/20 active:scale-95 transition-all disabled:opacity-30 disabled:pointer-events-none">
+        <span id="nextTabLabel" class="truncate">Siguiente</span>
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </button>
+    </div>
+  </footer>
+
+  <!-- BOTÓN FLOTANTE ARRASTRABLE 1: IR A INICIO -->
+  <button id="fabInicio" title="Arrastrar o tocar para ir a INICIO" class="draggable-fab fixed right-3 bottom-36 bg-slate-900/95 text-amber-400 border border-amber-500/50 rounded-2xl px-3 py-2.5 flex flex-col items-center justify-center gap-0.5 cursor-grab active:cursor-grabbing">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+    </svg>
+    <span class="text-[9px] font-extrabold tracking-tighter uppercase leading-none">INICIO</span>
+  </button>
+
+  <!-- BOTÓN FLOTANTE ARRASTRABLE 2: IR ARRIBA DE LA PESTAÑA ACTUAL -->
+  <button id="fabArriba" title="Arrastrar o tocar para subir al inicio de la pestaña" class="draggable-fab fixed right-3 bottom-20 bg-amber-500 text-slate-950 border border-amber-300 rounded-2xl px-3 py-2.5 flex flex-col items-center justify-center gap-0.5 cursor-grab active:cursor-grabbing">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+    </svg>
+    <span class="text-[9px] font-extrabold tracking-tighter uppercase leading-none">ARRIBA</span>
+  </button>
+
+  <script>
+    // Función auxiliar para generar botones de URL que SIEMPRE abren en otra ventana
+    function renderUrlAction(url, labelText, sourceNote = '') {
+      const cleanUrl = url.startsWith('http') ? url : 'https://' + url;
+      return `
+        <div class="mt-2.5 p-2.5 rounded-xl bg-slate-950/90 border border-slate-800/90 flex flex-col gap-2">
+          <div class="flex items-start justify-between gap-2">
+            <div class="text-xs text-slate-300 break-all leading-snug">
+              <span class="font-semibold text-amber-400 block mb-0.5">${labelText}</span>
+              ${sourceNote ? `<span class="text-slate-400 text-[11px] block mb-1">${sourceNote}</span>` : ''}
+              <span class="text-[11px] text-slate-400 font-mono">${url}</span>
+            </div>
+          </div>
+          <a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" 
+             class="w-full py-2 px-3 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 active:bg-amber-500 active:text-slate-950 text-amber-300 border border-amber-500/40 font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-sm">
+            <span>Abrir en otra Ventana</span>
+            <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+            </svg>
+          </a>
+        </div>
+      `;
+    }
+
+    // Estructura de pestañas con el 100% del contenido íntegro del documento adjunto
+    const TABS_DATA = [
+      {
+        id: 'inicio',
+        shortTitle: 'Inicio y Guía',
+        badge: 'Prioridad & Guía',
+        icon: '🏠',
+        render: () => `
+          <div class="space-y-4 animate-tab">
+            <!-- Hero Principal con "by Rubén Sbarsky" SOLO en INICIO -->
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500/20 via-slate-900 to-slate-950 border border-amber-500/40 p-5 shadow-2xl">
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 text-[11px] font-bold mb-3">
+                <span>📍 VALENCIA + 50 KM</span>
+                <span>•</span>
+                <span>11 de noviembre de 2026</span>
+              </div>
+              <h1 class="text-2xl sm:text-3xl font-extrabold text-white leading-tight tracking-tight">
+                NOVA LLAR - Directorio de canales y contactos (Valencia + 50 km)
+                <span class="block mt-1.5 text-lg sm:text-xl font-bold text-amber-400">by Rubén Sbarsky</span>
+              </h1>
+              <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Documento de trabajo preparado el 11 de noviembre de 2026.
+              </p>
+            </div>
+
+            <!-- Cómo leerlo (100% literal) -->
+            <div class="card-premium rounded-2xl p-4 space-y-3">
+              <div class="flex items-center gap-2 text-amber-400 font-bold text-sm uppercase tracking-wider">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span>Cómo leerlo</span>
+              </div>
+              <p class="text-sm text-slate-200 leading-relaxed">
+                <strong>Cómo leerlo.</strong> Los canales están ordenados por prioridad sugerida. Cada ficha indica si la empresa es un posible cliente (te pagaría el trabajo), un prescriptor (te recomendaría), un intermediario (te conseguiría encargos a cambio de comisión o cuota) o un proveedor (te vende material, no es cliente). Ninguna empresa de esta lista es cliente ni colaborador confirmado: son contactos públicos por explorar. No se ha contactado con ninguna.
+              </p>
+              <p class="text-sm text-slate-200 leading-relaxed pt-2 border-t border-slate-800/80">
+                Cada teléfono lleva su fuente: la web oficial de la empresa cuando fue posible, o un directorio público (cylex, Páginas Amarillas, Houzz, etc.) cuando no encontramos la web oficial. Los datos de directorio conviene confirmarlos antes de usarlos. Cuando no apareció ningún teléfono fiable, la ficha lo dice expresamente y deja el enlace de Google Maps, donde suele estar el dato actualizado.
+              </p>
+            </div>
+
+            <!-- Acceso rápido visual a todos los canales -->
+            <div class="card-premium rounded-2xl p-4">
+              <h2 class="text-sm font-extrabold uppercase tracking-wider text-slate-300 mb-3">Acceso Directo por Canal Estratégico</h2>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                ${TABS_DATA.slice(1).map((t) => `
+                  <button onclick="switchTab('${t.id}')" class="flex items-center justify-between p-3 rounded-xl bg-slate-900/90 hover:bg-slate-800 active:bg-amber-500 active:text-slate-950 border border-slate-800 text-left transition-all group">
+                    <div class="flex items-center gap-2.5 min-w-0">
+                      <span class="text-lg shrink-0">${t.icon}</span>
+                      <div class="truncate">
+                        <div class="text-xs font-bold text-white group-active:text-slate-950 truncate">${t.shortTitle}</div>
+                        <div class="text-[10px] text-amber-400/90 group-active:text-slate-900 truncate">${t.badge}</div>
+                      </div>
+                    </div>
+                    <svg class="w-4 h-4 text-slate-500 group-active:text-slate-950 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 'tiendas-cocinas',
+        shortTitle: 'Tiendas de Cocinas',
+        badge: 'Canal 1 • Clientes B2B (Prioridad Alta)',
+        icon: '🍳',
+        render: () => `
+          <div class="space-y-4 animate-tab">
+            <div class="card-premium rounded-2xl p-4 border-l-4 border-l-amber-500">
+              <span class="text-[11px] font-extrabold uppercase tracking-widest text-amber-400">Canal 1 • Posibles clientes B2B, prioridad alta</span>
+              <h2 class="text-xl font-extrabold text-white mt-0.5">Canal 1 - Tiendas de cocinas (posibles clientes B2B, prioridad alta)</h2>
+              <p class="text-sm text-slate-300 mt-2 leading-relaxed">
+                Venden cocinas y necesitan montadores de confianza. Es el canal más alineado con tu oferta de "renueva tu cocina por un precio cerrado".
+              </p>
+            </div>
+
+            <!-- Subsección SCHMIDT -->
+            <div class="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30">
+              <h3 class="text-sm font-extrabold text-amber-300 uppercase tracking-wide">
+                SCHMIDT (5 tiendas en el área; teléfonos de su web oficial, home-design.schmidt)
+              </h3>
+            </div>
+
+            ${renderCompanyCard({
+              name: 'SCHMIDT Valencia - Fernando el Católico',
+              address: 'Gran Vía de Ferran el Catòlic, 19, 46008 Valencia',
+              phones: [{ num: '962 93 04 81', sourceText: 'fuente: web oficial', url: 'https://www.home-design.schmidt/es-es/lista-de-tiendas/tienda-cocina-valencia' }],
+              rating: '4,8 (157 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=SCHMIDT+Valencia+-+Fernando+el+cat%C3%B3lico&query_place_id=ChIJKU0a0NZPYA0RfvFazFMXWcw'
+            })}
+
+            ${renderCompanyCard({
+              name: 'SCHMIDT Valencia - Marqués del Turia',
+              address: 'Gran Via del Marqués del Túria, 29, 46005 Valencia',
+              phones: [{ num: '963 44 01 01', sourceText: 'fuente: web oficial', url: 'https://www.home-design.schmidt/es-es/lista-de-tiendas/tienda-cocina-valencia' }],
+              rating: '4,7 (243 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=SCHMIDT+Valencia+-+Marqu%C3%A9s+del+Turia&query_place_id=ChIJd0qolLVIYA0RoAnLc4C7-00'
+            })}
+
+            ${renderCompanyCard({
+              name: 'SCHMIDT Burjassot',
+              address: 'Av. de la Ilustración, 6, CC Parque Ademuz, 46100 Burjassot',
+              phones: [{ num: '961 47 85 88', sourceText: 'fuente: web oficial', url: 'https://www.home-design.schmidt/es-es/tiendas/valencia/burjassot-valencia' }]
+            })}
+
+            ${renderCompanyCard({
+              name: 'SCHMIDT Alfafar',
+              address: 'Plaza Consolat del Mar, 28, Alfafar Parc, 46910 Alfafar',
+              phones: [{ num: '963 18 64 44', sourceText: 'fuente: web oficial', url: 'https://www.home-design.schmidt/es-es/lista-de-tiendas/tienda-cocina-valencia' }],
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=SCHMIDT+Cocinas+Alfafar&query_place_id=ChIJTVGG2bBOYA0RzbQ_AIdPrac'
+            })}
+
+            ${renderCompanyCard({
+              name: 'SCHMIDT La Eliana',
+              address: 'C/ Tuejar, 37, CC El Osito, 46183 La Eliana',
+              phones: [{ num: '960 04 63 81', sourceText: 'fuente: web oficial', url: 'https://www.home-design.schmidt/es-es/lista-de-tiendas/tienda-cocina-valencia' }]
+            })}
+
+            <!-- Subsección Otras tiendas de cocinas -->
+            <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700 mt-6">
+              <h3 class="text-sm font-extrabold text-white uppercase tracking-wide">
+                Otras tiendas de cocinas
+              </h3>
+            </div>
+
+            ${renderCompanyCard({
+              name: 'Mobalpa Valencia Ensanche',
+              address: 'Gran Vía del Marqués del Túria, 49, 46005 Valencia',
+              phones: [{ num: '961 94 50 59', sourceText: 'fuente: web oficial', url: 'https://www.mobalpa.es/es/tienda/mobalpa-valencia-ensanche' }],
+              web: 'mobalpa.es',
+              rating: '5,0 (43 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Mobalpa&query_place_id=ChIJIVrzkfJJYA0Rnus9zxEHbUk'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Ixina Valencia Alfafar',
+              address: 'Av. de la Albufera, 10, Local B, Parque Comercial, 46910 Alfafar',
+              phones: [{ num: '963 51 74 45', sourceText: 'fuente: ficha pública, por confirmar en la web', url: 'https://www.ixina.es/tiendas/ixina-valencia-alfafar' }],
+              web: 'ixina.es',
+              rating: '4,7 (105 reseñas)'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Cocinas Valencia (Love Kitchen)',
+              address: 'C/ de Conca, 14, 46007 Valencia',
+              phones: [{ num: '653 45 04 67', sourceText: 'fuente: ficha pública, por confirmar en la web', url: 'https://www.lovekitchen.es/' }],
+              web: 'lovekitchen.es',
+              rating: '4,9 (148 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Cocinas+Valencia&query_place_id=ChIJ4_RSXiZPYA0R97yFA-ijI5c'
+            })}
+
+            ${renderCompanyCard({
+              name: 'SABELLA home Botanic (cocinas alemanas Leicht)',
+              address: 'C/ de Guillem de Castro, 123, 46008 Valencia',
+              phones: [{ num: '963 15 40 00', sourceText: 'fuente: web oficial', url: 'https://www.sabella.es/' }],
+              web: 'sabella.es',
+              rating: '4,8 (94 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=SABELLA+home+Botanic+%7C+Cocinas+de+Lujo+Alemanas+Leicht+en+Valencia&query_place_id=ChIJAbzVV0VPYA0RJ95hgrKQQ0k'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Mobalco Valencia',
+              address: 'C/ de Ciril Amorós, 29, 46004 Valencia',
+              phones: [{ num: '637 23 66 88', sourceText: 'fuente: ficha pública, por confirmar en la web', url: 'https://mobalco-valencia.com/' }],
+              web: 'mobalco-valencia.com',
+              rating: '4,6 (9 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Mobalco+Valencia&query_place_id=ChIJPQGC_8VJYA0R4CtNK1KL6cw'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Arrital Valencia - Cocinas de Diseño',
+              address: 'Carrer de Borriana, 51, 46005 Valencia',
+              phones: [{ num: '963 22 39 72', sourceText: 'fuente: web oficial', url: 'https://arritalvalencia.es/' }],
+              web: 'arritalvalencia.es',
+              rating: '4,9 (61 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Arrital+Valencia+-+Cocinas+de+Dise%C3%B1o+en+Valencia&query_place_id=ChIJo_22XbhIYA0RE7vALtLb9uc'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Sobre Cocinas',
+              address: 'Calle San Vicente Mártir, 35, 1º-1ª, 46002 Valencia',
+              phones: [{ num: '669 36 99 16', sourceText: 'fuente: web oficial', url: 'https://www.sobrecocinas.es/contacto/' }],
+              rating: '4,9 (65 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Sobre+Cocinas&query_place_id=ChIJC_c2M7ZIYA0Rt2GKFBysYCQ'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Bonacuina Espacios',
+              address: 'Carrer de Ciscar, 7, 46005 Valencia',
+              phones: [{ num: '963 74 11 12', sourceText: 'fuente: web oficial', url: 'https://bonacuina.es/contacto/' }],
+              rating: '4,7 (15 reseñas)'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Nouespai küchen (cocinas alemanas)',
+              address: "Carrer d'Aparicio Albiñana, 2, Valencia",
+              phones: [{ num: '963 40 69 90', sourceText: 'fuente: web oficial', url: 'https://nouespaikuchen.com/contacto/' }],
+              email: 'valencia@nouespaikuchen.com',
+              web: 'nouespaikuchen.com',
+              rating: '4,9 (77 reseñas)'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Concepto Interior - Cocinas',
+              address: 'Carrer de Matias Perelló, 57, Valencia',
+              phones: [{ num: '688 64 77 46', sourceText: 'fuente: web oficial', url: 'https://conceptointerior.es/contact/' }],
+              rating: '4,7 (26 reseñas)'
+            })}
+
+            ${renderCompanyCard({
+              name: '180 Grados Cocinas',
+              address: 'C/ Cirilo Amorós, 33, 46004 Valencia',
+              phones: [{ num: '960 62 84 45', sourceText: 'fuente: web oficial', url: 'https://180gradoscocinas.es/' }],
+              rating: '4,4 (62 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=180+Grados+Cocinas&query_place_id=ChIJTY7skjNJYA0RpWYivCXO30k'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Milar Ramón Llosá - Muebles de Cocina',
+              address: 'Carrer del Cronista Almela i Vives, 2, Valencia',
+              phones: [{ num: '963 69 92 93', sourceText: 'fuente: web oficial', url: 'https://www.milar.es/tiendas/milar-ramon-llosa.html/' }],
+              web: 'ramonllosa.com',
+              rating: '4,3'
+            })}
+          </div>
+        `
+      },
+      {
+        id: 'empresas-reformas',
+        shortTitle: 'Empresas de Reformas',
+        badge: 'Canal 2 • Clientes B2B (Prioridad Alta)',
+        icon: '🏗️',
+        render: () => `
+          <div class="space-y-4 animate-tab">
+            <div class="card-premium rounded-2xl p-4 border-l-4 border-l-amber-500">
+              <span class="text-[11px] font-extrabold uppercase tracking-widest text-amber-400">Canal 2 • Posibles clientes B2B, prioridad alta</span>
+              <h2 class="text-xl font-extrabold text-white mt-0.5">Canal 2 - Empresas de reformas (posibles clientes B2B, prioridad alta)</h2>
+              <p class="text-sm text-slate-300 mt-2 leading-relaxed">
+                Las reformas integrales suelen incluir cocina y armarios. Una empresa de reformas sin equipo propio de montaje puede encargarte esa parte de forma repetida.
+              </p>
+            </div>
+
+            ${renderCompanyCard({
+              name: 'Reforvis Valencia - Reformas Integrales',
+              address: 'Carrer de Burgos, 2, 46018 Valencia',
+              phones: [{ num: '624 23 55 26', sourceText: 'fuente: web oficial', url: 'https://empresareformaenvalencia.com/contacto/' }],
+              email: 'info@empresareformaenvalencia.com',
+              rating: '5,0 (60 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Reforvis+Valencia+-+Empresa+Reformas+Integrales+de+Pisos&query_place_id=ChIJDWjXb0FPYA0RElzJX0MnPV0'
+            })}
+
+            ${renderCompanyCard({
+              name: 'RFC - Reformas Integrales en Valencia',
+              address: 'Calle Cdad. de Mula, 14, Pta 12, 46021 Valencia',
+              phones: [{ num: '665 81 18 61', sourceText: 'fuente: web oficial', url: 'https://rfcreformas.es/' }],
+              rating: '5,0 (20 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=RFC+%7C+Reformas+Integrales+en+Valencia&query_place_id=ChIJl2crzNtJYA0Rc2YGdtfKi2Y'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Azahar Reformas Valencia',
+              address: 'C. del Pare Ferrís, 3, 46009 Valencia',
+              phones: [{ num: '960 38 21 31', sourceText: 'fuente: web oficial', url: 'https://azaharreformasvalencia.com/contacto/' }],
+              rating: '5,0 (27 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Azahar+Reformas+Valencia&query_place_id=ChIJhaA3BylPYA0Rsn-8r8H8Gmc'
+            })}
+
+            ${renderCompanyCard({
+              name: 'tAs obrAs y reformAs',
+              address: 'Av. Alfahuir, 34, bajo derecha, 46020 Valencia',
+              phones: [
+                { num: '963 31 39 03', sourceText: 'fuente: web oficial', url: 'https://tasobrasyreformas.es/' },
+                { num: '644 37 82 43', sourceText: 'fuente: web oficial', url: 'https://tasobrasyreformas.es/' }
+              ],
+              rating: '4,9 (62 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=tAs+obrAs+y+reformAs&query_place_id=ChIJCTKmuBxGYA0Reoas91a6Iko'
+            })}
+
+            ${renderCompanyCard({
+              name: 'PROYECTO GARANTE',
+              address: 'C. de Pascual y Genís, 16, 2º B, 46002 Valencia',
+              phones: [
+                { num: '963 68 39 74', sourceText: 'fuente: web oficial', url: 'https://www.proyectogarante.com/contacto/' },
+                { num: '646 37 25 38', sourceText: 'fuente: web oficial', url: 'https://www.proyectogarante.com/contacto/' }
+              ],
+              rating: '4,9 (44 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=PROYECTO+GARANTE&query_place_id=ChIJXd8-yVFJYA0RZPciZvezhaU'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Martorell Reformas',
+              address: "Carrer de l'Escultor Alfons Gabino, 9, 46022 Valencia",
+              phones: [{ num: '963 20 31 27', sourceText: 'fuente: web oficial', url: 'https://martorellreformas.com/' }],
+              rating: '4,9 (40 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Martorell+Reformas&query_place_id=ChIJD372S7JJYA0RniQOCUVyuEo'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Construcción, Reformas y Proyectos Marcos MyM',
+              address: "C/ de Callosa d'En Sarrià, 2, Bajo, 46007 Valencia",
+              phones: [
+                { num: '666 17 59 54', sourceText: 'fuente: web oficial', url: 'https://reformasmarcosmym.com/' },
+                { num: '633 68 60 43', sourceText: 'fuente: web oficial', url: 'https://reformasmarcosmym.com/' }
+              ],
+              rating: '4,8 (53 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Construcci%C3%B3n%2C+Reformas+y+Proyectos+Marcos+MyM&query_place_id=ChIJxVfPkUxPYA0RreYztWzjvPI'
+            })}
+
+            ${renderCompanyCard({
+              name: 'GETECO - Reformas Integrales',
+              address: 'Carrer del Poeta Antonino Chocomeli, 6, 46015 Valencia',
+              phones: [{ num: '699 83 44 22', sourceText: 'fuente: web oficial', url: 'https://www.geteco.es/contacto' }],
+              rating: '4,7 (79 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Reformas+Integrales+en+Valencia+-+GETECO&query_place_id=ChIJG9QukZxIYA0R7lX9_WKYuEU'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Ápice Reformas e Interiorismo',
+              address: 'Av. del Regne de València, 76, 46005 Valencia',
+              phones: [{ num: '613 24 11 45', sourceText: 'fuente: web oficial', url: 'https://apicereformas.com/contacto/' }],
+              rating: '4,7 (67 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=%C3%81pice+Reformas+e+Interiorismo&query_place_id=ChIJW6It_pVPYA0RnfVYQNHSp4g'
+            })}
+
+            ${renderCompanyCard({
+              name: 'reformas LUJAN',
+              address: 'C/ de Conca, 136, 46007 Valencia',
+              phones: [{ num: '963 41 85 93', sourceText: 'fuente: web oficial', url: 'https://reformaslujan.es/contacto/' }],
+              rating: '4,6 (131 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=reformas+LUJAN&query_place_id=ChIJ9yJ7Yz5PYA0RWUqVwQwdgn4'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Todo Reformas Valencia',
+              address: 'Carrer de Joaquín Costa, 19, 46005 Valencia',
+              phones: [{ num: '664 09 63 46', sourceText: 'fuente: Houzz', url: 'https://www.houzz.es/profesionales/empresas-de-reformas/todo-reformas-valencia-pfvwes-pf~1' }],
+              rating: '4,6 (22 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Todo+Reformas+Valencia+%7C+Empresa+de+Reformas+Integrales&query_place_id=ChIJe8fJkRPPESoRY7PEz6nMrf0'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Reformas Rocha S.L.',
+              address: "C/ de l'Arxiduc Carles, 10, 46018 Valencia",
+              phones: [{ num: '622 22 28 08', sourceText: 'fuente: web oficial', url: 'https://www.reformasrocha.es/contacto' }],
+              rating: '4,5 (62 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Reformas+Rocha+S.L.+Reformas+Integrales+Valencia&query_place_id=ChIJex6TOZdIYA0R1eKcKJmJ_vo'
+            })}
+          </div>
+        `
+      },
+      {
+        id: 'carpinterias',
+        shortTitle: 'Carpinterías y Aliados',
+        badge: 'Canal 3 • Clientes B2B y Aliados',
+        icon: '🪚',
+        render: () => `
+          <div class="space-y-4 animate-tab">
+            <div class="card-premium rounded-2xl p-4 border-l-4 border-l-amber-500">
+              <span class="text-[11px] font-extrabold uppercase tracking-widest text-amber-400">Canal 3 • Posibles clientes B2B y aliados</span>
+              <h2 class="text-xl font-extrabold text-white mt-0.5">Canal 3 - Carpinterías (posibles clientes B2B y aliados)</h2>
+              <p class="text-sm text-slate-300 mt-2 leading-relaxed">
+                Pueden encargarte montajes cuando les falte capacidad, y tú puedes encargarles piezas a medida.
+              </p>
+            </div>
+
+            ${renderCompanyCard({
+              name: 'El taller de Miguel - Carpintería',
+              address: 'C/ del Comte de Torrefiel, 24, 46019 Valencia',
+              phones: [{ num: '627 41 29 66', sourceText: 'fuente: directorio Fixalista', url: 'https://www.fixalista.com/es/es/profesionales/valencia/el-taller-de-miguel-carpinteria-val' }],
+              rating: '4,9 (23 reseñas)'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Madeforma',
+              address: 'Carrer Enric Valor, 3C, 46980 Paterna',
+              phones: [
+                { num: '963 12 73 58', sourceText: 'fuente: web oficial', url: 'https://madeforma.com/contacto/' },
+                { num: '693 34 80 17', sourceText: 'fuente: web oficial', url: 'https://madeforma.com/contacto/' }
+              ],
+              rating: '4,9 (73 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Madeforma&query_place_id=ChIJQ-sKxDRFYA0RgA3Ak_YFsuo'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Carpintería y Restauración Alberola',
+              address: "Carrer d'Alberola, 19, 46013 Valencia",
+              phones: [{ num: '660 89 75 75', sourceText: 'fuente: directorio EsOpiniones', url: 'https://esopiniones.com/valencia/carpinteria-y-restauracion-alberola-1869131' }],
+              rating: '4,8 (16 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Carpinter%C3%ADa+y+Restauraci%C3%B3n+Alberola&query_place_id=ChIJi8ke4dFIYA0RffcyD4N_sWY'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Carpintería Escribano',
+              address: 'C. Ing. la Cierva, 15, Bajo-B, 46009 Valencia',
+              noPhoneText: 'no consta en las fuentes consultadas',
+              rating: '4,6 (12 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Carpinter%C3%ADa+Escribano&query_place_id=ChIJmZMhdfdFYA0Rcml2JmUr-lg',
+              note: 'Dos directorios dan teléfonos distintos (625 60 24 79 y 623 81 48 20); confírmalo antes de llamar.'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Carpinteria Dos De Mayo s.l.',
+              address: 'C/ del Dos de Maig, 10, 46920 Mislata',
+              phones: [{ num: '963 59 97 15', sourceText: 'fuente: directorio El Economista Empresite', url: 'https://empresite.eleconomista.es/CARPINTERIA-DOS-MAYO.html' }],
+              rating: '4,5 (24 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Carpinteria+Dos+De+Mayo+s.l.&query_place_id=ChIJrSPVGJxPYA0R6TtiM65zvIM'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Carpinteria San Jose',
+              address: 'Avinguda de Portugal, 3, Bajo derecha, 46009 Valencia',
+              phones: [
+                { num: '658 44 37 29', sourceText: 'fuente: web oficial', url: 'https://carpinteriasanjose.es/contacto/' },
+                { num: '634 00 99 62', sourceText: 'fuente: web oficial', url: 'https://carpinteriasanjose.es/contacto/' }
+              ],
+              rating: '4,3 (37 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Carpinteria+San+Jose&query_place_id=ChIJ32wyB_9FYA0ROQPkIgbT_pc'
+            })}
+
+            ${renderCompanyCard({
+              name: 'MJP Deko Carpinteria S.L.',
+              address: 'Carrer Cronista Carreres, 13, 46930 Quart de Poblet',
+              phones: [{ num: '676 12 75 57', sourceText: 'fuente: web oficial', url: 'https://carpinteriamjp.com/aviso-legal/' }],
+              rating: '4,3 (126 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=MJP+Deko+Carpinteria+S.L.&query_place_id=ChIJt_vWsflPYA0RHURDhqP3zto'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Morata J.V. S.L.',
+              address: 'C/ de Guillem de Castro, 141, 46008 Valencia',
+              phones: [{ num: '963 91 28 38', sourceText: 'fuente: web oficial (aviso legal)', url: 'https://morata.com/aviso-legal/' }],
+              rating: '4,1 (96 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Morata+J.V.+S.L.&query_place_id=ChIJBbL5B1BPYA0RU94kBweLJq0'
+            })}
+          </div>
+        `
+      },
+      {
+        id: 'interioristas-diseno',
+        shortTitle: 'Interioristas y Diseño',
+        badge: 'Canal 4 • Prescriptores',
+        icon: '✨',
+        render: () => `
+          <div class="space-y-4 animate-tab">
+            <div class="card-premium rounded-2xl p-4 border-l-4 border-l-amber-500">
+              <span class="text-[11px] font-extrabold uppercase tracking-widest text-amber-400">Canal 4 • Prescriptores</span>
+              <h2 class="text-xl font-extrabold text-white mt-0.5">Canal 4 - Interioristas y estudios de diseño (prescriptores)</h2>
+              <p class="text-sm text-slate-300 mt-2 leading-relaxed">
+                No suelen comprar el montaje: te recomiendan a sus clientes o te incluyen en sus proyectos.
+              </p>
+            </div>
+
+            ${renderCompanyCard({
+              name: 'ESTUDIO PAS',
+              address: "C/ de l'Almirall Cadarso, 7, 46005 Valencia",
+              phones: [{ num: '963 33 04 26', sourceText: 'fuente: web oficial', url: 'https://estudiopas.com/contacto/' }],
+              rating: '5,0 (39 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=ESTUDIO+PAS+%7C+Estudio+de+interiorismo+en+Valencia&query_place_id=ChIJqS2zsH1JYA0R6eIJ9J7765Q'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Viro estudio',
+              address: 'Calle San Vicente Mártir, 83, Piso 2 puerta 585, 46007 Valencia',
+              phones: [{ num: '674 11 42 96', sourceText: 'fuente: web oficial', url: 'https://viroestudio.es/contacto/' }],
+              rating: '5,0 (24 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Viro+estudio&query_place_id=ChIJoa7M30CTYWIRVkmy1QV8N3Y'
+            })}
+
+            ${renderCompanyCard({
+              name: 'KREAK',
+              address: 'C/ del Dr. Romagosa, 5, 46002 Valencia',
+              phones: [
+                { num: '963 51 96 91', sourceText: 'fuente: web oficial', url: 'https://kreak.es/contacto/' },
+                { num: '619 17 83 20', sourceText: 'fuente: web oficial', url: 'https://kreak.es/contacto/' }
+              ],
+              rating: '5,0 (116 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=KREAK&query_place_id=ChIJu814grNIYA0RGqYMRXQT-jY'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Ana Ramón Estudio',
+              address: 'C/ de les Comèdies, 17, 46003 Valencia',
+              phones: [{ num: '647 17 20 72', sourceText: 'fuente: web oficial', url: 'https://anaramonestudio.com/contacto-estudio-diseno-arquitectonico/' }],
+              rating: '5,0 (15 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Ana+Ram%C3%B3n+Estudio&query_place_id=ChIJd3hhlPFPYA0Ru9ZwFaPgAcg'
+            })}
+
+            ${renderCompanyCard({
+              name: 'BTT Estudio de Arquitectura, Diseño e Interiorismo',
+              address: 'Calle Embajador Vich, 3, 46002 Valencia',
+              phones: [
+                { num: '960 05 53 32', sourceText: 'fuente: web oficial', url: 'https://bttestudio.es/contacto-arquitecto-valencia/' },
+                { num: '674 94 93 30', sourceText: 'fuente: web oficial', url: 'https://bttestudio.es/contacto-arquitecto-valencia/' }
+              ],
+              rating: '5,0 (56 reseñas)'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Majo Flores - Interior Design Studio',
+              address: 'C/ de Xàtiva, 15, puerta 22, 46002 Valencia',
+              phones: [{ num: '629 84 77 65', sourceText: 'fuente: web oficial (aviso legal)', url: 'https://majoflores.com/aviso-legal/' }],
+              rating: '4,9 (29 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Majo+Flores+-+Interior+Design+Studio&query_place_id=ChIJB57ZmENPYA0RkuywvMDDEHM'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Ideas Interiorismo Exclusivo s.l.u.',
+              address: "Carrer del Comte d'Altea, 19, Bajo, 46005 Valencia",
+              phones: [{ num: '963 28 87 87', sourceText: 'fuente: web oficial', url: 'https://ideasinteriorismo.com/en/contacto/' }],
+              rating: '4,9 (129 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Ideas+Interiorismo+Exclusivo+s.l.u.&query_place_id=ChIJXYIXsUBEYA0RxFFwyvzgFuc'
+            })}
+
+            ${renderCompanyCard({
+              name: 'NDC interiorismo',
+              address: 'C. Micer Mascó, 6, Bajo, 46010 Valencia',
+              phones: [
+                { num: '963 34 99 40', sourceText: 'fuente: directorio Cylex', url: 'https://www.cylex.es/valencia/ndc-interiorismo-14328974.html' },
+                { num: '618 93 02 62', sourceText: 'fuente: directorio Cylex', url: 'https://www.cylex.es/valencia/ndc-interiorismo-14328974.html' }
+              ],
+              rating: '4,9 (62 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=NDC+interiorismo&query_place_id=ChIJ6wW9vstIYA0RQkqFcX-qB9k'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Destudio',
+              address: 'C. del Mar, 43, 46003 Valencia',
+              phones: [
+                { num: '960 05 19 10', sourceText: 'fuente: web oficial', url: 'https://destudio.es/' },
+                { num: '697 69 27 06', sourceText: 'fuente: web oficial', url: 'https://destudio.es/' }
+              ],
+              rating: '4,9 (47 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Destudio&query_place_id=ChIJAywnSLJIYA0RREl0P8wkkm0'
+            })}
+          </div>
+        `
+      },
+      {
+        id: 'grandes-superficies',
+        shortTitle: 'Grandes Superficies',
+        badge: 'Canal 5 • Posibles Socios',
+        icon: '🏬',
+        render: () => `
+          <div class="space-y-4 animate-tab">
+            <div class="card-premium rounded-2xl p-4 border-l-4 border-l-amber-500">
+              <span class="text-[11px] font-extrabold uppercase tracking-widest text-amber-400">Canal 5 • Posibles socios, acceso por verificar</span>
+              <h2 class="text-xl font-extrabold text-white mt-0.5">Canal 5 - Grandes superficies de muebles y bricolaje (posibles socios, acceso por verificar)</h2>
+              <p class="text-sm text-slate-300 mt-2 leading-relaxed">
+                Vender muebles no significa que contraten montadores directamente. El montaje de muebles IKEA en España se gestiona a través de Taskrabbit (canal 6); la instalación de cocinas de IKEA es un servicio aparte que se contrata en la propia tienda (según ikea.com). Leroy Merlin ofrece servicios de instalación a sus clientes; cómo se entra como instalador colaborador está por verificar (su web o en tienda).
+              </p>
+            </div>
+
+            ${renderCompanyCard({
+              name: 'IKEA Valencia (Alfafar)',
+              address: 'C/ Alqueria Nova, 12, Parque Comercial Alfafar, 46910 Alfafar',
+              phones: [{ num: '900 40 09 22', sourceText: 'fuente: web oficial (atención al cliente)', url: 'https://www.ikea.com/es/es/stores/valencia-alfafar/' }],
+              web: 'ikea.com/es/es/stores/valencia-alfafar',
+              rating: '4,1 (35.900 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=IKEA+Valencia&query_place_id=ChIJy3KVwLNOYA0RJlCrivfm5lA'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Leroy Merlin Massanassa (CC Alfafar)',
+              address: 'C/ Medi Ambient, 5, 46470 Massanassa',
+              phones: [{ num: '961 22 34 00', sourceText: 'fuente: directorio sucursales.net', url: 'https://sucursales.net/leroy-merlin-valencia/' }],
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Leroy+Merlin+Massanassa&query_place_id=ChIJw0cUd69OYA0RZSEAeoCPz1Y',
+              note: 'Otras tiendas en el área, según el mismo directorio: Aldaia-Bonaire (961 57 92 92), Burjassot (963 64 99 00), La Pobla de Vallbona (962 75 99 01), Sagunto (963 92 91 00) y Alboraya. Confirma los números en leroymerlin.es antes de llamar.',
+              extraUrls: [{ url: 'https://leroymerlin.es', label: 'Web oficial mencionada en nota (leroymerlin.es)' }]
+            })}
+
+            ${renderCompanyCard({
+              name: 'Conforama Alfafar',
+              address: 'Av. de la Albufera, s/n, 46910 Alfafar',
+              phones: [{ num: '930 48 28 24', sourceText: 'fuente: ficha pública, por confirmar en la web', url: 'https://www.conforama.es/' }],
+              rating: '4,0 (5.874 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Conforama&query_place_id=ChIJTZcmorZOYA0RQlOam58wGXs'
+            })}
+
+            ${renderCompanyCard({
+              name: 'JYSK Alfafar',
+              address: 'Plaza Consolat del Mar, s/n, Alfafar Parc, 46910 Alfafar',
+              phones: [{ num: '963 76 43 70', sourceText: 'fuente: ficha pública, por confirmar en la web', url: 'https://jysk.es/tiendas/alfafar/alfafar-parc-pl-consolat-del-mar' }],
+              rating: '3,9 (918 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=JYSK&query_place_id=ChIJC2dF-7BOYA0RrqsdOV1wpMs'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Bauhaus Alfafar',
+              address: 'Plaza Consolat del Mar, 21-24, 46910 Alfafar',
+              noPhoneText: 'no consta en las fuentes consultadas',
+              web: 'bauhaus.es/fc/alfafar/352',
+              rating: '4,5 (12.324 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Bauhaus&query_place_id=ChIJdcJw-69OYA0RnLfatqKyNlg',
+              note: 'Su ficha oficial no publica teléfono de tienda; el contacto se hace por web o por el WhatsApp oficial de atención al cliente.'
+            })}
+          </div>
+        `
+      },
+      {
+        id: 'plataformas-intermediarios',
+        shortTitle: 'Plataformas Digitales',
+        badge: 'Canal 6 • Intermediarios de Encargos',
+        icon: '📱',
+        render: () => `
+          <div class="space-y-4 animate-tab">
+            <div class="card-premium rounded-2xl p-4 border-l-4 border-l-amber-500">
+              <span class="text-[11px] font-extrabold uppercase tracking-widest text-amber-400">Canal 6 • Intermediarios</span>
+              <h2 class="text-xl font-extrabold text-white mt-0.5">Canal 6 - Plataformas e intermediarios (te consiguen encargos, no son el cliente)</h2>
+            </div>
+
+            <!-- Taskrabbit -->
+            <div class="card-premium rounded-2xl p-4 space-y-2">
+              <h3 class="text-base font-extrabold text-white">Taskrabbit</h3>
+              <p class="text-sm text-slate-200 leading-relaxed">
+                Servicio oficial de montaje de muebles de IKEA en España; cubre toda la península, Valencia incluida (fuente: support.taskrabbit.com). Ojo: el montaje Taskrabbit cubre muebles; la instalación de cocinas IKEA es un servicio aparte que se contrata en tienda (fuente: ikea.com).
+              </p>
+              ${renderUrlAction('https://www.taskrabbit.es', 'Portal Principal Taskrabbit')}
+              ${renderUrlAction('https://www.taskrabbit.es/become-a-tasker', 'Alta como tasker')}
+              ${renderUrlAction('https://support.taskrabbit.com', 'Fuente oficial (support.taskrabbit.com)')}
+              ${renderUrlAction('https://ikea.com', 'Fuente oficial (ikea.com)')}
+            </div>
+
+            <!-- Habitissimo -->
+            <div class="card-premium rounded-2xl p-4 space-y-2">
+              <h3 class="text-base font-extrabold text-white">Habitissimo</h3>
+              <p class="text-sm text-slate-200 leading-relaxed">
+                Cobran por los contactos de clientes que recibes, con presupuesto semanal que controlas tú. Piden acreditar el alta como autónomo o empresa.
+              </p>
+              ${renderUrlAction('https://www.habitissimo.es/registrar/empresa', 'Registro de Empresa en Habitissimo')}
+            </div>
+
+            <!-- Cronoshare -->
+            <div class="card-premium rounded-2xl p-4 space-y-2">
+              <h3 class="text-base font-extrabold text-white">Cronoshare</h3>
+              <p class="text-sm text-slate-200 leading-relaxed">
+                Cobran por cada contacto que desbloqueas; sin suscripción.
+              </p>
+              ${renderUrlAction('https://www.cronoshare.com/registro/profesionales', 'Registro de Profesionales en Cronoshare')}
+            </div>
+
+            <!-- Wolly -->
+            <div class="card-premium rounded-2xl p-4 space-y-2">
+              <h3 class="text-base font-extrabold text-white">Wolly</h3>
+              <p class="text-sm text-slate-200 leading-relaxed">
+                Cuota fija mensual, sin coste por contacto, con red en Valencia.
+              </p>
+              ${renderUrlAction('https://www.wollyhome.com', 'Portal Oficial Wolly')}
+            </div>
+
+            <!-- Webel -->
+            <div class="card-premium rounded-2xl p-4 space-y-2">
+              <h3 class="text-base font-extrabold text-white">Webel</h3>
+              <p class="text-sm text-slate-200 leading-relaxed">
+                Comisión sobre el trabajo ejecutado.
+              </p>
+              ${renderUrlAction('https://www.webel.es', 'Portal Oficial Webel')}
+            </div>
+
+            <!-- Nota del canal 6 -->
+            <div class="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-xs text-amber-200 leading-relaxed">
+              <strong>Nota:</strong> los precios concretos cambian; confírmalos en la web de cada portal antes de pagar nada.
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 'inmobiliarias-staging',
+        shortTitle: 'Inmobiliarias y Staging',
+        badge: 'Canal 7 • Prescriptores',
+        icon: '🔑',
+        render: () => `
+          <div class="space-y-4 animate-tab">
+            <div class="card-premium rounded-2xl p-4 border-l-4 border-l-amber-500">
+              <span class="text-[11px] font-extrabold uppercase tracking-widest text-amber-400">Canal 7 • Prescriptores</span>
+              <h2 class="text-xl font-extrabold text-white mt-0.5">Canal 7 - Inmobiliarias y home staging (prescriptores)</h2>
+              <p class="text-sm text-slate-300 mt-2 leading-relaxed">
+                Preparan pisos para vender o alquilar, y a menudo renuevan cocina y armarios antes de anunciarlos. Recomiendan a quien responde rápido y deja todo limpio.
+              </p>
+            </div>
+
+            <div class="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30">
+              <h3 class="text-sm font-extrabold text-amber-300 uppercase tracking-wide">Inmobiliarias</h3>
+            </div>
+
+            ${renderCompanyCard({
+              name: 'Inmobiliaria RK Igarka',
+              address: 'Carrer de Matias Perelló, 41-bajo, 46005 Valencia',
+              phones: [{ num: '963 28 89 80', sourceText: 'fuente: web oficial', url: 'https://inmobiliariaigarka.com/contacto/' }],
+              rating: '4,9 (1.187 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Inmobiliaria+RK+Igarka&query_place_id=ChIJTYnljMhIYA0RuKVxJtw40X8'
+            })}
+
+            ${renderCompanyCard({
+              name: 'SOMON Inmobiliaria',
+              address: 'Carrer de Misser Mascó, 8, bajo izquierda 3, 46010 Valencia',
+              phones: [{ num: '722 72 36 51', sourceText: 'fuente: web oficial', url: 'https://www.somon.es/seccion/nosotros/empresa/es/' }],
+              rating: '5,0 (165 reseñas)'
+            })}
+
+            ${renderCompanyCard({
+              name: 'THE GIOR GROUP (lujo)',
+              address: 'Carrer de Colón, 42, 11, 46004 Valencia',
+              phones: [{ num: '962 19 85 35', sourceText: 'fuente: web oficial', url: 'https://www.thegiorgroup.com/es/contactar' }],
+              rating: '5,0 (317 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=THE+GIOR+GROUP+%7C+Agencia+Inmobiliaria+de+lujo+en+Valencia&query_place_id=ChIJe-wdrcJJYA0RXqF8WV_KC_o'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Ca´sua Inmobiliaria',
+              address: 'C. de Cuba, 61, Bajo izquierda, 46006 Valencia',
+              phones: [
+                { num: '963 31 48 82', sourceText: 'fuente: web oficial', url: 'https://www.casua.es/contacto/' },
+                { num: '678 11 72 78', sourceText: 'fuente: web oficial', url: 'https://www.casua.es/contacto/' }
+              ],
+              rating: '4,9 (270 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Ca%C2%B4sua+Inmobiliaria&query_place_id=ChIJJd4YUjNPYA0RaEM0hH5-zEY'
+            })}
+
+            ${renderCompanyCard({
+              name: 'InmoPEOPLE',
+              address: 'Carrer de Sant Vicent Màrtir, 84, 5A, 46002 Valencia',
+              phones: [{ num: '960 44 35 95', sourceText: 'fuente: web oficial', url: 'https://inmopeople.es/' }],
+              rating: '4,9 (218 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=InmoPEOPLE&query_place_id=ChIJYS1mcX5JYA0RuJ-IIANBMZg'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Inmobiliaria Primer Grupo (oficina Blasco)',
+              address: 'Avinguda del Doctor Waksman, 16, 46006 Valencia',
+              phones: [{ num: '961 10 88 48', sourceText: 'fuente: web oficial', url: 'https://www.primergrupo.com/inmobiliaria-monteolivete-blasco/' }],
+              rating: '4,9 (290 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Inmobiliaria+PRIMER+GRUPO+BLASCO&query_place_id=ChIJfUJgPM1IYA0R_8CGATm3Dao'
+            })}
+
+            ${renderCompanyCard({
+              name: 'AMARILO INMOBILIARIA',
+              address: 'C/ de Conca, 45, 46008 Valencia',
+              phones: [{ num: '623 40 72 38', sourceText: 'fuente: web oficial', url: 'https://www.amarilo.es/contact/' }],
+              rating: '4,8 (204 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=AMARILO+INMOBILIARIA&query_place_id=ChIJpaudDypPYA0R3RZB_GqiNZM'
+            })}
+
+            ${renderCompanyCard({
+              name: 'CALLAGHAN Inmobiliaria',
+              address: 'Pl. de la Legión Española, 12, Entresuelo, 46010 Valencia',
+              phones: [{ num: '963 15 59 48', sourceText: 'fuente: web oficial', url: 'http://inmuebles.callaghaninmobiliaria.com/contacto.html' }],
+              rating: '4,8 (541 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=CALLAGHAN+Inmobiliaria&query_place_id=ChIJ-UNDTE1PYA0RISmPWKJ73LI'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Remax Urbe II',
+              address: 'Carrer de Joaquín Costa, 4, Bajo, 46005 Valencia',
+              phones: [
+                { num: '963 31 32 29', sourceText: 'fuente: web oficial', url: 'https://www.remax.es/buscador-de-oficinas/valencia-valencia/valencia/common/' },
+                { num: '611 36 97 67', sourceText: 'fuente: web oficial', url: 'https://www.remax.es/buscador-de-oficinas/valencia-valencia/valencia/common/' }
+              ],
+              rating: '4,8 (503 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Remax+Urbe+II&query_place_id=ChIJR03aIrRIYA0ROu9jyXZ9O2s'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Lauria Inmobiliaria',
+              address: 'C/ de Roger de Llòria, 3, 46002 Valencia',
+              phones: [{ num: '963 50 92 87', sourceText: 'fuente: web oficial', url: 'https://www.lauria.es/contact/' }],
+              rating: '4,7 (248 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Lauria+Inmobiliaria&query_place_id=ChIJe--cSUtPYA0RLZljzeiUJ2s'
+            })}
+
+            ${renderCompanyCard({
+              name: 'CENTURY 21 Liberty Home',
+              address: 'C. del Mar, 17, 46003 Valencia',
+              phones: [{ num: '961 81 23 90', sourceText: 'fuente: directorio EsOpiniones', url: 'https://esopiniones.com/valencia/century-21-liberty-home-908936' }],
+              rating: '4,5 (247 reseñas)'
+            })}
+
+            <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700 mt-6">
+              <h3 class="text-sm font-extrabold text-white uppercase tracking-wide">Home staging</h3>
+            </div>
+
+            ${renderCompanyCard({
+              name: 'At Home in Valencia',
+              address: 'C/ de Sorní, 12, 46004 Valencia',
+              phones: [{ num: '641 26 01 85', sourceText: 'fuente: web oficial', url: 'https://athomeinvalencia.com/contact-us' }],
+              rating: '4,9 (143 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=At+Home+in+Valencia&query_place_id=ChIJx38r3p5JYA0Rey5Nc05HXBw'
+            })}
+
+            ${renderCompanyCard({
+              name: 'HOME STAGING PALLARES',
+              address: 'C. de Salvador Lluch, 11, 46006 Valencia',
+              phones: [{ num: '626 62 55 49', sourceText: 'fuente: directorio Exa/Places', url: 'https://exa.ai/library/place/r7cbq6ynbg8' }],
+              rating: 'sin valoraciones aún',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=HOME+STAGING+PALLARES&query_place_id=ChIJcwJV4M5IYA0R-ej6DX3Ncqw'
+            })}
+
+            ${renderCompanyCard({
+              name: 'BLAHUG Home Staging',
+              address: 'C/ Vicent Peris i Ruiz, 46134 Foios',
+              phones: [{ num: '659 92 87 13', sourceText: 'fuente: directorio Comercios Comunitat Valenciana', url: 'https://meliana.comercioscomunitatvalenciana.com/es/comercios/view/blahug-home-staging-car' }],
+              rating: '5,0 (12 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Home+Staging+%7C+BLAHUG+%7C+Atrae+para+vender&query_place_id=ChIJE4wexHBk6iwRBiwRo4n7jYc'
+            })}
+          </div>
+        `
+      },
+      {
+        id: 'etts-empleo',
+        shortTitle: 'ETTs y Subcontratación',
+        badge: 'Canal 8 • Intermediarios de Empleo',
+        icon: '👷',
+        render: () => `
+          <div class="space-y-4 animate-tab">
+            <div class="card-premium rounded-2xl p-4 border-l-4 border-l-amber-500">
+              <span class="text-[11px] font-extrabold uppercase tracking-widest text-amber-400">Canal 8 • Intermediarios de empleo</span>
+              <h2 class="text-xl font-extrabold text-white mt-0.5">Canal 8 - ETTs (intermediarios de empleo)</h2>
+              <p class="text-sm text-slate-300 mt-2 leading-relaxed">
+                Pueden darte trabajo subcontratado en picos de demanda y, al revés, mano de obra cuando a ti te falte. Las condiciones varían: conviene comparar caso a caso.
+              </p>
+            </div>
+
+            ${renderCompanyCard({
+              name: 'TuEtt - Valencia',
+              address: 'C/ de les Barques, 2, 46002 Valencia',
+              phones: [{ num: '951 96 19 10', sourceText: 'fuente: web oficial', url: 'https://tuett.com/contacto/' }],
+              rating: '5,0 (13 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=TuEtt+-+Valencia&query_place_id=ChIJ4X4W1hRPYA0RvpfW4SDlzhs'
+            })}
+
+            ${renderCompanyCard({
+              name: 'PACTO ETT Valencia',
+              address: 'Av. de Pérez Galdós, 13, 3ª planta, puerta 7, 46007 Valencia',
+              phones: [{ num: '960 55 02 41', sourceText: 'fuente: web oficial', url: 'https://www.pacto.es/oficinas/' }],
+              rating: '4,9 (27 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=PACTO+ETT+Valencia&query_place_id=ChIJw7rcQuZPYA0R2HGnJSs6qKw'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Faster Empleo Valencia',
+              address: 'Av. de las Cortes Valencianas, 26, Bloque 5, Ent. 2, 46015 Valencia',
+              phones: [{ num: '963 52 51 32', sourceText: 'fuente: web oficial', url: 'https://faster.es/nosotros/' }],
+              rating: '4,8 (428 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Faster+Empleo+Valencia&query_place_id=ChIJf6WkWEtPYA0RRcTPg3SdOyQ'
+            })}
+
+            ${renderCompanyCard({
+              name: 'ETT Paterna - Gestora Laboral Mediterránea',
+              address: 'P.I. Fuente del Jarro, Plaza Gerardo Salvador, 1 bajo, 46988 Paterna',
+              phones: [{ num: '696 67 81 01', sourceText: 'fuente: directorio Exa/Places', url: 'https://exa.ai/library/place/1tp0bmbrvq0' }],
+              rating: '4,7 (30 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=ETT+Paterna+%7C+Gestora+Laboral+Mediterr%C3%A1nea&query_place_id=ChIJtW5Yv55bYA0RG9v5FUKoYtg'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Gi Group ETT Valencia',
+              address: 'Plaça de Cánovas del Castillo, 1, 2ª planta, 46005 Valencia',
+              phones: [{ num: '678 39 79 09', sourceText: 'fuente: web oficial', url: 'https://es.gigroup.com/delegaciones/' }],
+              email: 'valencia@gigroup.com',
+              rating: '4,7 (157 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Gi+Group+ETT+Valencia&query_place_id=ChIJhZnVaLdIYA0RrNBHPOSzQ3U'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Brío ETT',
+              address: "Av. de l'Oest, 19, Piso 2 Puerta 3, 46001 Valencia",
+              phones: [{ num: '963 53 11 36', sourceText: 'fuente: web oficial', url: 'https://www.grupobrio.es/contacto' }],
+              rating: '4,6 (197 reseñas)'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Temps Valencia',
+              address: 'Gran Via del Marqués del Túria, 49, 3º 12ª, 46005 Valencia',
+              phones: [{ num: '963 52 84 94', sourceText: 'fuente: directorio PortalETT', url: 'https://www.portalett.com/delegacion.php?id=1573' }],
+              rating: '4,4 (150 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Temps+Valencia&query_place_id=ChIJi4TGXLZIYA0R2NdXNmDuZVg'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Temporing Valencia',
+              address: 'C/ de Xàtiva, 15, planta 4, puerta 8B, 46002 Valencia',
+              phones: [{ num: '963 41 23 97', sourceText: 'fuente: directorio Exa/Places', url: 'https://exa.ai/library/place/s1zhs7cdgwk' }],
+              rating: '3,4 (28 reseñas)'
+            })}
+          </div>
+        `
+      },
+      {
+        id: 'distribuidores-proveedores',
+        shortTitle: 'Distribuidores y Material',
+        badge: 'Canal 9 • Proveedores y Networking',
+        icon: '📦',
+        render: () => `
+          <div class="space-y-4 animate-tab">
+            <div class="card-premium rounded-2xl p-4 border-l-4 border-l-amber-500">
+              <span class="text-[11px] font-extrabold uppercase tracking-widest text-amber-400">Canal 9 • NO son clientes: te venden material</span>
+              <h2 class="text-xl font-extrabold text-white mt-0.5">Canal 9 - Distribuidores y proveedores (NO son clientes: te venden material)</h2>
+              <p class="text-sm text-slate-300 mt-2 leading-relaxed">
+                Su valor como canal es indirecto: formación, contactos con otros profesionales y, a veces, recomendación a clientes que buscan montador. Según tu proyecto en Notion, tienes una plaza de formación en Saltoki del 16 de noviembre al 7 de diciembre: es también una oportunidad de contactos.
+              </p>
+            </div>
+
+            ${renderCompanyCard({
+              name: 'Saltoki - Vara de Quart',
+              address: 'Carrer dels Gremis, 7, 46014 Valencia',
+              phones: [{ num: '900 11 11 88', sourceText: 'fuente: web oficial (atención general del grupo)', url: 'https://www.saltoki.com/puntos-de-venta' }],
+              rating: '4,0 (169 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Saltoki+-+Vara+de+Quart&query_place_id=ChIJsZh791hPYA0RyEuiTbcHbfA',
+              note: 'Los teléfonos de cada punto de venta están en saltoki.com/puntos-de-venta.',
+              extraUrls: [{ url: 'https://www.saltoki.com/puntos-de-venta', label: 'Puntos de venta Saltoki (saltoki.com/puntos-de-venta)' }]
+            })}
+
+            ${renderCompanyCard({
+              name: 'Saltoki Home',
+              address: 'Carrer dels Fusters, 4, 46014 Valencia',
+              noPhoneText: 'no consta en las fuentes consultadas',
+              rating: '4,1 (31 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Saltoki+Home&query_place_id=ChIJhQs7Gj1PYA0RhXv32H_-7ew',
+              note: 'Mismo grupo: contacto general en saltoki.com/puntos-de-venta.',
+              extraUrls: [{ url: 'https://www.saltoki.com/puntos-de-venta', label: 'Contacto general en saltoki.com/puntos-de-venta' }]
+            })}
+
+            ${renderCompanyCard({
+              name: 'Saltoki Aldaia',
+              address: "Carrer d'Ovidi Montllor, 15, 46960 Aldaia",
+              noPhoneText: 'no consta en las fuentes consultadas',
+              rating: '4,3 (147 reseñas)',
+              note: 'Mismo grupo: contacto general en saltoki.com/puntos-de-venta.',
+              extraUrls: [{ url: 'https://www.saltoki.com/puntos-de-venta', label: 'Contacto general en saltoki.com/puntos-de-venta' }]
+            })}
+
+            ${renderCompanyCard({
+              name: 'Saltoki Port de Sagunt',
+              address: "Av. de l'Advocat Fausto Caruana, 9, 46500 Port de Sagunt",
+              noPhoneText: 'no consta en las fuentes consultadas',
+              rating: '4,2 (71 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Saltoki&query_place_id=ChIJO7URVZcVYA0Rb-jqstKAA3o',
+              note: 'Mismo grupo: contacto general en saltoki.com/puntos-de-venta.',
+              extraUrls: [{ url: 'https://www.saltoki.com/puntos-de-venta', label: 'Contacto general en saltoki.com/puntos-de-venta' }]
+            })}
+
+            ${renderCompanyCard({
+              name: 'OBRAMAT Massanassa (antes Bricomart)',
+              address: 'Av. de la Generalitat Valenciana, 2, 46470 Massanassa',
+              phones: [{ num: '961 25 14 24', sourceText: 'fuente: web oficial', url: 'https://www.obramat.es/almacenes/obramat-massanassa.html' }],
+              rating: '4,2 (10.988 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=OBRAMAT+MASSANASSA&query_place_id=ChIJQ9PAhj1GYA0RrNzgxMeuMGc'
+            })}
+
+            ${renderCompanyCard({
+              name: 'Brico Depôt Quart de Poblet',
+              address: "Carrer l'Horta Sud, 345, 46930 Quart de Poblet",
+              phones: [{ num: '961 53 93 64', sourceText: 'fuente: web oficial', url: 'https://www.bricodepot.es/storelocator/store/index/source_code/1634' }],
+              rating: '4,1 (3.279 reseñas)',
+              mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Brico+Dep%C3%B4t+Quart+de+Poblet&query_place_id=ChIJJXSsNntQYA0R66pbtAuaCe8'
+            })}
+          </div>
+        `
+      },
+      {
+        id: 'captacion-particulares',
+        shortTitle: 'Captación Directa B2C',
+        badge: 'Canal 10 • Cliente Final',
+        icon: '🎯',
+        render: () => `
+          <div class="space-y-4 animate-tab">
+            <div class="card-premium rounded-2xl p-4 border-l-4 border-l-amber-500">
+              <span class="text-[11px] font-extrabold uppercase tracking-widest text-amber-400">Canal 10 • Cliente final</span>
+              <h2 class="text-xl font-extrabold text-white mt-0.5">Canal 10 - Captación directa de particulares (cliente final)</h2>
+              <p class="text-sm text-slate-300 mt-2 leading-relaxed">
+                No tiene directorio de contactos: el contacto lo creas tú.
+              </p>
+            </div>
+
+            <div class="card-premium rounded-2xl p-4 space-y-3">
+              <h3 class="text-base font-extrabold text-amber-400">1. Perfil de empresa en Google (gratis)</h3>
+              <p class="text-sm text-slate-200 leading-relaxed">
+                <strong>Perfil de empresa en Google</strong> (gratis): https://business.google.com - para aparecer cuando alguien busca "montaje de muebles" o "instalación de cocinas" cerca. Es la base del resto.
+              </p>
+              ${renderUrlAction('https://business.google.com', 'Perfil de empresa en Google (business.google.com)')}
+            </div>
+
+            <div class="card-premium rounded-2xl p-4 space-y-2">
+              <h3 class="text-base font-extrabold text-amber-400">2. Redes sociales locales (Facebook, Instagram)</h3>
+              <p class="text-sm text-slate-200 leading-relaxed">
+                <strong>Redes sociales locales</strong> (Facebook, Instagram): fotos de antes y después de cada trabajo, con permiso del cliente, y grupos de barrios y pueblos del área.
+              </p>
+            </div>
+
+            <div class="card-premium rounded-2xl p-4 space-y-2">
+              <h3 class="text-base font-extrabold text-amber-400">3. Publicidad segmentada (Google Ads y Meta Ads)</h3>
+              <p class="text-sm text-slate-200 leading-relaxed">
+                <strong>Publicidad segmentada</strong> (Google Ads y Meta Ads): limitada a un radio de 50 km y con presupuesto controlado.
+              </p>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 'notas-finales',
+        shortTitle: 'Notas y Reglas',
+        badge: 'Reglas Operativas del Proyecto',
+        icon: '📋',
+        render: () => `
+          <div class="space-y-4 animate-tab">
+            <div class="card-premium rounded-2xl p-4 border-l-4 border-l-amber-500">
+              <span class="text-[11px] font-extrabold uppercase tracking-widest text-amber-400">Verificación y Control</span>
+              <h2 class="text-xl font-extrabold text-white mt-0.5">Notas finales</h2>
+            </div>
+
+            <div class="space-y-3">
+              <div class="card-premium rounded-2xl p-4 flex items-start gap-3">
+                <span class="w-7 h-7 rounded-lg bg-amber-500 text-slate-950 font-black text-sm flex items-center justify-center shrink-0">1</span>
+                <p class="text-sm text-slate-200 leading-relaxed">
+                  Este documento es un mapa de contactos públicos, no una lista de empresas que estén buscando montadores ahora mismo.
+                </p>
+              </div>
+
+              <div class="card-premium rounded-2xl p-4 flex items-start gap-3">
+                <span class="w-7 h-7 rounded-lg bg-amber-500 text-slate-950 font-black text-sm flex items-center justify-center shrink-0">2</span>
+                <p class="text-sm text-slate-200 leading-relaxed">
+                  Teléfonos, direcciones y valoraciones consultados el 11 de noviembre de 2026 en las fuentes enlazadas en cada ficha (webs oficiales cuando fue posible; directorios públicos en el resto).
+                </p>
+              </div>
+
+              <div class="card-premium rounded-2xl p-4 flex items-start gap-3">
+                <span class="w-7 h-7 rounded-lg bg-amber-500 text-slate-950 font-black text-sm flex items-center justify-center shrink-0">3</span>
+                <p class="text-sm text-slate-200 leading-relaxed">
+                  Si un teléfono no responde, la ficha de Google Maps enlazada suele tener el dato más actualizado.
+                </p>
+              </div>
+
+              <div class="card-premium rounded-2xl p-4 flex items-start gap-3 border border-amber-500/40 bg-amber-500/10">
+                <span class="w-7 h-7 rounded-lg bg-amber-400 text-slate-950 font-black text-sm flex items-center justify-center shrink-0">4</span>
+                <p class="text-sm text-amber-200 font-semibold leading-relaxed">
+                  Regla del proyecto: ningún mensaje, anuncio ni presupuesto sale sin tu aprobación.
+                </p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 'creditos',
+        shortTitle: 'CRÉDITOS',
+        badge: 'Autoría y Registro Temporal',
+        icon: '🏆',
+        render: () => `
+          <div class="space-y-4 animate-tab">
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-amber-500/25 via-slate-900 to-slate-950 border-2 border-amber-500/50 p-6 text-center shadow-2xl">
+              <div class="w-16 h-16 rounded-2xl bg-amber-500 text-slate-950 font-black text-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-amber-500/30">
+                RS
+              </div>
+              <span class="text-xs font-extrabold uppercase tracking-widest text-amber-400 block mb-1">Ficha Oficial de Autoría</span>
+              <h2 class="text-2xl font-black text-white tracking-tight">CRÉDITOS</h2>
+
+              <div class="mt-6 space-y-3 text-left max-w-md mx-auto">
+                <div class="p-4 rounded-2xl bg-slate-950/90 border border-slate-800 flex items-center justify-between">
+                  <span class="text-xs font-bold text-slate-400 uppercase">Autor / Dirección</span>
+                  <span class="text-sm font-extrabold text-amber-400">Rubén Sbarsky</span>
+                </div>
+
+                <div class="p-4 rounded-2xl bg-slate-950/90 border border-slate-800 flex items-center justify-between">
+                  <span class="text-xs font-bold text-slate-400 uppercase">Fecha 📆</span>
+                  <span class="text-sm font-extrabold text-white">11/11/2026</span>
+                </div>
+
+                <div class="p-4 rounded-2xl bg-slate-950/90 border border-slate-800 flex items-center justify-between">
+                  <span class="text-xs font-bold text-slate-400 uppercase">Hora 🕰</span>
+                  <span class="text-sm font-extrabold text-white">10:40:07</span>
+                </div>
+              </div>
+
+              <div class="mt-6 pt-4 border-t border-slate-800/80 text-xs text-slate-300 font-semibold">
+                CRÉDITOS: Rubén Sbarsky, Fecha 📆: 11/11/2026, Hora 🕰: 10:40:07
+              </div>
+            </div>
+          </div>
+        `
+      }
+    ];
+
+    // Función para renderizar cada ficha de empresa manteniendo el 100% de los datos y botones "Abrir en otra Ventana"
+    function renderCompanyCard(item) {
+      let phonesHtml = '';
+      if (item.phones && item.phones.length > 0) {
+        phonesHtml = item.phones.map(p => {
+          const cleanTel = p.num.replace(/\s+/g, '');
+          return `
+            <div class="mt-2.5 pt-2.5 border-t border-slate-800/80">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="text-xs text-slate-300">
+                  <span class="text-slate-400">Teléfono:</span> 
+                  <strong class="text-white text-sm ml-1">${p.num}</strong>
+                </div>
+                <a href="tel:${cleanTel}" class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold text-xs flex items-center gap-1 active:bg-emerald-500 active:text-slate-950">
+                  <span>📞 Llamar</span>
+                </a>
+              </div>
+              ${renderUrlAction(p.url, `Fuente del teléfono (${p.sourceText})`)}
+            </div>
+          `;
+        }).join('');
+      } else if (item.noPhoneText) {
+        phonesHtml = `
+          <div class="mt-2.5 pt-2.5 border-t border-slate-800/80 text-xs text-amber-300">
+            <span class="font-bold">Teléfono:</span> ${item.noPhoneText}
+          </div>
+        `;
+      }
+
+      let emailHtml = '';
+      if (item.email) {
+        emailHtml = `
+          <div class="mt-2 text-xs text-slate-300 flex items-center justify-between bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+            <div class="truncate"><span class="text-slate-400">Email:</span> <strong class="text-white">${item.email}</strong></div>
+            <a href="mailto:${item.email}" target="_blank" rel="noopener noreferrer" class="ml-2 px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold text-[11px] shrink-0">
+              Abrir en otra Ventana
+            </a>
+          </div>
+        `;
+      }
+
+      let webHtml = '';
+      if (item.web) {
+        webHtml = renderUrlAction(item.web, `Web: ${item.web}`);
+      }
+
+      let mapsHtml = '';
+      if (item.mapsUrl) {
+        mapsHtml = renderUrlAction(item.mapsUrl, 'Ficha en Google Maps (horario y datos actualizados)');
+      }
+
+      let extraUrlsHtml = '';
+      if (item.extraUrls && item.extraUrls.length > 0) {
+        extraUrlsHtml = item.extraUrls.map(eu => renderUrlAction(eu.url, eu.label)).join('');
+      }
+
+      let noteHtml = '';
+      if (item.note) {
+        noteHtml = `
+          <div class="mt-2.5 p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs text-amber-200 leading-relaxed">
+            <strong>Nota:</strong> ${item.note}
+          </div>
+        `;
+      }
+
+      return `
+        <article class="card-premium rounded-2xl p-4">
+          <div class="flex items-start justify-between gap-2">
+            <h4 class="text-base font-extrabold text-white leading-snug">${item.name}</h4>
+            ${item.rating ? `
+              <span class="shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-300 text-[11px] font-bold">
+                ⭐ ${item.rating}
+              </span>
+            ` : ''}
+          </div>
+
+          <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">
+            <span class="text-slate-400 font-medium">Dirección:</span> ${item.address}
+          </p>
+
+          ${item.rating ? `
+            <p class="text-xs text-slate-400 mt-1">
+              <span>Valoración en Google:</span> <strong class="text-slate-200">${item.rating}</strong>
+            </p>
+          ` : ''}
+
+          ${phonesHtml}
+          ${emailHtml}
+          ${webHtml}
+          ${mapsHtml}
+          ${noteHtml}
+          ${extraUrlsHtml}
+        </article>
+      `;
+    }
+
+    let currentTabIndex = 0;
+
+    function initNavigation() {
+      const topTabBar = document.getElementById('topTabBar');
+      const drawerList = document.getElementById('drawerList');
+
+      topTabBar.innerHTML = TABS_DATA.map((tab, idx) => `
+        <button id="topTab-${tab.id}" onclick="switchTab('${tab.id}')" 
+                class="shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold border border-slate-800 bg-slate-900/90 text-slate-300 transition-all">
+          <span>${tab.icon}</span>
+          <span class="whitespace-nowrap">${tab.shortTitle}</span>
+        </button>
+      `).join('');
+
+      drawerList.innerHTML = TABS_DATA.map((tab, idx) => `
+        <button id="drawerTab-${tab.id}" onclick="switchTab('${tab.id}'); toggleDrawer(false);" 
+                class="w-full flex items-center justify-between p-3 rounded-xl text-left border border-slate-800/80 bg-slate-900/60 hover:bg-slate-800 text-slate-200 transition-all">
+          <div class="flex items-center gap-3 min-w-0">
+            <span class="text-lg shrink-0">${tab.icon}</span>
+            <div class="truncate">
+              <div class="text-xs font-bold truncate">${tab.shortTitle}</div>
+              <div class="text-[10px] text-slate-400 truncate">${tab.badge}</div>
+            </div>
+          </div>
+          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400 ml-2">${idx + 1}</span>
+        </button>
+      `).join('');
+    }
+
+    function switchTab(tabId) {
+      const idx = TABS_DATA.findIndex(t => t.id === tabId);
+      if (idx === -1) return;
+      currentTabIndex = idx;
+      const currentTab = TABS_DATA[idx];
+
+      // Inyectar contenido
+      const mainContent = document.getElementById('mainContent');
+      mainContent.innerHTML = currentTab.render();
+
+      // Actualizar contador
+      document.getElementById('tabCounter').textContent = `${idx + 1} / ${TABS_DATA.length}`;
+
+      // Actualizar estado visual de las pestañas superiores y auto-centrar la pestaña activa
+      TABS_DATA.forEach((t) => {
+        const btn = document.getElementById(`topTab-${t.id}`);
+        const dBtn = document.getElementById(`drawerTab-${t.id}`);
+        if (t.id === tabId) {
+          btn.classList.add('tab-btn-active');
+          dBtn.classList.add('border-amber-500', 'bg-amber-500/15', 'text-amber-300');
+          // Auto-centrado suave en la barra horizontal
+          btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        } else {
+          btn.classList.remove('tab-btn-active');
+          dBtn.classList.remove('border-amber-500', 'bg-amber-500/15', 'text-amber-300');
+        }
+      });
+
+      // Actualizar botones fijo inferior (Anterior / Siguiente)
+      const prevBtn = document.getElementById('prevTabBtn');
+      const nextBtn = document.getElementById('nextTabBtn');
+      const prevLabel = document.getElementById('prevTabLabel');
+      const nextLabel = document.getElementById('nextTabLabel');
+
+      if (idx > 0) {
+        prevBtn.disabled = false;
+        prevLabel.textContent = TABS_DATA[idx - 1].shortTitle;
+      } else {
+        prevBtn.disabled = true;
+        prevLabel.textContent = 'Inicio';
+      }
+
+      if (idx < TABS_DATA.length - 1) {
+        nextBtn.disabled = false;
+        nextLabel.textContent = TABS_DATA[idx + 1].shortTitle;
+      } else {
+        nextBtn.disabled = true;
+        nextLabel.textContent = 'Fin';
+      }
+
+      // Subir al comienzo de la pestaña recién abierta
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function navigateRelative(delta) {
+      const nextIdx = currentTabIndex + delta;
+      if (nextIdx >= 0 && nextIdx < TABS_DATA.length) {
+        switchTab(TABS_DATA[nextIdx].id);
+      }
+    }
+
+    function scrollToCurrentTabTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleDrawer(open) {
+      const overlay = document.getElementById('drawerOverlay');
+      const drawer = document.getElementById('drawerMenu');
+      if (open) {
+        overlay.classList.remove('hidden');
+        setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+        drawer.classList.remove('-translate-x-full');
+      } else {
+        overlay.classList.add('opacity-0');
+        drawer.classList.add('-translate-x-full');
+        setTimeout(() => overlay.classList.add('hidden'), 250);
+      }
+    }
+
+    // Hacer que los botones flotantes (INICIO y ARRIBA) sean 100% movibles / arrastrables en pantalla táctil y ratón
+    function makeFabDraggable(el, onClickCallback) {
+      let isDragging = false;
+      let hasMoved = false;
+      let startX = 0, startY = 0;
+      let initialLeft = 0, initialTop = 0;
+
+      el.addEventListener('pointerdown', (e) => {
+        isDragging = true;
+        hasMoved = false;
+        startX = e.clientX;
+        startY = e.clientY;
+        const rect = el.getBoundingClientRect();
+        initialLeft = rect.left;
+        initialTop = rect.top;
+
+        el.style.right = 'auto';
+        el.style.bottom = 'auto';
+        el.style.left = `${initialLeft}px`;
+        el.style.top = `${initialTop}px`;
+        el.setPointerCapture(e.pointerId);
+      });
+
+      el.addEventListener('pointermove', (e) => {
+        if (!isDragging) return;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        if (Math.abs(dx) > 6 || Math.abs(dy) > 6) {
+          hasMoved = true;
+        }
+        if (hasMoved) {
+          const maxX = window.innerWidth - el.offsetWidth - 6;
+          const maxY = window.innerHeight - el.offsetHeight - 6;
+          const newX = Math.max(6, Math.min(maxX, initialLeft + dx));
+          const newY = Math.max(6, Math.min(maxY, initialTop + dy));
+          el.style.left = `${newX}px`;
+          el.style.top = `${newY}px`;
+        }
+      });
+
+      el.addEventListener('pointerup', (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        el.releasePointerCapture(e.pointerId);
+        if (!hasMoved) {
+          onClickCallback();
+        }
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initNavigation();
+      switchTab('inicio');
+
+      makeFabDraggable(document.getElementById('fabInicio'), () => {
+        switchTab('inicio');
+      });
+
+      makeFabDraggable(document.getElementById('fabArriba'), () => {
+        scrollToCurrentTabTop();
+      });
+    });
+  </script>
+</body>
+</html>
