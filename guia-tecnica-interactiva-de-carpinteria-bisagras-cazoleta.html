@@ -1,0 +1,2268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="narrative">
+  <meta name="design-style" content="showroom">
+  <title>Bisagras cazoleta — Guía técnica y simulador interactivo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@100..900&family=Inter:wght@100..900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Page and surfaces (Showroom) */
+      --background: #fbfbfd;
+      --surface-container-low: #f5f5f7;
+      --surface-container: #e8e8ed;
+      --surface-container-high: #dcdce1;
+
+      /* Ink */
+      --on-surface: #1d1d1f;
+      --on-surface-variant: #6e6e73;
+
+      /* Rules */
+      --outline: #d2d2d7;
+      --outline-variant: #e5e5ea;
+
+      /* Accents */
+      --primary: #006bd6;
+      --on-primary: #ffffff;
+      --primary-container: #e8f1fd;
+      --on-primary-container: #0058b0;
+      --secondary: #bf4800;
+      --tertiary: #1d1d1f;
+      --error: #d70015;
+      --on-error: #ffffff;
+
+      /* Data series */
+      --data-1: #006bd6;
+      --data-2: #bf4800;
+      --data-3: #248a3d;
+      --data-4: #8944ab;
+      --data-context: #aeaeb2;
+
+      /* Semantic */
+      --positive: #248a3d;
+      --positive-container: #e7f4eb;
+      --warning: #bf4800;
+      --warning-container: #fdf0e6;
+      --error-container: #fdebec;
+      --focus: #006bd6;
+
+      /* Workshop material tokens (wood & hardware finishes) */
+      --wood-carcass: #e6dac6;
+      --wood-carcass-stroke: #b5a489;
+      --wood-door: #f3ece0;
+      --wood-door-stroke: #9c8a70;
+      --wood-dark-carcass: #3d3b38;
+      --wood-dark-door: #504d49;
+      --hinge-steel-fill: #d8dbe0;
+      --hinge-steel-mid: #a4a9b3;
+      --hinge-steel-stroke: #565b66;
+      --hinge-black-fill: #343438;
+      --hinge-black-mid: #1d1d1f;
+      --hinge-black-stroke: #0e0e10;
+      --screw-brass: #d4a64a;
+      --screw-slot: #1d1d1f;
+      --piston-fluid: #006bd6;
+
+      /* Fonts */
+      --font-headline: 'Inter Tight', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-label: 'Inter', sans-serif;
+
+      /* Shape */
+      --rounded: 9999px;
+      --rounded-md: 0.75rem;
+      --rounded-lg: 1.25rem;
+      --rounded-full: 9999px;
+
+      /* Style effects */
+      --headline-tracking: -0.035em;
+      --subhead-tracking: -0.02em;
+      --figure-tracking: -0.03em;
+      --tile-shadow-hover: 0 8px 28px rgb(0 0 0 / 0.08);
+      --focus-ring: 0 0 0 3px rgb(0 107 214 / 0.35);
+      --chevron: " \203A";
+
+      /* Narrative Type Scale */
+      --display-size: clamp(2.75rem, 1.5rem + 4.5vw, 4.75rem);
+      --headline-size: clamp(1.875rem, 1.25rem + 2.2vw, 2.75rem);
+      --subhead-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+      --body-size: clamp(1.0625rem, 1rem + 0.25vw, 1.125rem);
+      --label-size: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem);
+
+      /* Spacing scale (4pt base) */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+      --space-3xl: 5.5rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.58;
+      -webkit-font-smoothing: antialiased;
+    }
+    header { position: static !important; }
+
+    .container {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding-inline: var(--space-lg);
+    }
+
+    .container * { min-width: 0; }
+
+    /* Focus accessibility */
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    /* Tonal section bands */
+    .band {
+      padding-block: var(--space-2xl);
+      background: var(--background);
+    }
+    .band.alt {
+      background: var(--surface-container-low);
+    }
+    .band.alt .tile {
+      background: var(--background);
+    }
+
+    /* Centered headline stack */
+    .headline-stack {
+      text-align: center;
+      padding-block: var(--space-xl) var(--space-lg);
+    }
+    .hero-stack {
+      padding-block: var(--space-3xl) var(--space-xl);
+    }
+    .eyebrow {
+      display: inline-block;
+      font-family: var(--font-label);
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--secondary);
+      margin-bottom: var(--space-sm);
+    }
+    .headline-stack h1 {
+      font-family: var(--font-headline);
+      font-size: var(--display-size);
+      font-weight: 700;
+      letter-spacing: var(--headline-tracking);
+      line-height: 1.04;
+      color: var(--on-surface);
+      margin: 0 auto;
+      max-width: 18ch;
+    }
+    .headline-stack h2 {
+      font-family: var(--font-headline);
+      font-size: var(--headline-size);
+      font-weight: 700;
+      letter-spacing: var(--subhead-tracking);
+      line-height: 1.08;
+      color: var(--on-surface);
+      margin: 0 auto;
+      max-width: 24ch;
+    }
+    .headline-stack .lede {
+      color: var(--on-surface-variant);
+      font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.25rem);
+      line-height: 1.5;
+      max-width: 52ch;
+      margin: var(--space-md) auto 0;
+    }
+
+    /* Prose column (left-aligned, centered measure) */
+    .prose-measure {
+      max-width: 65ch;
+      margin: 0 auto var(--space-xl);
+      color: var(--on-surface);
+    }
+    .prose-measure p {
+      margin: 0 0 var(--space-md);
+      color: var(--on-surface-variant);
+    }
+    .prose-measure p strong {
+      color: var(--on-surface);
+      font-weight: 600;
+    }
+
+    /* Pill actions and chevron links */
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      background: var(--primary);
+      color: var(--on-primary);
+      border-radius: var(--rounded);
+      font-family: var(--font-label);
+      font-size: 0.9375rem;
+      font-weight: 500;
+      padding: var(--space-sm) var(--space-lg);
+      border: 0;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+    }
+    .btn-primary:hover {
+      background: var(--on-primary-container);
+    }
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      background: var(--surface-container);
+      color: var(--on-surface);
+      border-radius: var(--rounded);
+      font-family: var(--font-label);
+      font-size: 0.9375rem;
+      font-weight: 500;
+      padding: var(--space-sm) var(--space-lg);
+      border: 0;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+    }
+    .btn-secondary:hover {
+      background: var(--surface-container-high);
+    }
+    .btn-secondary:active {
+      transform: scale(0.98);
+    }
+    .link-more {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding-inline: var(--space-sm);
+      color: var(--primary);
+      font-weight: 500;
+      font-size: 0.9375rem;
+      text-decoration: none;
+      cursor: pointer;
+      background: transparent;
+      border: 0;
+      font-family: inherit;
+    }
+    .link-more:hover {
+      text-decoration: underline;
+    }
+    .link-more::after {
+      content: var(--chevron);
+      margin-left: var(--space-xs);
+    }
+
+    /* Borderless rounded tiles */
+    .tile {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-xl) var(--space-lg);
+      border: 0;
+    }
+    .tile-compact {
+      padding: var(--space-lg);
+    }
+    .tile.figure {
+      text-align: center;
+    }
+    .tile.figure .label {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--on-surface-variant);
+      margin-bottom: var(--space-xs);
+    }
+    .tile.figure .value {
+      font-family: var(--font-headline);
+      font-size: clamp(2.25rem, 1.5rem + 2vw, 3.25rem);
+      font-weight: 700;
+      letter-spacing: var(--figure-tracking);
+      line-height: 1.05;
+      color: var(--on-surface);
+      font-variant-numeric: tabular-nums;
+    }
+    .tile.figure .caption {
+      font-size: 0.9375rem;
+      color: var(--on-surface-variant);
+      margin-top: var(--space-xs);
+      font-weight: 500;
+    }
+
+    /* Adaptive Grids */
+    .card-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+      gap: var(--space-lg);
+    }
+    .card-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
+      gap: var(--space-lg);
+    }
+
+    /* Simulator split layouts via container queries */
+    .sim-wrapper {
+      container-type: inline-size;
+    }
+    .sim-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: var(--space-xl);
+      align-items: start;
+    }
+    @container (max-width: 780px) {
+      .sim-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+      }
+    }
+
+    /* Segmented controls */
+    .seg-group {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      background: var(--surface-container);
+      padding: var(--space-xs);
+      border-radius: var(--rounded);
+      max-width: 100%;
+    }
+    .seg-btn {
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border: 0;
+      border-radius: var(--rounded);
+      background: transparent;
+      color: var(--on-surface);
+      font-family: var(--font-label);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color var(--dur-short) var(--ease-in-out), color var(--dur-short) var(--ease-in-out);
+    }
+    .seg-btn:hover {
+      background: var(--surface-container-high);
+    }
+    .seg-btn.is-active {
+      background: var(--background);
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .band.alt .seg-btn.is-active {
+      background: var(--background);
+    }
+
+    /* Finish / Quick toolbar */
+    .toolbar-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+
+    /* Stage / SVG visual container */
+    .stage-box {
+      background: var(--background);
+      border-radius: var(--rounded-md);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .band .stage-box {
+      background: var(--background);
+    }
+    .band:not(.alt) .tile .stage-box {
+      background: var(--background);
+    }
+    .stage-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      user-select: none;
+    }
+
+    /* Chips & Status pills */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      border-radius: var(--rounded);
+      padding: var(--space-xs) var(--space-md);
+      font-family: var(--font-label);
+      font-size: 0.8125rem;
+      font-weight: 500;
+    }
+    .chip.is-positive {
+      background: var(--positive-container);
+      color: var(--positive);
+    }
+    .chip.is-warning {
+      background: var(--warning-container);
+      color: var(--warning);
+    }
+    .chip.is-error {
+      background: var(--error-container);
+      color: var(--error);
+    }
+
+    /* Interactive Hotspot list */
+    .hotspot-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .hotspot-btn {
+      text-align: left;
+      width: 100%;
+      min-height: 44px;
+      padding: var(--space-md);
+      border: 0;
+      border-radius: var(--rounded-md);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      cursor: pointer;
+      transition: background-color var(--dur-short) var(--ease-out), transform var(--dur-short) var(--ease-out);
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-md);
+    }
+    .band.alt .hotspot-btn {
+      background: var(--surface-container-low);
+    }
+    .hotspot-btn:hover {
+      background: var(--surface-container);
+    }
+    .hotspot-btn.is-active {
+      background: var(--primary-container);
+      color: var(--on-surface);
+    }
+    .hotspot-num {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: var(--rounded-full);
+      background: var(--surface-container);
+      color: var(--on-surface);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+    .hotspot-btn.is-active .hotspot-num {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+    .hotspot-title {
+      font-weight: 600;
+      font-size: 0.9375rem;
+      display: block;
+      margin-bottom: var(--space-xs);
+    }
+    .hotspot-desc {
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+      line-height: 1.45;
+      display: block;
+    }
+
+    /* Controls & Sliders with visible labels above */
+    .control-block {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      margin-bottom: var(--space-md);
+    }
+    .control-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: var(--space-sm);
+    }
+    .control-label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--on-surface);
+    }
+    .control-sub {
+      font-size: 0.8125rem;
+      color: var(--on-surface-variant);
+    }
+    .control-value {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--primary);
+      font-variant-numeric: tabular-nums;
+    }
+    input[type="range"] {
+      width: 100%;
+      height: 36px;
+      accent-color: var(--primary);
+      cursor: pointer;
+      margin: 0;
+    }
+    select.field-select {
+      width: 100%;
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-xl) var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      border: 1px solid var(--outline);
+      background: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: 0.9375rem;
+      cursor: pointer;
+    }
+    select.field-select:focus-visible {
+      border-color: var(--primary);
+      box-shadow: var(--focus-ring);
+      outline: none;
+    }
+
+    /* Readout strip inside simulator */
+    .spec-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr));
+      gap: var(--space-md);
+      padding-top: var(--space-md);
+      margin-top: var(--space-md);
+    }
+    .spec-item {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-md);
+      padding: var(--space-md);
+    }
+    .band.alt .spec-item {
+      background: var(--surface-container-low);
+    }
+    .spec-k {
+      font-size: 0.8125rem;
+      color: var(--on-surface-variant);
+      margin-bottom: var(--space-xs);
+    }
+    .spec-v {
+      font-family: var(--font-headline);
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--on-surface);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Axis cards for 3-axis simulator */
+    .axis-card {
+      background: var(--background);
+      border-radius: var(--rounded-md);
+      padding: var(--space-md);
+      transition: box-shadow var(--dur-short) var(--ease-out);
+    }
+    .axis-card.is-focused {
+      box-shadow: 0 0 0 2px var(--primary);
+    }
+
+    /* Table styling (Showroom: no vertical lines, hairline rows, tabular nums) */
+    .table-wrap {
+      overflow-x: auto;
+    }
+    table.spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9375rem;
+    }
+    table.spec-table th {
+      font-weight: 500;
+      font-size: 0.8125rem;
+      color: var(--on-surface-variant);
+      padding: var(--space-md) var(--space-sm);
+      border-bottom: 1px solid var(--outline-variant);
+    }
+    table.spec-table td {
+      padding: var(--space-md) var(--space-sm);
+      border-bottom: 1px solid var(--outline-variant);
+      color: var(--on-surface);
+      vertical-align: top;
+      font-variant-numeric: tabular-nums;
+    }
+    table.spec-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    /* Assistant Recommendation Box */
+    .rec-panel {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-xl);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+    .rec-title {
+      font-family: var(--font-headline);
+      font-size: var(--subhead-size);
+      font-weight: 700;
+      letter-spacing: var(--subhead-tracking);
+      color: var(--on-surface);
+      margin: 0;
+    }
+    .rec-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+
+    /* SVG Material Classes (referencing tokens) */
+    .svg-wood-carcass {
+      fill: var(--wood-carcass);
+      stroke: var(--wood-carcass-stroke);
+      stroke-width: 1.5;
+    }
+    .svg-wood-door {
+      fill: var(--wood-door);
+      stroke: var(--wood-door-stroke);
+      stroke-width: 1.5;
+    }
+    .svg-wood-carcass.is-dark-wood {
+      fill: var(--wood-dark-carcass);
+      stroke: var(--hinge-black-stroke);
+    }
+    .svg-wood-door.is-dark-wood {
+      fill: var(--wood-dark-door);
+      stroke: var(--hinge-black-stroke);
+    }
+    .svg-hinge-metal {
+      fill: var(--hinge-steel-fill);
+      stroke: var(--hinge-steel-stroke);
+      stroke-width: 1.5;
+      transition: fill var(--dur-short) var(--ease-out), stroke var(--dur-short) var(--ease-out);
+    }
+    .svg-hinge-metal-mid {
+      fill: var(--hinge-steel-mid);
+      stroke: var(--hinge-steel-stroke);
+      stroke-width: 1.5;
+    }
+    .is-finish-black .svg-hinge-metal {
+      fill: var(--hinge-black-fill);
+      stroke: var(--hinge-black-stroke);
+    }
+    .is-finish-black .svg-hinge-metal-mid {
+      fill: var(--hinge-black-mid);
+      stroke: var(--hinge-black-stroke);
+    }
+    .svg-screw {
+      fill: var(--screw-brass);
+      stroke: var(--on-surface);
+      stroke-width: 1;
+    }
+    .svg-highlight {
+      fill: var(--primary-container);
+      stroke: var(--primary);
+      stroke-width: 2;
+    }
+    .svg-guide-line {
+      stroke: var(--primary);
+      stroke-width: 1.25;
+      stroke-dasharray: 4 4;
+    }
+    .svg-dim-line {
+      stroke: var(--on-surface-variant);
+      stroke-width: 1;
+    }
+    .svg-label {
+      font-family: var(--font-label);
+      font-size: 12px;
+      fill: var(--on-surface-variant);
+      font-weight: 500;
+    }
+    .svg-label-strong {
+      font-family: var(--font-label);
+      font-size: 12px;
+      fill: var(--on-surface);
+      font-weight: 600;
+    }
+    .svg-label-accent {
+      font-family: var(--font-label);
+      font-size: 12px;
+      fill: var(--primary);
+      font-weight: 600;
+    }
+    .svg-label-warn {
+      font-family: var(--font-label);
+      font-size: 12px;
+      fill: var(--warning);
+      font-weight: 600;
+    }
+    .svg-pin-circle {
+      fill: var(--background);
+      stroke: var(--on-surface);
+      stroke-width: 1.5;
+      cursor: pointer;
+    }
+    .svg-pin-circle.is-active {
+      fill: var(--primary);
+      stroke: var(--primary);
+    }
+    .svg-pin-text {
+      font-family: var(--font-label);
+      font-size: 12px;
+      font-weight: 700;
+      fill: var(--on-surface);
+      pointer-events: none;
+    }
+    .svg-pin-text.is-active {
+      fill: var(--on-primary);
+    }
+
+    /* Footer */
+    .footer-note {
+      padding-block: var(--space-xl);
+      text-align: center;
+      color: var(--on-surface-variant);
+      font-size: 0.875rem;
+    }
+    .footer-note p {
+      max-width: 65ch;
+      margin: 0 auto var(--space-sm);
+    }
+
+    /* Scroll reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(14px) scale(0.99);
+      transition: opacity var(--dur-long) var(--ease-out), transform var(--dur-long) var(--ease-out);
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Mobile breakpoint */
+    @media (max-width: 640px) {
+      .container {
+        padding-inline: var(--space-md);
+      }
+      .band {
+        padding-block: var(--space-xl);
+      }
+      .hero-stack {
+        padding-block: var(--space-xl) var(--space-lg);
+      }
+      .tile {
+        padding: var(--space-lg) var(--space-md);
+      }
+      .seg-group {
+        width: 100%;
+      }
+      .seg-btn {
+        flex: 1 1 auto;
+        text-align: center;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO SECTION -->
+  <header class="band">
+    <div class="container">
+      <div class="headline-stack hero-stack">
+        <span class="eyebrow">Guía técnica interactiva de carpintería</span>
+        <h1>Bisagras cazoleta</h1>
+        <p class="lede">
+          Comprende su anatomía en dos piezas, elige el codo exacto según la posición de la puerta y domina la calibración en tres ejes con tornillos de ajuste.
+        </p>
+        <div class="action-row">
+          <a href="#simulador-codos" class="btn-primary">Explorar simulador de codos</a>
+          <a href="#simulador-ejes" class="link-more">Ir a calibración en 3 ejes</a>
+        </div>
+      </div>
+
+      <div class="card-grid-3">
+        <div class="tile figure">
+          <div class="label">Tipos por desplazamiento</div>
+          <div class="value">0 · 9 · 18</div>
+          <div class="caption">Codo recto, acodado y superacodado</div>
+        </div>
+        <div class="tile figure">
+          <div class="label">Partes del sistema</div>
+          <div class="value">2 piezas</div>
+          <div class="caption">Base en el mueble + cazoleta en puerta</div>
+        </div>
+        <div class="tile figure">
+          <div class="label">Tornillos de calibración</div>
+          <div class="value">3 ejes</div>
+          <div class="caption">Altura, profundidad e inclinación</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- SECTION 1: ANATOMY & BOOK VS CUP HINGE -->
+  <section class="band alt" id="anatomia">
+    <div class="container">
+      <div class="headline-stack">
+        <span class="eyebrow">Fundamentos y anatomía</span>
+        <h2>Por qué reemplazaron a la bisagra libro</h2>
+        <p class="lede">
+          La cazoleta embutida aporta estabilidad estructural al giro y habilita un ajuste preciso imposible en las bisagras tradicionales.
+        </p>
+      </div>
+
+      <div class="prose-measure">
+        <p>
+          El nombre proviene de la pieza circular que se embute en la madera de la puerta, similar a la guarda o cazoleta de una espada. Para el carpintero, esa cavidad cumple dos funciones críticas: <strong>estabilizar el movimiento de la puerta</strong> y conectar con un brazo trasero donde viven <strong>todas las regulaciones de alineación</strong>.
+        </p>
+        <p>
+          A diferencia de la clásica bisagra tipo libro —que se atornilla fija y no admite correcciones posteriores sin rehacer agujeros—, la bisagra cazoleta se divide en dos piezas: una <strong>base</strong> fijada al lateral del mueble y el conjunto <strong>brazo-cazoleta</strong> montado en la puerta. Además de los acabados clásicos en acero, hoy existen versiones en <strong>color negro</strong> (tanto en base recta como base 3D) pensadas para muebles oscuros y herrajes combinados.
+        </p>
+      </div>
+
+      <div class="tile sim-wrapper reveal">
+        <div class="toolbar-row">
+          <div class="seg-group" role="group" aria-label="Comparativa de tipo de bisagra">
+            <button type="button" class="seg-btn is-active" id="btn-anat-cup" onclick="setAnatomyMode('cup')">Bisagra cazoleta (2 piezas)</button>
+            <button type="button" class="seg-btn" id="btn-anat-book" onclick="setAnatomyMode('book')">Bisagra tipo libro (clásica)</button>
+          </div>
+          <div class="seg-group" role="group" aria-label="Acabado del herraje">
+            <button type="button" class="seg-btn is-active" id="btn-finish-steel" onclick="setFinish('steel')">Acabado acero clásico</button>
+            <button type="button" class="seg-btn" id="btn-finish-black" onclick="setFinish('black')">Acabado negro (muebles oscuros)</button>
+          </div>
+        </div>
+
+        <div class="sim-grid">
+          <div class="stage-box">
+            <svg id="svg-anatomy" class="stage-svg" viewBox="0 0 620 330" role="img" aria-label="Diagrama anatómico interactivo de bisagra">
+              <!-- Populated and updated by JS -->
+            </svg>
+          </div>
+
+          <div class="hotspot-list" id="anatomy-hotspots">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: ELBOW SIMULATOR (CODO 0, CODO 9, CODO 18) -->
+  <section class="band" id="simulador-codos">
+    <div class="container">
+      <div class="headline-stack">
+        <span class="eyebrow">Simulador 1 · Posición de la puerta</span>
+        <h2>El codo define dónde apoya la puerta</h2>
+        <p class="lede">
+          Selecciona cada geometría de brazo y mueve el ángulo de apertura para observar en vista superior cómo cubre o libera el parante del mueble.
+        </p>
+      </div>
+
+      <div class="tile sim-wrapper reveal">
+        <div class="toolbar-row">
+          <div class="seg-group" role="group" aria-label="Tipo de codo de bisagra">
+            <button type="button" class="seg-btn is-active" id="btn-elbow-0" onclick="setElbowType('0')">Recta (Codo 0)</button>
+            <button type="button" class="seg-btn" id="btn-elbow-9" onclick="setElbowType('9')">Acodada (Codo 9)</button>
+            <button type="button" class="seg-btn" id="btn-elbow-18" onclick="setElbowType('18')">Superacodada (Codo 18)</button>
+          </div>
+          <div class="action-row" style="margin-top: 0;">
+            <button type="button" class="btn-secondary" id="btn-elbow-toggle" onclick="toggleElbowDoor()">Abrir puerta (90°)</button>
+          </div>
+        </div>
+
+        <div class="sim-grid">
+          <div class="stage-box">
+            <svg id="svg-elbow" class="stage-svg" viewBox="0 0 640 350" aria-label="Simulador en planta superior de bisagras codo 0, 9 y 18">
+              <!-- Dynamic top-down schematic -->
+            </svg>
+          </div>
+
+          <div>
+            <div class="control-block">
+              <div class="control-header">
+                <label class="control-label" for="slider-elbow-angle">Ángulo de apertura de la puerta</label>
+                <span class="control-value" id="val-elbow-angle">0° (Cerrada)</span>
+              </div>
+              <input type="range" id="slider-elbow-angle" min="0" max="105" step="1" value="0" oninput="onElbowAngleInput(this.value)">
+              <span class="control-sub">Arrastra para simular el giro de la cazoleta y verificar que no roce el lateral.</span>
+            </div>
+
+            <div id="elbow-explanation" style="margin-top: var(--space-lg);">
+              <!-- Dynamic technical explanation -->
+            </div>
+
+            <div class="spec-strip">
+              <div class="spec-item">
+                <div class="spec-k">Posición al cerrar</div>
+                <div class="spec-v" id="spec-elbow-pos">Sobre el mueble</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-k">Apoyo en parante</div>
+                <div class="spec-v" id="spec-elbow-cover">Total (~18 mm)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: ANCHOR SYSTEMS (SLIDE VS CLIP) & CLOSING MECHANISM (STANDARD VS SOFT CLOSE) -->
+  <section class="band alt" id="sistemas-mecanismos">
+    <div class="container">
+      <div class="headline-stack">
+        <span class="eyebrow">Simulador 2 · Unión y amortiguación</span>
+        <h2>Anclaje al mueble y pistón de cierre suave</h2>
+        <p class="lede">
+          Más allá del codo, la experiencia de montaje y uso diario cambia radicalmente según cómo se une la puerta a la base y cómo frena al cerrarse.
+        </p>
+      </div>
+
+      <div class="card-grid-2">
+        <!-- TILE A: CORREDIZO VS CLIP -->
+        <div class="tile tile-compact reveal">
+          <div class="toolbar-row" style="margin-bottom: var(--space-md);">
+            <div>
+              <h3 style="margin: 0; font-family: var(--font-headline); font-size: var(--subhead-size); font-weight: 700; letter-spacing: var(--subhead-tracking);">Sistema de unión puerta-base</h3>
+            </div>
+            <span class="chip" id="chip-anchor-tool">Requiere destornillador</span>
+          </div>
+
+          <div class="seg-group" role="group" aria-label="Sistema de anclaje" style="margin-bottom: var(--space-md);">
+            <button type="button" class="seg-btn is-active" id="btn-anchor-slide" onclick="setAnchorType('slide')">Corredizo (común)</button>
+            <button type="button" class="seg-btn" id="btn-anchor-clip" onclick="setAnchorType('clip')">Tipo Clip (rápido)</button>
+          </div>
+
+          <div class="stage-box">
+            <svg id="svg-anchor" class="stage-svg" viewBox="0 0 500 225" aria-label="Simulación de montaje corredizo frente a sistema clip">
+              <!-- Dynamic anchor mechanism -->
+            </svg>
+          </div>
+
+          <p id="anchor-desc" style="font-size: 0.9375rem; color: var(--on-surface-variant); margin: var(--space-md) 0;">
+            <!-- Dynamic text -->
+          </p>
+
+          <div class="action-row" style="justify-content: flex-start; margin-top: var(--space-sm);">
+            <button type="button" class="btn-primary" id="btn-anchor-action" onclick="toggleAnchorMount()">Desmontar puerta</button>
+          </div>
+        </div>
+
+        <!-- TILE B: CIERRE COMÚN VS PISTÓN CIERRE SUAVE -->
+        <div class="tile tile-compact reveal">
+          <div class="toolbar-row" style="margin-bottom: var(--space-md);">
+            <div>
+              <h3 style="margin: 0; font-family: var(--font-headline); font-size: var(--subhead-size); font-weight: 700; letter-spacing: var(--subhead-tracking);">Mecanismo de cierre</h3>
+            </div>
+            <span class="chip" id="chip-closer-status">Cierre por resorte</span>
+          </div>
+
+          <div class="seg-group" role="group" aria-label="Mecanismo de cierre" style="margin-bottom: var(--space-md);">
+            <button type="button" class="seg-btn is-active" id="btn-closer-std" onclick="setCloserType('standard')">Cierre común</button>
+            <button type="button" class="seg-btn" id="btn-closer-soft" onclick="setCloserType('soft')">Pistón cierre suave</button>
+          </div>
+
+          <div class="stage-box">
+            <svg id="svg-closer" class="stage-svg" viewBox="0 0 500 225" aria-label="Simulación de cierre común frente a pistón de cierre suave">
+              <!-- Dynamic piston & angle curve -->
+            </svg>
+          </div>
+
+          <p id="closer-desc" style="font-size: 0.9375rem; color: var(--on-surface-variant); margin: var(--space-md) 0;">
+            <!-- Dynamic text -->
+          </p>
+
+          <div class="action-row" style="justify-content: flex-start; margin-top: var(--space-sm);">
+            <button type="button" class="btn-primary" id="btn-closer-play" onclick="playCloserSimulation()">Soltar puerta desde 45°</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: 3-AXIS REGULATION SIMULATOR -->
+  <section class="band" id="simulador-ejes">
+    <div class="container">
+      <div class="headline-stack">
+        <span class="eyebrow">Simulador 3 · Calibración profesional</span>
+        <h2>Regulación en 3 ejes mediante tornillos</h2>
+        <p class="lede">
+          Las bisagras cazoleta avanzadas (especialmente con base 3D) permiten corregir la altura, la separación con el mueble y la inclinación lateral sin desmontar la puerta.
+        </p>
+      </div>
+
+      <div class="tile sim-wrapper reveal">
+        <div class="toolbar-row">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm);">
+            <span style="font-size: 0.875rem; font-weight: 600; color: var(--on-surface-variant);">Escenarios de taller:</span>
+            <button type="button" class="btn-secondary" style="min-height: 44px; padding: var(--space-xs) var(--space-md); font-size: 0.875rem;" onclick="applyCalibrationPreset('droop')">Puerta caída</button>
+            <button type="button" class="btn-secondary" style="min-height: 44px; padding: var(--space-xs) var(--space-md); font-size: 0.875rem;" onclick="applyCalibrationPreset('rubbing')">Rozando el casco</button>
+            <button type="button" class="btn-secondary" style="min-height: 44px; padding: var(--space-xs) var(--space-md); font-size: 0.875rem;" onclick="applyCalibrationPreset('crooked')">Choque entre puertas</button>
+            <button type="button" class="btn-primary" style="min-height: 44px; padding: var(--space-xs) var(--space-md); font-size: 0.875rem;" onclick="applyCalibrationPreset('perfect')">Alinear a 0 mm</button>
+          </div>
+          <span class="chip is-positive" id="chip-cal-status">Puerta perfectamente alineada</span>
+        </div>
+
+        <div class="sim-grid">
+          <!-- VISUAL STAGE: FRONT ELEVATION + SIDE PROFILE + SCREW HEADS -->
+          <div class="stage-box">
+            <svg id="svg-calibration" class="stage-svg" viewBox="0 0 660 400" aria-label="Simulador visual de calibración en altura, profundidad e inclinación lateral">
+              <!-- Populated by JS -->
+            </svg>
+          </div>
+
+          <!-- 3 SCREW SLIDER CONTROLS -->
+          <div style="display: flex; flex-direction: column; gap: var(--space-md);">
+            <div class="axis-card" id="card-axis-height">
+              <div class="control-block" style="margin-bottom: 0;">
+                <div class="control-header">
+                  <label class="control-label" for="slider-adj-height">1. Altura de la puerta (eje vertical)</label>
+                  <span class="control-value" id="val-adj-height">0.0 mm</span>
+                </div>
+                <input type="range" id="slider-adj-height" min="-3" max="3" step="0.5" value="0" oninput="onCalibrationInput('height', this.value)" onfocus="focusAxis('height')">
+                <span class="control-sub">Tornillo / excéntrica en la base fijada al mueble: sube o baja el bloque completo de la puerta.</span>
+              </div>
+            </div>
+
+            <div class="axis-card" id="card-axis-depth">
+              <div class="control-block" style="margin-bottom: 0;">
+                <div class="control-header">
+                  <label class="control-label" for="slider-adj-depth">2. Profundidad (separación puerta-mueble)</label>
+                  <span class="control-value" id="val-adj-depth">0.0 mm</span>
+                </div>
+                <input type="range" id="slider-adj-depth" min="-3" max="3" step="0.5" value="0" oninput="onCalibrationInput('depth', this.value)" onfocus="focusAxis('depth')">
+                <span class="control-sub">Tornillo trasero del brazo: acerca o aleja la puerta respecto al frente del casco del mueble.</span>
+              </div>
+            </div>
+
+            <div class="axis-card" id="card-axis-tilt">
+              <div class="control-block" style="margin-bottom: 0;">
+                <div class="control-header">
+                  <label class="control-label" for="slider-adj-tilt">3. Inclinación lateral (luz entre puertas)</label>
+                  <span class="control-value" id="val-adj-tilt">0.0 mm</span>
+                </div>
+                <input type="range" id="slider-adj-tilt" min="-3" max="3" step="0.5" value="0" oninput="onCalibrationInput('tilt', this.value)" onfocus="focusAxis('tilt')">
+                <span class="control-sub">Tornillo delantero del brazo: desplaza lateralmente el borde para nivelar juntas paralelas.</span>
+              </div>
+            </div>
+
+            <div class="spec-strip" style="margin-top: 0; padding-top: 0;">
+              <div class="spec-item">
+                <div class="spec-k">Luz central entre puertas</div>
+                <div class="spec-v" id="readout-center-gap">3.0 mm</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-k">Separación al casco</div>
+                <div class="spec-v" id="readout-front-gap">2.0 mm</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: DECISION ASSISTANT & COMPARISON TABLE -->
+  <section class="band alt" id="selector-rapido">
+    <div class="container">
+      <div class="headline-stack">
+        <span class="eyebrow">Selección en taller</span>
+        <h2>Asistente de elección y tabla comparativa</h2>
+        <p class="lede">
+          Define cómo cierra la puerta y qué nivel de practicidad buscas para obtener la especificación exacta antes de comprar tus herrajes.
+        </p>
+      </div>
+
+      <div class="tile sim-wrapper reveal" style="margin-bottom: var(--space-xl);">
+        <div class="sim-grid">
+          <div style="display: flex; flex-direction: column; gap: var(--space-md);">
+            <div class="control-block" style="margin-bottom: 0;">
+              <label class="control-label" for="wiz-position">¿Cómo queda la puerta respecto al mueble?</label>
+              <select id="wiz-position" class="field-select" onchange="updateWizard()">
+                <option value="0">Por encima del lateral (tapa todo el parante)</option>
+                <option value="9">Comparte el parante central con otra puerta</option>
+                <option value="18">Por adentro del mueble (puerta embutida)</option>
+              </select>
+            </div>
+
+            <div class="control-block" style="margin-bottom: 0;">
+              <label class="control-label" for="wiz-mount">¿Con qué frecuencia necesitarás retirar las puertas?</label>
+              <select id="wiz-mount" class="field-select" onchange="updateWizard()">
+                <option value="clip">Frecuente / armado cómodo sin herramientas (Sistema Clip)</option>
+                <option value="slide">Instalación fija estándar (Sistema Corredizo)</option>
+              </select>
+            </div>
+
+            <div class="control-block" style="margin-bottom: 0;">
+              <label class="control-label" for="wiz-closer">Comportamiento de cierre deseado</label>
+              <select id="wiz-closer" class="field-select" onchange="updateWizard()">
+                <option value="soft">Silencioso y amortiguado (Pistón cierre suave)</option>
+                <option value="standard">Tradicional por resorte (Cierre común)</option>
+              </select>
+            </div>
+
+            <div class="control-block" style="margin-bottom: 0;">
+              <label class="control-label" for="wiz-finish">Estética del mueble</label>
+              <select id="wiz-finish" class="field-select" onchange="updateWizard()">
+                <option value="black">Melamina oscura o herrajes negros (Acabado negro)</option>
+                <option value="steel">Mueble claro / estándar (Acabado acero clásico)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="rec-panel" id="wizard-output">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+
+      <div class="tile reveal">
+        <h3 style="margin: 0 0 var(--space-md); font-family: var(--font-headline); font-size: var(--subhead-size); font-weight: 700; letter-spacing: var(--subhead-tracking);">Resumen técnico por tipo de codo</h3>
+        <div class="table-wrap">
+          <table class="spec-table">
+            <thead>
+              <tr>
+                <th>Tipo de bisagra</th>
+                <th>Denominación</th>
+                <th>Posición de la puerta</th>
+                <th>Cobertura del parante</th>
+                <th>Aplicación habitual</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Recta</strong></td>
+                <td>Codo 0</td>
+                <td>Por encima del mueble</td>
+                <td>Completa (cubre el lateral)</td>
+                <td>Puertas exteriores en módulos individuales o extremos</td>
+              </tr>
+              <tr>
+                <td><strong>Acodada</strong></td>
+                <td>Codo 9</td>
+                <td>Levemente desplazada</td>
+                <td>Parcial (comparte parante)</td>
+                <td>Dos puertas contiguas sobre un divisor central</td>
+              </tr>
+              <tr>
+                <td><strong>Superacodada</strong></td>
+                <td>Codo 18</td>
+                <td>Por adentro del mueble</td>
+                <td>Nula (0 mm sobre el canto)</td>
+                <td>Puertas embutidas al ras del frente del casco</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER ATTRIBUTION -->
+  <footer class="band footer-note">
+    <div class="container">
+      <p>
+        Guía técnica interactiva elaborada a partir de las explicaciones de Rubén Sbarsky y el video «Bisagras cazoleta!» del canal de carpintería Juan Pintero (incluyendo referencia a bases rectas, bases 3D y acabado negro de catálogo Grupo Euro).
+      </p>
+      <p>
+        Los simuladores representan principios cinemáticos y tolerancias habituales de taller para fines educativos.
+      </p>
+    </div>
+  </footer>
+
+  <api-shim></api-shim>
+
+  <script>
+    const DEFAULT_STATE = {
+      anatomyMode: 'cup',
+      activeHotspot: 1,
+      finish: 'steel',
+      elbowType: '0',
+      elbowAngle: 0,
+      anchorType: 'slide',
+      anchorMounted: true,
+      closerType: 'soft',
+      adjHeight: 0,
+      adjDepth: 0,
+      adjTilt: 0,
+      activeAxis: 'height',
+      wizPos: '0',
+      wizMount: 'clip',
+      wizClose: 'soft',
+      wizFinish: 'black'
+    };
+
+    let appState = Object.assign({}, DEFAULT_STATE);
+    let anchorAnimId = null;
+    let anchorProgress = 1; // 1 = mounted, 0 = unmounted
+    let closerAnimId = null;
+    let closerCurrentAngle = 0;
+    let closerTimeElapsed = 0;
+    let closerPlaying = false;
+    let closerTracePoints = [];
+
+    const ANATOMY_HOTSPOTS_CUP = [
+      {
+        id: 1,
+        title: `Cazoleta embutida en la puerta`,
+        desc: `Pieza circular que se fresa y embute en la cara interna de la puerta. Proporciona estabilidad mecánica durante todo el arco de apertura.`
+      },
+      {
+        id: 2,
+        title: `Brazo articulado (con o sin codo)`,
+        desc: `Conecta la cazoleta con la base del mueble. Su geometría (recto, acodado o superacodado) define cuánto cubre la puerta al parante.`
+      },
+      {
+        id: 3,
+        title: `Base de fijación al mueble`,
+        desc: `Se atornilla al lateral o parante del mueble. Existe en versión recta estándar o base 3D, compatible con montaje corredizo o clip.`
+      },
+      {
+        id: 4,
+        title: `Tornillos de regulación en 3 ejes`,
+        desc: `Ubicados detrás de la cazoleta y en la base, permiten calibrar inclinación lateral, profundidad y altura sin desarmar el mueble.`
+      }
+    ];
+
+    const ANATOMY_HOTSPOTS_BOOK = [
+      {
+        id: 1,
+        title: `Pala fija en puerta (sin cazoleta)`,
+        desc: `Se atornilla en el canto o superficie sin fresado circular. Menor superficie de apoyo y menor estabilidad frente a puertas pesadas.`
+      },
+      {
+        id: 2,
+        title: `Perno central fijo`,
+        desc: `Eje rígido único alrededor del cual giran ambas hojas. No permite desplazar la puerta hacia adentro o afuera del mueble.`
+      },
+      {
+        id: 3,
+        title: `Pala fija al marco`,
+        desc: `Va atornillada directamente al parante. Una vez colocados los tornillos, la posición queda bloqueada.`
+      },
+      {
+        id: 4,
+        title: `Sin regulación posterior`,
+        desc: `Si la puerta queda torcida, caída o rozando, es necesario desatornillar y volver a perforar la madera.`
+      }
+    ];
+
+    const ELBOW_DATA = {
+      '0': {
+        title: `Bisagra recta (Codo 0)`,
+        pos: `Sobre el mueble`,
+        cover: `Total (~18 mm)`,
+        body: `El brazo es completamente recto. Al cerrarse, la puerta queda por encima del frente del lateral, ocultando por completo el canto del parante.`
+      },
+      '9': {
+        title: `Bisagra acodada (Codo 9)`,
+        pos: `Parante compartido`,
+        cover: `Parcial (~9 mm)`,
+        body: `El brazo tiene un escalón intermedio de 9 mm. Permite montar dos puertas contiguas compartiendo un mismo parante central sin que choquen entre sí.`
+      },
+      '18': {
+        title: `Bisagra superacodada (Codo 18)`,
+        pos: `Por adentro del mueble`,
+        cover: `Nula (0 mm)`,
+        body: `Su codo pronunciado desplaza la puerta hacia el interior. Al cerrarse, queda embutida entre los laterales del mueble dejando visible el marco.`
+      }
+    };
+
+    function getEl(id) {
+      return document.getElementById(id);
+    }
+
+    async function persistState() {
+      if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === 'function') {
+        try {
+          await window.notebookAppApi.setAppState(appState);
+        } catch (e) {
+          // Ignore persistence errors safely
+        }
+      }
+    }
+
+    function setFinish(finish) {
+      appState.finish = finish;
+      const btnSteel = getEl('btn-finish-steel');
+      const btnBlack = getEl('btn-finish-black');
+      if (btnSteel) btnSteel.classList.toggle('is-active', finish === 'steel');
+      if (btnBlack) btnBlack.classList.toggle('is-active', finish === 'black');
+
+      const svgs = ['svg-anatomy', 'svg-elbow', 'svg-anchor', 'svg-closer', 'svg-calibration'];
+      svgs.forEach(function (id) {
+        const el = getEl(id);
+        if (el) el.classList.toggle('is-finish-black', finish === 'black');
+      });
+      renderAnatomy();
+      renderElbow();
+      renderAnchor();
+      renderCloser();
+      renderCalibration();
+      persistState();
+    }
+
+    /* ---------------- SECTION 1: ANATOMY ---------------- */
+    function setAnatomyMode(mode) {
+      appState.anatomyMode = mode;
+      appState.activeHotspot = 1;
+      const btnCup = getEl('btn-anat-cup');
+      const btnBook = getEl('btn-anat-book');
+      if (btnCup) btnCup.classList.toggle('is-active', mode === 'cup');
+      if (btnBook) btnBook.classList.toggle('is-active', mode === 'book');
+      renderAnatomy();
+      persistState();
+    }
+
+    function selectHotspot(id) {
+      appState.activeHotspot = id;
+      renderAnatomy();
+      persistState();
+    }
+
+    function renderAnatomy() {
+      const svg = getEl('svg-anatomy');
+      const list = getEl('anatomy-hotspots');
+      if (!svg || !list) return;
+
+      const isBlack = appState.finish === 'black';
+      const darkClass = isBlack ? ` is-dark-wood` : ``;
+      const hotspots = appState.anatomyMode === 'cup' ? ANATOMY_HOTSPOTS_CUP : ANATOMY_HOTSPOTS_BOOK;
+      const activeId = appState.activeHotspot;
+
+      list.innerHTML = hotspots.map(function (h) {
+        const activeCls = h.id === activeId ? ` is-active` : ``;
+        return `<button type="button" class="hotspot-btn${activeCls}" onclick="selectHotspot(${h.id})">
+          <span class="hotspot-num">${h.id}</span>
+          <span>
+            <span class="hotspot-title">${h.title}</span>
+            <span class="hotspot-desc">${h.desc}</span>
+          </span>
+        </button>`;
+      }).join('');
+
+      if (appState.anatomyMode === 'cup') {
+        const hl1 = activeId === 1 ? `svg-highlight` : `svg-hinge-metal`;
+        const hl2 = activeId === 2 ? `svg-highlight` : `svg-hinge-metal`;
+        const hl3 = activeId === 3 ? `svg-highlight` : `svg-hinge-metal-mid`;
+        const hl4 = activeId === 4 ? `svg-highlight` : `svg-screw`;
+
+        svg.innerHTML = `
+          <!-- Door panel (left) -->
+          <rect x="48" y="45" width="150" height="230" rx="4" class="svg-wood-door${darkClass}" />
+          <text x="64" y="72" class="svg-label-strong">Puerta</text>
+
+          <!-- Cabinet side panel (right) -->
+          <rect x="370" y="95" width="190" height="180" rx="4" class="svg-wood-carcass${darkClass}" />
+          <text x="392" y="122" class="svg-label-strong">Parante del mueble</text>
+
+          <!-- 1. Recessed Cup (Cazoleta) -->
+          <g onclick="selectHotspot(1)" style="cursor: pointer;">
+            <circle cx="152" cy="175" r="44" class="${hl1}" />
+            <circle cx="152" cy="175" r="32" fill="none" stroke="currentColor" stroke-opacity="0.25" stroke-width="1.5" />
+            <circle cx="132" cy="136" r="4" class="svg-screw" />
+            <circle cx="132" cy="214" r="4" class="svg-screw" />
+          </g>
+
+          <!-- 3. Mounting Base on cabinet -->
+          <g onclick="selectHotspot(3)" style="cursor: pointer;">
+            <rect x="350" y="142" width="105" height="66" rx="4" class="${hl3}" />
+            <rect x="392" y="128" width="24" height="94" rx="4" class="${hl3}" />
+            <circle cx="404" cy="140" r="4.5" class="svg-screw" />
+            <circle cx="404" cy="210" r="4.5" class="svg-screw" />
+          </g>
+
+          <!-- 2. Articulated Arm -->
+          <g onclick="selectHotspot(2)" style="cursor: pointer;">
+            <path d="M174 160 L376 154 L376 196 L174 190 Z" class="${hl2}" />
+            <rect x="172" y="155" width="24" height="40" rx="4" class="svg-hinge-metal-mid" />
+          </g>
+
+          <!-- 4. Regulation Screws -->
+          <g onclick="selectHotspot(4)" style="cursor: pointer;">
+            <circle cx="268" cy="175" r="8" class="${hl4}" />
+            <line x1="263" y1="175" x2="273" y2="175" stroke="var(--screw-slot)" stroke-width="1.5" />
+            <circle cx="332" cy="175" r="8" class="${hl4}" />
+            <line x1="332" y1="170" x2="332" y2="180" stroke="var(--screw-slot)" stroke-width="1.5" />
+            <circle cx="404" cy="175" r="7" class="${hl4}" />
+          </g>
+
+          <!-- Callout Pins -->
+          ${renderCalloutPin(152, 114, 1, activeId === 1)}
+          ${renderCalloutPin(222, 134, 2, activeId === 2)}
+          ${renderCalloutPin(438, 126, 3, activeId === 3)}
+          ${renderCalloutPin(300, 224, 4, activeId === 4)}
+
+          <text x="48" y="305" class="svg-label">Separación en 2 piezas desmontables + regulación posterior en 3 ejes</text>
+        `;
+      } else {
+        const hl1 = activeId === 1 ? `svg-highlight` : `svg-hinge-metal`;
+        const hl2 = activeId === 2 ? `svg-highlight` : `svg-hinge-metal-mid`;
+        const hl3 = activeId === 3 ? `svg-highlight` : `svg-hinge-metal`;
+        const hl4 = activeId === 4 ? `svg-highlight` : `svg-hinge-metal-mid`;
+
+        svg.innerHTML = `
+          <!-- Door panel -->
+          <rect x="90" y="55" width="140" height="215" rx="4" class="svg-wood-door${darkClass}" />
+          <text x="108" y="82" class="svg-label-strong">Puerta</text>
+
+          <!-- Cabinet frame -->
+          <rect x="330" y="55" width="190" height="215" rx="4" class="svg-wood-carcass${darkClass}" />
+          <text x="350" y="82" class="svg-label-strong">Marco / parante</text>
+
+          <!-- 1. Left leaf -->
+          <g onclick="selectHotspot(1)" style="cursor: pointer;">
+            <rect x="210" y="110" width="60" height="115" rx="2" class="${hl1}" />
+            <circle cx="230" cy="132" r="4" class="svg-screw" />
+            <circle cx="230" cy="168" r="4" class="svg-screw" />
+            <circle cx="230" cy="204" r="4" class="svg-screw" />
+          </g>
+
+          <!-- 3. Right leaf -->
+          <g onclick="selectHotspot(3)" style="cursor: pointer;">
+            <rect x="290" y="110" width="60" height="115" rx="2" class="${hl3}" />
+            <circle cx="330" cy="132" r="4" class="svg-screw" />
+            <circle cx="330" cy="168" r="4" class="svg-screw" />
+            <circle cx="330" cy="204" r="4" class="svg-screw" />
+          </g>
+
+          <!-- 2. Fixed center pin -->
+          <g onclick="selectHotspot(2)" style="cursor: pointer;">
+            <rect x="272" y="104" width="16" height="128" rx="6" class="${hl2}" />
+          </g>
+
+          <!-- 4. No regulation badge -->
+          <g onclick="selectHotspot(4)" style="cursor: pointer;">
+            <rect x="210" y="242" width="140" height="24" rx="12" class="${hl4}" />
+            <text x="280" y="258" text-anchor="middle" class="svg-label-strong">Sin tornillos de ajuste</text>
+          </g>
+
+          ${renderCalloutPin(205, 96, 1, activeId === 1)}
+          ${renderCalloutPin(280, 82, 2, activeId === 2)}
+          ${renderCalloutPin(355, 96, 3, activeId === 3)}
+          ${renderCalloutPin(280, 286, 4, activeId === 4)}
+
+          <text x="90" y="308" class="svg-label-warn">Pieza única fija: cualquier desajuste obliga a reubicar los tornillos en la madera</text>
+        `;
+      }
+    }
+
+    function renderCalloutPin(x, y, num, isActive) {
+      const cls = isActive ? ` is-active` : ``;
+      return `<g onclick="selectHotspot(${num})" style="cursor: pointer;">
+        <circle cx="${x}" cy="${y}" r="13" class="svg-pin-circle${cls}" />
+        <text x="${x}" y="${y + 4}" text-anchor="middle" class="svg-pin-text${cls}">${num}</text>
+      </g>`;
+    }
+
+    /* ---------------- SECTION 2: ELBOW SIMULATOR (0 / 9 / 18) ---------------- */
+    function setElbowType(type) {
+      appState.elbowType = type;
+      ['0', '9', '18'].forEach(function (t) {
+        const b = getEl('btn-elbow-' + t);
+        if (b) b.classList.toggle('is-active', t === type);
+      });
+      renderElbow();
+      persistState();
+    }
+
+    function onElbowAngleInput(val) {
+      appState.elbowAngle = Number(val);
+      renderElbow();
+      persistState();
+    }
+
+    function toggleElbowDoor() {
+      appState.elbowAngle = appState.elbowAngle > 45 ? 0 : 90;
+      const slider = getEl('slider-elbow-angle');
+      if (slider) slider.value = appState.elbowAngle;
+      renderElbow();
+      persistState();
+    }
+
+    function renderElbow() {
+      const svg = getEl('svg-elbow');
+      const exp = getEl('elbow-explanation');
+      const angleVal = getEl('val-elbow-angle');
+      const btnToggle = getEl('btn-elbow-toggle');
+      const specPos = getEl('spec-elbow-pos');
+      const specCover = getEl('spec-elbow-cover');
+      if (!svg || !exp) return;
+
+      const type = appState.elbowType;
+      const angle = appState.elbowAngle;
+      const info = ELBOW_DATA[type];
+      const darkClass = appState.finish === 'black' ? ` is-dark-wood` : ``;
+
+      if (angleVal) {
+        angleVal.textContent = angle === 0 ? `0° (Cerrada)` : `${angle}° (Abierta)`;
+      }
+      if (btnToggle) {
+        btnToggle.textContent = angle > 45 ? `Cerrar puerta (0°)` : `Abrir puerta (90°)`;
+      }
+      if (specPos) specPos.textContent = info.pos;
+      if (specCover) specCover.textContent = info.cover;
+
+      exp.innerHTML = `
+        <h3 style="margin: 0 0 var(--space-xs); font-family: var(--font-headline); font-size: var(--subhead-size); font-weight: 700;">${info.title}</h3>
+        <p style="margin: 0; color: var(--on-surface-variant); font-size: 0.9375rem;">${info.body}</p>
+      `;
+
+      // Top-down schematic geometry (scale: 1 mm ≈ 3 px)
+      // Side panel thickness = 54 px (18 mm)
+      const rad = (angle * Math.PI) / 180;
+      let geometryHtml = ``;
+
+      if (type === '0') {
+        // Codo 0: Door sits completely OVER the side panel (left wall x=150..204, y=130..300)
+        // Closed door: x=150..420, y=68..122 (6px front clearance)
+        // Cup hinge pivot moves slightly outward/forward as it opens so inner corner clears wall
+        const pivotX = 180 - Math.sin(rad) * 14;
+        const pivotY = 122 - Math.sin(rad) * 10;
+        const doorRect = `x="${150}" y="${68}" width="265" height="54"`;
+        // Rotate around pivot
+        const dx = 150 - pivotX;
+        const dy = 68 - pivotY;
+        const deg = -angle;
+
+        geometryHtml = `
+          <!-- Interior / Exterior labels -->
+          <text x="320" y="34" text-anchor="middle" class="svg-label">Frente exterior del mueble</text>
+          <text x="340" y="250" text-anchor="middle" class="svg-label">Interior del mueble</text>
+
+          <!-- Side Panel (Parante izquierdo) -->
+          <rect x="150" y="130" width="54" height="170" rx="2" class="svg-wood-carcass${darkClass}" />
+          <text x="177" y="318" text-anchor="middle" class="svg-label-strong">Parante (18 mm)</text>
+
+          <!-- Dashed closed reference -->
+          <rect x="150" y="68" width="265" height="54" rx="2" fill="none" stroke="var(--outline)" stroke-dasharray="4 4" />
+
+          <!-- Hinge Base on inside of wall -->
+          <rect x="204" y="168" width="12" height="44" rx="2" class="svg-hinge-metal-mid" />
+          <!-- Straight Arm (Codo 0) -->
+          <line x1="210" y1="184" x2="${pivotX + 26 * Math.cos(rad)}" y2="${pivotY - 26 * Math.sin(rad) + 12}" stroke="var(--hinge-steel-stroke)" stroke-width="8" stroke-linecap="round" />
+
+          <!-- Rotating Door -->
+          <g transform="translate(${pivotX}, ${pivotY}) rotate(${deg})">
+            <rect x="${dx}" y="${dy}" width="265" height="54" rx="3" class="svg-wood-door${darkClass}" />
+            <!-- Cup bore inside door -->
+            <rect x="${dx + 22}" y="${dy + 34}" width="44" height="18" rx="2" class="svg-hinge-metal" />
+            <text x="${dx + 145}" y="${dy + 32}" text-anchor="middle" class="svg-label-strong">Puerta exterior</text>
+          </g>
+
+          <!-- Coverage annotation -->
+          <line x1="150" y1="54" x2="204" y2="54" class="svg-guide-line" />
+          <text x="177" y="48" text-anchor="middle" class="svg-label-accent">Cubre 100%</text>
+        `;
+      } else if (type === '9') {
+        // Codo 9: Shared center divider (x=293..347, y=130..300)
+        // Left door covers x=80..317, Right door covers x=323..560 (6px center gap)
+        const pivotX = 335 + Math.sin(rad) * 10;
+        const pivotY = 122 - Math.sin(rad) * 8;
+        const deg = angle;
+
+        geometryHtml = `
+          <text x="320" y="34" text-anchor="middle" class="svg-label">Frente exterior del mueble</text>
+          <text x="190" y="250" text-anchor="middle" class="svg-label">Módulo izquierdo</text>
+          <text x="455" y="250" text-anchor="middle" class="svg-label">Módulo derecho</text>
+
+          <!-- Shared center divider -->
+          <rect x="293" y="130" width="54" height="170" rx="2" class="svg-wood-carcass${darkClass}" />
+          <text x="320" y="318" text-anchor="middle" class="svg-label-strong">Parante compartido (18 mm)</text>
+
+          <!-- Left neighbor door (closed static for collision check) -->
+          <rect x="75" y="68" width="242" height="54" rx="3" class="svg-wood-door${darkClass}" opacity="0.88" />
+          <text x="196" y="100" text-anchor="middle" class="svg-label-strong">Puerta vecina</text>
+
+          <!-- Dashed closed reference for right door -->
+          <rect x="323" y="68" width="242" height="54" rx="2" fill="none" stroke="var(--outline)" stroke-dasharray="4 4" />
+
+          <!-- Hinge Base on right side of shared divider -->
+          <rect x="347" y="168" width="12" height="44" rx="2" class="svg-hinge-metal-mid" />
+          <!-- Stepped Arm (Codo 9) -->
+          <path d="M353 188 L353 158 L${pivotX + 18} ${pivotY + 10}" fill="none" stroke="var(--hinge-steel-stroke)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+
+          <!-- Rotating Right Door -->
+          <g transform="translate(${pivotX}, ${pivotY}) rotate(${deg})">
+            <rect x="${323 - pivotX}" y="${68 - pivotY}" width="242" height="54" rx="3" class="svg-wood-door${darkClass}" />
+            <rect x="${323 - pivotX + 16}" y="${68 - pivotY + 34}" width="42" height="18" rx="2" class="svg-hinge-metal" />
+            <text x="${323 - pivotX + 135}" y="${68 - pivotY + 32}" text-anchor="middle" class="svg-label-strong">Puerta derecha</text>
+          </g>
+
+          <!-- Center gap annotation -->
+          <line x1="320" y1="52" x2="320" y2="128" class="svg-guide-line" />
+          <text x="320" y="48" text-anchor="middle" class="svg-label-accent">Luz central · cubre ~9 mm c/u</text>
+        `;
+      } else {
+        // Codo 18: Inset door (Puerta por adentro del mueble)
+        // Left side panel extends forward: x=150..204, y=68..300
+        // Closed door sits INSIDE starting at x=210..475, y=72..126
+        const pivotX = 224 + Math.sin(rad) * 14;
+        const pivotY = 122 - Math.sin(rad) * 14;
+        const deg = -angle;
+
+        geometryHtml = `
+          <text x="340" y="34" text-anchor="middle" class="svg-label">Frente exterior del mueble</text>
+          <text x="340" y="250" text-anchor="middle" class="svg-label">Interior del mueble</text>
+
+          <!-- Left Side Panel extending to front flush -->
+          <rect x="150" y="72" width="54" height="228" rx="2" class="svg-wood-carcass${darkClass}" />
+          <text x="177" y="318" text-anchor="middle" class="svg-label-strong">Parante exterior</text>
+
+          <!-- Dashed closed reference -->
+          <rect x="210" y="72" width="265" height="54" rx="2" fill="none" stroke="var(--outline)" stroke-dasharray="4 4" />
+
+          <!-- Hinge Base deeper inside wall -->
+          <rect x="204" y="172" width="12" height="44" rx="2" class="svg-hinge-metal-mid" />
+          <!-- Deep Stepped Arm (Codo 18) -->
+          <path d="M210 192 L242 192 L242 152 L${pivotX + 26 * Math.cos(rad)} ${pivotY - 26 * Math.sin(rad) + 12}" fill="none" stroke="var(--hinge-steel-stroke)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+
+          <!-- Rotating Inset Door -->
+          <g transform="translate(${pivotX}, ${pivotY}) rotate(${deg})">
+            <rect x="${210 - pivotX}" y="${72 - pivotY}" width="265" height="54" rx="3" class="svg-wood-door${darkClass}" />
+            <rect x="${210 - pivotX + 18}" y="${72 - pivotY + 34}" width="42" height="18" rx="2" class="svg-hinge-metal" />
+            <text x="${210 - pivotX + 145}" y="${72 - pivotY + 32}" text-anchor="middle" class="svg-label-strong">Puerta embutida</text>
+          </g>
+
+          <!-- Inset flush annotation -->
+          <line x1="150" y1="64" x2="475" y2="64" class="svg-guide-line" />
+          <text x="312" y="54" text-anchor="middle" class="svg-label-accent">Al ras por adentro del mueble (0 mm cobertura)</text>
+        `;
+      }
+
+      svg.innerHTML = geometryHtml;
+    }
+
+    /* ---------------- SECTION 3A: ANCHOR (SLIDE VS CLIP) ---------------- */
+    function setAnchorType(type) {
+      appState.anchorType = type;
+      const bSlide = getEl('btn-anchor-slide');
+      const bClip = getEl('btn-anchor-clip');
+      if (bSlide) bSlide.classList.toggle('is-active', type === 'slide');
+      if (bClip) bClip.classList.toggle('is-active', type === 'clip');
+      renderAnchor();
+      persistState();
+    }
+
+    function toggleAnchorMount() {
+      const target = appState.anchorMounted ? 0 : 1;
+      appState.anchorMounted = !appState.anchorMounted;
+
+      if (anchorAnimId) cancelAnimationFrame(anchorAnimId);
+      const start = anchorProgress;
+      const startTime = performance.now();
+      const duration = 420;
+
+      function step(now) {
+        const t = Math.min(1, (now - startTime) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        anchorProgress = start + (target - start) * eased;
+        renderAnchor();
+        if (t < 1) {
+          anchorAnimId = requestAnimationFrame(step);
+        }
+      }
+      anchorAnimId = requestAnimationFrame(step);
+      persistState();
+    }
+
+    function renderAnchor() {
+      const svg = getEl('svg-anchor');
+      const desc = getEl('anchor-desc');
+      const chip = getEl('chip-anchor-tool');
+      const btn = getEl('btn-anchor-action');
+      if (!svg || !desc || !chip || !btn) return;
+
+      const isClip = appState.anchorType === 'clip';
+      const darkClass = appState.finish === 'black' ? ` is-dark-wood` : ``;
+      const p = anchorProgress; // 1 mounted, 0 unmounted
+
+      if (isClip) {
+        chip.textContent = `Sin herramientas`;
+        chip.className = `chip is-positive`;
+        desc.textContent = `Sistema pro tipo clip: el brazo encastra a presión sobre la base en el mueble y se libera con una palanca trasera, agilizando colocar o retirar puertas sin destornillador.`;
+      } else {
+        chip.textContent = `Requiere destornillador`;
+        chip.className = `chip`;
+        desc.textContent = `Sistema corredizo tradicional: el brazo de la puerta se desliza longitudinalmente por la guía de la base y se bloquea apretando el tornillo fijador.`;
+      }
+      btn.textContent = appState.anchorMounted ? `Desmontar puerta` : `Montar puerta`;
+
+      if (!isClip) {
+        // Slide-on animation: arm moves left away from base
+        const offsetX = (1 - p) * -95;
+        const screwLift = (1 - p) * -14;
+        svg.innerHTML = `
+          <!-- Cabinet wall -->
+          <rect x="40" y="155" width="420" height="44" rx="4" class="svg-wood-carcass${darkClass}" />
+          <text x="60" y="182" class="svg-label-strong">Lateral del mueble</text>
+
+          <!-- Base track -->
+          <rect x="240" y="135" width="145" height="20" rx="3" class="svg-hinge-metal-mid" />
+          <circle cx="362" cy="145" r="4" class="svg-screw" />
+          <text x="312" y="170" text-anchor="middle" class="svg-label">Base corrediza</text>
+
+          <!-- Moving Door + Arm -->
+          <g transform="translate(${offsetX}, 0)">
+            <rect x="65" y="45" width="46" height="90" rx="3" class="svg-wood-door${darkClass}" />
+            <path d="M111 95 L295 95 L295 135 L200 135 L200 116 L111 116 Z" class="svg-hinge-metal" />
+            <!-- Locking screw -->
+            <g transform="translate(0, ${screwLift})">
+              <rect x="275" y="76" width="12" height="24" rx="2" class="svg-screw" />
+              <rect x="270" y="72" width="22" height="6" rx="2" class="svg-screw" />
+            </g>
+            <text x="155" y="84" class="svg-label-strong">Brazo deslizante</text>
+          </g>
+
+          <!-- Status indicator -->
+          <text x="250" y="34" text-anchor="middle" class="svg-label-accent">
+            ${p > 0.95 ? `Encastrado y bloqueado con tornillo` : p < 0.05 ? `Deslizado hacia afuera (libre)` : `Deslizando sobre riel guía…`}
+          </text>
+        `;
+      } else {
+        // Clip-on animation: rear pivots upward & away cleanly
+        const liftY = (1 - p) * -46;
+        const rotDeg = (1 - p) * -16;
+        svg.innerHTML = `
+          <!-- Cabinet wall -->
+          <rect x="40" y="155" width="420" height="44" rx="4" class="svg-wood-carcass${darkClass}" />
+          <text x="60" y="182" class="svg-label-strong">Lateral del mueble</text>
+
+          <!-- Clip Base with front pin and rear latch -->
+          <rect x="235" y="135" width="150" height="20" rx="3" class="svg-hinge-metal-mid" />
+          <circle cx="250" cy="134" r="5" class="svg-screw" />
+          <rect x="372" y="124" width="12" height="14" rx="2" class="svg-highlight" />
+
+          <!-- Moving Door + Clip Arm pivoting around front pin -->
+          <g transform="translate(250, 134) rotate(${rotDeg}) translate(-250, -134) translate(0, ${liftY})">
+            <rect x="65" y="45" width="46" height="90" rx="3" class="svg-wood-door${darkClass}" />
+            <path d="M111 95 L382 95 L382 135 L242 135 L242 116 L111 116 Z" class="svg-hinge-metal" />
+            <!-- Rear clip release trigger -->
+            <path d="M382 108 L404 102 L404 122 L382 126 Z" class="svg-highlight" />
+            <text x="155" y="84" class="svg-label-strong">Brazo con encastre clip</text>
+          </g>
+
+          <text x="250" y="34" text-anchor="middle" class="svg-label-accent">
+            ${p > 0.95 ? `Click asegurado · Presiona la pestaña trasera para soltar` : p < 0.05 ? `Puerta liberada sin herramientas` : `Pivoteando en el gancho frontal…`}
+          </text>
+        `;
+      }
+    }
+
+    /* ---------------- SECTION 3B: CLOSER (STANDARD VS SOFT CLOSE) ---------------- */
+    function setCloserType(type) {
+      appState.closerType = type;
+      const bStd = getEl('btn-closer-std');
+      const bSoft = getEl('btn-closer-soft');
+      if (bStd) bStd.classList.toggle('is-active', type === 'standard');
+      if (bSoft) bSoft.classList.toggle('is-active', type === 'soft');
+      closerCurrentAngle = 0;
+      closerTracePoints = [];
+      closerPlaying = false;
+      if (closerAnimId) cancelAnimationFrame(closerAnimId);
+      renderCloser();
+      persistState();
+    }
+
+    function playCloserSimulation() {
+      if (closerAnimId) cancelAnimationFrame(closerAnimId);
+      closerCurrentAngle = 45;
+      closerTimeElapsed = 0;
+      closerTracePoints = [{ t: 0, a: 45 }];
+      closerPlaying = true;
+
+      const isSoft = appState.closerType === 'soft';
+      const totalDur = isSoft ? 1.55 : 0.42; // seconds
+      let lastTime = performance.now();
+
+      function tick(now) {
+        const dt = Math.min(0.05, (now - lastTime) / 1000);
+        lastTime = now;
+        closerTimeElapsed += dt;
+        const u = Math.min(1, closerTimeElapsed / totalDur);
+
+        if (!isSoft) {
+          // Standard spring: accelerates cleanly to slam at u=1
+          closerCurrentAngle = 45 * (1 - u * u);
+        } else {
+          // Soft close: brisk until ~24 deg (u=0.25), then hydraulic damper smoothly eases to 0
+          if (u < 0.25) {
+            const k = u / 0.25;
+            closerCurrentAngle = 45 - 21 * k;
+          } else {
+            const k = (u - 0.25) / 0.75;
+            const eased = 1 - Math.pow(1 - k, 2.6);
+            closerCurrentAngle = 24 * (1 - eased);
+          }
+        }
+
+        closerTracePoints.push({ t: closerTimeElapsed, a: closerCurrentAngle });
+        renderCloser();
+
+        if (u < 1) {
+          closerAnimId = requestAnimationFrame(tick);
+        } else {
+          closerCurrentAngle = 0;
+          closerPlaying = false;
+          renderCloser();
+        }
+      }
+      closerAnimId = requestAnimationFrame(tick);
+    }
+
+    function renderCloser() {
+      const svg = getEl('svg-closer');
+      const desc = getEl('closer-desc');
+      const chip = getEl('chip-closer-status');
+      if (!svg || !desc || !chip) return;
+
+      const isSoft = appState.closerType === 'soft';
+      const darkClass = appState.finish === 'black' ? ` is-dark-wood` : ``;
+      const angle = closerCurrentAngle;
+
+      if (isSoft) {
+        chip.textContent = angle > 0 && angle <= 25 ? `Pistón amortiguando` : `Pistón cierre suave`;
+        chip.className = angle > 0 && angle <= 25 ? `chip is-positive` : `chip`;
+        desc.textContent = `Un pistón integrado en el brazo frena el último tramo del recorrido (~25° a 0°), transformando la inercia en un cierre suave y silencioso.`;
+      } else {
+        chip.textContent = closerPlaying && angle < 3 ? `Golpe de cierre` : `Cierre por resorte`;
+        chip.className = closerPlaying && angle < 3 ? `chip is-warning` : `chip`;
+        desc.textContent = `El resorte convencional empuja la puerta de golpe en los últimos grados. Cumple la función de mantenerla cerrada pero sin freno hidráulico.`;
+      }
+
+      // Piston compression ratio (only compresses below 26°)
+      const compression = isSoft ? Math.max(0, Math.min(1, (26 - angle) / 26)) : 0;
+      const rodLength = 52 - compression * 30;
+
+      // Mini curve plot coordinates (x: 270..470, y: 180..45)
+      const maxT = 1.6;
+      let pathD = ``;
+      if (closerTracePoints.length > 0) {
+        pathD = closerTracePoints.map(function (pt, idx) {
+          const px = 265 + (pt.t / maxT) * 205;
+          const py = 185 - (pt.a / 45) * 125;
+          return `${idx === 0 ? 'M' : 'L'} ${px.toFixed(1)} ${py.toFixed(1)}`;
+        }).join(' ');
+      }
+
+      const impactFlash = !isSoft && !closerPlaying && closerTracePoints.length > 1;
+
+      svg.innerHTML = `
+        <!-- Left zone: Door & Piston mechanics -->
+        <rect x="24" y="135" width="42" height="60" rx="3" class="svg-wood-carcass${darkClass}" />
+        <rect x="66" y="148" width="120" height="22" rx="3" class="svg-hinge-metal-mid" />
+
+        ${isSoft ? `
+          <!-- Hydraulic Piston Cylinder & Compressing Rod -->
+          <rect x="92" y="128" width="66" height="16" rx="4" fill="var(--primary-container)" stroke="var(--primary)" stroke-width="1.5" />
+          <line x1="92" y1="136" x2="${92 - rodLength}" y2="136" stroke="var(--primary)" stroke-width="5" stroke-linecap="round" />
+          <text x="125" y="120" text-anchor="middle" class="svg-label-accent">Pistón hidráulico</text>
+        ` : `
+          <text x="125" y="128" text-anchor="middle" class="svg-label">Resorte directo (sin freno)</text>
+        `}
+
+        <!-- Moving Door pivoting at (66, 135) -->
+        <g transform="translate(66, 135) rotate(${-angle})">
+          <rect x="0" y="-26" width="150" height="24" rx="3" class="svg-wood-door${darkClass}" />
+          <text x="80" y="-10" text-anchor="middle" class="svg-label-strong">Puerta (${Math.round(angle)}°)</text>
+        </g>
+
+        ${impactFlash ? `
+          <path d="M198 118 Q216 105 224 90" fill="none" stroke="var(--warning)" stroke-width="2" stroke-dasharray="3 3" />
+          <text x="140" y="64" class="svg-label-warn">Impacto rápido contra el casco</text>
+        ` : ``}
+
+        <!-- Right zone: Live Angle vs Time Chart -->
+        <line x1="265" y1="185" x2="475" y2="185" class="svg-dim-line" />
+        <line x1="265" y1="55" x2="265" y2="185" class="svg-dim-line" />
+        <text x="260" y="62" text-anchor="end" class="svg-label">45°</text>
+        <text x="260" y="188" text-anchor="end" class="svg-label">0°</text>
+        <text x="370" y="205" text-anchor="middle" class="svg-label">Tiempo de cierre (s)</text>
+
+        ${isSoft ? `
+          <line x1="265" y1="${185 - (25 / 45) * 125}" x2="470" y2="${185 - (25 / 45) * 125}" stroke="var(--positive)" stroke-width="1" stroke-dasharray="3 3" />
+          <text x="470" y="${185 - (25 / 45) * 125 - 5}" text-anchor="end" class="svg-label" style="fill: var(--positive);">Zona pistón (25°)</text>
+        ` : ``}
+
+        ${pathD ? `<path d="${pathD}" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" />` : `
+          <text x="370" y="122" text-anchor="middle" class="svg-label">Pulsa «Soltar puerta» para ver la curva</text>
+        `}
+      `;
+    }
+
+    /* ---------------- SECTION 4: 3-AXIS CALIBRATION SIMULATOR ---------------- */
+    function focusAxis(axis) {
+      appState.activeAxis = axis;
+      ['height', 'depth', 'tilt'].forEach(function (a) {
+        const card = getEl('card-axis-' + a);
+        if (card) card.classList.toggle('is-focused', a === axis);
+      });
+      renderCalibration();
+    }
+
+    function onCalibrationInput(axis, val) {
+      const num = Number(val);
+      if (axis === 'height') appState.adjHeight = num;
+      if (axis === 'depth') appState.adjDepth = num;
+      if (axis === 'tilt') appState.adjTilt = num;
+      appState.activeAxis = axis;
+      focusAxis(axis);
+      persistState();
+    }
+
+    function applyCalibrationPreset(preset) {
+      if (preset === 'droop') {
+        appState.adjHeight = -2.5;
+        appState.adjDepth = 0;
+        appState.adjTilt = 2.0;
+        appState.activeAxis = 'height';
+      } else if (preset === 'rubbing') {
+        appState.adjHeight = 0;
+        appState.adjDepth = -2.0;
+        appState.adjTilt = 0;
+        appState.activeAxis = 'depth';
+      } else if (preset === 'crooked') {
+        appState.adjHeight = 0;
+        appState.adjDepth = 0;
+        appState.adjTilt = -2.5;
+        appState.activeAxis = 'tilt';
+      } else {
+        appState.adjHeight = 0;
+        appState.adjDepth = 0;
+        appState.adjTilt = 0;
+      }
+
+      const sH = getEl('slider-adj-height');
+      const sD = getEl('slider-adj-depth');
+      const sT = getEl('slider-adj-tilt');
+      if (sH) sH.value = appState.adjHeight;
+      if (sD) sD.value = appState.adjDepth;
+      if (sT) sT.value = appState.adjTilt;
+
+      focusAxis(appState.activeAxis);
+      persistState();
+    }
+
+    function renderCalibration() {
+      const svg = getEl('svg-calibration');
+      const chip = getEl('chip-cal-status');
+      const vH = getEl('val-adj-height');
+      const vD = getEl('val-adj-depth');
+      const vT = getEl('val-adj-tilt');
+      const rCenter = getEl('readout-center-gap');
+      const rFront = getEl('readout-front-gap');
+      if (!svg || !chip) return;
+
+      const h = appState.adjHeight; // -3..+3 mm
+      const d = appState.adjDepth;  // -3..+3 mm
+      const t = appState.adjTilt;   // -3..+3 mm
+      const darkClass = appState.finish === 'black' ? ` is-dark-wood` : ``;
+
+      if (vH) vH.textContent = `${h > 0 ? '+' : ''}${h.toFixed(1)} mm`;
+      if (vD) vD.textContent = `${d > 0 ? '+' : ''}${d.toFixed(1)} mm`;
+      if (vT) vT.textContent = `${t > 0 ? '+' : ''}${t.toFixed(1)} mm`;
+
+      const centerGap = 3.0 + t; // nominal 3 mm between doors; negative tilt closes gap
+      const frontGap = 2.0 + d;  // nominal 2 mm from cabinet carcass
+
+      if (rCenter) rCenter.textContent = `${centerGap.toFixed(1)} mm`;
+      if (rFront) rFront.textContent = `${frontGap.toFixed(1)} mm`;
+
+      // Status assessment
+      let statusText = `Puerta perfectamente alineada`;
+      let statusCls = `chip is-positive`;
+      if (centerGap <= 0.5) {
+        statusText = `Advertencia: choque entre puertas`;
+        statusCls = `chip is-error`;
+      } else if (frontGap <= 0.5) {
+        statusText = `Advertencia: puerta roza el mueble`;
+        statusCls = `chip is-error`;
+      } else if (Math.abs(h) >= 0.5 || Math.abs(d) >= 0.5 || Math.abs(t) >= 0.5) {
+        statusText = `Desajuste visible (${Math.abs(h) + Math.abs(d) + Math.abs(t)} mm acumulados)`;
+        statusCls = `chip is-warning`;
+      }
+      chip.textContent = statusText;
+      chip.className = statusCls;
+
+      // Visual scaling: 1 mm = 5 px
+      const pxY = -h * 5; // positive height moves door UP (-Y)
+      const pxX = t * 5;  // positive tilt moves right door RIGHT (+X, opening center gap)
+      const pxZ = d * 6;  // positive depth moves door FORWARD (+X in right-hand side profile)
+
+      const isH = appState.activeAxis === 'height';
+      const isD = appState.activeAxis === 'depth';
+      const isT = appState.activeAxis === 'tilt';
+
+      svg.innerHTML = `
+        <!-- LEFT PANEL: FRONT ELEVATION -->
+        <text x="200" y="26" text-anchor="middle" class="svg-label-strong">Vista frontal (Altura e Inclinación)</text>
+
+        <!-- Cabinet Carcass Outline -->
+        <rect x="30" y="45" width="340" height="320" rx="4" class="svg-wood-carcass${darkClass}" />
+
+        <!-- Reference Left Door (perfectly aligned) -->
+        <rect x="38" y="54" width="156" height="302" rx="3" class="svg-wood-door${darkClass}" />
+        <text x="116" y="210" text-anchor="middle" class="svg-label">Puerta ref. (0, 0)</text>
+
+        <!-- Target Alignment Guides -->
+        <line x1="30" y1="54" x2="375" y2="54" class="svg-guide-line" />
+        <line x1="30" y1="356" x2="375" y2="356" class="svg-guide-line" />
+
+        <!-- Active Right Door (moves with height and lateral tilt) -->
+        <g transform="translate(${pxX}, ${pxY})">
+          <rect x="206" y="54" width="156" height="302" rx="3" class="svg-wood-door${darkClass}" />
+          <!-- Phantom Hinges on right edge -->
+          <rect x="316" y="92" width="38" height="24" rx="3" class="svg-hinge-metal" opacity="0.9" />
+          <rect x="316" y="290" width="38" height="24" rx="3" class="svg-hinge-metal" opacity="0.9" />
+          <text x="284" y="200" text-anchor="middle" class="svg-label-strong">Puerta regulable</text>
+          <text x="284" y="218" text-anchor="middle" class="svg-label">ΔY: ${h.toFixed(1)} · ΔX: ${t.toFixed(1)}</text>
+        </g>
+
+        <!-- Collision highlight if centerGap <= 0.5 -->
+        ${centerGap <= 0.5 ? `
+          <rect x="192" y="54" width="14" height="302" fill="var(--error)" opacity="0.32" />
+          <text x="200" y="384" text-anchor="middle" class="svg-label-warn">Choque en junta central</text>
+        ` : `
+          <text x="200" y="384" text-anchor="middle" class="svg-label">Luz central: ${centerGap.toFixed(1)} mm</text>
+        `}
+
+        <!-- RIGHT PANEL TOP: SIDE PROFILE (DEPTH Z) -->
+        <line x1="400" y1="20" x2="400" y2="385" stroke="var(--outline-variant)" stroke-width="1" />
+        <text x="530" y="26" text-anchor="middle" class="svg-label-strong">Perfil lateral (Profundidad)</text>
+
+        <!-- Cabinet side edge -->
+        <rect x="425" y="56" width="88" height="125" rx="3" class="svg-wood-carcass${darkClass}" />
+        <text x="469" y="122" text-anchor="middle" class="svg-label-strong">Casco</text>
+
+        <!-- Reference front face line -->
+        <line x1="513" y1="45" x2="513" y2="195" class="svg-guide-line" />
+
+        <!-- Door in side profile moving with depth -->
+        <g transform="translate(${pxZ}, 0)">
+          <rect x="525" y="52" width="26" height="133" rx="3" class="svg-wood-door${darkClass}" />
+          <text x="572" y="122" class="svg-label-strong">Puerta</text>
+        </g>
+
+        ${frontGap <= 0.5 ? `
+          <text x="530" y="205" text-anchor="middle" class="svg-label-warn">Roce con el casco (${frontGap.toFixed(1)} mm)</text>
+        ` : `
+          <text x="530" y="205" text-anchor="middle" class="svg-label">Separación frontal: ${frontGap.toFixed(1)} mm</text>
+        `}
+
+        <!-- RIGHT PANEL BOTTOM: 3 ADJUSTMENT SCREWS SCHEMATIC -->
+        <text x="530" y="238" text-anchor="middle" class="svg-label-strong">Mapa de los 3 tornillos</text>
+        <rect x="424" y="252" width="212" height="106" rx="10" fill="var(--surface-container-low)" />
+
+        <!-- Hinge Arm silhouette inside screw map -->
+        <rect x="444" y="286" width="130" height="36" rx="4" class="svg-hinge-metal" />
+        <rect x="562" y="268" width="44" height="72" rx="4" class="svg-hinge-metal-mid" />
+
+        <!-- Screw 3: Lateral Tilt (Front of arm) -->
+        <g transform="translate(476, 304) rotate(${t * 35})">
+          <circle cx="0" cy="0" r="${isT ? 14 : 11}" class="${isT ? 'svg-highlight' : 'svg-screw'}" />
+          <line x1="-6" y1="0" x2="6" y2="0" stroke="var(--screw-slot)" stroke-width="2" />
+        </g>
+        <text x="476" y="344" text-anchor="middle" class="${isT ? 'svg-label-accent' : 'svg-label'}">3. Inclin.</text>
+
+        <!-- Screw 2: Depth (Rear of arm) -->
+        <g transform="translate(534, 304) rotate(${d * 35})">
+          <circle cx="0" cy="0" r="${isD ? 14 : 11}" class="${isD ? 'svg-highlight' : 'svg-screw'}" />
+          <line x1="0" y1="-6" x2="0" y2="6" stroke="var(--screw-slot)" stroke-width="2" />
+        </g>
+        <text x="534" y="344" text-anchor="middle" class="${isD ? 'svg-label-accent' : 'svg-label'}">2. Profund.</text>
+
+        <!-- Screw 1: Height (On base plate) -->
+        <g transform="translate(584, 304) rotate(${h * 35})">
+          <circle cx="0" cy="0" r="${isH ? 14 : 11}" class="${isH ? 'svg-highlight' : 'svg-screw'}" />
+          <line x1="-5" y1="-5" x2="5" y2="5" stroke="var(--screw-slot)" stroke-width="2" />
+        </g>
+        <text x="584" y="344" text-anchor="middle" class="${isH ? 'svg-label-accent' : 'svg-label'}">1. Altura</text>
+      `;
+    }
+
+    /* ---------------- SECTION 5: WIZARD ASSISTANT ---------------- */
+    function updateWizard() {
+      const sPos = getEl('wiz-position');
+      const sMount = getEl('wiz-mount');
+      const sClose = getEl('wiz-closer');
+      const sFinish = getEl('wiz-finish');
+      const out = getEl('wizard-output');
+      if (!sPos || !sMount || !sClose || !sFinish || !out) return;
+
+      appState.wizPos = sPos.value;
+      appState.wizMount = sMount.value;
+      appState.wizClose = sClose.value;
+      appState.wizFinish = sFinish.value;
+
+      const elbowLabel = sPos.value === '0'
+        ? `Bisagra Recta (Codo 0)`
+        : sPos.value === '9'
+          ? `Bisagra Acodada (Codo 9)`
+          : `Bisagra Superacodada (Codo 18)`;
+
+      const mountLabel = sMount.value === 'clip' ? `Anclaje Tipo Clip` : `Anclaje Corredizo`;
+      const closeLabel = sClose.value === 'soft' ? `Pistón Cierre Suave` : `Cierre Común`;
+      const finishLabel = sFinish.value === 'black' ? `Acabado Negro (Base 3D o Recta)` : `Acabado Acero Clásico`;
+
+      const summaryNote = sPos.value === '0'
+        ? `Ideal cuando la puerta apoya completamente sobre el lateral del mueble.`
+        : sPos.value === '9'
+          ? `Necesaria para que dos puertas compartan el mismo parante central sin rozarse.`
+          : `Indicada cuando la puerta queda embutida por dentro de los laterales del mueble.`;
+
+      out.innerHTML = `
+        <div>
+          <span class="eyebrow" style="margin-bottom: var(--space-xs);">Configuración recomendada</span>
+          <h3 class="rec-title">${elbowLabel}</h3>
+          <p style="color: var(--on-surface-variant); font-size: 0.9375rem; margin: var(--space-sm) 0 0;">
+            ${summaryNote} ${sMount.value === 'clip' ? 'Con sistema tipo clip desmontas la puerta sin herramientas.' : 'Con sistema corredizo aseguras fijación estándar por tornillo.'}
+          </p>
+        </div>
+
+        <div class="rec-tags">
+          <span class="chip">${mountLabel}</span>
+          <span class="chip">${closeLabel}</span>
+          <span class="chip">${finishLabel}</span>
+        </div>
+
+        <div class="action-row" style="justify-content: flex-start; margin-top: 0;">
+          <button type="button" class="btn-primary" onclick="applyWizardToSimulators()">Cargar en los simuladores</button>
+        </div>
+      `;
+
+      persistState();
+    }
+
+    function applyWizardToSimulators() {
+      setElbowType(appState.wizPos);
+      setAnchorType(appState.wizMount);
+      setCloserType(appState.wizClose);
+      setFinish(appState.wizFinish);
+      const target = getEl('simulador-codos');
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    /* ---------------- SCROLL REVEAL & INIT ---------------- */
+    function initScrollReveal() {
+      const els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(function (el) { el.classList.add('is-visible'); });
+        return;
+      }
+      const io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      els.forEach(function (el) { io.observe(el); });
+    }
+
+    function syncControlsToState() {
+      const sAngle = getEl('slider-elbow-angle');
+      if (sAngle) sAngle.value = appState.elbowAngle;
+
+      const sH = getEl('slider-adj-height');
+      const sD = getEl('slider-adj-depth');
+      const sT = getEl('slider-adj-tilt');
+      if (sH) sH.value = appState.adjHeight;
+      if (sD) sD.value = appState.adjDepth;
+      if (sT) sT.value = appState.adjTilt;
+
+      const wPos = getEl('wiz-position');
+      const wMnt = getEl('wiz-mount');
+      const wCls = getEl('wiz-closer');
+      const wFin = getEl('wiz-finish');
+      if (wPos) wPos.value = appState.wizPos;
+      if (wMnt) wMnt.value = appState.wizMount;
+      if (wCls) wCls.value = appState.wizClose;
+      if (wFin) wFin.value = appState.wizFinish;
+
+      setAnatomyMode(appState.anatomyMode);
+      setFinish(appState.finish);
+      setElbowType(appState.elbowType);
+      setAnchorType(appState.anchorType);
+      setCloserType(appState.closerType);
+      focusAxis(appState.activeAxis);
+      updateWizard();
+    }
+
+    async function initApp() {
+      if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === 'function') {
+        try {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && typeof saved === 'object') {
+            appState = Object.assign({}, DEFAULT_STATE, saved);
+          }
+        } catch (e) {
+          // Proceed with default state
+        }
+      }
+
+      anchorProgress = appState.anchorMounted ? 1 : 0;
+      syncControlsToState();
+      initScrollReveal();
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === 'function') {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>
