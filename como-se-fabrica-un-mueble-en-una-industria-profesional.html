@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Cómo se fabrica un mueble en una industria profesional | Rubén Sbarsky</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            900: '#0c4a6e',
+                            dark: '#050b18',
+                            card: '#0f172a',
+                            accent: '#38bdf8',
+                            purple: '#a855f7'
+                        },
+                        wood: {
+                            50: '#fdf8f6',
+                            100: '#f2e8e5',
+                            500: '#b45309',
+                            600: '#92400e',
+                            800: '#5c2b09'
+                        }
+                    },
+                    boxShadow: {
+                        'neon': '0 0 20px rgba(56, 189, 248, 0.35)',
+                        'card': '0 10px 30px -5px rgba(0, 0, 0, 0.08)',
+                        'floating': '0 10px 25px -3px rgba(2, 132, 199, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.2)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Ocultar barras de desplazamiento en el menú horizontal manteniendo funcionalidad táctil */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Animaciones suaves */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-panel {
+            display: none;
+            animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        /* Optimización táctil para Samsung Galaxy A02s (360px - 412px ancho) */
+        body {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        /* Estilos para botones flotantes arrastrables */
+        .draggable-fab {
+            touch-action: none;
+            user-select: none;
+            cursor: grab;
+            transition: transform 0.15s ease, box-shadow 0.2s ease;
+        }
+        .draggable-fab:active {
+            cursor: grabbing;
+            transform: scale(0.94);
+        }
+
+        /* Acordeón de preguntas */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, padding 0.3s ease;
+            opacity: 0;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 500px;
+            opacity: 1;
+            padding-top: 0.75rem;
+            padding-bottom: 0.25rem;
+        }
+        .faq-item.open .faq-chevron {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-sky-500 selection:text-white pb-24">
+
+    <!-- Definición SVG Reutilizable del Logo Tutoriales IA -->
+    <svg width="0" height="0" class="hidden" aria-hidden="true">
+        <defs>
+            <linearGradient id="ia-cyan-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#38bdf8" />
+                <stop offset="50%" stop-color="#0ea5e9" />
+                <stop offset="100%" stop-color="#6366f1" />
+            </linearGradient>
+            <linearGradient id="ia-circuit-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#38bdf8" />
+                <stop offset="100%" stop-color="#c084fc" />
+            </linearGradient>
+            <filter id="ia-glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="2.5" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+            <symbol id="logo-tutoriales-ia" viewBox="0 0 120 120">
+                <!-- Fondo Escudo Oscuro -->
+                <rect x="4" y="4" width="112" height="112" rx="26" fill="#060d1f" stroke="url(#ia-cyan-grad)" stroke-width="2.5"/>
+                <!-- Contorno Escudo Interior -->
+                <path d="M60 16 C36 16 24 25 24 25 V54 C24 80 60 98 60 98 C60 98 96 80 96 54 V25 C96 25 84 16 60 16 Z" 
+                      fill="#0a1633" stroke="url(#ia-cyan-grad)" stroke-width="3" filter="url(#ia-glow)"/>
+                <!-- Hemisferio Izquierdo: Cerebro Orgánico -->
+                <path d="M56 32 C46 32 39 39 39 47 C35 49 34 56 38 61 C35 67 40 75 48 76 C51 79 56 79 56 75 V32 Z" 
+                      fill="none" stroke="#38bdf8" stroke-width="2.8" stroke-linecap="round"/>
+                <path d="M48 41 C44 42 43 47 47 49 M46 57 C42 58 42 64 47 65 M52 46 C49 48 49 53 53 54 M52 62 C49 64 50 69 53 70" 
+                      fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round"/>
+                <!-- Hemisferio Derecho: Circuitos Neuronales IA -->
+                <path d="M64 32 H72 L78 38 M64 43 H76 L82 49 M64 55 H81 M64 66 H75 L80 72 M64 76 H71" 
+                      fill="none" stroke="url(#ia-circuit-grad)" stroke-width="2.5" stroke-linecap="round"/>
+                <circle cx="79" cy="39" r="2.8" fill="#c084fc"/>
+                <circle cx="83" cy="50" r="2.8" fill="#38bdf8"/>
+                <circle cx="82" cy="55" r="2.8" fill="#c084fc"/>
+                <circle cx="81" cy="73" r="2.8" fill="#a855f7"/>
+                <circle cx="72" cy="76" r="2.5" fill="#38bdf8"/>
+                <!-- Botón Central Play -->
+                <circle cx="60" cy="55" r="13" fill="#060d1f" stroke="#38bdf8" stroke-width="2.5"/>
+                <polygon points="57,49 67,55 57,61" fill="#38bdf8"/>
+                <!-- Texto IA inferior -->
+                <text x="60" y="111" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="13" fill="url(#ia-cyan-grad)" letter-spacing="1.5">IA</text>
+            </symbol>
+        </defs>
+    </svg>
+
+    <!-- BARRA SUPERIOR FIJA (HEADER + PESTAÑAS TÁCTILES + BOTÓN ÍNDICE) -->
+    <header class="sticky top-0 z-40 bg-slate-950/95 backdrop-blur-md text-white border-b border-slate-800 shadow-lg">
+        <!-- Fila Superior: Logo + Marca + Botón ÍNDICE (Menú Sándwich) -->
+        <div class="max-w-4xl mx-auto px-3 py-2.5 flex items-center justify-between gap-2">
+            <button onclick="switchTab(0)" class="flex items-center gap-2.5 text-left group focus:outline-none">
+                <svg class="w-9 h-9 shrink-0 drop-shadow-[0_0_8px_rgba(56,189,248,0.5)] transition-transform group-hover:scale-105">
+                    <use href="#logo-tutoriales-ia"></use>
+                </svg>
+                <div class="leading-tight">
+                    <span class="block text-[10px] font-bold uppercase tracking-widest text-sky-400">Tutoriales IA</span>
+                    <span class="block text-xs sm:text-sm font-display font-bold text-white truncate max-w-[180px] sm:max-w-xs">
+                        Fabricación Industrial de Muebles
+                    </span>
+                </div>
+            </button>
+
+            <!-- Botón ÍNDICE (Menú Sándwich) -->
+            <button id="btn-open-index" onclick="toggleIndexModal(true)" 
+                    class="flex items-center gap-1.5 bg-sky-500/15 hover:bg-sky-500/25 active:bg-sky-500/35 border border-sky-400/40 text-sky-300 px-3 py-2 rounded-xl text-xs font-bold tracking-wide transition-all shadow-sm">
+                <i data-lucide="menu" class="w-4 h-4 text-sky-400"></i>
+                <span>ÍNDICE</span>
+            </button>
+        </div>
+
+        <!-- Barra de Pestañas Visible de Forma Permanente con Desplazamiento Táctil Horizontal y Auto-Centrado -->
+        <nav aria-label="Navegación de secciones" class="border-t border-slate-800/80 bg-slate-900/90">
+            <div id="tabs-scroller" class="max-w-4xl mx-auto flex items-center overflow-x-auto no-scrollbar px-2 py-2 gap-1.5 scroll-smooth">
+                <!-- Las pestañas se generan dinámicamente vía JS para sincronía perfecta -->
+            </div>
+        </nav>
+
+        <!-- Barra de Progreso de Lectura -->
+        <div class="w-full h-0.5 bg-slate-800">
+            <div id="progress-bar" class="h-full bg-gradient-to-r from-sky-400 via-blue-500 to-purple-500 transition-all duration-300" style="width: 10%;"></div>
+        </div>
+    </header>
+
+    <!-- MODAL ÍNDICE VERTICAL COMPLETO (MENÚ SÁNDWICH) -->
+    <div id="index-modal" class="fixed inset-0 z-50 hidden" aria-modal="true" role="dialog">
+        <!-- Backdrop -->
+        <div onclick="toggleIndexModal(false)" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm transition-opacity"></div>
+        
+        <!-- Panel Deslizante -->
+        <div class="fixed inset-y-0 right-0 w-full max-w-xs bg-slate-900 border-l border-slate-800 text-white shadow-2xl flex flex-col z-10">
+            <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950">
+                <div class="flex items-center gap-2.5">
+                    <svg class="w-8 h-8">
+                        <use href="#logo-tutoriales-ia"></use>
+                    </svg>
+                    <div>
+                        <h2 class="font-display font-bold text-sm text-white">Índice del Tutorial</h2>
+                        <p class="text-[11px] text-sky-400">Acceso directo a todas las pestañas</p>
+                    </div>
+                </div>
+                <button onclick="toggleIndexModal(false)" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div id="vertical-index-list" class="flex-1 overflow-y-auto p-3 space-y-1.5">
+                <!-- Lista vertical generada por JS -->
+            </div>
+
+            <div class="p-3 border-t border-slate-800 bg-slate-950 text-[11px] text-slate-400 text-center">
+                Autor: Rubén Sbarsky • 2026
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENEDOR PRINCIPAL DE CONTENIDO -->
+    <main id="main-content" class="max-w-3xl mx-auto px-3.5 sm:px-6 pt-5 pb-10">
+
+        <!-- =========================================================
+             PESTAÑA 0: INICIO E INTRODUCCIÓN
+             ========================================================= -->
+        <section id="tab-0" class="tab-panel active space-y-6">
+            <!-- Hero Card Premium -->
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-sky-950 text-white p-5 sm:p-8 shadow-xl border border-slate-800">
+                <div class="absolute -right-12 -top-12 w-48 h-48 bg-sky-500/20 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -left-12 -bottom-12 w-48 h-48 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="relative z-10">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/15 border border-sky-400/30 text-sky-300 text-xs font-semibold mb-4">
+                        <i data-lucide="factory" class="w-3.5 h-3.5"></i>
+                        <span>GUÍA TÉCNICA INDUSTRIAL</span>
+                    </div>
+
+                    <!-- Título Principal con Logo SVG a la izquierda y "by Rubén Sbarsky" solo en INICIO -->
+                    <div class="flex items-start gap-3.5 sm:gap-4 mb-4">
+                        <div class="shrink-0 mt-1 p-1.5 rounded-2xl bg-slate-900/90 border border-sky-400/40 shadow-neon">
+                            <svg class="w-12 h-12 sm:w-14 sm:h-14">
+                                <use href="#logo-tutoriales-ia"></use>
+                            </svg>
+                        </div>
+                        <h1 class="font-display font-extrabold text-xl sm:text-3xl leading-tight tracking-tight text-white">
+                            Cómo se fabrica un mueble en una industria profesional <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-purple-400 block sm:inline mt-1 sm:mt-0">by Rubén Sbarsky</span>
+                        </h1>
+                    </div>
+
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-5">
+                        Autor: <strong class="text-white">Rubén Sbarsky (2026)</strong> • Material de referencia: fotografía de la lámina <em>«2. Descripción de los procesos y técnicas aplicadas»</em>.
+                    </p>
+
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="switchTab(1)" class="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl transition shadow-lg shadow-sky-500/25">
+                            <span>Comenzar recorrido</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                        <button onclick="toggleIndexModal(true)" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 text-white font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-xl border border-white/15 transition">
+                            <i data-lucide="list" class="w-4 h-4 text-sky-400"></i>
+                            <span>Ver Índice Completo</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección 1: Introducción -->
+            <article class="bg-white rounded-2xl p-5 sm:p-6 shadow-card border border-slate-200/80 space-y-4">
+                <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
+                    <div class="w-9 h-9 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center shrink-0">
+                        <i data-lucide="book-open" class="w-5 h-5"></i>
+                    </div>
+                    <h2 class="font-display font-bold text-lg sm:text-xl text-slate-900">1. Introducción</h2>
+                </div>
+
+                <p class="text-slate-700 text-sm sm:text-base leading-relaxed">
+                    El proceso industrial de fabricación de muebles comprende una serie de etapas que permiten transformar las materias primas en productos terminados, preparados para su comercialización y expedición.
+                </p>
+
+                <p class="text-slate-700 text-sm sm:text-base leading-relaxed">
+                    El proceso puede variar según el tipo de mueble y la industria, pero generalmente comprende <strong>diez etapas</strong>:
+                </p>
+
+                <!-- Listado interactivo de las 10 etapas -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2">
+                    <button onclick="switchTab(1)" class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200/80 hover:border-sky-300 text-left transition group">
+                        <span class="w-7 h-7 rounded-lg bg-sky-600 text-white font-bold text-xs flex items-center justify-center shrink-0">1</span>
+                        <span class="text-xs sm:text-sm font-semibold text-slate-800 group-hover:text-sky-700">Diseño del mueble y prototipos.</span>
+                    </button>
+                    <button onclick="switchTab(1)" class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200/80 hover:border-sky-300 text-left transition group">
+                        <span class="w-7 h-7 rounded-lg bg-sky-600 text-white font-bold text-xs flex items-center justify-center shrink-0">2</span>
+                        <span class="text-xs sm:text-sm font-semibold text-slate-800 group-hover:text-sky-700">Recepción y almacenamiento de materias primas.</span>
+                    </button>
+                    <button onclick="switchTab(2)" class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200/80 hover:border-sky-300 text-left transition group">
+                        <span class="w-7 h-7 rounded-lg bg-amber-600 text-white font-bold text-xs flex items-center justify-center shrink-0">3</span>
+                        <span class="text-xs sm:text-sm font-semibold text-slate-800 group-hover:text-sky-700">Aserrado, alistonado y mecanizado de madera y tableros.</span>
+                    </button>
+                    <button onclick="switchTab(2)" class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200/80 hover:border-sky-300 text-left transition group">
+                        <span class="w-7 h-7 rounded-lg bg-amber-600 text-white font-bold text-xs flex items-center justify-center shrink-0">4</span>
+                        <span class="text-xs sm:text-sm font-semibold text-slate-800 group-hover:text-sky-700">Preencolados.</span>
+                    </button>
+                    <button onclick="switchTab(3)" class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200/80 hover:border-sky-300 text-left transition group">
+                        <span class="w-7 h-7 rounded-lg bg-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0">5</span>
+                        <span class="text-xs sm:text-sm font-semibold text-slate-800 group-hover:text-sky-700">Montaje, incluyendo encolado.</span>
+                    </button>
+                    <button onclick="switchTab(3)" class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200/80 hover:border-sky-300 text-left transition group">
+                        <span class="w-7 h-7 rounded-lg bg-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0">6</span>
+                        <span class="text-xs sm:text-sm font-semibold text-slate-800 group-hover:text-sky-700">Barnizado (acabado).</span>
+                    </button>
+                    <button onclick="switchTab(4)" class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200/80 hover:border-sky-300 text-left transition group">
+                        <span class="w-7 h-7 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center shrink-0">7</span>
+                        <span class="text-xs sm:text-sm font-semibold text-slate-800 group-hover:text-sky-700">Montaje de acabados.</span>
+                    </button>
+                    <button onclick="switchTab(4)" class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200/80 hover:border-sky-300 text-left transition group">
+                        <span class="w-7 h-7 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center shrink-0">8</span>
+                        <span class="text-xs sm:text-sm font-semibold text-slate-800 group-hover:text-sky-700">Embalaje.</span>
+                    </button>
+                    <button onclick="switchTab(5)" class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200/80 hover:border-sky-300 text-left transition group">
+                        <span class="w-7 h-7 rounded-lg bg-purple-600 text-white font-bold text-xs flex items-center justify-center shrink-0">9</span>
+                        <span class="text-xs sm:text-sm font-semibold text-slate-800 group-hover:text-sky-700">Expedición.</span>
+                    </button>
+                    <button onclick="switchTab(5)" class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200/80 hover:border-sky-300 text-left transition group">
+                        <span class="w-7 h-7 rounded-lg bg-purple-600 text-white font-bold text-xs flex items-center justify-center shrink-0">10</span>
+                        <span class="text-xs sm:text-sm font-semibold text-slate-800 group-hover:text-sky-700">Operaciones auxiliares.</span>
+                    </button>
+                </div>
+            </article>
+        </section>
+
+        <!-- =========================================================
+             PESTAÑA 1: DISEÑO Y MATERIAS PRIMAS (ETAPAS 1 Y 2)
+             ========================================================= -->
+        <section id="tab-1" class="tab-panel space-y-6">
+            <div class="bg-gradient-to-r from-sky-900 to-slate-900 text-white rounded-2xl p-5 shadow-md">
+                <span class="text-[11px] font-bold uppercase tracking-widest text-sky-300">2. Descripción de las diez etapas</span>
+                <h2 class="font-display font-extrabold text-xl sm:text-2xl mt-1">Diseño, Prototipos y Materias Primas</h2>
+                <p class="text-xs sm:text-sm text-slate-300 mt-1">Etapas 1 y 2 del proceso industrial.</p>
+            </div>
+
+            <!-- ETAPA 1 -->
+            <article class="bg-white rounded-2xl p-5 sm:p-6 shadow-card border border-slate-200/80 space-y-4">
+                <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+                    <span class="w-10 h-10 rounded-xl bg-sky-600 text-white font-display font-extrabold text-base flex items-center justify-center shrink-0 shadow-sm">01</span>
+                    <div>
+                        <span class="text-[11px] font-bold uppercase text-sky-600 tracking-wider">Etapa 1</span>
+                        <h3 class="font-display font-bold text-base sm:text-lg text-slate-900">DISEÑO DEL MUEBLE Y PROTOTIPOS</h3>
+                    </div>
+                </div>
+
+                <p class="text-slate-700 text-sm sm:text-base font-medium">
+                    Es la fase inicial del proceso productivo.
+                </p>
+                <p class="text-slate-700 text-sm sm:text-base leading-relaxed">
+                    Antes de fabricar un mueble se determina cómo será, qué dimensiones tendrá, qué materiales se utilizarán y cómo se ensamblarán sus componentes.
+                </p>
+
+                <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-1.5">
+                        <i data-lucide="compass" class="w-4 h-4 text-sky-600"></i>
+                        Operaciones principales:
+                    </h4>
+                    <ul class="space-y-2 text-sm text-slate-700">
+                        <li class="flex items-center gap-2.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-sky-600 shrink-0"></i> Diseño del mueble.</li>
+                        <li class="flex items-center gap-2.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-sky-600 shrink-0"></i> Determinación de dimensiones.</li>
+                        <li class="flex items-center gap-2.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-sky-600 shrink-0"></i> Selección de materiales.</li>
+                        <li class="flex items-center gap-2.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-sky-600 shrink-0"></i> Diseño de componentes.</li>
+                        <li class="flex items-center gap-2.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-sky-600 shrink-0"></i> Definición de sistemas de unión.</li>
+                        <li class="flex items-center gap-2.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-sky-600 shrink-0"></i> Elaboración de prototipos.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-sky-50 border-l-4 border-sky-500 p-4 rounded-r-xl">
+                    <h4 class="font-display font-bold text-sm text-sky-950 flex items-center gap-1.5">
+                        <i data-lucide="help-circle" class="w-4 h-4 text-sky-600"></i>
+                        ¿Qué es un prototipo?
+                    </h4>
+                    <p class="text-sm text-sky-900 mt-1 leading-relaxed">
+                        Es una primera versión del producto que permite comprobar su diseño, dimensiones y funcionamiento antes de iniciar la fabricación.
+                    </p>
+                </div>
+            </article>
+
+            <!-- ETAPA 2 -->
+            <article class="bg-white rounded-2xl p-5 sm:p-6 shadow-card border border-slate-200/80 space-y-4">
+                <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+                    <span class="w-10 h-10 rounded-xl bg-amber-600 text-white font-display font-extrabold text-base flex items-center justify-center shrink-0 shadow-sm">02</span>
+                    <div>
+                        <span class="text-[11px] font-bold uppercase text-amber-600 tracking-wider">Etapa 2</span>
+                        <h3 class="font-display font-bold text-base sm:text-lg text-slate-900">RECEPCIÓN Y ALMACENAMIENTO DE MATERIAS PRIMAS</h3>
+                    </div>
+                </div>
+
+                <p class="text-slate-700 text-sm sm:text-base leading-relaxed">
+                    La fábrica recibe los materiales necesarios para fabricar los muebles.
+                </p>
+
+                <div class="bg-amber-50/70 rounded-xl p-4 border border-amber-200/80">
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-amber-900 mb-3 flex items-center gap-1.5">
+                        <i data-lucide="warehouse" class="w-4 h-4 text-amber-600"></i>
+                        La lámina identifica tres almacenes:
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                        <div class="bg-white p-3 rounded-lg border border-amber-200 shadow-sm flex items-center gap-2.5">
+                            <i data-lucide="trees" class="w-5 h-5 text-amber-700 shrink-0"></i>
+                            <span class="text-xs sm:text-sm font-semibold text-slate-800">Almacén de madera maciza.</span>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg border border-amber-200 shadow-sm flex items-center gap-2.5">
+                            <i data-lucide="layers" class="w-5 h-5 text-amber-700 shrink-0"></i>
+                            <span class="text-xs sm:text-sm font-semibold text-slate-800">Almacén de tableros.</span>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg border border-amber-200 shadow-sm flex items-center gap-2.5">
+                            <i data-lucide="droplets" class="w-5 h-5 text-amber-700 shrink-0"></i>
+                            <span class="text-xs sm:text-sm font-semibold text-slate-800">Almacén de adhesivos.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-1.5">
+                        <i data-lucide="clipboard-check" class="w-4 h-4 text-emerald-600"></i>
+                        En la recepción se comprueba:
+                    </h4>
+                    <ul class="space-y-2 text-sm text-slate-700">
+                        <li class="flex items-center gap-2.5"><span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span> Cantidad de materiales.</li>
+                        <li class="flex items-center gap-2.5"><span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span> Dimensiones.</li>
+                        <li class="flex items-center gap-2.5"><span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span> Estado de conservación.</li>
+                        <li class="flex items-center gap-2.5"><span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span> Posibles daños.</li>
+                        <li class="flex items-center gap-2.5"><span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span> Correspondencia con los pedidos.</li>
+                    </ul>
+                </div>
+
+                <p class="text-sm font-semibold text-slate-800 bg-emerald-50 border border-emerald-200 text-emerald-900 p-3.5 rounded-xl flex items-center gap-2.5">
+                    <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600 shrink-0"></i>
+                    <span>El almacenamiento correcto evita deterioros y facilita la organización de la producción.</span>
+                </p>
+            </article>
+        </section>
+
+        <!-- =========================================================
+             PESTAÑA 2: CORTE, MECANIZADO Y PREENCOLADOS (ETAPAS 3 Y 4)
+             ========================================================= -->
+        <section id="tab-2" class="tab-panel space-y-6">
+            <div class="bg-gradient-to-r from-amber-900 to-slate-900 text-white rounded-2xl p-5 shadow-md">
+                <span class="text-[11px] font-bold uppercase tracking-widest text-amber-300">2. Descripción de las diez etapas</span>
+                <h2 class="font-display font-extrabold text-xl sm:text-2xl mt-1">Corte, Mecanizado y Preencolados</h2>
+                <p class="text-xs sm:text-sm text-slate-300 mt-1">Etapas 3 y 4 del proceso industrial.</p>
+            </div>
+
+            <!-- ETAPA 3 -->
+            <article class="bg-white rounded-2xl p-5 sm:p-6 shadow-card border border-slate-200/80 space-y-4">
+                <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+                    <span class="w-10 h-10 rounded-xl bg-amber-600 text-white font-display font-extrabold text-base flex items-center justify-center shrink-0 shadow-sm">03</span>
+                    <div>
+                        <span class="text-[11px] font-bold uppercase text-amber-600 tracking-wider">Etapa 3</span>
+                        <h3 class="font-display font-bold text-base sm:text-lg text-slate-900">ASERRADO, ALISTONADO Y MECANIZADO</h3>
+                    </div>
+                </div>
+
+                <p class="text-slate-700 text-sm sm:text-base leading-relaxed">
+                    En esta etapa las materias primas se transforman en piezas que posteriormente formarán el mueble.
+                </p>
+
+                <!-- Subprocesos A, B, C -->
+                <div class="space-y-3">
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                        <h4 class="font-display font-bold text-sm text-slate-900 flex items-center gap-2">
+                            <span class="px-2 py-0.5 rounded bg-amber-600 text-white text-xs">A</span>
+                            Aserrado
+                        </h4>
+                        <p class="text-sm text-slate-700 mt-1.5">
+                            Consiste en cortar la madera o los tableros para obtener las dimensiones necesarias.
+                        </p>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                        <h4 class="font-display font-bold text-sm text-slate-900 flex items-center gap-2">
+                            <span class="px-2 py-0.5 rounded bg-amber-600 text-white text-xs">B</span>
+                            Alistonado
+                        </h4>
+                        <p class="text-sm text-slate-700 mt-1.5">
+                            Consiste en preparar y unir piezas de madera mediante listones, según el tipo de producto y procedimiento empleado.
+                        </p>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                        <div>
+                            <h4 class="font-display font-bold text-sm text-slate-900 flex items-center gap-2">
+                                <span class="px-2 py-0.5 rounded bg-amber-600 text-white text-xs">C</span>
+                                Mecanizado
+                            </h4>
+                            <p class="text-sm text-slate-700 mt-1.5">
+                                Consiste en realizar operaciones sobre las piezas para prepararlas para su montaje.
+                            </p>
+                        </div>
+
+                        <div class="bg-white p-3.5 rounded-lg border border-slate-200">
+                            <span class="block text-xs font-bold uppercase text-slate-500 mb-2">Operaciones habituales:</span>
+                            <div class="grid grid-cols-2 gap-2 text-xs sm:text-sm text-slate-700">
+                                <div class="flex items-center gap-2"><i data-lucide="drill" class="w-4 h-4 text-amber-600 shrink-0"></i> Taladrado.</div>
+                                <div class="flex items-center gap-2"><i data-lucide="settings-2" class="w-4 h-4 text-amber-600 shrink-0"></i> Fresado.</div>
+                                <div class="flex items-center gap-2"><i data-lucide="minus-square" class="w-4 h-4 text-amber-600 shrink-0"></i> Ranurado.</div>
+                                <div class="flex items-center gap-2"><i data-lucide="circle-dot" class="w-4 h-4 text-amber-600 shrink-0"></i> Perforaciones para bisagras.</div>
+                                <div class="flex items-center gap-2"><i data-lucide="git-commit" class="w-4 h-4 text-amber-600 shrink-0"></i> Alojamientos para espigas.</div>
+                                <div class="flex items-center gap-2"><i data-lucide="scissors" class="w-4 h-4 text-amber-600 shrink-0"></i> Rebajes.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-amber-50 border-l-4 border-amber-500 p-3.5 rounded-r-xl text-sm font-medium text-amber-950">
+                    La precisión del mecanizado es fundamental para que los componentes encajen correctamente.
+                </div>
+            </article>
+
+            <!-- ETAPA 4 -->
+            <article class="bg-white rounded-2xl p-5 sm:p-6 shadow-card border border-slate-200/80 space-y-4">
+                <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+                    <span class="w-10 h-10 rounded-xl bg-sky-600 text-white font-display font-extrabold text-base flex items-center justify-center shrink-0 shadow-sm">04</span>
+                    <div>
+                        <span class="text-[11px] font-bold uppercase text-sky-600 tracking-wider">Etapa 4</span>
+                        <h3 class="font-display font-bold text-base sm:text-lg text-slate-900">PREENCOLADOS</h3>
+                    </div>
+                </div>
+
+                <p class="text-slate-700 text-sm sm:text-base leading-relaxed">
+                    En esta fase se preparan y encolan determinadas piezas o subconjuntos antes del montaje definitivo.
+                </p>
+
+                <p class="text-slate-700 text-sm sm:text-base leading-relaxed">
+                    El encolado consiste en aplicar adhesivos para unir superficies o componentes.
+                </p>
+
+                <div class="bg-sky-50/70 rounded-xl p-4 border border-sky-200/80">
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-sky-900 mb-3 flex items-center gap-1.5">
+                        <i data-lucide="timer" class="w-4 h-4 text-sky-600"></i>
+                        Es importante respetar:
+                    </h4>
+                    <ul class="space-y-2 text-sm text-slate-800">
+                        <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-sky-600 shrink-0"></i> Tipo de adhesivo.</li>
+                        <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-sky-600 shrink-0"></i> Cantidad aplicada.</li>
+                        <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-sky-600 shrink-0"></i> Tiempo abierto.</li>
+                        <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-sky-600 shrink-0"></i> Tiempo de prensado.</li>
+                        <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-sky-600 shrink-0"></i> Tiempo de curado.</li>
+                    </ul>
+                </div>
+            </article>
+        </section>
+
+        <!-- =========================================================
+             PESTAÑA 3: MONTAJE Y BARNIZADO (ETAPAS 5 Y 6)
+             ========================================================= -->
+        <section id="tab-3" class="tab-panel space-y-6">
+            <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white rounded-2xl p-5 shadow-md">
+                <span class="text-[11px] font-bold uppercase tracking-widest text-indigo-300">2. Descripción de las diez etapas</span>
+                <h2 class="font-display font-extrabold text-xl sm:text-2xl mt-1">Montaje Estructural y Barnizado</h2>
+                <p class="text-xs sm:text-sm text-slate-300 mt-1">Etapas 5 y 6 del proceso industrial.</p>
+            </div>
+
+            <!-- ETAPA 5 -->
+            <article class="bg-white rounded-2xl p-5 sm:p-6 shadow-card border border-slate-200/80 space-y-4">
+                <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+                    <span class="w-10 h-10 rounded-xl bg-indigo-600 text-white font-display font-extrabold text-base flex items-center justify-center shrink-0 shadow-sm">05</span>
+                    <div>
+                        <span class="text-[11px] font-bold uppercase text-indigo-600 tracking-wider">Etapa 5</span>
+                        <h3 class="font-display font-bold text-base sm:text-lg text-slate-900">PREMONTAJE Y MONTAJE DE EBANISTERÍA</h3>
+                    </div>
+                </div>
+
+                <p class="text-slate-700 text-sm sm:text-base leading-relaxed">
+                    En esta etapa las piezas individuales empiezan a convertirse en un mueble.
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="p-3.5 rounded-xl bg-indigo-50/60 border border-indigo-200/80">
+                        <span class="font-bold text-xs uppercase text-indigo-700">Premontaje</span>
+                        <p class="text-sm text-slate-800 mt-1">Preparación y unión de subconjuntos antes del montaje principal.</p>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-indigo-50/60 border border-indigo-200/80">
+                        <span class="font-bold text-xs uppercase text-indigo-700">Montaje de ebanistería</span>
+                        <p class="text-sm text-slate-800 mt-1">Ensamblaje de los componentes estructurales.</p>
+                    </div>
+                </div>
+
+                <!-- Ejemplo de montaje de un armario -->
+                <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-slate-600 mb-3 flex items-center gap-1.5">
+                        <i data-lucide="box" class="w-4 h-4 text-indigo-600"></i>
+                        Ejemplo de montaje de un armario:
+                    </h4>
+                    <ol class="space-y-2 text-sm text-slate-800">
+                        <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0">1</span> Colocación de un lateral.</li>
+                        <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0">2</span> Unión de la base.</li>
+                        <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0">3</span> Incorporación del segundo lateral.</li>
+                        <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0">4</span> Montaje de la parte superior.</li>
+                        <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0">5</span> Instalación del fondo.</li>
+                        <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0">6</span> Comprobación de la escuadra.</li>
+                    </ol>
+                </div>
+
+                <div class="bg-indigo-50 border-l-4 border-indigo-600 p-4 rounded-r-xl space-y-1.5">
+                    <h4 class="font-display font-bold text-sm text-indigo-950 flex items-center gap-1.5">
+                        <i data-lucide="ruler" class="w-4 h-4 text-indigo-600"></i>
+                        ¿Qué significa escuadrar?
+                    </h4>
+                    <p class="text-sm text-indigo-900 leading-relaxed">
+                        Comprobar que la estructura tenga la geometría correcta y que sus ángulos sean los previstos, normalmente de 90 grados.
+                    </p>
+                    <p class="text-xs font-semibold text-rose-700 bg-rose-50 px-2.5 py-1.5 rounded-lg border border-rose-200 inline-block mt-1">
+                        Una estructura descuadrada puede provocar problemas en puertas y cajones.
+                    </p>
+                </div>
+            </article>
+
+            <!-- ETAPA 6 -->
+            <article class="bg-white rounded-2xl p-5 sm:p-6 shadow-card border border-slate-200/80 space-y-4">
+                <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+                    <span class="w-10 h-10 rounded-xl bg-purple-600 text-white font-display font-extrabold text-base flex items-center justify-center shrink-0 shadow-sm">06</span>
+                    <div>
+                        <span class="text-[11px] font-bold uppercase text-purple-600 tracking-wider">Etapa 6</span>
+                        <h3 class="font-display font-bold text-base sm:text-lg text-slate-900">BARNIZADO (ACABADO)</h3>
+                    </div>
+                </div>
+
+                <p class="text-slate-700 text-sm sm:text-base leading-relaxed">
+                    Esta etapa comprende los tratamientos superficiales destinados a proteger y mejorar la apariencia del mueble.
+                </p>
+
+                <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-1.5">
+                        <i data-lucide="paintbrush" class="w-4 h-4 text-purple-600"></i>
+                        Algunos acabados posibles:
+                    </h4>
+                    <div class="grid grid-cols-2 gap-2 text-sm text-slate-800">
+                        <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-purple-500"></span> Barnices.</div>
+                        <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-purple-500"></span> Lacas.</div>
+                        <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-purple-500"></span> Tintes.</div>
+                        <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-purple-500"></span> Selladores.</div>
+                        <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-purple-500"></span> Acabados transparentes.</div>
+                        <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-purple-500"></span> Acabados coloreados.</div>
+                    </div>
+                </div>
+
+                <div class="bg-amber-50 border border-amber-200 text-amber-950 p-3.5 rounded-xl text-sm flex items-start gap-2.5">
+                    <i data-lucide="info" class="w-5 h-5 text-amber-600 shrink-0 mt-0.5"></i>
+                    <span>
+                        No todos los muebles necesitan barnizado. Los tableros revestidos de melamina, por ejemplo, normalmente ya incorporan su acabado superficial.
+                    </span>
+                </div>
+            </article>
+        </section>
+
+        <!-- =========================================================
+             PESTAÑA 4: HERRAJES Y EMBALAJE (ETAPAS 7 Y 8)
+             ========================================================= -->
+        <section id="tab-4" class="tab-panel space-y-6">
+            <div class="bg-gradient-to-r from-emerald-900 to-slate-900 text-white rounded-2xl p-5 shadow-md">
+                <span class="text-[11px] font-bold uppercase tracking-widest text-emerald-300">2. Descripción de las diez etapas</span>
+                <h2 class="font-display font-extrabold text-xl sm:text-2xl mt-1">Montaje de Acabados y Embalaje</h2>
+                <p class="text-xs sm:text-sm text-slate-300 mt-1">Etapas 7 y 8 del proceso industrial.</p>
+            </div>
+
+            <!-- ETAPA 7 -->
+            <article class="bg-white rounded-2xl p-5 sm:p-6 shadow-card border border-slate-200/80 space-y-4">
+                <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+                    <span class="w-10 h-10 rounded-xl bg-emerald-600 text-white font-display font-extrabold text-base flex items-center justify-center shrink-0 shadow-sm">07</span>
+                    <div>
+                        <span class="text-[11px] font-bold uppercase text-emerald-600 tracking-wider">Etapa 7</span>
+                        <h3 class="font-display font-bold text-base sm:text-lg text-slate-900">MONTAJE DE ACABADOS</h3>
+                    </div>
+                </div>
+
+                <p class="text-slate-700 text-sm sm:text-base leading-relaxed">
+                    En esta fase se incorporan los elementos que completan el funcionamiento y la apariencia del mueble.
+                </p>
+
+                <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-1.5">
+                        <i data-lucide="wrench" class="w-4 h-4 text-emerald-600"></i>
+                        Entre ellos:
+                    </h4>
+                    <div class="grid grid-cols-2 gap-2 text-sm text-slate-800">
+                        <div class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0"></i> Bisagras.</div>
+                        <div class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0"></i> Tiradores.</div>
+                        <div class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0"></i> Guías de cajones.</div>
+                        <div class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0"></i> Puertas.</div>
+                        <div class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0"></i> Frentes.</div>
+                        <div class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0"></i> Molduras.</div>
+                        <div class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0"></i> Tapetas.</div>
+                        <div class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0"></i> Elementos decorativos.</div>
+                    </div>
+                </div>
+
+                <div class="bg-emerald-50 border-l-4 border-emerald-500 p-3.5 rounded-r-xl text-sm font-medium text-emerald-950">
+                    La correcta colocación de los herrajes es fundamental para garantizar el funcionamiento del mueble.
+                </div>
+            </article>
+
+            <!-- ETAPA 8 -->
+            <article class="bg-white rounded-2xl p-5 sm:p-6 shadow-card border border-slate-200/80 space-y-4">
+                <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+                    <span class="w-10 h-10 rounded-xl bg-teal-600 text-white font-display font-extrabold text-base flex items-center justify-center shrink-0 shadow-sm">08</span>
+                    <div>
+                        <span class="text-[11px] font-bold uppercase text-teal-600 tracking-wider">Etapa 8</span>
+                        <h3 class="font-display font-bold text-base sm:text-lg text-slate-900">EMBALAJE</h3>
+                    </div>
+                </div>
+
+                <p class="text-slate-700 text-sm sm:text-base leading-relaxed">
+                    El producto terminado o sus componentes se preparan para el transporte.
+                </p>
+
+                <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-slate-600 mb-3 flex items-center gap-1.5">
+                        <i data-lucide="package" class="w-4 h-4 text-teal-600"></i>
+                        Operaciones habituales:
+                    </h4>
+                    <ol class="space-y-2 text-sm text-slate-800">
+                        <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-teal-600 text-white font-bold text-xs flex items-center justify-center shrink-0">1</span> Protección de superficies.</li>
+                        <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-teal-600 text-white font-bold text-xs flex items-center justify-center shrink-0">2</span> Protección de esquinas.</li>
+                        <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-teal-600 text-white font-bold text-xs flex items-center justify-center shrink-0">3</span> Colocación de separadores.</li>
+                        <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-teal-600 text-white font-bold text-xs flex items-center justify-center shrink-0">4</span> Introducción de componentes en cajas.</li>
+                        <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-teal-600 text-white font-bold text-xs flex items-center justify-center shrink-0">5</span> Incorporación de instrucciones y accesorios.</li>
+                        <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-teal-600 text-white font-bold text-xs flex items-center justify-center shrink-0">6</span> Identificación de paquetes.</li>
+                    </ol>
+                </div>
+
+                <div class="bg-sky-50 border border-sky-200 p-4 rounded-xl space-y-1.5 text-sm text-sky-950">
+                    <p>En los muebles modulares, un mismo mueble puede distribuirse en varios paquetes.</p>
+                    <p class="font-semibold text-sky-800">Por eso es importante identificar correctamente cada componente.</p>
+                </div>
+            </article>
+        </section>
+
+        <!-- =========================================================
+             PESTAÑA 5: EXPEDICIÓN Y MANTENIMIENTO (ETAPAS 9 Y 10)
+             ========================================================= -->
+        <section id="tab-5" class="tab-panel space-y-6">
+            <div class="bg-gradient-to-r from-purple-900 to-slate-900 text-white rounded-2xl p-5 shadow-md">
+                <span class="text-[11px] font-bold uppercase tracking-widest text-purple-300">2. Descripción de las diez etapas</span>
+                <h2 class="font-display font-extrabold text-xl sm:text-2xl mt-1">Expedición y Mantenimiento</h2>
+                <p class="text-xs sm:text-sm text-slate-300 mt-1">Etapas 9 y 10 del proceso industrial.</p>
+            </div>
+
+            <!-- ETAPA 9 -->
+            <article class="bg-white rounded-2xl p-5 sm:p-6 shadow-card border border-slate-200/80 space-y-4">
+                <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+                    <span class="w-10 h-10 rounded-xl bg-purple-600 text-white font-display font-extrabold text-base flex items-center justify-center shrink-0 shadow-sm">09</span>
+                    <div>
+                        <span class="text-[11px] font-bold uppercase text-purple-600 tracking-wider">Etapa 9</span>
+                        <h3 class="font-display font-bold text-base sm:text-lg text-slate-900">EXPEDICIÓN</h3>
+                    </div>
+                </div>
+
+                <p class="text-slate-700 text-sm sm:text-base leading-relaxed">
+                    Es la fase en la que los productos terminados salen de la fábrica.
+                </p>
+                <p class="text-slate-700 text-sm sm:text-base leading-relaxed">
+                    La lámina representa un almacén de producto final antes de la expedición.
+                </p>
+
+                <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-1.5">
+                        <i data-lucide="truck" class="w-4 h-4 text-purple-600"></i>
+                        Operaciones habituales:
+                    </h4>
+                    <ul class="space-y-2 text-sm text-slate-800">
+                        <li class="flex items-center gap-2.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-purple-600 shrink-0"></i> Preparación de pedidos.</li>
+                        <li class="flex items-center gap-2.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-purple-600 shrink-0"></i> Comprobación de referencias.</li>
+                        <li class="flex items-center gap-2.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-purple-600 shrink-0"></i> Organización de paquetes.</li>
+                        <li class="flex items-center gap-2.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-purple-600 shrink-0"></i> Preparación de palés.</li>
+                        <li class="flex items-center gap-2.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-purple-600 shrink-0"></i> Carga de vehículos.</li>
+                        <li class="flex items-center gap-2.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-purple-600 shrink-0"></i> Documentación de transporte.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-purple-50 border-l-4 border-purple-500 p-3.5 rounded-r-xl text-sm font-medium text-purple-950">
+                    El objetivo es entregar al cliente los productos solicitados, completos y en buenas condiciones.
+                </div>
+            </article>
+
+            <!-- ETAPA 10 -->
+            <article class="bg-white rounded-2xl p-5 sm:p-6 shadow-card border border-slate-200/80 space-y-4">
+                <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+                    <span class="w-10 h-10 rounded-xl bg-slate-800 text-white font-display font-extrabold text-base flex items-center justify-center shrink-0 shadow-sm">10</span>
+                    <div>
+                        <span class="text-[11px] font-bold uppercase text-slate-600 tracking-wider">Etapa 10</span>
+                        <h3 class="font-display font-bold text-base sm:text-lg text-slate-900">PROCESOS AUXILIARES Y MANTENIMIENTO</h3>
+                    </div>
+                </div>
+
+                <p class="text-slate-700 text-sm sm:text-base leading-relaxed">
+                    Son actividades que permiten mantener el funcionamiento de la fábrica y garantizar la continuidad de la producción.
+                </p>
+
+                <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-1.5">
+                        <i data-lucide="cog" class="w-4 h-4 text-slate-700"></i>
+                        Incluyen:
+                    </h4>
+                    <ul class="space-y-2 text-sm text-slate-800">
+                        <li class="flex items-center gap-2.5"><i data-lucide="shield" class="w-4 h-4 text-slate-700 shrink-0"></i> Mantenimiento preventivo.</li>
+                        <li class="flex items-center gap-2.5"><i data-lucide="hammer" class="w-4 h-4 text-slate-700 shrink-0"></i> Reparación de maquinaria.</li>
+                        <li class="flex items-center gap-2.5"><i data-lucide="sparkles" class="w-4 h-4 text-slate-700 shrink-0"></i> Limpieza de equipos.</li>
+                        <li class="flex items-center gap-2.5"><i data-lucide="sliders" class="w-4 h-4 text-slate-700 shrink-0"></i> Control de herramientas.</li>
+                        <li class="flex items-center gap-2.5"><i data-lucide="zap" class="w-4 h-4 text-slate-700 shrink-0"></i> Mantenimiento eléctrico.</li>
+                        <li class="flex items-center gap-2.5"><i data-lucide="building-2" class="w-4 h-4 text-slate-700 shrink-0"></i> Mantenimiento de instalaciones.</li>
+                        <li class="flex items-center gap-2.5"><i data-lucide="hard-hat" class="w-4 h-4 text-slate-700 shrink-0"></i> Control de seguridad.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-slate-900 text-white p-3.5 rounded-xl text-sm flex items-center gap-2.5">
+                    <i data-lucide="activity" class="w-5 h-5 text-sky-400 shrink-0"></i>
+                    <span>El mantenimiento reduce las averías y evita interrupciones innecesarias de la producción.</span>
+                </div>
+            </article>
+        </section>
+
+        <!-- =========================================================
+             PESTAÑA 6: ESQUEMA Y FABRICACIÓN VS INSTALACIÓN (SECCIONES 3 Y 4)
+             ========================================================= -->
+        <section id="tab-6" class="tab-panel space-y-6">
+            <!-- SECCIÓN 3: ESQUEMA GENERAL -->
+            <article class="bg-white rounded-2xl p-5 sm:p-6 shadow-card border border-slate-200/80 space-y-4">
+                <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
+                    <div class="w-9 h-9 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center shrink-0">
+                        <i data-lucide="git-merge" class="w-5 h-5"></i>
+                    </div>
+                    <h2 class="font-display font-bold text-lg sm:text-xl text-slate-900">3. Esquema General del Proceso Productivo</h2>
+                </div>
+
+                <p class="text-sm font-medium text-slate-700">El recorrido general es:</p>
+
+                <!-- Línea de tiempo vertical -->
+                <div class="relative pl-6 border-l-2 border-sky-200 space-y-3 py-1">
+                    <div class="relative flex items-center gap-3">
+                        <span class="absolute -left-[33px] w-6 h-6 rounded-full bg-sky-600 text-white text-xs font-bold flex items-center justify-center">1</span>
+                        <span class="text-sm font-medium text-slate-800">Diseño del mueble y prototipos.</span>
+                    </div>
+                    <div class="relative flex items-center gap-3">
+                        <span class="absolute -left-[33px] w-6 h-6 rounded-full bg-sky-600 text-white text-xs font-bold flex items-center justify-center">2</span>
+                        <span class="text-sm font-medium text-slate-800">Recepción y almacenamiento de materias primas.</span>
+                    </div>
+                    <div class="relative flex items-center gap-3">
+                        <span class="absolute -left-[33px] w-6 h-6 rounded-full bg-sky-600 text-white text-xs font-bold flex items-center justify-center">3</span>
+                        <span class="text-sm font-medium text-slate-800">Aserrado, alistonado y mecanizado.</span>
+                    </div>
+                    <div class="relative flex items-center gap-3">
+                        <span class="absolute -left-[33px] w-6 h-6 rounded-full bg-sky-600 text-white text-xs font-bold flex items-center justify-center">4</span>
+                        <span class="text-sm font-medium text-slate-800">Preencolados.</span>
+                    </div>
+                    <div class="relative flex items-center gap-3">
+                        <span class="absolute -left-[33px] w-6 h-6 rounded-full bg-sky-600 text-white text-xs font-bold flex items-center justify-center">5</span>
+                        <span class="text-sm font-medium text-slate-800">Premontaje y montaje de ebanistería.</span>
+                    </div>
+                    <div class="relative flex items-center gap-3">
+                        <span class="absolute -left-[33px] w-6 h-6 rounded-full bg-sky-600 text-white text-xs font-bold flex items-center justify-center">6</span>
+                        <span class="text-sm font-medium text-slate-800">Barnizado.</span>
+                    </div>
+                    <div class="relative flex items-center gap-3">
+                        <span class="absolute -left-[33px] w-6 h-6 rounded-full bg-sky-600 text-white text-xs font-bold flex items-center justify-center">7</span>
+                        <span class="text-sm font-medium text-slate-800">Montaje de acabados.</span>
+                    </div>
+                    <div class="relative flex items-center gap-3">
+                        <span class="absolute -left-[33px] w-6 h-6 rounded-full bg-sky-600 text-white text-xs font-bold flex items-center justify-center">8</span>
+                        <span class="text-sm font-medium text-slate-800">Embalaje.</span>
+                    </div>
+                    <div class="relative flex items-center gap-3">
+                        <span class="absolute -left-[33px] w-6 h-6 rounded-full bg-sky-600 text-white text-xs font-bold flex items-center justify-center">9</span>
+                        <span class="text-sm font-medium text-slate-800">Almacenamiento de producto final.</span>
+                    </div>
+                    <div class="relative flex items-center gap-3">
+                        <span class="absolute -left-[33px] w-6 h-6 rounded-full bg-sky-600 text-white text-xs font-bold flex items-center justify-center">10</span>
+                        <span class="text-sm font-medium text-slate-800">Expedición.</span>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 text-sky-300 p-3.5 rounded-xl text-xs sm:text-sm font-medium flex items-center gap-2.5">
+                    <i data-lucide="life-buoy" class="w-5 h-5 text-sky-400 shrink-0"></i>
+                    <span>Los procesos auxiliares y el mantenimiento proporcionan soporte al conjunto de las operaciones.</span>
+                </div>
+            </article>
+
+            <!-- SECCIÓN 4: FABRICACIÓN VS INSTALACIÓN -->
+            <article class="bg-white rounded-2xl p-5 sm:p-6 shadow-card border border-slate-200/80 space-y-5">
+                <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
+                    <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+                        <i data-lucide="arrow-left-right" class="w-5 h-5"></i>
+                    </div>
+                    <h2 class="font-display font-bold text-lg sm:text-xl text-slate-900">4. Diferencia entre Fabricación e Instalación de Muebles Modulares</h2>
+                </div>
+
+                <p class="text-sm sm:text-base text-slate-700">
+                    Es importante distinguir entre fabricar un mueble e instalarlo.
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="p-4 rounded-xl bg-slate-900 text-white">
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-sky-400">FABRICACIÓN INDUSTRIAL</span>
+                        <p class="text-sm text-slate-200 mt-1.5 leading-relaxed">
+                            La fábrica transforma las materias primas en componentes y productos terminados.
+                        </p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-amber-600 text-white">
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-amber-100">INSTALACIÓN PROFESIONAL</span>
+                        <p class="text-sm text-white mt-1.5 leading-relaxed">
+                            El instalador recibe los componentes fabricados y los convierte en un conjunto funcional dentro del domicilio del cliente.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Tabla Comparativa Responsiva -->
+                <div class="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-900 text-white text-xs uppercase tracking-wider">
+                                <th class="py-3 px-3.5 w-1/2 border-r border-slate-700">Fabricación</th>
+                                <th class="py-3 px-3.5 w-1/2">Instalación</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-xs sm:text-sm">
+                            <tr class="bg-white">
+                                <td class="py-2.5 px-3.5 font-medium text-slate-800 border-r border-slate-200">Diseña los módulos.</td>
+                                <td class="py-2.5 px-3.5 text-slate-700">Interpreta los planos.</td>
+                            </tr>
+                            <tr class="bg-slate-50">
+                                <td class="py-2.5 px-3.5 font-medium text-slate-800 border-r border-slate-200">Corta los tableros.</td>
+                                <td class="py-2.5 px-3.5 text-slate-700">Comprueba las medidas.</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <td class="py-2.5 px-3.5 font-medium text-slate-800 border-r border-slate-200">Mecaniza las piezas.</td>
+                                <td class="py-2.5 px-3.5 text-slate-700">Monta las estructuras.</td>
+                            </tr>
+                            <tr class="bg-slate-50">
+                                <td class="py-2.5 px-3.5 font-medium text-slate-800 border-r border-slate-200">Fabrica los componentes.</td>
+                                <td class="py-2.5 px-3.5 text-slate-700">Ajusta los componentes.</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <td class="py-2.5 px-3.5 font-medium text-slate-800 border-r border-slate-200">Incorpora herrajes.</td>
+                                <td class="py-2.5 px-3.5 text-slate-700">Regula bisagras y cajones.</td>
+                            </tr>
+                            <tr class="bg-slate-50">
+                                <td class="py-2.5 px-3.5 font-medium text-slate-800 border-r border-slate-200">Embala los productos.</td>
+                                <td class="py-2.5 px-3.5 text-slate-700">Desembala y clasifica.</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <td class="py-2.5 px-3.5 font-medium text-slate-800 border-r border-slate-200">Expide los pedidos.</td>
+                                <td class="py-2.5 px-3.5 text-slate-700">Transporta y coloca.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bg-sky-50 border-l-4 border-sky-500 p-4 rounded-r-xl text-sm text-sky-950">
+                    Conocer el proceso industrial ayuda al instalador a comprender mejor los materiales, los sistemas de unión, los herrajes y los posibles defectos de fabricación.
+                </div>
+            </article>
+        </section>
+
+        <!-- =========================================================
+             PESTAÑA 7: GLOSARIO TÉCNICO (SECCIÓN 5)
+             ========================================================= -->
+        <section id="tab-7" class="tab-panel space-y-6">
+            <div class="bg-gradient-to-r from-slate-900 to-sky-900 text-white rounded-2xl p-5 shadow-md">
+                <span class="text-[11px] font-bold uppercase tracking-widest text-sky-300">Terminología Especializada</span>
+                <h2 class="font-display font-extrabold text-xl sm:text-2xl mt-1">5. Glosario Técnico</h2>
+                <p class="text-xs sm:text-sm text-slate-300 mt-1">12 conceptos clave de la fabricación industrial de muebles.</p>
+            </div>
+
+            <!-- Buscador rápido del glosario -->
+            <div class="relative">
+                <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                <input type="text" id="glossary-search" onkeyup="filterGlossary()" placeholder="Filtrar término técnico..." 
+                       class="w-full pl-10 pr-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm">
+            </div>
+
+            <div id="glossary-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="glossary-card bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
+                    <h3 class="font-display font-bold text-sm text-sky-700">Aserrado</h3>
+                    <p class="text-sm text-slate-700 mt-1">Operación de corte de madera o tableros.</p>
+                </div>
+                <div class="glossary-card bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
+                    <h3 class="font-display font-bold text-sm text-sky-700">Alistonado</h3>
+                    <p class="text-sm text-slate-700 mt-1">Preparación y unión de piezas de madera mediante listones.</p>
+                </div>
+                <div class="glossary-card bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
+                    <h3 class="font-display font-bold text-sm text-sky-700">Mecanizado</h3>
+                    <p class="text-sm text-slate-700 mt-1">Transformación de una pieza mediante operaciones mecánicas.</p>
+                </div>
+                <div class="glossary-card bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
+                    <h3 class="font-display font-bold text-sm text-sky-700">Encolado</h3>
+                    <p class="text-sm text-slate-700 mt-1">Unión de componentes mediante adhesivos.</p>
+                </div>
+                <div class="glossary-card bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
+                    <h3 class="font-display font-bold text-sm text-sky-700">Premontaje</h3>
+                    <p class="text-sm text-slate-700 mt-1">Ensamblaje previo de subconjuntos.</p>
+                </div>
+                <div class="glossary-card bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
+                    <h3 class="font-display font-bold text-sm text-sky-700">Ebanistería</h3>
+                    <p class="text-sm text-slate-700 mt-1">Trabajo especializado de construcción de muebles.</p>
+                </div>
+                <div class="glossary-card bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
+                    <h3 class="font-display font-bold text-sm text-sky-700">Escuadrar</h3>
+                    <p class="text-sm text-slate-700 mt-1">Conseguir la geometría y los ángulos correctos de una estructura.</p>
+                </div>
+                <div class="glossary-card bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
+                    <h3 class="font-display font-bold text-sm text-sky-700">Barnizado</h3>
+                    <p class="text-sm text-slate-700 mt-1">Aplicación de un acabado protector o decorativo.</p>
+                </div>
+                <div class="glossary-card bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
+                    <h3 class="font-display font-bold text-sm text-sky-700">Herraje</h3>
+                    <p class="text-sm text-slate-700 mt-1">Elemento mecánico utilizado para unir, sujetar o permitir el funcionamiento de un mueble.</p>
+                </div>
+                <div class="glossary-card bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
+                    <h3 class="font-display font-bold text-sm text-sky-700">Expedición</h3>
+                    <p class="text-sm text-slate-700 mt-1">Preparación y salida de mercancías.</p>
+                </div>
+                <div class="glossary-card bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
+                    <h3 class="font-display font-bold text-sm text-sky-700">Materia prima</h3>
+                    <p class="text-sm text-slate-700 mt-1">Material utilizado para fabricar un producto.</p>
+                </div>
+                <div class="glossary-card bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
+                    <h3 class="font-display font-bold text-sm text-sky-700">Prototipo</h3>
+                    <p class="text-sm text-slate-700 mt-1">Primera versión de un producto utilizada para comprobar su diseño y funcionamiento.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             PESTAÑA 8: EVALUACIÓN Y CONCLUSIÓN (SECCIONES 6 Y 7)
+             ========================================================= -->
+        <section id="tab-8" class="tab-panel space-y-6">
+            <!-- SECCIÓN 6: EVALUACIÓN CON BOTONES OBLIGATORIOS DE DESPLEGAR/PLEGAR -->
+            <article class="bg-white rounded-2xl p-5 sm:p-6 shadow-card border border-slate-200/80 space-y-4">
+                <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
+                    <div class="w-9 h-9 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center shrink-0">
+                        <i data-lucide="help-circle" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-display font-bold text-lg sm:text-xl text-slate-900">6. Evaluación: Ocho Preguntas de Repaso</h2>
+                        <p class="text-xs text-slate-500">Pulsa cada pregunta o utiliza los controles globales para verificar tus conocimientos.</p>
+                    </div>
+                </div>
+
+                <!-- Botones Obligatorios: "+ Desplegar todas las respuestas" y "- Plegar todas las respuestas" (Default: Plegadas) -->
+                <div class="flex flex-wrap gap-2 pt-1">
+                    <button id="btn-expand-all" onclick="toggleAllFaq(true)" 
+                            class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-sky-50 text-slate-700 hover:text-sky-700 border border-slate-200 transition">
+                        <span>+ Desplegar todas las respuestas</span>
+                    </button>
+                    <button id="btn-collapse-all" onclick="toggleAllFaq(false)" 
+                            class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-sky-600 text-white border border-sky-600 shadow-sm transition">
+                        <span>- Plegar todas las respuestas</span>
+                    </button>
+                </div>
+
+                <!-- Lista de 8 Preguntas (Todas plegadas por defecto) -->
+                <div id="faq-container" class="space-y-2.5 pt-2">
+                    <!-- Pregunta 1 -->
+                    <div class="faq-item rounded-xl border border-slate-200 bg-slate-50/70 p-3.5 transition">
+                        <button onclick="toggleSingleFaq(this)" class="w-full flex items-start justify-between gap-3 text-left">
+                            <span class="text-sm font-bold text-slate-900">1. ¿En qué etapa se determina cómo será el mueble antes de fabricarlo?</span>
+                            <i data-lucide="chevron-down" class="faq-chevron w-4 h-4 text-sky-600 shrink-0 mt-0.5 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer text-sm text-slate-700 border-t border-slate-200/70 mt-2">
+                            <strong class="text-sky-700">Respuesta:</strong> En la <strong>Etapa 1: Diseño del mueble y prototipos</strong> (fase inicial del proceso productivo, donde se determinan dimensiones, materiales, componentes y sistemas de unión).
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 2 -->
+                    <div class="faq-item rounded-xl border border-slate-200 bg-slate-50/70 p-3.5 transition">
+                        <button onclick="toggleSingleFaq(this)" class="w-full flex items-start justify-between gap-3 text-left">
+                            <span class="text-sm font-bold text-slate-900">2. ¿Qué tres almacenes de materias primas aparecen en el esquema?</span>
+                            <i data-lucide="chevron-down" class="faq-chevron w-4 h-4 text-sky-600 shrink-0 mt-0.5 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer text-sm text-slate-700 border-t border-slate-200/70 mt-2">
+                            <strong class="text-sky-700">Respuesta:</strong> 1) Almacén de madera maciza, 2) Almacén de tableros y 3) Almacén de adhesivos.
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 3 -->
+                    <div class="faq-item rounded-xl border border-slate-200 bg-slate-50/70 p-3.5 transition">
+                        <button onclick="toggleSingleFaq(this)" class="w-full flex items-start justify-between gap-3 text-left">
+                            <span class="text-sm font-bold text-slate-900">3. ¿Qué diferencia existe entre aserrar y mecanizar?</span>
+                            <i data-lucide="chevron-down" class="faq-chevron w-4 h-4 text-sky-600 shrink-0 mt-0.5 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer text-sm text-slate-700 border-t border-slate-200/70 mt-2">
+                            <strong class="text-sky-700">Respuesta:</strong> <strong>Aserrar</strong> consiste en cortar la madera o los tableros para obtener las dimensiones necesarias; mientras que <strong>mecanizar</strong> consiste en realizar operaciones sobre las piezas (taladrado, fresado, ranurado, perforaciones para bisagras, alojamientos para espigas, rebajes) para prepararlas para su montaje.
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 4 -->
+                    <div class="faq-item rounded-xl border border-slate-200 bg-slate-50/70 p-3.5 transition">
+                        <button onclick="toggleSingleFaq(this)" class="w-full flex items-start justify-between gap-3 text-left">
+                            <span class="text-sm font-bold text-slate-900">4. ¿Qué significa encolar?</span>
+                            <i data-lucide="chevron-down" class="faq-chevron w-4 h-4 text-sky-600 shrink-0 mt-0.5 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer text-sm text-slate-700 border-t border-slate-200/70 mt-2">
+                            <strong class="text-sky-700">Respuesta:</strong> Consiste en aplicar adhesivos para unir superficies o componentes, respetando el tipo de adhesivo, cantidad aplicada, tiempo abierto, tiempo de prensado y tiempo de curado.
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 5 -->
+                    <div class="faq-item rounded-xl border border-slate-200 bg-slate-50/70 p-3.5 transition">
+                        <button onclick="toggleSingleFaq(this)" class="w-full flex items-start justify-between gap-3 text-left">
+                            <span class="text-sm font-bold text-slate-900">5. ¿Qué se comprueba al escuadrar un armario?</span>
+                            <i data-lucide="chevron-down" class="faq-chevron w-4 h-4 text-sky-600 shrink-0 mt-0.5 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer text-sm text-slate-700 border-t border-slate-200/70 mt-2">
+                            <strong class="text-sky-700">Respuesta:</strong> Se comprueba que la estructura tenga la geometría correcta y que sus ángulos sean los previstos, normalmente de <strong>90 grados</strong>, evitando problemas posteriores en puertas y cajones.
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 6 -->
+                    <div class="faq-item rounded-xl border border-slate-200 bg-slate-50/70 p-3.5 transition">
+                        <button onclick="toggleSingleFaq(this)" class="w-full flex items-start justify-between gap-3 text-left">
+                            <span class="text-sm font-bold text-slate-900">6. ¿En qué etapa se incorporan elementos como bisagras y tiradores?</span>
+                            <i data-lucide="chevron-down" class="faq-chevron w-4 h-4 text-sky-600 shrink-0 mt-0.5 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer text-sm text-slate-700 border-t border-slate-200/70 mt-2">
+                            <strong class="text-sky-700">Respuesta:</strong> En la <strong>Etapa 7: Montaje de acabados</strong>.
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 7 -->
+                    <div class="faq-item rounded-xl border border-slate-200 bg-slate-50/70 p-3.5 transition">
+                        <button onclick="toggleSingleFaq(this)" class="w-full flex items-start justify-between gap-3 text-left">
+                            <span class="text-sm font-bold text-slate-900">7. ¿Qué sucede después del embalaje?</span>
+                            <i data-lucide="chevron-down" class="faq-chevron w-4 h-4 text-sky-600 shrink-0 mt-0.5 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer text-sm text-slate-700 border-t border-slate-200/70 mt-2">
+                            <strong class="text-sky-700">Respuesta:</strong> El almacenamiento de producto final y la <strong>Etapa 9: Expedición</strong> (preparación de pedidos, comprobación de referencias, organización de paquetes, palés, carga de vehículos y documentación de transporte).
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 8 -->
+                    <div class="faq-item rounded-xl border border-slate-200 bg-slate-50/70 p-3.5 transition">
+                        <button onclick="toggleSingleFaq(this)" class="w-full flex items-start justify-between gap-3 text-left">
+                            <span class="text-sm font-bold text-slate-900">8. ¿Por qué es importante el mantenimiento de la maquinaria?</span>
+                            <i data-lucide="chevron-down" class="faq-chevron w-4 h-4 text-sky-600 shrink-0 mt-0.5 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer text-sm text-slate-700 border-t border-slate-200/70 mt-2">
+                            <strong class="text-sky-700">Respuesta:</strong> Porque permite mantener el funcionamiento de la fábrica, garantizar la continuidad de la producción, reducir las averías y evitar interrupciones innecesarias.
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- SECCIÓN 7: CONCLUSIÓN -->
+            <article class="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-5 sm:p-6 shadow-xl border border-slate-700 space-y-4">
+                <div class="flex items-center gap-2.5 border-b border-slate-700 pb-3">
+                    <div class="w-9 h-9 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center shrink-0">
+                        <i data-lucide="award" class="w-5 h-5"></i>
+                    </div>
+                    <h2 class="font-display font-bold text-lg sm:text-xl text-white">7. Conclusión</h2>
+                </div>
+
+                <p class="text-slate-200 text-sm sm:text-base leading-relaxed">
+                    La fabricación industrial de muebles es un proceso organizado en diferentes etapas que permiten transformar materias primas en productos terminados.
+                </p>
+
+                <p class="text-slate-200 text-sm sm:text-base leading-relaxed">
+                    Para un instalador profesional de muebles modulares, comprender este proceso proporciona conocimientos fundamentales sobre:
+                </p>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs sm:text-sm">
+                    <div class="bg-white/10 px-3 py-2 rounded-lg flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-sky-400"></i> Materiales.</div>
+                    <div class="bg-white/10 px-3 py-2 rounded-lg flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-sky-400"></i> Sistemas constructivos.</div>
+                    <div class="bg-white/10 px-3 py-2 rounded-lg flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-sky-400"></i> Mecanizados.</div>
+                    <div class="bg-white/10 px-3 py-2 rounded-lg flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-sky-400"></i> Uniones.</div>
+                    <div class="bg-white/10 px-3 py-2 rounded-lg flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-sky-400"></i> Herrajes.</div>
+                    <div class="bg-white/10 px-3 py-2 rounded-lg flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-sky-400"></i> Acabados.</div>
+                    <div class="bg-white/10 px-3 py-2 rounded-lg flex items-center gap-2 col-span-2 sm:col-span-3"><i data-lucide="check" class="w-4 h-4 text-sky-400"></i> Control de calidad.</div>
+                </div>
+
+                <div class="bg-sky-500/15 border border-sky-400/30 p-4 rounded-xl text-sm text-sky-200 leading-relaxed">
+                    Un buen instalador no solamente sabe montar muebles: también comprende cómo están fabricados, cómo funcionan y por qué cada componente necesita una instalación precisa.
+                </div>
+
+                <div class="pt-2 border-t border-slate-700/80 text-xs text-slate-400 space-y-1">
+                    <p><strong>Material de referencia:</strong> fotografía de la lámina «2. Descripción de los procesos y técnicas aplicadas».</p>
+                    <p><strong>Autor del tutorial:</strong> Rubén Sbarsky (2026).</p>
+                </div>
+            </article>
+        </section>
+
+        <!-- =========================================================
+             PESTAÑA 9: CRÉDITOS (ÚLTIMA PESTAÑA OBLIGATORIA)
+             ========================================================= -->
+        <section id="tab-9" class="tab-panel space-y-6">
+            <div class="relative overflow-hidden rounded-3xl bg-slate-950 text-white p-6 sm:p-8 shadow-2xl border border-slate-800 text-center space-y-5">
+                <div class="absolute inset-0 bg-gradient-to-b from-sky-500/10 via-transparent to-purple-500/10 pointer-events-none"></div>
+
+                <div class="relative z-10 flex flex-col items-center">
+                    <div class="p-3 rounded-3xl bg-slate-900 border border-sky-400/40 shadow-neon mb-4">
+                        <svg class="w-20 h-20">
+                            <use href="#logo-tutoriales-ia"></use>
+                        </svg>
+                    </div>
+
+                    <span class="px-3 py-1 rounded-full bg-sky-500/15 border border-sky-400/30 text-sky-300 text-xs font-bold tracking-widest uppercase">
+                        CRÉDITOS OFICIALES
+                    </span>
+
+                    <h2 class="font-display font-extrabold text-2xl sm:text-3xl mt-3 text-white">
+                        CRÉDITOS: Rubén Sbarsky
+                    </h2>
+
+                    <div class="mt-5 w-full max-w-sm bg-slate-900/90 border border-slate-800 rounded-2xl p-4 space-y-3 text-left">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                            <span class="text-xs text-slate-400 font-medium">Autor del Tutorial</span>
+                            <span class="text-sm font-bold text-white">Rubén Sbarsky (2026)</span>
+                        </div>
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                            <span class="text-xs text-slate-400 font-medium">Fecha</span>
+                            <span class="text-sm font-bold text-sky-400">📆: 23/11/2026</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-slate-400 font-medium">Hora</span>
+                            <span class="text-sm font-bold text-purple-400">🕰: 10:25:51</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 max-w-md bg-white/5 border border-white/10 rounded-2xl p-4 text-xs sm:text-sm text-slate-300 space-y-2">
+                        <p class="font-semibold text-white">Cómo se fabrica un mueble en una industria profesional</p>
+                        <p>Material de referencia: fotografía de la lámina «2. Descripción de los procesos y técnicas aplicadas».</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BOTONES FIJOS DE NAVEGACIÓN AL FINAL DE CADA PESTAÑA (ANTERIOR / PRÓXIMA) -->
+        <div id="bottom-nav-controls" class="mt-8 pt-4 border-t border-slate-200 flex items-center justify-between gap-3">
+            <button id="btn-prev-tab" onclick="navigateRelative(-1)" 
+                    class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-white hover:bg-slate-100 active:bg-slate-200 text-slate-800 border border-slate-300 font-bold text-xs sm:text-sm shadow-sm transition">
+                <i data-lucide="arrow-left" class="w-4 h-4 text-slate-600"></i>
+                <span id="prev-tab-label">Anterior</span>
+            </button>
+
+            <button id="btn-next-tab" onclick="navigateRelative(1)" 
+                    class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 active:bg-sky-700 text-white font-bold text-xs sm:text-sm shadow-md shadow-sky-600/20 transition ml-auto">
+                <span id="next-tab-label">Próxima pestaña</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+        </div>
+
+    </main>
+
+    <!-- BOTONES FLOTANTES ARRASTRABLES (MOVIBLES CON EL DEDO O RATÓN) -->
+    <!-- Botón Flotante 1: Ir a INICIO desde cualquier lugar -->
+    <button id="fab-home" title="Ir a INICIO (Arrastrable)"
+            class="draggable-fab fixed bottom-20 right-3.5 z-40 flex items-center gap-1.5 px-3.5 py-3 rounded-full bg-slate-900/95 text-white border border-sky-400/50 shadow-floating backdrop-blur-md">
+        <i data-lucide="home" class="w-4 h-4 text-sky-400"></i>
+        <span class="text-[11px] font-extrabold tracking-wider">INICIO</span>
+    </button>
+
+    <!-- Botón Flotante 2: Ir ARRIBA al comienzo de la pestaña actual -->
+    <button id="fab-top" title="Ir ARRIBA de la pestaña actual (Arrastrable)"
+            class="draggable-fab fixed bottom-5 right-3.5 z-40 flex items-center gap-1.5 px-3.5 py-3 rounded-full bg-sky-600/95 text-white border border-sky-300/50 shadow-floating backdrop-blur-md">
+        <i data-lucide="arrow-up" class="w-4 h-4 text-white"></i>
+        <span class="text-[11px] font-extrabold tracking-wider">ARRIBA</span>
+    </button>
+
+    <script>
+        // Definición de las pestañas con nombres descriptivos basados en el contenido
+        const TABS_DATA = [
+            { id: 0, title: "Inicio e Introducción", shortTitle: "Inicio", icon: "home" },
+            { id: 1, title: "Diseño y Materias Primas", shortTitle: "Diseño y Almacenes", icon: "compass" },
+            { id: 2, title: "Corte, Mecanizado y Encolado", shortTitle: "Corte y Mecanizado", icon: "scissors" },
+            { id: 3, title: "Montaje y Barnizado", shortTitle: "Montaje y Barnizado", icon: "layers" },
+            { id: 4, title: "Acabados y Embalaje", shortTitle: "Acabados y Embalaje", icon: "package" },
+            { id: 5, title: "Expedición y Mantenimiento", shortTitle: "Expedición y Soporte", icon: "truck" },
+            { id: 6, title: "Esquema e Instalación", shortTitle: "Fabricación vs Instalación", icon: "git-merge" },
+            { id: 7, title: "Glosario Técnico", shortTitle: "Glosario Técnico", icon: "book" },
+            { id: 8, title: "Evaluación y Conclusión", shortTitle: "Evaluación y Conclusión", icon: "help-circle" },
+            { id: 9, title: "Créditos", shortTitle: "Créditos", icon: "award" }
+        ];
+
+        let currentTabIndex = 0;
+
+        // Inicialización al cargar el DOM
+        document.addEventListener("DOMContentLoaded", () => {
+            renderNavigation();
+            setupExternalLinksGuard();
+            initDraggableButton("fab-home", () => switchTab(0));
+            initDraggableButton("fab-top", () => scrollToTopOfCurrentTab());
+            updateTabUI(0, false);
+            lucide.createIcons();
+        });
+
+        // Renderizar barra superior horizontal y menú vertical del Índice
+        function renderNavigation() {
+            const scroller = document.getElementById("tabs-scroller");
+            const indexList = document.getElementById("vertical-index-list");
+
+            scroller.innerHTML = "";
+            indexList.innerHTML = "";
+
+            TABS_DATA.forEach((tab, idx) => {
+                // Botón en barra horizontal superior
+                const btn = document.createElement("button");
+                btn.id = `top-tab-${idx}`;
+                btn.onclick = () => switchTab(idx);
+                btn.className = "shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap flex items-center gap-1.5 border";
+                btn.innerHTML = `<i data-lucide="${tab.icon}" class="w-3.5 h-3.5"></i><span>${tab.shortTitle}</span>`;
+                scroller.appendChild(btn);
+
+                // Elemento en el Índice vertical (Menú Sándwich)
+                const listBtn = document.createElement("button");
+                listBtn.id = `index-item-${idx}`;
+                listBtn.onclick = () => {
+                    switchTab(idx);
+                    toggleIndexModal(false);
+                };
+                listBtn.className = "w-full flex items-center justify-between p-3 rounded-xl text-left text-xs sm:text-sm font-medium transition border border-transparent";
+                listBtn.innerHTML = `
+                    <div class="flex items-center gap-2.5">
+                        <span class="w-6 h-6 rounded-lg bg-slate-800 text-sky-400 font-bold text-xs flex items-center justify-center shrink-0">${idx + 1}</span>
+                        <span>${tab.title}</span>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
+                `;
+                indexList.appendChild(listBtn);
+            });
+        }
+
+        // Cambiar de pestaña y auto-centrar en la barra superior
+        function switchTab(index) {
+            if (index < 0 || index >= TABS_DATA.length) return;
+            currentTabIndex = index;
+            updateTabUI(index, true);
+        }
+
+        function navigateRelative(delta) {
+            switchTab(currentTabIndex + delta);
+        }
+
+        function updateTabUI(index, shouldScrollTop) {
+            // Mostrar panel activo
+            document.querySelectorAll(".tab-panel").forEach((panel, idx) => {
+                if (idx === index) {
+                    panel.classList.add("active");
+                } else {
+                    panel.classList.remove("active");
+                }
+            });
+
+            // Actualizar estilos de pestañas superiores y auto-centrar
+            const scroller = document.getElementById("tabs-scroller");
+            TABS_DATA.forEach((_, idx) => {
+                const topBtn = document.getElementById(`top-tab-${idx}`);
+                const idxBtn = document.getElementById(`index-item-${idx}`);
+
+                if (idx === index) {
+                    topBtn.className = "shrink-0 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 bg-sky-500 text-slate-950 border-sky-400 shadow-sm";
+                    idxBtn.className = "w-full flex items-center justify-between p-3 rounded-xl text-left text-xs sm:text-sm font-bold bg-sky-500/20 text-sky-300 border border-sky-400/40";
+                    
+                    // Auto-centrado horizontal suave en la pestaña activa
+                    const scrollTarget = topBtn.offsetLeft - (scroller.clientWidth / 2) + (topBtn.clientWidth / 2);
+                    scroller.scrollTo({ left: scrollTarget, behavior: "smooth" });
+                } else {
+                    topBtn.className = "shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap flex items-center gap-1.5 bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-800 border-slate-700/70";
+                    idxBtn.className = "w-full flex items-center justify-between p-3 rounded-xl text-left text-xs sm:text-sm font-medium text-slate-300 hover:bg-slate-800 transition border border-transparent";
+                }
+            });
+
+            // Actualizar barra de progreso
+            const progress = ((index + 1) / TABS_DATA.length) * 100;
+            document.getElementById("progress-bar").style.width = `${progress}%`;
+
+            // Actualizar botones fijos al final de cada pestaña (Anterior / Próxima)
+            const prevBtn = document.getElementById("btn-prev-tab");
+            const nextBtn = document.getElementById("btn-next-tab");
+            const prevLabel = document.getElementById("prev-tab-label");
+            const nextLabel = document.getElementById("next-tab-label");
+
+            if (index > 0) {
+                prevBtn.classList.remove("hidden");
+                prevLabel.textContent = TABS_DATA[index - 1].shortTitle;
+            } else {
+                prevBtn.classList.add("hidden");
+            }
+
+            if (index < TABS_DATA.length - 1) {
+                nextBtn.classList.remove("hidden");
+                nextLabel.textContent = `Siguiente: ${TABS_DATA[index + 1].shortTitle}`;
+            } else {
+                nextBtn.classList.add("hidden");
+            }
+
+            if (shouldScrollTop) {
+                scrollToTopOfCurrentTab();
+            }
+        }
+
+        // Llevar al comienzo de la pestaña actual
+        function scrollToTopOfCurrentTab() {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+        }
+
+        // Abrir / Cerrar modal ÍNDICE
+        function toggleIndexModal(show) {
+            const modal = document.getElementById("index-modal");
+            if (show) {
+                modal.classList.remove("hidden");
+                document.body.style.overflow = "hidden";
+            } else {
+                modal.classList.add("hidden");
+                document.body.style.overflow = "";
+            }
+        }
+
+        // Control de Acordeón FAQ (+ Desplegar todas / - Plegar todas)
+        function toggleSingleFaq(buttonEl) {
+            const item = buttonEl.closest(".faq-item");
+            item.classList.toggle("open");
+        }
+
+        function toggleAllFaq(expand) {
+            const items = document.querySelectorAll("#faq-container .faq-item");
+            const btnExpand = document.getElementById("btn-expand-all");
+            const btnCollapse = document.getElementById("btn-collapse-all");
+
+            items.forEach(item => {
+                if (expand) {
+                    item.classList.add("open");
+                } else {
+                    item.classList.remove("open");
+                }
+            });
+
+            if (expand) {
+                btnExpand.className = "flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-sky-600 text-white border border-sky-600 shadow-sm transition";
+                btnCollapse.className = "flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-sky-50 text-slate-700 hover:text-sky-700 border border-slate-200 transition";
+            } else {
+                btnCollapse.className = "flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-sky-600 text-white border border-sky-600 shadow-sm transition";
+                btnExpand.className = "flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-sky-50 text-slate-700 hover:text-sky-700 border border-slate-200 transition";
+            }
+        }
+
+        // Filtro instantáneo del Glosario Técnico
+        function filterGlossary() {
+            const query = document.getElementById("glossary-search").value.toLowerCase().trim();
+            document.querySelectorAll(".glossary-card").forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(query) ? "block" : "none";
+            });
+        }
+
+        // Garantía para enlaces URL: añade automáticamente botón "Abrir en otra Ventana" si existen enlaces externos
+        function setupExternalLinksGuard() {
+            document.querySelectorAll("a[href^='http']").forEach(link => {
+                link.setAttribute("target", "_blank");
+                link.setAttribute("rel", "noopener noreferrer");
+                const openBtn = document.createElement("button");
+                openBtn.type = "button";
+                openBtn.className = "ml-2 inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-sky-600 text-white text-xs font-bold hover:bg-sky-500 transition";
+                openBtn.innerHTML = `<span>Abrir en otra Ventana</span><i data-lucide="external-link" class="w-3 h-3"></i>`;
+                openBtn.onclick = (e) => {
+                    e.preventDefault();
+                    window.open(link.href, "_blank", "noopener,noreferrer");
+                };
+                link.insertAdjacentElement("afterend", openBtn);
+            });
+        }
+
+        // Lógica táctil y de ratón para mover los botones flotantes (INICIO y ARRIBA)
+        function initDraggableButton(elementId, onClickAction) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+
+            let isDragging = false;
+            let hasMoved = false;
+            let startX = 0, startY = 0;
+            let initialLeft = 0, initialTop = 0;
+
+            const onPointerDown = (e) => {
+                isDragging = true;
+                hasMoved = false;
+                const rect = el.getBoundingClientRect();
+                initialLeft = rect.left;
+                initialTop = rect.top;
+
+                startX = e.clientX;
+                startY = e.clientY;
+
+                // Fijar coordenadas explícitas left/top para libre movimiento
+                el.style.right = "auto";
+                el.style.bottom = "auto";
+                el.style.left = `${initialLeft}px`;
+                el.style.top = `${initialTop}px`;
+
+                el.setPointerCapture(e.pointerId);
+            };
+
+            const onPointerMove = (e) => {
+                if (!isDragging) return;
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+
+                if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+                    hasMoved = true;
+                }
+
+                if (hasMoved) {
+                    const maxX = window.innerWidth - el.offsetWidth - 8;
+                    const maxY = window.innerHeight - el.offsetHeight - 8;
+                    const nextX = Math.max(8, Math.min(maxX, initialLeft + dx));
+                    const nextY = Math.max(60, Math.min(maxY, initialTop + dy));
+
+                    el.style.left = `${nextX}px`;
+                    el.style.top = `${nextY}px`;
+                }
+            };
+
+            const onPointerUp = (e) => {
+                if (!isDragging) return;
+                isDragging = false;
+                el.releasePointerCapture(e.pointerId);
+
+                if (!hasMoved && typeof onClickAction === "function") {
+                    onClickAction();
+                }
+            };
+
+            el.addEventListener("pointerdown", onPointerDown);
+            el.addEventListener("pointermove", onPointerMove);
+            el.addEventListener("pointerup", onPointerUp);
+            el.addEventListener("pointercancel", onPointerUp);
+        }
+    </script>
+</body>
+</html>
