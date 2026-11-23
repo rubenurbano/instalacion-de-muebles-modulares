@@ -1,0 +1,3023 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>MTD y Fabricación de Muebles de Madera by Rubén Sbarsky</title>
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --card: #0f172a;
+    --card-alt: #131d36;
+    --border: #1e3a5f;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --accent: #38bdf8;
+    --accent-dim: rgba(56, 189, 248, 0.14);
+    --amber: #f59e0b;
+    --amber-dim: rgba(245, 158, 11, 0.15);
+    --emerald: #10b981;
+    --emerald-dim: rgba(16, 185, 129, 0.15);
+    --rose: #f43f5e;
+    --rose-dim: rgba(244, 63, 94, 0.15);
+    --font-base: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    --fs: 16px;
+    --nav-h: 58px;
+  }
+
+  body.light-theme {
+    --bg: #f1f5f9;
+    --card: #ffffff;
+    --card-alt: #f8fafc;
+    --border: #cbd5e1;
+    --text: #0f172a;
+    --muted: #475569;
+    --accent: #0284c7;
+    --accent-dim: rgba(2, 132, 199, 0.12);
+    --amber: #d97706;
+    --amber-dim: rgba(217, 119, 6, 0.12);
+    --emerald: #059669;
+    --emerald-dim: rgba(5, 150, 105, 0.12);
+    --rose: #e11d48;
+    --rose-dim: rgba(225, 29, 72, 0.12);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    font-size: var(--fs);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-base);
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    overflow-x: hidden;
+    padding-top: var(--nav-h);
+    transition: background-color 0.25s, color 0.25s;
+  }
+
+  /* Barra de progreso superior */
+  #read-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--amber));
+    z-index: 60;
+    transition: width 0.1s linear;
+  }
+
+  /* Barra de navegación fija */
+  #topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--nav-h);
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 10px;
+    z-index: 40;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  }
+
+  .brand-logo-wrap {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 10px;
+  }
+
+  .brand-logo-wrap:focus-visible,
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  #nav-chips {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    flex: 1;
+    padding: 4px 0;
+  }
+
+  #nav-chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 42px;
+    padding: 0 13px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--card-alt);
+    color: var(--text);
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    font-family: inherit;
+  }
+
+  .chip:hover {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  .chip.active {
+    background: var(--accent);
+    color: #061224;
+    border-color: var(--accent);
+    font-weight: 700;
+  }
+
+  body.light-theme .chip.active {
+    color: #ffffff;
+  }
+
+  /* Panel lateral Índice (#dr) */
+  #dr {
+    position: fixed;
+    top: var(--nav-h);
+    left: 0;
+    bottom: 0;
+    width: min(330px, 88vw);
+    background: #0f172a;
+    border-right: 1px solid #1e3a5f;
+    transform: translateX(-105%);
+    transition: transform 0.25s ease;
+    z-index: 45;
+    overflow-y: auto;
+    padding: 12px 10px 40px;
+    box-shadow: 8px 0 30px rgba(0, 0, 0, 0.55);
+  }
+
+  #dr.o {
+    transform: translateX(0);
+  }
+
+  #dr-header {
+    padding: 6px 12px 12px;
+    border-bottom: 1px solid #1e3a5f;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #e2e8f0;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  #dr a {
+    display: flex;
+    align-items: center;
+    padding: 11px 12px;
+    border-radius: 10px;
+    color: #e2e8f0;
+    cursor: pointer;
+    min-height: 44px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    line-height: 1.35;
+    margin-bottom: 4px;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  #dr a:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  #dr a.on {
+    background: rgba(0, 212, 255, 0.16);
+    color: #38bdf8;
+    font-weight: 700;
+    border-left: 3px solid #38bdf8;
+  }
+
+  /* Barra de herramientas utilitaria */
+  #utility-bar {
+    background: var(--card-alt);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .search-box {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1 1 230px;
+    min-width: 0;
+  }
+
+  .search-box input {
+    width: 100%;
+    min-height: 42px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    font-size: 0.9rem;
+    font-family: inherit;
+  }
+
+  .tool-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .btn-tool {
+    min-height: 42px;
+    padding: 0 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+
+  .btn-tool:hover {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #061224;
+    border-color: var(--accent);
+    font-weight: 700;
+  }
+
+  body.light-theme .btn-primary {
+    color: #ffffff;
+  }
+
+  /* Resultados del buscador */
+  #search-results {
+    max-width: 1040px;
+    margin: 14px auto 0;
+    padding: 0 14px;
+    display: none;
+  }
+
+  #search-results.visible {
+    display: block;
+  }
+
+  .search-panel {
+    background: var(--card);
+    border: 1px solid var(--accent);
+    border-radius: 14px;
+    padding: 16px;
+  }
+
+  .search-hit {
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: var(--card-alt);
+    border: 1px solid var(--border);
+    margin-top: 8px;
+    cursor: pointer;
+  }
+
+  .search-hit:hover {
+    border-color: var(--accent);
+  }
+
+  /* Contenedor principal */
+  main {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 18px 14px 96px;
+  }
+
+  section.tab-sec {
+    display: none;
+    animation: fadeIn 0.25s ease;
+  }
+
+  section.tab-sec.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Tipografía y tarjetas */
+  .hero-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .hero-title {
+    font-size: clamp(1.45rem, 4.5vw, 2.25rem);
+    line-height: 1.2;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    flex: 1;
+    min-width: 220px;
+  }
+
+  .hero-title span.author-tag {
+    color: var(--accent);
+    display: inline-block;
+  }
+
+  h2.sec-title {
+    font-size: clamp(1.35rem, 4vw, 1.9rem);
+    line-height: 1.25;
+    font-weight: 800;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border);
+    color: var(--text);
+  }
+
+  h3 {
+    font-size: 1.18rem;
+    font-weight: 700;
+    margin: 18px 0 8px;
+    color: var(--accent);
+  }
+
+  h4 {
+    font-size: 1.03rem;
+    font-weight: 700;
+    margin: 14px 0 6px;
+    color: var(--amber);
+  }
+
+  p {
+    margin-bottom: 12px;
+  }
+
+  ul, ol {
+    margin: 0 0 14px 20px;
+  }
+
+  li {
+    margin-bottom: 6px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  }
+
+  .callout {
+    border-left: 4px solid var(--accent);
+    background: var(--accent-dim);
+    padding: 14px 16px;
+    border-radius: 0 12px 12px 0;
+    margin-bottom: 16px;
+  }
+
+  .callout.warn {
+    border-left-color: var(--amber);
+    background: var(--amber-dim);
+  }
+
+  .callout.danger {
+    border-left-color: var(--rose);
+    background: var(--rose-dim);
+  }
+
+  .callout.ok {
+    border-left-color: var(--emerald);
+    background: var(--emerald-dim);
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border: 1px solid var(--border);
+    margin-right: 6px;
+    margin-bottom: 4px;
+  }
+
+  .badge.amber { background: var(--amber-dim); color: var(--amber); }
+  .badge.emerald { background: var(--emerald-dim); color: var(--emerald); }
+  .badge.rose { background: var(--rose-dim); color: var(--rose); }
+
+  /* Grid adaptable */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  /* Contenedor SVG Hero y Créditos */
+  .svg-stage {
+    width: 100%;
+    max-width: 520px;
+    margin: 14px auto 20px;
+    background: #070b14;
+    border: 1px solid #1e3a5f;
+    border-radius: 18px;
+    padding: 10px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+  }
+
+  .svg-stage svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+  }
+
+  .svg-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 4px 6px;
+    font-size: 0.8rem;
+    color: #94a3b8;
+  }
+
+  /* Tablas responsivas */
+  .table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    margin: 12px 0 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    min-width: 480px;
+  }
+
+  th, td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  th {
+    background: var(--card-alt);
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* Bloques de Prompt y Código Copiables */
+  .prompt-card {
+    background: var(--card-alt);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 14px;
+  }
+
+  .prompt-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .prompt-code {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    background: var(--bg);
+    color: var(--text);
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    white-space: pre-wrap;
+    word-break: break-word;
+    line-height: 1.5;
+  }
+
+  /* Acordeones (Q&A y desplegables) */
+  details.qa-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+
+  details.qa-item summary {
+    padding: 14px 16px;
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 48px;
+  }
+
+  details.qa-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  details.qa-item summary::after {
+    content: "+";
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  details.qa-item[open] summary::after {
+    content: "−";
+  }
+
+  details.qa-item[open] summary {
+    border-bottom: 1px solid var(--border);
+    background: var(--card-alt);
+  }
+
+  .qa-body {
+    padding: 14px 16px;
+    color: var(--text);
+  }
+
+  /* Checklist interactivo */
+  .check-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: var(--card-alt);
+    border: 1px solid var(--border);
+    margin-bottom: 8px;
+    cursor: pointer;
+    min-height: 44px;
+  }
+
+  .check-row input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    accent-color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* Navegación inferior fija al final de cada pestaña */
+  .tab-footer-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 2px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .tab-footer-nav button {
+    min-height: 48px;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.92rem;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1 1 140px;
+    justify-content: center;
+    font-family: inherit;
+  }
+
+  .tab-footer-nav button.next-btn {
+    background: var(--accent);
+    color: #061224;
+    border-color: var(--accent);
+  }
+
+  body.light-theme .tab-footer-nav button.next-btn {
+    color: #ffffff;
+  }
+
+  /* Botones flotantes arrastrables (INICIO y ARRIBA) */
+  .fab-movable {
+    position: fixed;
+    z-index: 50;
+    min-height: 46px;
+    padding: 0 14px;
+    border-radius: 999px;
+    border: 2px solid var(--accent);
+    background: var(--card);
+    color: var(--text);
+    font-weight: 800;
+    font-size: 0.82rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    cursor: grab;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    touch-action: none;
+    user-select: none;
+  }
+
+  .fab-movable:active {
+    cursor: grabbing;
+  }
+
+  #fab-home {
+    bottom: 72px;
+    right: 12px;
+  }
+
+  #fab-top {
+    bottom: 16px;
+    right: 12px;
+  }
+
+  /* Enlaces externos con botón explícito */
+  .url-box {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: var(--card-alt);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+
+  .url-text {
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
+    color: var(--accent);
+    word-break: break-all;
+  }
+
+  /* Toast de notificación */
+  #toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #0f172a;
+    color: #f8fafc;
+    border: 1px solid #38bdf8;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    z-index: 80;
+    transition: transform 0.25s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    max-width: 92vw;
+    text-align: center;
+  }
+
+  #toast.show {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Texto íntegro apéndice */
+  .verbatim-source {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    word-break: break-word;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    max-height: 72vh;
+    overflow-y: auto;
+  }
+
+  /* Animaciones SVG */
+  @keyframes spinSlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes spinReverse {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+  }
+  @keyframes pulseGlow {
+    0%, 100% { opacity: 0.45; transform: scale(0.98); }
+    50% { opacity: 1; transform: scale(1.03); }
+  }
+  @keyframes flowDash {
+    to { stroke-dashoffset: -48; }
+  }
+  @keyframes floatNode {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-7px); }
+  }
+  @keyframes scanBeam {
+    0%, 100% { transform: translateY(0px); opacity: 0.35; }
+    50% { transform: translateY(130px); opacity: 0.9; }
+  }
+
+  .svg-paused * {
+    animation-play-state: paused !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .svg-anim-el {
+      animation: none !important;
+    }
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  /* Ajustes específicos Samsung Galaxy A02s (360px) */
+  @media (max-width: 400px) {
+    #topbar {
+      padding: 0 6px;
+      gap: 5px;
+    }
+    .chip {
+      padding: 0 10px;
+      font-size: 0.8rem;
+    }
+    main {
+      padding: 14px 10px 96px;
+    }
+    .card {
+      padding: 14px 12px;
+    }
+  }
+
+  /* Hoja de estilos de impresión */
+  @media print {
+    @page {
+      size: A4 portrait;
+      margin: 14mm 12mm;
+    }
+    body {
+      background: #ffffff !important;
+      color: #000000 !important;
+      padding-top: 0 !important;
+    }
+    #topbar, #dr, #utility-bar, #read-progress, .fab-movable, .tab-footer-nav, #toast, .no-print {
+      display: none !important;
+    }
+    section.tab-sec {
+      display: block !important;
+      opacity: 1 !important;
+      transform: none !important;
+      margin-bottom: 24px;
+    }
+    .card, .callout, .prompt-card, details.qa-item {
+      background: #ffffff !important;
+      color: #000000 !important;
+      border: 1px solid #94a3b8 !important;
+      box-shadow: none !important;
+      break-inside: avoid;
+    }
+    .svg-stage {
+      background: #0a0e1a !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .verbatim-source {
+      max-height: none !important;
+      overflow: visible !important;
+      background: #ffffff !important;
+      color: #000000 !important;
+    }
+    table {
+      min-width: 100% !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div id="read-progress" aria-hidden="true"></div>
+
+<!-- BARRA SUPERIOR FIJA -->
+<nav id="topbar" aria-label="Navegación principal del tutorial">
+  <button class="chip" id="mb" aria-label="Abrir índice" aria-expanded="false">☰ Índice</button>
+
+  <div class="brand-logo-wrap" id="logo-home-trigger" role="button" tabindex="0" aria-label="Logo Tutoriales IA - Ir a Inicio" title="Tutoriales IA - Ir a Inicio">
+    <!-- Logo vectorial integrado fiel a logo tutoriales IA.jpeg -->
+    <svg width="38" height="38" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="navLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#38bdf8"/>
+          <stop offset="55%" stop-color="#0ea5e9"/>
+          <stop offset="100%" stop-color="#8b5cf6"/>
+        </linearGradient>
+      </defs>
+      <rect width="120" height="120" rx="24" fill="#060d1f"/>
+      <path d="M60 10 C85 10 104 22 104 46 C104 75 84 95 60 106 C36 95 16 75 16 46 C16 22 35 10 60 10 Z" fill="none" stroke="url(#navLogoGrad)" stroke-width="5"/>
+      <!-- Hemisferio izquierdo cerebral -->
+      <path d="M56 26 C42 26 32 36 32 49 C32 62 42 72 56 72 M46 35 C39 38 39 47 46 50 M45 53 C38 56 39 64 47 66" fill="none" stroke="#38bdf8" stroke-width="4" stroke-linecap="round"/>
+      <!-- Hemisferio derecho circuito -->
+      <path d="M64 30 L78 30 L85 38 M64 49 L88 49 M64 67 L78 67 L85 59" fill="none" stroke="#a855f7" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="85" cy="38" r="3.5" fill="#38bdf8"/>
+      <circle cx="88" cy="49" r="3.5" fill="#a855f7"/>
+      <circle cx="85" cy="59" r="3.5" fill="#38bdf8"/>
+      <!-- Botón Play central -->
+      <circle cx="60" cy="49" r="14" fill="#0a162e" stroke="#38bdf8" stroke-width="3"/>
+      <polygon points="56,42 68,49 56,56" fill="#38bdf8"/>
+      <text x="60" y="95" text-anchor="middle" fill="#38bdf8" font-family="system-ui,sans-serif" font-weight="900" font-size="18" letter-spacing="1">IA</text>
+    </svg>
+  </div>
+
+  <div id="nav-chips" role="tablist" aria-label="Secciones del tutorial"></div>
+</nav>
+
+<!-- PANEL LATERAL ÍNDICE -->
+<aside id="dr" aria-label="Índice completo de secciones">
+  <div id="dr-header">
+    <span>📑 Índice del Tutorial</span>
+    <button class="btn-tool" id="dr-close" style="min-height:34px;padding:0 10px;background:#1e293b;color:#e2e8f0;border-color:#334155;" aria-label="Cerrar índice">✕</button>
+  </div>
+  <div id="dr-links"></div>
+</aside>
+
+<!-- BARRA UTILITARIA -->
+<div id="utility-bar" class="no-print">
+  <div class="search-box">
+    <input type="search" id="search-input" placeholder="Buscar en todo el tutorial (ej. HVLP, COV, regruesado, LER)..." aria-label="Buscar en el tutorial">
+    <button class="btn-tool" id="search-clear" title="Limpiar búsqueda" aria-label="Limpiar búsqueda">✕</button>
+  </div>
+  <div class="tool-group">
+    <button class="btn-tool" id="font-dec" aria-label="Reducir tamaño de letra" title="Reducir letra">A−</button>
+    <button class="btn-tool" id="font-inc" aria-label="Aumentar tamaño de letra" title="Aumentar letra">A+</button>
+    <button class="btn-tool" id="theme-toggle" aria-label="Cambiar entre tema oscuro y claro" title="Cambiar tema">☀️ Claro</button>
+    <button class="btn-tool btn-primary" id="print-btn" aria-label="Imprimir o guardar como PDF">🖨️ PDF / Imprimir</button>
+  </div>
+</div>
+
+<!-- RESULTADOS DE BÚSQUEDA -->
+<div id="search-results" role="region" aria-label="Resultados de búsqueda">
+  <div class="search-panel">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+      <strong id="search-summary">Resultados encontrados</strong>
+      <button class="btn-tool" id="close-search-panel" style="min-height:36px;">Cerrar</button>
+    </div>
+    <div id="search-hits-list"></div>
+  </div>
+</div>
+
+<!-- PLANTILLA MAESTRA SVG OCULTA (ÚNICA FUENTE PARA INICIO Y CRÉDITOS) -->
+<template id="master-hero-svg-template">
+  <svg viewBox="0 0 400 500" width="400" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustración técnica animada del flujo sostenible de fabricación e instalación de muebles de madera: diseño 3D, mecanizado con ciclofiltro, aplicación HVLP y curado UV">
+    <defs>
+      <linearGradient id="bgSpaceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#060c1a"/>
+        <stop offset="50%" stop-color="#0d1b36"/>
+        <stop offset="100%" stop-color="#071326"/>
+      </linearGradient>
+      <linearGradient id="woodPanelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#f59e0b"/>
+        <stop offset="50%" stop-color="#d97706"/>
+        <stop offset="100%" stop-color="#92400e"/>
+      </linearGradient>
+      <linearGradient id="cyanBeamGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.75"/>
+        <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.0"/>
+      </linearGradient>
+      <linearGradient id="uvPurpleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.15"/>
+        <stop offset="50%" stop-color="#a855f7" stop-opacity="0.85"/>
+        <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.2"/>
+      </linearGradient>
+      <linearGradient id="ecoEmeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#10b981"/>
+        <stop offset="100%" stop-color="#059669"/>
+      </linearGradient>
+      <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="4" result="blur"/>
+        <feMerge>
+          <feMergeNode in="blur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+      <pattern id="techGrid" width="25" height="25" patternUnits="userSpaceOnUse">
+        <path d="M 25 0 L 0 0 0 25" fill="none" stroke="#1e3a5f" stroke-width="0.7" opacity="0.5"/>
+      </pattern>
+    </defs>
+
+    <!-- Fondo y retícula CAD -->
+    <rect width="400" height="500" fill="url(#bgSpaceGrad)"/>
+    <rect width="400" height="500" fill="url(#techGrid)"/>
+
+    <!-- Anillos orbitales de ingeniería sostenible -->
+    <g style="transform-origin: 200px 235px; animation: spinSlow 36s linear infinite;" class="svg-anim-el">
+      <circle cx="200" cy="235" r="165" fill="none" stroke="#1e3a5f" stroke-width="1.5" stroke-dasharray="10 8"/>
+      <circle cx="200" cy="70" r="5" fill="#38bdf8" filter="url(#neonGlow)"/>
+      <circle cx="365" cy="235" r="5" fill="#10b981" filter="url(#neonGlow)"/>
+      <circle cx="200" cy="400" r="5" fill="#f59e0b" filter="url(#neonGlow)"/>
+      <circle cx="35" cy="235" r="5" fill="#a855f7" filter="url(#neonGlow)"/>
+    </g>
+
+    <g style="transform-origin: 200px 235px; animation: spinReverse 24s linear infinite;" class="svg-anim-el">
+      <circle cx="200" cy="235" r="122" fill="none" stroke="#38bdf8" stroke-width="1" stroke-dasharray="4 10" opacity="0.6"/>
+    </g>
+
+    <!-- Cabecera técnica integrada -->
+    <rect x="24" y="18" width="352" height="36" rx="18" fill="#0f172a" stroke="#1e3a5f" stroke-width="1.5"/>
+    <circle cx="44" cy="36" r="5" fill="#10b981" style="animation: pulseGlow 2s infinite;" class="svg-anim-el"/>
+    <text x="58" y="40" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="11" font-weight="700" letter-spacing="0.8">SISTEMA MTD · MADERA &amp; MUEBLE MODULAR</text>
+
+    <!-- Módulo Superior Izquierdo: Ciclofiltro de aspiración de partículas -->
+    <g transform="translate(34, 76)">
+      <rect x="0" y="0" width="96" height="92" rx="12" fill="#0f172a" stroke="#38bdf8" stroke-width="1.4"/>
+      <text x="48" y="16" text-anchor="middle" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="8.5" font-weight="800">CICLOFILTRO 95%</text>
+      <!-- Silueta ciclón -->
+      <polygon points="32,26 64,26 56,56 40,56" fill="#1e3a5f" stroke="#38bdf8" stroke-width="1.3"/>
+      <rect x="42" y="56" width="12" height="16" rx="2" fill="#f59e0b" opacity="0.85"/>
+      <!-- Espiral centrífuga animada -->
+      <path d="M36 33 Q48 40 60 33 T38 46" fill="none" stroke="#38bdf8" stroke-width="1.8" stroke-dasharray="6 4" style="animation: flowDash 1.4s linear infinite;" class="svg-anim-el"/>
+      <text x="48" y="83" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8">Polvo &lt; 30 mg/Nm³</text>
+    </g>
+
+    <!-- Módulo Superior Derecho: Pulverización HVLP + Curado UV -->
+    <g transform="translate(270, 76)">
+      <rect x="0" y="0" width="96" height="92" rx="12" fill="#0f172a" stroke="#a855f7" stroke-width="1.4"/>
+      <text x="48" y="16" text-anchor="middle" fill="#c084fc" font-family="system-ui,sans-serif" font-size="8.5" font-weight="800">HVLP + TÚNEL UV</text>
+      <!-- Boquilla HVLP -->
+      <rect x="16" y="34" width="22" height="12" rx="3" fill="#38bdf8"/>
+      <polygon points="38,37 46,34 46,46 38,43" fill="#e2e8f0"/>
+      <!-- Cono pulverizado alta transferencia -->
+      <polygon points="46,40 82,25 82,55" fill="url(#uvPurpleGrad)" style="animation: pulseGlow 2.4s infinite;" class="svg-anim-el"/>
+      <!-- Lámpara UV -->
+      <rect x="54" y="60" width="28" height="6" rx="3" fill="#a855f7" filter="url(#neonGlow)"/>
+      <text x="48" y="83" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8">Transferencia 40-80%</text>
+    </g>
+
+    <!-- Líneas de flujo conectando módulos al núcleo central -->
+    <path d="M130 122 L168 165" stroke="#38bdf8" stroke-width="2" stroke-dasharray="6 6" style="animation: flowDash 1.6s linear infinite;" class="svg-anim-el"/>
+    <path d="M270 122 L232 165" stroke="#a855f7" stroke-width="2" stroke-dasharray="6 6" style="animation: flowDash 1.6s linear infinite;" class="svg-anim-el"/>
+
+    <!-- ELEMENTO CENTRAL PROTAGONISTA: Módulo de Madera Isométrico + Escáner de Precisión -->
+    <g style="animation: floatNode 4.5s ease-in-out infinite;" class="svg-anim-el">
+      <!-- Sombra proyectada -->
+      <ellipse cx="200" cy="318" rx="76" ry="16" fill="#020617" opacity="0.75"/>
+
+      <!-- Cuerpo isométrico del mueble modular -->
+      <!-- Cara izquierda -->
+      <polygon points="136,202 200,234 200,304 136,272" fill="#b45309" stroke="#fbbf24" stroke-width="1.5"/>
+      <!-- Cara derecha -->
+      <polygon points="200,234 264,202 264,272 200,304" fill="#92400e" stroke="#fbbf24" stroke-width="1.5"/>
+      <!-- Cara superior (tablero chapado) -->
+      <polygon points="200,170 264,202 200,234 136,202" fill="url(#woodPanelGrad)" stroke="#fef3c7" stroke-width="1.6"/>
+
+      <!-- Vetas de madera estilizadas en cara superior -->
+      <path d="M162 200 Q198 188 236 202" fill="none" stroke="#78350f" stroke-width="1.4" opacity="0.65"/>
+      <path d="M174 210 Q202 200 226 211" fill="none" stroke="#78350f" stroke-width="1.2" opacity="0.55"/>
+
+      <!-- División modular de puertas y herrajes -->
+      <line x1="232" y1="218" x2="232" y2="288" stroke="#fef3c7" stroke-width="1.3"/>
+      <circle cx="226" cy="253" r="2.6" fill="#38bdf8" filter="url(#neonGlow)"/>
+      <circle cx="238" cy="253" r="2.6" fill="#38bdf8" filter="url(#neonGlow)"/>
+
+      <!-- Mechones / clavijas de ensamblaje flotando -->
+      <rect x="115" y="218" width="14" height="5" rx="2.5" fill="#38bdf8" transform="rotate(26 115 218)" filter="url(#neonGlow)"/>
+      <rect x="272" y="214" width="14" height="5" rx="2.5" fill="#10b981" transform="rotate(-26 272 214)" filter="url(#neonGlow)"/>
+
+      <!-- Haz láser de verificación dimensional y ergonómica -->
+      <rect x="128" y="168" width="144" height="6" rx="3" fill="url(#cyanBeamGrad)" style="animation: scanBeam 3.8s ease-in-out infinite;" class="svg-anim-el"/>
+    </g>
+
+    <!-- Módulo Inferior Izquierdo: Depuración Físico-Química Vertido Cero -->
+    <g transform="translate(34, 336)">
+      <rect x="0" y="0" width="154" height="84" rx="12" fill="#0f172a" stroke="#10b981" stroke-width="1.4"/>
+      <text x="77" y="18" text-anchor="middle" fill="#34d399" font-family="system-ui,sans-serif" font-size="9" font-weight="800">AGUA · VERTIDO CERO</text>
+      <text x="77" y="34" text-anchor="middle" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8.5">pH → Coagulación → Floculación</text>
+      <rect x="18" y="44" width="118" height="10" rx="5" fill="#1e293b"/>
+      <rect x="18" y="44" width="96" height="10" rx="5" fill="url(#ecoEmeraldGrad)"/>
+      <text x="77" y="70" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8">Reutilización en cabinas húmedas</text>
+    </g>
+
+    <!-- Módulo Inferior Derecho: Recuperador de Disolventes -->
+    <g transform="translate(212, 336)">
+      <rect x="0" y="0" width="154" height="84" rx="12" fill="#0f172a" stroke="#f59e0b" stroke-width="1.4"/>
+      <text x="77" y="18" text-anchor="middle" fill="#fbbf24" font-family="system-ui,sans-serif" font-size="9" font-weight="800">DESTILACIÓN COV</text>
+      <text x="77" y="34" text-anchor="middle" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8.5">Recuperación 60% – 80%</text>
+      <rect x="18" y="44" width="118" height="10" rx="5" fill="#1e293b"/>
+      <rect x="18" y="44" width="84" height="10" rx="5" fill="#f59e0b"/>
+      <text x="77" y="70" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8">Control VLA-ED / VLA-EC &amp; LER</text>
+    </g>
+
+    <!-- Pie de ilustración -->
+    <rect x="24" y="438" width="352" height="44" rx="12" fill="#0f172a" stroke="#1e3a5f" stroke-width="1.2"/>
+    <text x="200" y="457" text-anchor="middle" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="10" font-weight="800">GUÍA MTD · CTL / AIDIMA / GENERALITAT VALENCIANA</text>
+    <text x="200" y="472" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8.8">Del Diseño y Mecanizado a la Instalación Modular Sostenible</text>
+  </svg>
+</template>
+
+<main>
+  <!-- ===================================================================== -->
+  <!-- PESTAÑA 1: INICIO -->
+  <!-- ===================================================================== -->
+  <section id="sec-inicio" class="tab-sec active" data-t="INICIO — Visión General">
+    <div class="hero-header">
+      <!-- Logo vectorial integrado a la izquierda del título principal -->
+      <svg width="62" height="62" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-label="Logo Tutoriales IA">
+        <defs>
+          <linearGradient id="heroLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#38bdf8"/>
+            <stop offset="55%" stop-color="#0ea5e9"/>
+            <stop offset="100%" stop-color="#8b5cf6"/>
+          </linearGradient>
+        </defs>
+        <rect width="120" height="120" rx="26" fill="#060d1f" stroke="#1e3a5f" stroke-width="2"/>
+        <path d="M60 10 C85 10 104 22 104 46 C104 75 84 95 60 106 C36 95 16 75 16 46 C16 22 35 10 60 10 Z" fill="none" stroke="url(#heroLogoGrad)" stroke-width="4.5"/>
+        <path d="M56 26 C42 26 32 36 32 49 C32 62 42 72 56 72 M46 35 C39 38 39 47 46 50 M45 53 C38 56 39 64 47 66" fill="none" stroke="#38bdf8" stroke-width="3.8" stroke-linecap="round"/>
+        <path d="M64 30 L78 30 L85 38 M64 49 L88 49 M64 67 L78 67 L85 59" fill="none" stroke="#a855f7" stroke-width="3.2" stroke-linecap="round"/>
+        <circle cx="85" cy="38" r="3.5" fill="#38bdf8"/>
+        <circle cx="88" cy="49" r="3.5" fill="#a855f7"/>
+        <circle cx="85" cy="59" r="3.5" fill="#38bdf8"/>
+        <circle cx="60" cy="49" r="14" fill="#0a162e" stroke="#38bdf8" stroke-width="2.8"/>
+        <polygon points="56,42 68,49 56,56" fill="#38bdf8"/>
+        <text x="60" y="94" text-anchor="middle" fill="#38bdf8" font-family="system-ui,sans-serif" font-weight="900" font-size="16" letter-spacing="1">IA</text>
+        <text x="60" y="109" text-anchor="middle" fill="#e2e8f0" font-family="system-ui,sans-serif" font-weight="700" font-size="8.5" letter-spacing="0.8">TUTORIALES</text>
+      </svg>
+
+      <h1 class="hero-title">
+        MTD y Fabricación de Muebles de Madera <span class="author-tag">by Rubén Sbarsky</span>
+      </h1>
+    </div>
+
+    <div class="callout warn">
+      <strong>Nota importante de alcance y vigencia:</strong> Este material de estudio para el curso de <strong>Instalación de Muebles Modulares</strong> se basa en la totalidad de la <em>Guía de Mejores Técnicas Disponibles para el Sector de Fabricación de Muebles de Madera en la Comunitat Valenciana</em> (CTL / Generalitat Valenciana / AIDIMA, edición de <strong>2009</strong>, ISBN: 978-84-482-5275-5). Sus referencias legales se reproducen como contenido histórico y <strong>no deben tomarse como asesoramiento ni como legislación vigente en 2026</strong>. Para operaciones prácticas, sigue formación presencial, instrucciones del fabricante, fichas técnicas y normas de seguridad aplicables.
+    </div>
+
+    <!-- Contenedor SVG Hero Animado (Instancia 1) -->
+    <div class="svg-stage" id="svg-host-inicio">
+      <div class="svg-mount" id="svg-mount-inicio"></div>
+      <div class="svg-controls no-print">
+        <span>Diagrama interactivo MTD (Plantilla Única)</span>
+        <button class="btn-tool toggle-svg-anim" style="min-height:34px;padding:0 10px;font-size:0.78rem;" aria-label="Pausar o reanudar animación">⏸ Pausar</button>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px;" class="no-print">
+      <button class="btn-tool btn-primary" id="ix" aria-label="Abrir índice lateral">☰ Ver índice completo</button>
+      <button class="btn-tool" data-goto-id="sec-qa">❓ Ir a las 33 Preguntas (Q&amp;A)</button>
+      <button class="btn-tool" data-goto-id="sec-apendice">📜 Consultar Texto Íntegro (113 págs.)</button>
+    </div>
+
+    <div class="card">
+      <h3>¿Qué es este tutorial y cómo aprovecharlo?</h3>
+      <p>La guía original trata principalmente de fabricación industrial de muebles de madera, prevención ambiental, procesos, emisiones y técnicas de minimización. No es un manual de montaje de cocinas ni sustituye instrucciones del fabricante, formación práctica, normativa vigente o procedimientos de prevención. Este tutorial conecta sus contenidos con el trabajo del <strong>instalador modular</strong>: comprender cómo se diseñan, fabrican, transportan, almacenan, mecanizan y protegen los muebles ayuda a instalarlos mejor, evitar daños y trabajar con criterio.</p>
+
+      <h4>Método de estudio en 5 pasos (Regla del Aprendiz)</h4>
+      <ol>
+        <li><strong>Lee una unidad</strong> sin intentar memorizar cada palabra.</li>
+        <li><strong>Observa la idea clave</strong> y el vocabulario técnico asociado.</li>
+        <li><strong>Realiza el ejercicio práctico</strong> escrito o mentalmente.</li>
+        <li><strong>Responde las preguntas</strong> de autoevaluación y las 33 Q&amp;A sin mirar la solución.</li>
+        <li><strong>Confirma en taller</strong> cualquier procedimiento con el responsable y la ficha técnica del producto.</li>
+      </ol>
+      <div class="callout ok">
+        <strong>Regla del aprendiz:</strong> No des por entendido un término técnico solo porque te suene. Explícalo con tus propias palabras y pon un ejemplo real de obra o taller.
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Unidad 0 — Orientación Fundamental</h3>
+      <div class="grid-2">
+        <div class="prompt-card">
+          <h4>0.1 ¿Qué significa MTD (BAT)?</h4>
+          <p><strong>MTD</strong> significa <em>Mejores Técnicas Disponibles</em> (en inglés, <em>Best Available Techniques — BAT</em>). Identifica técnicas eficaces y comercialmente disponibles que ayudan a prevenir o reducir impactos ambientales en la actividad del mueble. No se refiere solo a una máquina: abarca organización del trabajo, materias primas, tecnologías de aplicación, sistemas de captación o tratamiento y procedimientos operativos.</p>
+        </div>
+        <div class="prompt-card">
+          <h4>0.2 ¿Por qué un instalador estudia fabricación?</h4>
+          <ul>
+            <li>Reconocer materiales macizos, tableros y componentes.</li>
+            <li>Comprender por qué ciertas piezas requieren cuidado especial.</li>
+            <li>Evitar golpes, humedad, contaminación o almacenamiento erróneo.</li>
+            <li>Aprovechar materiales y reducir desperdicios en obra.</li>
+            <li>Distinguir operaciones de fábrica de operaciones de instalación.</li>
+            <li>Comunicarse técnicamente con fabricantes, almacenes y clientes.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout">
+        <strong>Actividad de arranque:</strong> Escribe tres cosas que puede hacer un instalador para evitar desperdiciar material, energía o tiempo. Al finalizar la pestaña <em>Instalación Modular</em>, revisa tu lista y amplíala.
+      </div>
+    </div>
+
+    <div class="tab-footer-nav"></div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- PESTAÑA 2: DISEÑO Y MATERIALES -->
+  <!-- ===================================================================== -->
+  <section id="sec-diseno-materiales" class="tab-sec" data-t="Diseño, Ergonomía y Materiales">
+    <h2 class="sec-title">Unidad 1 y Unidad 2 — Diseño, Ergonomía, Recepción y Almacenamiento</h2>
+
+    <div class="card">
+      <h3>Unidad 1: Diseño, Ergonomía y Prototipos</h3>
+      <p>El diseño define cómo será el mueble y cómo cumplirá su función mediante dos dimensiones inseparables:</p>
+      <div class="grid-2">
+        <div class="prompt-card">
+          <h4>Aspecto Formal (Estética y Uso)</h4>
+          <p>Desarrollo de una idea para cubrir una necesidad. Define la percepción psicológica del usuario (proporción, elegancia de líneas, molduras, talla, marquetería, herrajes) y los aspectos prácticos de uso: amplitud, entorno, durabilidad y <strong>ergonomía</strong> (medidas corporales del usuario, dimensiones de los objetos que contendrá y finalidad).</p>
+        </div>
+        <div class="prompt-card">
+          <h4>Aspecto Técnico (Viabilidad)</h4>
+          <p>Adecuación de la idea al proceso productivo real: planos a escala, materiales, grado de calidad del acabado, uniones, maquinaria disponible, costes y cualificación de los operarios. Un mueble atractivo pero imposible de fabricar o incómodo no es un buen diseño.</p>
+        </div>
+      </div>
+
+      <h4>Planos, Despiece, Simulación y Prototipo</h4>
+      <ul>
+        <li><strong>Plano:</strong> Representación técnica a escala con medidas y referencias.</li>
+        <li><strong>Despiece:</strong> Relación detallada de componentes y piezas que forman un conjunto.</li>
+        <li><strong>Simulación:</strong> Representación previa por ordenador que permite evaluar acabado y detectar interferencias sin construir el producto completo.</li>
+        <li><strong>Prototipo:</strong> Versión física de prueba para validar medidas, uniones y proceso antes de producir en serie.</li>
+      </ul>
+
+      <div class="callout">
+        <strong>Aplicación al instalador modular:</strong> Antes de montar, compara el plano con el espacio real. Revisa nivel del suelo, verticalidad de paredes, esquinas, obstáculos, puertas, ventanas, enchufes, puntos de acceso y tolerancias. Nunca improvises modificaciones que comprometan la estabilidad estructural.
+      </div>
+
+      <div class="prompt-card">
+        <h4>Ejercicio 1 y Autoevaluación (Unidad 1)</h4>
+        <p><strong>Ejercicio:</strong> Para un armario modular de tres cuerpos, enumera qué datos necesitas verificar en obra (hueco, nivel, plomo, tomas eléctricas, apertura de puertas, carga prevista, piezas, herrajes y fijaciones) y marca cuáles no puedes asumir sin medir.</p>
+        <details class="qa-item">
+          <summary>Ver preguntas y soluciones orientativas de la Unidad 1</summary>
+          <div class="qa-body">
+            <p><strong>1. ¿Qué diferencia hay entre aspecto formal y aspecto técnico?</strong> El formal se relaciona con apariencia, ergonomía y percepción; el técnico con ejecución, materiales, uniones y viabilidad industrial.</p>
+            <p><strong>2. ¿Por qué se consideran las medidas corporales y el uso previsto?</strong> Para garantizar utilidad, alcance, comodidad y adecuación al espacio y objetos.</p>
+            <p><strong>3. ¿Qué puede revelar un prototipo antes de producir?</strong> Errores dimensionales, fallos de unión, problemas de acabado o cuellos de botella en fabricación.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Unidad 2: Recepción, Materiales y Almacenamiento</h3>
+      <p>En una empresa de muebles ingresan materias primas y consumibles que se clasifican en almacenes específicos según su naturaleza y riesgo: <strong>madera maciza</strong>, <strong>tableros derivados de madera</strong>, <strong>adhesivos</strong>, <strong>productos inflamables</strong> (barnices, tintes, disolventes), <strong>montaje</strong> (herrajes) y <strong>material de embalaje</strong>.</p>
+
+      <h4>2.2 Inspección de Recepción</h4>
+      <ul>
+        <li>Verificar cantidad, referencia y compatibilidad con el pedido.</li>
+        <li>Detectar daños visibles, golpes, humedad o alabeos/deformaciones.</li>
+        <li>Comprobar integridad del embalaje, etiquetas, identificación y fichas de seguridad.</li>
+        <li>No aceptar ni usar material dudoso por intuición: registrar incidencia y consultar.</li>
+      </ul>
+
+      <h4>2.3 Almacenamiento Seguro y Criterio FIFO</h4>
+      <p>La guía recomienda controlar inventarios (incluso mediante sistemas informáticos), comprar lo estrictamente necesario, espaciar contenedores para inspeccionarlos, usar solera de hormigón hidrófugo con recogida independiente de derrames, separar productos químicos incompatibles, mantener envases herméticamente cerrados y aplicar el principio <strong>FIFO (First In, First Out)</strong>: utilizar primero los productos más antiguos o con fecha de caducidad más próxima.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Código (Ej. 2)</th>
+              <th>Artículo</th>
+              <th>Ubicación</th>
+              <th>Estado</th>
+              <th>Caducidad / Criterio</th>
+              <th>Observaciones de control</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>TAB-19-MEL</td>
+              <td>Tablero aglomerado 19 mm</td>
+              <td>Almacén Tableros</td>
+              <td>Óptimo</td>
+              <td>Sin caducidad (FIFO)</td>
+              <td>Apoyado en plano horizontal sin humedad</td>
+            </tr>
+            <tr>
+              <td>ADH-PVA-01</td>
+              <td>Cola blanca acetato polivinilo</td>
+              <td>Almacén Adhesivos</td>
+              <td>Cerrado</td>
+              <td>12 meses (FIFO estricto)</td>
+              <td>Proteger de heladas y cambios térmicos</td>
+            </tr>
+            <tr>
+              <td>HER-BIS-35</td>
+              <td>Bisagras cazoleta 35 mm</td>
+              <td>Almacén Montaje</td>
+              <td>Precintado</td>
+              <td>No aplica</td>
+              <td>Agrupadas por lote y referencia</td>
+            </tr>
+            <tr>
+              <td>BAR-PU-2K</td>
+              <td>Barniz poliuretano fondo</td>
+              <td>Almacén Inflamables</td>
+              <td>Hermético</td>
+              <td>6 meses</td>
+              <td>Solera estanca, lejos de oxidantes</td>
+            </tr>
+            <tr>
+              <td>EMB-CAN-05</td>
+              <td>Cantoneras cartón y film</td>
+              <td>Almacén Embalaje</td>
+              <td>Seco</td>
+              <td>No aplica</td>
+              <td>Protegido de polvo y humedad</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tab-footer-nav"></div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- PESTAÑA 3: MECANIZADO Y ACABADOS -->
+  <!-- ===================================================================== -->
+  <section id="sec-mecanizado-acabados" class="tab-sec" data-t="Mecanizado y Acabados">
+    <h2 class="sec-title">Unidad 3 y Unidad 4 — Mecanizado, Ensamblaje y Acabados</h2>
+
+    <div class="card">
+      <h3>Unidad 3: Operaciones de Mecanizado</h3>
+      <h4>3.1 Mecanizado de Madera Maciza</h4>
+      <p>Parte de tablones secos con espesores normalizados (22, 28, 32, 38, 45, 50, 60, 70 mm) que incluyen sobredimensión para compensar las pérdidas por arranque de viruta (ej.: dos piezas rectas de 20 mm a partir de un tablón de 50 mm).</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Operación</th>
+              <th>Descripción técnica</th>
+              <th>Finalidad en el proceso</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Marcaje</strong></td>
+              <td>Señalar nudos, grietas e imperfecciones en el tablón bruto.</td>
+              <td>Maximizar aprovechamiento de materia prima costosa.</td>
+            </tr>
+            <tr>
+              <td><strong>Tronzado</strong></td>
+              <td>Corte transversal al eje longitudinal y a la malla de la madera.</td>
+              <td>Ajustar longitud bruta según pieza mayor.</td>
+            </tr>
+            <tr>
+              <td><strong>Aserrado</strong></td>
+              <td>Corte en sentido longitudinal ("dar hilos").</td>
+              <td>Obtener listones de ancho próximo al final.</td>
+            </tr>
+            <tr>
+              <td><strong>Cepillado</strong></td>
+              <td>Aplanar una cara (y opcionalmente un canto perpendicular).</td>
+              <td>Eliminar alabeo y crear cara de referencia plana.</td>
+            </tr>
+            <tr>
+              <td><strong>Regruesado</strong></td>
+              <td>Aplanar cara opuesta tomando como apoyo la cara cepillada.</td>
+              <td>Dimensionar espesor y/o ancho exactos.</td>
+            </tr>
+            <tr>
+              <td><strong>Corte a medida</strong></td>
+              <td>Dimensionado final de longitud, ancho o figura.</td>
+              <td>Obtener geometría exacta antes de ensamblar.</td>
+            </tr>
+            <tr>
+              <td><strong>Moldurado / Fresado</strong></td>
+              <td>Arranque de viruta para perfiles, galces, ranuras o relieves.</td>
+              <td>Estética o encaje; <em>replantillado</em> usa plantilla guía.</td>
+            </tr>
+            <tr>
+              <td><strong>Taladrado / Escopleado</strong></td>
+              <td>Taladrado: orificio cilíndrico. Escopleado: hueco alargado/corrido.</td>
+              <td>Alojar mechones (clavijas), espigas y herrajes.</td>
+            </tr>
+            <tr>
+              <td><strong>Espigado / Mechonado</strong></td>
+              <td>Tallado de espigas o inserción de clavijas (Ø 6, 8, 10 mm; largo 20-60 mm).</td>
+              <td>Unión estructural resistente entre piezas.</td>
+            </tr>
+            <tr>
+              <td><strong>Torneado</strong></td>
+              <td>Giro de pieza a alta velocidad frente a herramienta de corte.</td>
+              <td>Secciones circulares homogéneas o variables.</td>
+            </tr>
+            <tr>
+              <td><strong>Tallado</strong></td>
+              <td><em>Grabado</em> (incisión), <em>altorrelieve</em> (rebaje de fondo) o <em>talla exenta</em> (360°).</td>
+              <td>Ornamentación artesanal en madera maciza o MDF.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>3.2 Mecanizado de Tableros Derivados</h4>
+      <p>Medidas normalizadas habituales en la guía: largo y ancho de <strong>2,44 m × 1,22 m</strong> (más común), 2 m × 1 m y 3,66 m × 1,88 m; espesores de 10, 16, 19, 22 y 25 mm (siendo <strong>16 mm y 19 mm</strong> los más empleados). Las operaciones clave son: <strong>corte a medida</strong> (con perfiladora escuadradora), <strong>chapado/aplacado de cantos</strong> (con chapadora automática y adhesivos termofusibles que requieren calor), <strong>fresado/moldurado</strong> de bordes o caras, y <strong>taladrado</strong>.</p>
+    </div>
+
+    <div class="card">
+      <h3>Unidad 4: Pre-encolado, Montaje y Barnizado (Acabados)</h3>
+      <ul>
+        <li><strong>Pre-encolado (2.4):</strong> Unión previa de subconjuntos mediante cola blanca (acetato de polivinilo), aunque no siempre es necesario (ej. cajones). Algunas piezas reciben después un segundo mecanizado.</li>
+        <li><strong>Montaje en crudo (2.5):</strong> Ensamblaje y ajuste de piezas en bruto con herrajes, mechones y cola blanca, verificando escuadra y geometría.</li>
+        <li><strong>Secuencia de Barnizado / Acabado (2.6):</strong> Tintado → Secado → Imprimación / Fondeado → Secado → Lijado intermedio → Acabado final → Secado.</li>
+      </ul>
+
+      <h4>Glosario Técnico del Barnizado</h4>
+      <div class="grid-2">
+        <div class="prompt-card">
+          <p><strong>Tinte:</strong> Aporta color conservando textura y dibujo de vetas y poros.</p>
+          <p><strong>Masillado:</strong> Cierra poros y juntas en mueble clásico a poro cerrado previo al fondo.</p>
+          <p><strong>Matar pincha:</strong> Lijado burdo para eliminar fibras levantadas tras la imprimación.</p>
+          <p><strong>Fondeado (Fondo):</strong> Aporta espesor, nivelación y propiedades mecánicas de base.</p>
+          <p><strong>Lijado intermedio:</strong> Prepara el fondo seco para asegurar adherencia de la capa final.</p>
+        </div>
+        <div class="prompt-card">
+          <p><strong>Glaseado:</strong> Tinte graso de secado lento aplicado selectivamente para realzar relieves.</p>
+          <p><strong>Patinado:</strong> Efecto similar al glaseado pero con productos de secado más rápido.</p>
+          <p><strong>Climado:</strong> Lijado fino con lana de acero para degradar el tono del tinte.</p>
+          <p><strong>Entonado:</strong> Igualación del tono de color entre distintas piezas del mueble.</p>
+          <p><strong>Acabado y Montaje final:</strong> Capa última (brillo, tacto, protección) seguida de ensamblaje e inspección visual.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-footer-nav"></div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- PESTAÑA 4: LOGÍSTICA Y CONTROL AMBIENTAL -->
+  <!-- ===================================================================== -->
+  <section id="sec-control-ambiental" class="tab-sec" data-t="Logística y Control Ambiental">
+    <h2 class="sec-title">Unidades 5, 6, 7 y 8 — Embalaje, Agua, Aire, Residuos y Ruido</h2>
+
+    <div class="card">
+      <h3>Unidad 5: Embalaje, Expedición y Operaciones Auxiliares</h3>
+      <p>Los muebles voluminosos o pesados se embalan desmontados para facilitar la manipulación y reducir daños, empleando <strong>cajas de cartón, plástico-papel burbuja, cantoneras y perfiles</strong>. En expedición se agrupan por pedido antes de la carga. Las operaciones auxiliares incluyen cambios de aceite en prensas, luminarias, mantenimiento de aspiración y filtros, carretillas, silos de serrín y depuración.</p>
+    </div>
+
+    <div class="card">
+      <h3>Unidad 6: Vertidos de Aguas Residuales</h3>
+      <p>Además de aguas fecales, las <strong>cabinas húmedas</strong> de barnizado generan aguas industriales cargadas con restos de barnices, disolventes, sólidos en suspensión, nitrógeno amoniacal, conductividad y <strong>BTEX</strong> (benceno —ya en desuso—, tolueno, etilbenceno y xileno). Los medios receptores legales son el <strong>Dominio Público Hidráulico</strong> (organismo de cuenca), el <strong>alcantarillado municipal</strong> (EDAR) y el <strong>mar</strong>.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Parámetro (Cabinas AIDIMA)</th>
+              <th>Vertido Industrial Medio</th>
+              <th>Límite Ordenanza Saneamiento (Media diaria)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>pH (U. de pH)</td><td>6,5 – 8,5</td><td>5,5 – 9,0</td></tr>
+            <tr><td>Conductividad a 25 ºC (µS/cm)</td><td>1.000 – 2.000</td><td>3.000,00</td></tr>
+            <tr><td>Sólidos en suspensión (mg/l)</td><td>100 – 400</td><td>500,00</td></tr>
+            <tr><td>DQO (mg/l)</td><td>1.500 – 5.000</td><td>1.000,00</td></tr>
+            <tr><td>DBO5 (mg/l)</td><td>180 – 400</td><td>500,00</td></tr>
+            <tr><td>Toxicidad (U.T.)</td><td>&lt; 2 – 4</td><td>15,00</td></tr>
+            <tr><td>Fósforo total (mg/l)</td><td>1,5 – 3</td><td>15,00</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Unidad 7: Emisiones a la Atmósfera, Polvo y COV</h3>
+      <p>Los cuatro focos principales son: <strong>COV</strong> (barnizado y limpieza), <strong>polvo de madera</strong> (mecanizado y silos), <strong>polvo de barniz</strong> (lijado de superficies barnizadas) y <strong>gases de combustión</strong> (calderas). Los COV reaccionan con NOx, CO y metano bajo radiación solar generando <strong>smog fotoquímico y ozono troposférico</strong>, además de riesgos laborales (narcosis, irritación, alergias, atmósferas explosivas).</p>
+      <ul>
+        <li><strong>Fórmula de conversión de unidades:</strong> <code>C (mg/Nm³) = C (ppm) × PM / 22,4</code> (condiciones normales: 1 atm y 0 ºC).</li>
+        <li><strong>Toma de muestras en chimenea (O.M. 18/10/1976):</strong> Orificios con casquillo roscado DN 100 mm, distancia mínima <strong>8D aguas abajo</strong> de perturbación (L1) y <strong>2D aguas arriba</strong> de boca de salida (L2). Plataforma segura a 60–100 cm con toma eléctrica 220–380 V.</li>
+        <li><strong>Umbrales R.D. 117/2003 (recubrimiento de madera):</strong> &lt; 15 t/año (Decreto 127/2006: &lt; 50 mg COT/Nm³); 15–25 t/año (100 mg C/Nm³ y 25% emisión difusa); &gt; 25 t/año (50 mg C/Nm³ en secado, 75 mg C/Nm³ en aplicación y 20% emisión difusa); &gt; 200 t/año o 150 kg/h (sujeto a AAI).</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Unidad 8: Residuos (LER), Suelos Contaminados y Ruido</h3>
+      <p>Todo residuo debe entregarse a <strong>Gestor Autorizado</strong> aplicando la jerarquía: Prevención → Reutilización → Reciclado → Valorización → Eliminación. Los envases adheridos a un <strong>SDDR</strong> (Sistema de Depósito, Devolución y Retorno) pueden devolverse al proveedor.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Residuo</th>
+              <th>Tipo</th>
+              <th>Código LER</th>
+              <th>Foco generador</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Restos de barnices</td><td><span class="badge rose">RP</span></td><td>08.01.11</td><td>Barnizado</td></tr>
+            <tr><td>Disolventes orgánicos de limpieza</td><td><span class="badge rose">RP</span></td><td>14.06.03</td><td>Barnizado</td></tr>
+            <tr><td>Envases contaminados (P, B, T, DO)</td><td><span class="badge rose">RP</span></td><td>15.01.10</td><td>Barnizado</td></tr>
+            <tr><td>Trapos y cartón impregnados</td><td><span class="badge rose">RP</span></td><td>15.02.02</td><td>Barnizado</td></tr>
+            <tr><td>Lijas sobre superficies barnizadas</td><td><span class="badge rose">RP</span></td><td>08.01.99</td><td>Barnizado</td></tr>
+            <tr><td>Polvo de barniz</td><td><span class="badge rose">RP</span></td><td>08.01.17</td><td>Barnizado</td></tr>
+            <tr><td>Lodos recuperación disolvente</td><td><span class="badge rose">RP</span></td><td>07.01.08</td><td>Auxiliares / mantenimiento</td></tr>
+            <tr><td>Lodos depuración físico-química</td><td><span class="badge rose">RP</span></td><td>08.01.15</td><td>Auxiliares / mantenimiento</td></tr>
+            <tr><td>Madera, tableros, virutas y serrín en crudo</td><td><span class="badge emerald">RNP</span></td><td>03.01.05</td><td>Aserrado y mecanizado</td></tr>
+            <tr><td>Envases vacíos de cola blanca</td><td><span class="badge emerald">RNP</span></td><td>15.01.02</td><td>Preencolado y montajes</td></tr>
+            <tr><td>Lijas sobre madera en crudo</td><td><span class="badge emerald">RNP</span></td><td>03.01.99</td><td>Mecanizado y montajes</td></tr>
+            <tr><td>Embalajes: cartón (15.01.01) / plástico (15.01.02)</td><td><span class="badge emerald">RNP</span></td><td>15.01.01/02</td><td>Embalaje y recepción</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Suelos contaminados (R.D. 9/2005):</strong> La fabricación de muebles requiere Informe Preliminar de Situación del Suelo. Las técnicas de recuperación se dividen en <em>in situ</em> (lavado, air sparging, térmicos, biológicos, bioaireación, oxidación química) y <em>ex situ</em> (desorción térmica, landfarming, incineración), además de contención/vitrificación.</p>
+      <p><strong>Contaminación acústica (Decreto 266/2004 y R.D. 286/2006):</strong> Límites externos día/noche: Sanitario/docente 45/35 dB(A), Residencial 55/45 dB(A), Industrial 70/60 dB(A). Control en tres frentes: <em>sobre la fuente</em>, <em>sobre el medio de propagación</em> (barreras, cerramientos, silenciadores) y <em>sobre el receptor</em> (EPIs auditivos, rotación).</p>
+    </div>
+
+    <div class="tab-footer-nav"></div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- PESTAÑA 5: TECNOLOGÍAS MTD -->
+  <!-- ===================================================================== -->
+  <section id="sec-tecnologias-mtd" class="tab-sec" data-t="Mejores Técnicas Disponibles (MTD)">
+    <h2 class="sec-title">Unidad 9 — Catálogo Técnico de Mejores Técnicas Disponibles</h2>
+
+    <div class="card">
+      <h3>9.1 – 9.3 Buenas Prácticas, Disolventes y Recubrimientos Alternativos</h3>
+      <p>Las buenas prácticas incluyen formación, mantenimiento preventivo, diagramas de flujo, control informático de stock, envases dosificadores con émbolo para limpieza manual y cumplimiento del <strong>Reglamento REACH (CE nº 1907/2006)</strong>. Al elegir disolventes se busca baja velocidad de evaporación, alto punto de inflamación, alta capacidad de limpieza, altos VLA (VLA-ED 8h / VLA-EC 15min) y baja formación de ozono.</p>
+
+      <div class="grid-2">
+        <div class="prompt-card">
+          <h4>Alto Contenido en Sólidos (&gt; 70%)</h4>
+          <p>Reduce emisiones de COV hasta un 50% y requiere menos manos. Limitaciones: alta viscosidad (puede requerir calentador en línea), riesgo de piel de naranja, pot-life corto y necesidad de formación del operario.</p>
+        </div>
+        <div class="prompt-card">
+          <h4>Curado Ultravioleta (UV, 70%–100% sólidos)</h4>
+          <p>Fotoiniciadores activados por lámparas de mercurio (367 nm, transparentes) o galio (420 nm, pigmentados) polimerizan la película al instante. Ideal para paneles planos. Limitación: inversión inicial y dificultad en geometrías 3D o acabados mate/poro abierto.</p>
+        </div>
+        <div class="prompt-card">
+          <h4>Recubrimientos en Base Acuosa</h4>
+          <p>Emulsiones acrílicas o poliuretánicas. Baja emisión de COV, limpieza con agua y menor riesgo de incendio. Limitaciones: secado lento (requiere aire caliente, IR o microondas que bajan de 90 min a 3–6 min), levantamiento de fibra y sensibilidad a bajas temperaturas.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>9.4 Sistemas de Aplicación con Alta Eficacia de Transferencia</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Técnica de aplicación</th>
+              <th>Eficacia transferencia</th>
+              <th>Coste orientativo (2009)</th>
+              <th>Notas técnicas clave</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Pulverización convencional</td>
+              <td>30% – 60%</td>
+              <td>Referencia base</td>
+              <td>Gran cantidad de niebla (overspray).</td>
+            </tr>
+            <tr>
+              <td>Pulverización <strong>HVLP</strong></td>
+              <td>40% – 80%</td>
+              <td>300 – 500 €</td>
+              <td>Alto caudal (300–600 l/min), baja presión (&le; 0,7 bar). No apta para viscosidad alta.</td>
+            </tr>
+            <tr>
+              <td>Pulverización <strong>AIRLESS</strong></td>
+              <td>40% – 75%</td>
+              <td>4.000 – 5.000 € (con bomba)</td>
+              <td>Atomización hidráulica a 100–300 bar sin aire. Alta velocidad (2-3×), riesgo de inyección.</td>
+            </tr>
+            <tr>
+              <td>Pulverización <strong>AIRMIX (Mixta)</strong></td>
+              <td>35% – 70%</td>
+              <td>2.000 – 3.000 € (con bomba)</td>
+              <td>Combina presión hidráulica moderada + aire (0,3–2 bar). Partícula fina.</td>
+            </tr>
+            <tr>
+              <td>Pulverización <strong>Electrostática</strong></td>
+              <td>50% – 70%</td>
+              <td>3.000 – 8.000 €</td>
+              <td>Efecto envolvente para sillas/torneados. Viscosidad 18–24 s Copa Ford nº4; aire cabina &le; 0,5 m/s.</td>
+            </tr>
+            <tr>
+              <td>Recubrimiento por <strong>Cortina</strong></td>
+              <td>mín. 95%</td>
+              <td>25.000 – 35.000 €</td>
+              <td>Cabezal de labios o rebosadero; recupera barniz sobrante. Solo piezas planas/curva suave.</td>
+            </tr>
+            <tr>
+              <td>Recubrimiento por <strong>Rodillo</strong></td>
+              <td>mín. 95%</td>
+              <td>25.000 – 30.000 €</td>
+              <td>Rodillo aplicador caucho (6–17 m/min) + dosificador metálico. Variantes: espatuladora, reverse, tintadora, estriado (+70%).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>9.5 – 9.10 Equipos de Curado, Recuperación y Depuración</h3>
+      <ul>
+        <li><strong>Túneles de secado UV (9.5):</strong> Instalación robotizada completa en base agua UV ronda 249.000 € (robot 100.000 €, túnel laminar 65.000 €, horno cantos 30.000 €, pistolas 27.000 €, limpieza 18.000 €, IR 9.000 € + 4.200 € eléctrica ATEX + 11.500 € aspiración).</li>
+        <li><strong>Recuperador de disolventes (9.6):</strong> Destilación simple con aceite diatérmico (sustituir cada 1.000 h o 1 año) y bolsa de teflón. Recupera <strong>60%–80%</strong> del disolvente sucio (genera 20%–40% lodos). Rentable desde 500 L/año. Equipo 20 L: 1.800–2.500 € (4 kWh/ciclo); 60 L: 5.500–8.000 € (18 kWh/ciclo).</li>
+        <li><strong>Depuración físico-química de aguas (9.7):</strong> Ajuste de pH, coagulación (sales de Al o Fe trivalentes), floculación (poliacrilamidas), ensayo previo <em>Jar-Test</em>, decantación, filtro banda y adsorción opcional para lograr <strong>vertido cero</strong>. Equipo desde 28.000 € + depósitos 7.500 €; reactivos 50–60 € por ciclo de 6.000 L.</li>
+        <li><strong>Ciclofiltro (9.8):</strong> Ciclón centrífugo (precipita ~95% partículas) + filtro de mangas de tergal 450 g/m² (retiene el 5% restante, duración 3 años o 6.000 h). Emisiones &lt; 30 mg/Nm³. Separar siempre polvo de madera (RNP) de polvo de barniz (RP).</li>
+        <li><strong>Adsorción de COV (9.9):</strong> Lecho de carbón activo (retiene hasta 50% de su peso; T &lt; 40 ºC, HR &lt; 50–60%, partículas &lt; 5 mg/Nm³; vigilar LEL con cetonas) o zeolitas hidrófobas. Salida &lt; 50 mg COT/Nm³.</li>
+        <li><strong>Lavadora automática de pistolas (9.10):</strong> Espacio cerrado con aire comprimido y aspiración canalizada. Ahorra 30%–50% de disolvente y reduce 50%–70% de residuos. Coste desde 1.800 €.</li>
+      </ul>
+    </div>
+
+    <div class="tab-footer-nav"></div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- PESTAÑA 6: INSTALACIÓN MODULAR -->
+  <!-- ===================================================================== -->
+  <section id="sec-instalacion-modular" class="tab-sec" data-t="Aplicación al Instalador Modular">
+    <h2 class="sec-title">Unidad 10 — Procedimiento Integral para Instalar Muebles Modulares</h2>
+
+    <div class="callout">
+      <strong>Nota pedagógica:</strong> Esta unidad traduce los principios industriales de la guía MTD de 2009 al trabajo cotidiano de montaje e instalación en obra o domicilio del cliente.
+    </div>
+
+    <div class="card">
+      <h3>Lista de Verificación Interactiva del Instalador (Persistencia Automática)</h3>
+      <p>Marca cada paso completado durante tu jornada. Tu progreso se guarda automáticamente en este dispositivo.</p>
+
+      <h4>Fase 1: Antes de empezar el montaje (10.1)</h4>
+      <label class="check-row"><input type="checkbox" data-check-id="chk-1"> <span><strong>1. Estudiar plano y secuencia:</strong> Verificar despiece, orientación de piezas y orden lógico de ensamblaje.</span></label>
+      <label class="check-row"><input type="checkbox" data-check-id="chk-2"> <span><strong>2. Comprobar inventario y herrajes:</strong> Cotejar etiquetas, bolsas de tornillería, clavijas y estado de cantos antes de desembalar todo.</span></label>
+      <label class="check-row"><input type="checkbox" data-check-id="chk-3"> <span><strong>3. Revisar espacio y accesos:</strong> Medir hueco, nivel de suelo, plomo de paredes, enchufes y radios de apertura.</span></label>
+      <label class="check-row"><input type="checkbox" data-check-id="chk-4"> <span><strong>4. Proteger zona y organizar residuos:</strong> Cubrir pavimentos del cliente y habilitar contenedores separados para cartón y plástico.</span></label>
+
+      <h4>Fase 2: Durante el trabajo (10.2)</h4>
+      <label class="check-row"><input type="checkbox" data-check-id="chk-5"> <span><strong>5. Apoyo seguro de piezas:</strong> Mantener tableros protegidos de golpes, humedad y flexión en zonas de paso despejadas.</span></label>
+      <label class="check-row"><input type="checkbox" data-check-id="chk-6"> <span><strong>6. Cero taladros improvisados:</strong> Verificar medidas, conducciones ocultas (agua/luz) y autorización técnica antes de perforar.</span></label>
+      <label class="check-row"><input type="checkbox" data-check-id="chk-7"> <span><strong>7. Control de polvo, ruido y químicos:</strong> Usar aspiración acoplada, protección auditiva y leer etiquetas/FDS sin verter nada a desagües.</span></label>
+      <label class="check-row"><input type="checkbox" data-check-id="chk-8"> <span><strong>8. No forzar uniones:</strong> Si un herraje o clavija ofrece resistencia anormal, detenerse y revisar orientación o tolerancia.</span></label>
+
+      <h4>Fase 3: Al finalizar la instalación (10.3)</h4>
+      <label class="check-row"><input type="checkbox" data-check-id="chk-9"> <span><strong>9. Verificar nivel, escuadra y fijación:</strong> Comprobar estabilidad, anclajes a muro y cierre suave de puertas y cajones.</span></label>
+      <label class="check-row"><input type="checkbox" data-check-id="chk-10"> <span><strong>10. Inspección final y limpieza compatible:</strong> Revisar superficies bajo buena luz, limpiar con productos neutros aprobados y documentar incidencias.</span></label>
+
+      <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+        <span id="checklist-status" class="badge emerald">Progreso: 0 / 10 completados</span>
+        <button class="btn-tool" id="reset-checklist" style="min-height:38px;">Reiniciar lista</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>10.4 Pensamiento de Proceso y Caso Práctico Integrador</h3>
+      <p>Una instalación es un proceso con <strong>entradas</strong> (mueble, planos, herramientas, energía), <strong>operaciones</strong>, <strong>controles</strong> y <strong>salidas</strong> (mueble instalado, residuos segregados, registro de incidencias). Si surge un defecto, analiza la causa raíz en lugar de ocultar el síntoma.</p>
+
+      <div class="prompt-card">
+        <h4>Protocolo ante Recepción con Daños y Faltantes (Caso Integrador)</h4>
+        <p><strong>Escenario:</strong> Recibes un pedido en cajas; dos paquetes tienen golpes, faltan bolsas de herrajes y un costado presenta el canto despegado.</p>
+        <ol>
+          <li><strong>Detener y registrar</strong> la incidencia fotográfica y documentalmente antes de manipular.</li>
+          <li><strong>Identificar</strong> códigos de cajas, lotes y piezas afectadas.</li>
+          <li><strong>Comprobar</strong> el inventario completo contra la hoja de despiece e instrucciones.</li>
+          <li><strong>Proteger y aislar</strong> el material que se encuentra en perfecto estado.</li>
+          <li><strong>Contactar</strong> con proveedor o responsable aportando referencias exactas.</li>
+          <li><strong>Prohibido improvisar:</strong> Nunca montar una pieza dañada ni sustituir un herraje estructural por otro genérico.</li>
+          <li><strong>Reorganizar</strong> las fases de trabajo posibles sin perder trazabilidad.</li>
+          <li><strong>Segregar</strong> embalajes dañados de residuos reutilizables.</li>
+          <li><strong>Documentar</strong> la reposición y verificar el ajuste final tras el montaje.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="tab-footer-nav"></div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- PESTAÑA 7: 10 CASOS PRÁCTICOS -->
+  <!-- ===================================================================== -->
+  <section id="sec-casos-practicos" class="tab-sec" data-t="10 Casos Prácticos">
+    <h2 class="sec-title">10 Casos Prácticos Resueltos — Taller e Instalación Modular</h2>
+    <p>Estudio aplicado de situaciones reales extraídas de las unidades 1 a 10 y de las fichas técnicas de la guía AIDIMA/CTL.</p>
+
+    <div class="card">
+      <h4>Caso 1: Recepción de pedido con embalaje golpeado y herrajes incompletos</h4>
+      <p><strong>Situación:</strong> Al descargar un frente de armario modular, dos cajas muestran aplastamiento en esquinas, un tablero de 19 mm tiene el canto aplacado desprendido y falta una bolsa de excéntricas.</p>
+      <p><strong>Resolución MTD:</strong> Paralizar el montaje del módulo afectado, documentar con foto y código de etiqueta, aislar las piezas intactas, no forzar ni pegar el canto en obra con adhesivos no homologados y tramitar reposición trazable.</p>
+    </div>
+
+    <div class="card">
+      <h4>Caso 2: Sustitución de disolvente de limpieza manual en línea de laminados</h4>
+      <p><strong>Situación:</strong> En la limpieza final de manchas de adhesivo sobre tableros laminados se emplean botes abiertos con disolvente de alta evaporación y bajo punto de inflamación.</p>
+      <p><strong>Resolución MTD:</strong> Sustituir por un disolvente con menor presión de vapor, mayor punto de inflamación y mejores valores VLA-ED, dosificado mediante recipientes herméticos con émbolo humedecedor que reducen emisiones difusas de COV y exposición respiratoria.</p>
+    </div>
+
+    <div class="card">
+      <h4>Caso 3: Dimensionamiento y prevención de alabeo en madera maciza</h4>
+      <p><strong>Situación:</strong> Se reciben tablones macizos de 50 mm con ligera curvatura y nudos para obtener montantes rectos de 20 mm de espesor final.</p>
+      <p><strong>Resolución MTD:</strong> Ejecutar primero el marcaje para sanear nudos/grietas, tronzar y aserrar en listones, cepillar una cara de referencia hasta eliminar el alabeo y posteriormente pasar por la regruesadora apoyando siempre la cara perfectamente plana contra la mesa.</p>
+    </div>
+
+    <div class="card">
+      <h4>Caso 4: Elección de sistema de pulverización para sillería torneada</h4>
+      <p><strong>Situación:</strong> Un taller barniza sillas con patas torneadas y rejillas mediante pistola aerográfica convencional, generando un 60% de overspray y alto gasto de barniz.</p>
+      <p><strong>Resolución MTD:</strong> Implantar pistola <strong>electrostática</strong> (eficacia 50–70%) ajustando la viscosidad del barniz entre 18 y 24 segundos en Copa Ford nº 4, punto de inflamación &gt; 21 ºC, velocidad de aire de cabina &le; 0,5 m/s y calzado conductor para el operario.</p>
+    </div>
+
+    <div class="card">
+      <h4>Caso 5: Reducción de tiempos de secado en barnizado al agua sobre paneles</h4>
+      <p><strong>Situación:</strong> Una empresa migra a barnices acrílico-poliuretánicos en base acuosa para reducir COV, pero el túnel de aire caliente tarda 90 minutos por lote y satura el almacén intermedio.</p>
+      <p><strong>Resolución MTD:</strong> Incorporar módulos de secado por radiación infrarroja (IR) o microondas seleccionadas combinadas con aire caliente, reduciendo la evaporación del agua a 3–6 minutos y aplicando sistemas mixtos (fondo convencional + acabado al agua) para evitar el levantamiento de fibra.</p>
+    </div>
+
+    <div class="card">
+      <h4>Caso 6: Gestión de aguas residuales en cabina húmeda de barnizado</h4>
+      <p><strong>Situación:</strong> El agua de la cortina de una cabina húmeda presenta DQO de 4.200 mg/l y sólidos de 350 mg/l, superando los límites de vertido al alcantarillado municipal (DQO 1.000 mg/l).</p>
+      <p><strong>Resolución MTD:</strong> Instalar una planta físico-química por cargas (6.000 L/ciclo) calibrada mediante ensayo <em>Jar-Test</em>: ajuste de pH, coagulación con sulfato de aluminio, floculación con poliacrilamida, decantación y filtro banda, logrando recirculación en circuito cerrado ("vertido cero").</p>
+    </div>
+
+    <div class="card">
+      <h4>Caso 7: Separación obligatoria de polvo de madera y polvo de barniz</h4>
+      <p><strong>Situación:</strong> Un taller conecta la aspiración de las lijadoras de barniz al mismo silo de serrín de la seccionadora de tableros.</p>
+      <p><strong>Resolución MTD:</strong> Independizar ambos circuitos con ciclofiltros separados: el serrín y polvo de madera en crudo son Residuos No Peligrosos (LER 03.01.05, coste de gestión ~0 €/t), mientras que el polvo de barniz es Residuo Peligroso (LER 08.01.17, ~220 €/t) y contaminaría todo el lote si se mezcla.</p>
+    </div>
+
+    <div class="card">
+      <h4>Caso 8: Implantación de recuperador de disolventes por destilación</h4>
+      <p><strong>Situación:</strong> Una empresa genera 1.200 litros/año de disolvente de limpieza contaminado con resinas y pigmentos, gestionándolo íntegramente como residuo peligroso.</p>
+      <p><strong>Resolución MTD:</strong> Adquirir un destilador de 60 L (5.500–8.000 €). Con un consumo de 18 kWh/ciclo (1,8 €/ciclo) recupera entre el 60% y el 80% del disolvente limpio reutilizable, reduciendo drásticamente la compra de disolvente virgen y el volumen de RP.</p>
+    </div>
+
+    <div class="card">
+      <h4>Caso 9: Control de ruido exterior hacia edificios residenciales colindantes</h4>
+      <p><strong>Situación:</strong> Los ventiladores y motores del sistema de aspiración situados junto al silo exterior generan 64 dB(A) en fachada residencial, incumpliendo el límite del Decreto 266/2004 (55 dB(A) día / 45 dB(A) noche).</p>
+      <p><strong>Resolución MTD:</strong> Actuar sobre el medio de propagación instalando cerramientos acústicos absorbentes alrededor de los motores, silenciadores en las conducciones y barreras acústicas perimetrales, complementado con mantenimiento preventivo de rodetes.</p>
+    </div>
+
+    <div class="card">
+      <h4>Caso 10: Desviación de medidas en obra durante instalación de cocina modular</h4>
+      <p><strong>Situación:</strong> Al replantear una composición lineal de muebles bajos y altos en vivienda, la pared presenta un desplome de 14 mm y una toma eléctrica coincide con un costado intermedio.</p>
+      <p><strong>Resolución MTD:</strong> Aplicar la verificación previa de la Unidad 1 y 10: nivelar desde el punto más alto del pavimento mediante patas regulables, calzar regletas de ajuste lateral sin debilitar los costados estructurales y coordinar la reubicación eléctrica antes de mecanizar ningún tablero.</p>
+    </div>
+
+    <div class="tab-footer-nav"></div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- PESTAÑA 8: 10 PROYECTOS -->
+  <!-- ===================================================================== -->
+  <section id="sec-proyectos" class="tab-sec" data-t="10 Proyectos">
+    <h2 class="sec-title">10 Proyectos Aplicados — Planificación, Auditoría y Mejora</h2>
+    <p>Proyectos prácticos diseñados para desarrollar competencias reales en taller de fabricación e instalación modular.</p>
+
+    <div class="card">
+      <h4>Proyecto 1: Diseño de un Plan de Gestión de Disolventes (R.D. 117/2003)</h4>
+      <p><strong>Objetivo:</strong> Elaborar el balance de entradas y salidas de COV para una fábrica que consume 18 t/año de disolventes (umbral 15–25 t/año: VLE 100 mg C/Nm³ y emisión difusa &le; 25%). <strong>Entregable:</strong> Diagrama de entradas, emisiones canalizadas, emisiones difusas y disolventes recuperados.</p>
+    </div>
+
+    <div class="card">
+      <h4>Proyecto 2: Auditoría de Almacén FIFO y Segregación de Incompatibles</h4>
+      <p><strong>Objetivo:</strong> Reorganizar un almacén de materias primas (madera, tableros, colas, barnices inflamables y herrajes) aplicando etiquetado completo (lote, entrada, caducidad, pictogramas), cubetos de retención y rotación FIFO.</p>
+    </div>
+
+    <div class="card">
+      <h4>Proyecto 3: Protocolo Estándar de Replanteo e Instalación Modular Cero Defectos</h4>
+      <p><strong>Objetivo:</strong> Crear una ficha de control de obra en tres fases (pre-montaje, ejecución y entrega) integrando tolerancias dimensionales, protección de superficies acabadas y segregación de embalajes LER 15.01.01/02/04.</p>
+    </div>
+
+    <div class="card">
+      <h4>Proyecto 4: Estudio de Viabilidad Económica de Destilador de Disolventes</h4>
+      <p><strong>Objetivo:</strong> Calcular el retorno de inversión (ROI) de un recuperador de 60 L frente a la gestión externa de 2.000 L/año de disolvente sucio (220–250 €/t) y ahorro del 70% en disolvente nuevo.</p>
+    </div>
+
+    <div class="card">
+      <h4>Proyecto 5: Modernización de Línea de Barnizado de Paneles Planos</h4>
+      <p><strong>Objetivo:</strong> Comparar técnica y económicamente la transición de pulverización convencional a barnizado por rodillo estriado o cortina con curado UV (lámparas de mercurio y galio), evaluando ahorro de COV y superficie ocupada.</p>
+    </div>
+
+    <div class="card">
+      <h4>Proyecto 6: Dimensionamiento de Puntos de Muestreo en Chimenea Industrial</h4>
+      <p><strong>Objetivo:</strong> Calcular las distancias reglamentarias L1 (&ge; 8D) y L2 (&ge; 2D), el diámetro equivalente en conductos rectangulares, la ubicación de casquillos DN 100 mm perpendiculares y el diseño de la plataforma de acceso.</p>
+    </div>
+
+    <div class="card">
+      <h4>Proyecto 7: Circuito Cerrado de Depuración Físico-Química ("Vertido Cero")</h4>
+      <p><strong>Objetivo:</strong> Diseñar el protocolo de ensayo <em>Jar-Test</em> y operación por ciclos de 6.000 L para una cabina húmeda, especificando coagulantes trivalentes, poliacrilamidas, filtro banda y gestión de lodos LER 08.01.15.</p>
+    </div>
+
+    <div class="card">
+      <h4>Proyecto 8: Plan de Mantenimiento Preventivo de Ciclofiltro y Aspiración</h4>
+      <p><strong>Objetivo:</strong> Establecer un calendario de inspección de depresión, limpieza automática de mangas de tergal (vida útil 6.000 h / 3 años), estanqueidad de silos y control de emisiones &lt; 30 mg/Nm³.</p>
+    </div>
+
+    <div class="card">
+      <h4>Proyecto 9: Mapa Acústico y Plan de Atenuación en Taller de Mecanizado</h4>
+      <p><strong>Objetivo:</strong> Identificar focos sonoros (seccionadoras, moldureras, aspiración exterior) y diseñar medidas en fuente, propagación (cerramientos, silenciadores) y receptor conforme al Decreto 266/2004 y R.D. 286/2006.</p>
+    </div>
+
+    <div class="card">
+      <h4>Proyecto 10: Guía de Mantenimiento y Uso Responsable para el Cliente Final</h4>
+      <p><strong>Objetivo:</strong> Redactar un manual breve para entregar tras la instalación modular con instrucciones de limpieza compatible por tipo de acabado (laminado, barniz UV, base agua, poro abierto), cargas máximas y ajuste de herrajes.</p>
+    </div>
+
+    <div class="tab-footer-nav"></div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- PESTAÑA 9: 33 PREGUNTAS (Q&A) — ANTES DE ERRORES -->
+  <!-- ===================================================================== -->
+  <section id="sec-qa" class="tab-sec" data-t="33 Preguntas (Q&amp;A)">
+    <h2 class="sec-title">33 Preguntas y Respuestas Ordenadas por Nivel de Dificultad</h2>
+    <p>Incluye las 15 preguntas de la Evaluación Final de la guía y 18 cuestiones técnicas adicionales clasificadas en <strong>Nivel 1 (Básico)</strong>, <strong>Nivel 2 (Intermedio)</strong> y <strong>Nivel 3 (Avanzado)</strong>.</p>
+
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px;" class="no-print">
+      <button class="btn-tool btn-primary" id="qa-expand-all">+ Desplegar todas respuestas</button>
+      <button class="btn-tool" id="qa-collapse-all">- Plegar todas las respuestas</button>
+    </div>
+
+    <!-- NIVEL 1 -->
+    <h3><span class="badge emerald">NIVEL 1 — BÁSICO</span> Fundamentos, Diseño, Materiales y Recepción (Preguntas 1 a 11)</h3>
+
+    <details class="qa-item">
+      <summary>1. [Nivel 1] Define MTD (Mejores Técnicas Disponibles) con tus palabras.</summary>
+      <div class="qa-body">Son técnicas eficaces y comercialmente disponibles (que abarcan tanto maquinaria y tecnología como organización, materiales y procedimientos) destinadas a prevenir o reducir las emisiones y el impacto ambiental en el conjunto del medio ambiente y la salud de las personas.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>2. [Nivel 1] Explica por qué el diseño de un mueble incluye tanto estética como viabilidad técnica.</summary>
+      <div class="qa-body">El aspecto formal determina la percepción estética, proporción y ergonomía para el usuario, mientras que el aspecto técnico garantiza que las piezas puedan fabricarse realmente con los materiales, uniones, maquinaria, costes y cualificación humana disponibles.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>3. [Nivel 1] ¿Qué diferencia hay entre plano, despiece, simulación y prototipo?</summary>
+      <div class="qa-body">El plano representa el mueble a escala con medidas; el despiece enumera todas las piezas individuales que lo integran; la simulación permite evaluar el resultado por ordenador; y el prototipo es una muestra física previa para detectar errores antes de fabricar en serie.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>4. [Nivel 1] ¿Qué información debe acompañar a una pieza o material para identificarlo correctamente?</summary>
+      <div class="qa-body">Referencia o código de stock, nombre y tipo de preparado/material, cantidad, fecha de recepción, ubicación, estado, fecha de caducidad (si aplica) y riesgos o precauciones de manipulación.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>5. [Nivel 1] ¿Qué significa el criterio FIFO en el almacenamiento de materiales de mobiliario?</summary>
+      <div class="qa-body"><em>First In, First Out</em> (primero en entrar, primero en salir): utilizar primero los materiales que llevan más tiempo almacenados o cuya fecha de caducidad está más próxima, evitando pérdidas por envejecimiento de adhesivos, barnices o tintes.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>6. [Nivel 1] Diferencia tronzado, aserrado, cepillado y regruesado en madera maciza.</summary>
+      <div class="qa-body"><strong>Tronzado:</strong> corte transversal para ajustar longitud. <strong>Aserrado:</strong> corte longitudinal para obtener listones. <strong>Cepillado:</strong> aplanar una cara para eliminar alabeo y crear referencia. <strong>Regruesado:</strong> dimensionar el espesor/ancho tomando como apoyo la cara cepillada.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>7. [Nivel 1] Diferencia taladrado y escopleado.</summary>
+      <div class="qa-body">El <strong>taladrado</strong> mecaniza agujeros cilíndricos mediante una broca; el <strong>escopleado</strong> mecaniza agujeros alargados o corridos. Ambos sirven para alojar mechones (clavijas), espigas o herrajes.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>8. [Nivel 1] ¿Qué función cumple el aplacado o chapado de cantos en un tablero?</summary>
+      <div class="qa-body">Recubre y sella el borde expuesto del tablero de partículas o fibras (usando adhesivos termofusibles en chapadoras automáticas) para protegerlo frente a golpes y humedad y mejorar su acabado estético.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>9. [Nivel 1] ¿Cuáles son las dimensiones y espesores normalizados más habituales de tableros citados en la guía?</summary>
+      <div class="qa-body">En largo y ancho, el formato más utilizado es <strong>2,44 m × 1,22 m</strong> (junto con 2 m × 1 m y 3,66 m × 1,88 m). En espesores, los más empleados son <strong>16 mm y 19 mm</strong> (dentro de la gama 10, 16, 19, 22 y 25 mm).</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>10. [Nivel 1] ¿Qué diferencia existe entre pre-encolado, montaje en crudo y montaje de acabados?</summary>
+      <div class="qa-body">El <strong>pre-encolado</strong> une subconjuntos previos (con cola blanca) antes de posibles segundos mecanizados; el <strong>montaje en crudo</strong> ensambla las piezas en bruto del mueble; y el <strong>montaje de acabados</strong> ensambla piezas ya barnizadas y secas, sirviendo de inspección visual final.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>11. [Nivel 1] ¿Por qué se separan los residuos desde el origen de su generación?</summary>
+      <div class="qa-body">Porque evita la mezcla y contaminación cruzada (por ejemplo, mezclar serrín limpio no peligroso con polvo de barniz peligroso), facilita su clasificación según la Lista Europea de Residuos (LER) y reduce costes de gestión.</div>
+    </details>
+
+    <!-- NIVEL 2 -->
+    <h3><span class="badge amber">NIVEL 2 — INTERMEDIO</span> Acabados, Emisiones, Aguas y Sistemas MTD (Preguntas 12 a 22)</h3>
+
+    <details class="qa-item">
+      <summary>12. [Nivel 2] ¿Qué propósito tiene el fondo en un proceso de barnizado y qué es "matar pincha"?</summary>
+      <div class="qa-body">El <strong>fondo</strong> aporta espesor, nivela irregularidades de la superficie y da resistencia mecánica como base para la capa final. <strong>Matar pincha</strong> es el lijado burdo previo que elimina las fibras de madera levantadas tras aplicar la imprimación.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>13. [Nivel 2] Diferencia glaseado, patinado, climado y entonado en el mueble clásico.</summary>
+      <div class="qa-body"><strong>Glaseado:</strong> tinte graso de secado lento retirado selectivamente para realzar relieves. <strong>Patinado:</strong> efecto similar con productos de secado más rápido. <strong>Climado:</strong> lijado fino con lana de acero para degradar el tono. <strong>Entonado:</strong> igualar el color entre piezas.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>14. [Nivel 2] ¿Qué significa "eficacia de transferencia" en aplicación de recubrimientos?</summary>
+      <div class="qa-body">Es la relación porcentual entre la fracción de pintura o barniz que queda efectivamente fijada sobre la pieza y la cantidad total de producto consumido. A mayor eficacia de transferencia, menor pérdida por niebla (<em>overspray</em>) y menor emisión de COV.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>15. [Nivel 2] Compara las pistolas HVLP, AIRLESS y AIRMIX en presión y eficacia de transferencia.</summary>
+      <div class="qa-body"><strong>HVLP:</strong> alto caudal de aire a baja presión (&le; 0,7 bar), transferencia 40–80%. <strong>AIRLESS:</strong> atomización hidráulica a alta presión (100–300 bar) sin aire, transferencia 40–75%. <strong>AIRMIX:</strong> presión hidráulica moderada asistida por aire (0,3–2 bar), transferencia 35–70%.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>16. [Nivel 2] ¿Qué son los COV y por qué se controlan ambiental y laboralmente?</summary>
+      <div class="qa-body">Son Compuestos Orgánicos Volátiles (presión de vapor &ge; 0,01 kPa a 20 ºC). Ambientalmente reaccionan con NOx y luz solar generando smog fotoquímico y ozono troposférico; laboralmente provocan efectos irritantes, narcosis, daños neurológicos y riesgo de explosión (LEL).</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>17. [Nivel 2] ¿Qué criterios técnicos guían la elección de un disolvente menos perjudicial?</summary>
+      <div class="qa-body">Baja velocidad de evaporación, elevado punto de inflamación, alta capacidad de limpieza, altos Valores Límite Ambientales (VLA-ED y VLA-EC, menor toxicidad) y bajo potencial de formación de ozono troposférico.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>18. [Nivel 2] ¿Qué diferencia general existe entre un ciclón y un filtro de mangas en un ciclofiltro?</summary>
+      <div class="qa-body">El <strong>ciclón</strong> usa fuerza centrífuga (sin partes móviles) para precipitar aproximadamente el 95% de las partículas gruesas, mientras que el <strong>filtro de mangas</strong> (tejido poroso de tergal) retiene el 5% de partículas finas restantes para bajar de 30 mg/Nm³.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>19. [Nivel 2] Nombra la secuencia típica de tratamiento físico-químico de aguas de cabinas húmedas.</summary>
+      <div class="qa-body">Ajuste de pH → adición de coagulante (desestabilización coloidal) → adición de floculante/polielectrolito con agitación controlada → decantación de lodos → filtración física (filtro banda) → adsorción opcional para reutilización ("vertido cero").</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>20. [Nivel 2] ¿Qué ventajas y limitaciones presentan los recubrimientos en base acuosa en mobiliario interior?</summary>
+      <div class="qa-body"><strong>Ventajas:</strong> baja emisión de COV, limpieza con agua, menor riesgo de incendio y ausencia de olor. <strong>Limitaciones:</strong> secado lento a temperatura ambiente (exige aire caliente, IR o microondas), levantamiento de fibra, sensibilidad al frío y dificultad en poro cerrado.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>21. [Nivel 2] ¿Cómo funciona un recuperador de disolventes y qué porcentajes de ahorro alcanza?</summary>
+      <div class="qa-body">Aplica destilación simple mediante aceite diatérmico caliente que evapora la fracción volátil limpia y la condensa en un serpentín, separándola de resinas y pigmentos. Recupera entre el <strong>60% y el 80%</strong> del disolvente, generando un 20–40% de lodos.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>22. [Nivel 2] Da cuatro buenas prácticas ambientales de almacenamiento y taller recogidas en la guía.</summary>
+      <div class="qa-body">1) Mantener recipientes y envases herméticamente cerrados y etiquetados; 2) Separar sustancias químicas incompatibles sobre solera hidrófuga; 3) Retirar manualmente el exceso de pintura antes de limpiar pistolas con disolvente; 4) Usar dosificadores con émbolo para humedecer trapos.</div>
+    </details>
+
+    <!-- NIVEL 3 -->
+    <h3><span class="badge rose">NIVEL 3 — AVANZADO</span> Normativa Técnica, Seguridad Crítica y Proceso Integral (Preguntas 23 a 33)</h3>
+
+    <details class="qa-item">
+      <summary>23. [Nivel 3] ¿Qué diferencia normativa establece el R.D. 117/2003 según el consumo anual de disolventes?</summary>
+      <div class="qa-body">Con &lt; 15 t/año aplica el Decreto 127/2006 (&lt; 50 mg COT/Nm³); entre 15 y 25 t/año el límite en gases residuales es 100 mg C/Nm³ y emisión difusa &le; 25%; con &gt; 25 t/año es 50 mg C/Nm³ (secado), 75 mg C/Nm³ (recubrimiento) y 20% difusa; con &gt; 200 t/año o 150 kg/h requiere AAI.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>24. [Nivel 3] ¿Qué distancias y requisitos exige la O.M. 18/10/1976 para los orificios de muestreo en chimeneas?</summary>
+      <div class="qa-body">Dos orificios perpendiculares con casquillo roscado DN 100 mm situados a al menos <strong>8 diámetros (8D)</strong> aguas abajo de cualquier perturbación del flujo y <strong>2 diámetros (2D)</strong> aguas arriba de la boca de salida, con plataforma segura a 60–100 cm y toma eléctrica 220–380 V.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>25. [Nivel 3] ¿Por qué se debe controlar el LEL y la humedad relativa en la adsorción de COV con carbón activo?</summary>
+      <div class="qa-body">Si la humedad relativa supera el 50–60%, el vapor de agua satura los poros del carbón desplazando a los COV. Además, con disolventes tipo cetonas se produce una reacción exotérmica en el lecho que puede provocar ignición si se alcanza el Límite Inferior de Explosividad (LEL).</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>26. [Nivel 3] ¿Qué condiciones técnicas exige la pulverización electrostática para ser segura y eficaz?</summary>
+      <div class="qa-body">Resistividad del barniz controlada dentro del rango de la pistola, viscosidad de 18–24 s en Copa Ford nº 4, punto de inflamación &gt; 21 ºC, velocidad del aire de cabina &le; 0,5 m/s (para no romper el efecto envolvente) y operario con calzado conductor y contacto directo con la empuñadura.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>27. [Nivel 3] Diferencia entre lámparas UV de mercurio y lámparas UV dopadas con galio en túneles de curado.</summary>
+      <div class="qa-body">Las lámparas de vapor de <strong>mercurio</strong> emiten su pico máximo a <strong>367 nm</strong> y se usan para barnices transparentes; las dopadas con <strong>galio</strong> alcanzan un pico de <strong>420 nm</strong> con mayor longitud de onda y penetración, imprescindibles para curar barnices pigmentados.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>28. [Nivel 3] ¿Por qué es imprescindible realizar un ensayo Jar-Test antes de operar una depuradora físico-química?</summary>
+      <div class="qa-body">Porque permite determinar en laboratorio la dosis exacta de reactivos y la velocidad óptima de agitación: si la agitación es insuficiente no se dispersan los reactivos, y si es excesiva se rompen los flóculos formados impidiendo su posterior decantación.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>29. [Nivel 3] Explica la diferencia entre técnicas de descontaminación de suelos "in situ", "on-site" y "off-site".</summary>
+      <div class="qa-body"><strong>In situ:</strong> actúan directamente sobre el terreno sin excavar (air sparging, bioaireación, oxidación química). <strong>Ex situ on-site:</strong> se excava el suelo y se trata en la propia parcela. <strong>Ex situ off-site:</strong> se excava y transporta a una planta externa autorizada.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>30. [Nivel 3] ¿Cuáles son las tres vías jerárquicas para controlar la contaminación acústica según la guía?</summary>
+      <div class="qa-body">1) <strong>Sobre la fuente sonora</strong> (reducir impactos/vibraciones, amortiguamiento, sustitución); 2) <strong>Sobre el medio de propagación</strong> (barreras acústicas, cerramientos absorbentes, silenciadores); 3) <strong>Sobre el receptor</strong> (protectores auditivos, rotación y horarios).</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>31. [Nivel 3] ¿Qué diferencia hay entre VLA-ED y VLA-EC en higiene industrial?</summary>
+      <div class="qa-body"><strong>VLA-ED (Exposición Diaria):</strong> concentración media ponderada en zona respiratoria para una jornada estándar de 8 h/día y 40 h/semana sin efectos adversos. <strong>VLA-EC (Exposición de Corta Duración):</strong> límite para cualquier período de 15 minutos que nunca debe superarse durante la jornada.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>32. [Nivel 3] ¿Qué debe hacerse inmediatamente ante un producto o derrame químico desconocido en taller u obra?</summary>
+      <div class="qa-body">No manipular ni limpiar improvisadamente; delimitar y aislar la zona, evitar cualquier exposición o fuente de ignición, activar el procedimiento de emergencia establecido y avisar al responsable competente consultando la Ficha de Datos de Seguridad.</div>
+    </details>
+
+    <details class="qa-item">
+      <summary>33. [Nivel 3] Explica cómo aplicar el pensamiento de proceso (entradas-controles-salidas) a una instalación modular.</summary>
+      <div class="qa-body">Definir entradas (piezas verificadas, planos, herrajes, espacio medido), ejecutar operaciones controladas (protección, nivelación, ensamblaje sin forzar), gestionar salidas (mueble ajustado, residuos LER segregados, acta de incidencias) e investigar causas raíz ante cualquier desviación.</div>
+    </details>
+
+    <div class="tab-footer-nav"></div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- PESTAÑA 10: ERRORES FRECUENTES (DESPUÉS DE 33 PREGUNTAS Q&A) -->
+  <!-- ===================================================================== -->
+  <section id="sec-errores" class="tab-sec" data-t="Errores Críticos y Prevención">
+    <h2 class="sec-title">Errores Críticos en Fabricación e Instalación Modular</h2>
+    <p>Fallos habituales documentados en la guía y en la práctica de obra, junto con su consecuencia técnica y solución preventiva.</p>
+
+    <div class="callout danger">
+      <strong>Error 1 — Tomar referencias legales de 2009 como legislación vigente hoy:</strong> La guía cita Leyes como la 10/1998 de Residuos o el Decreto 833/1975 en su contexto histórico de 2009. <strong>Solución:</strong> Verificar siempre la legislación estatal, autonómica y municipal vigente antes de tramitar licencias o clasificar residuos.
+    </div>
+
+    <div class="callout danger">
+      <strong>Error 2 — Mezclar polvo de madera cruda con polvo de barniz en el mismo silo:</strong> Convierte todo el residuo no peligroso (LER 03.01.05) en residuo peligroso (LER 08.01.17), multiplicando costes de gestión y riesgos. <strong>Solución:</strong> Mantener sistemas de aspiración y ciclofiltros independientes.
+    </div>
+
+    <div class="callout danger">
+      <strong>Error 3 — Proyectar disolvente de limpieza de pistolas sobre el agua de la cabina húmeda:</strong> Dispara la carga orgánica (DQO), los BTEX y el riesgo de inflamabilidad del agua recirculada. <strong>Solución:</strong> Retirar exceso de pintura mecánicamente y lavar las pistolas en lavadora automática cerrada conectada a recuperador de disolventes.
+    </div>
+
+    <div class="callout warn">
+      <strong>Error 4 — Regruesar madera maciza sin haber cepillado bien la cara de referencia:</strong> Los rodillos de presión de la regruesadora aplastan la pieza contra la mesa y copian la curvatura inferior en la cara superior. <strong>Solución:</strong> Garantizar una cara perfectamente plana y libre de alabeo antes del regruesado.
+    </div>
+
+    <div class="callout warn">
+      <strong>Error 5 — Aplicar recubrimientos de alto contenido en sólidos sin ajustar viscosidad ni formar al operario:</strong> Provoca exceso de gramaje y defecto de "piel de naranja". <strong>Solución:</strong> Calentar la línea de producto si es necesario y capacitar al aplicador en boquillas y pasadas.
+    </div>
+
+    <div class="callout warn">
+      <strong>Error 6 — Taladrar o forzar piezas modulares en obra sin comprobar plano ni instalaciones ocultas:</strong> Debilita la estructura del tablero, daña el aplacado de cantos o perfora conducciones eléctricas/hidráulicas. <strong>Solución:</strong> Verificar medidas, detectar instalaciones y respetar el sistema de herrajes del fabricante.
+    </div>
+
+    <div class="callout warn">
+      <strong>Error 7 — Confiar en "huele poco, es seguro" o dejar envases de disolvente destapados:</strong> La evaporación continua genera emisiones difusas de COV y sobreexposición silenciosa (VLA-ED / VLA-EC). <strong>Solución:</strong> Usar envases herméticos con émbolo dosificador y ventilación localizada.
+    </div>
+
+    <div class="tab-footer-nav"></div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- PESTAÑA 11: PROMPTS REUTILIZABLES -->
+  <!-- ===================================================================== -->
+  <section id="sec-prompts" class="tab-sec" data-t="PROMPTS">
+    <h2 class="sec-title">PROMPTS — Biblioteca Completa de Prompts Reutilizables</h2>
+    <p>Compilación íntegra de todos los prompts operativos diseñados para asistir en el estudio, auditoría ambiental, replanteo de obra y gestión técnica de este tutorial, indicando exactamente dónde se emplean.</p>
+
+    <div class="prompt-card">
+      <div class="prompt-head">
+        <div>
+          <strong>Prompt 1: Auditoría de Replanteo e Instalación Modular en Obra</strong><br>
+          <span class="badge">Empleo: Unidad 1 y Unidad 10 (Antes de empezar el montaje)</span>
+        </div>
+        <button class="btn-tool copy-btn" data-copy-target="prm-1">📋 COPIAR</button>
+      </div>
+      <pre class="prompt-code" id="prm-1">Actúa como un jefe de equipo experto en instalación de muebles modulares y control de calidad. Voy a instalar [DESCRIBE EL MUEBLE: ej. armario de 3 cuerpos / cocina lineal] en un espacio con estas medidas y condiciones: [INDICA MEDIDAS, DESPLOMES, OBSTÁCULOS Y TOMAS]. Genera una lista de verificación paso a paso para comprobar nivelación, plomo, interferencias con puertas/enchufes, tolerancias y secuencia de montaje sin modificar piezas estructurales.</pre>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-head">
+        <div>
+          <strong>Prompt 2: Protocolo de Incidencia de Recepción y Trazabilidad de Materiales</strong><br>
+          <span class="badge">Empleo: Unidad 2 y Caso Práctico Integrador (Unidad 10)</span>
+        </div>
+        <button class="btn-tool copy-btn" data-copy-target="prm-2">📋 COPIAR</button>
+      </div>
+      <pre class="prompt-code" id="prm-2">Redacta un parte técnico formal de incidencia de recepción de mobiliario modular basado en criterios de trazabilidad y control de calidad. Datos de la incidencia: Pedido [NÚMERO], bultos dañados [CANTIDAD], piezas afectadas [EJ. costado tablero 19 mm con canto despegado] y componentes faltantes [EJ. bolsa de herrajes]. Estructura el mensaje para el proveedor detallando bloqueo de montaje, aislamiento del material correcto y solicitud de reposición urgente.</pre>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-head">
+        <div>
+          <strong>Prompt 3: Clasificación de Operaciones de Mecanizado y Control de Calidad</strong><br>
+          <span class="badge">Empleo: Unidad 3 (Mecanizado de madera maciza y tableros)</span>
+        </div>
+        <button class="btn-tool copy-btn" data-copy-target="prm-3">📋 COPIAR</button>
+      </div>
+      <pre class="prompt-code" id="prm-3">Explica paso a paso la secuencia industrial de mecanizado para fabricar [PIEZA: ej. puerta de madera maciza / costado de tablero rechapado de 19 mm], diferenciando claramente tronzado, aserrado, cepillado, regruesado, chapado de cantos, fresado y taladrado/escopleado. Indica qué defectos debe inspeccionar un instalador modular al recibir esa pieza en obra.</pre>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-head">
+        <div>
+          <strong>Prompt 4: Diagnóstico de Acabados y Compatibilidad de Limpieza</strong><br>
+          <span class="badge">Empleo: Unidad 4 (Barnizado, control visual y entrega)</span>
+        </div>
+        <button class="btn-tool copy-btn" data-copy-target="prm-4">📋 COPIAR</button>
+      </div>
+      <pre class="prompt-code" id="prm-4">Actúa como técnico especialista en acabados de madera (AIDIMA/CTL). Analiza el siguiente acabado de mobiliario: [INDICA SI ES BARNIZ UV, BASE AGUA, LACA POLIURETANO O LAMINADO SINTÉTICO]. Detalla cómo inspeccionar su calidad visual tras el montaje (poro, brillo, cantos, adherencia) y qué productos y métodos de limpieza son seguros para no dañar la película protectora.</pre>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-head">
+        <div>
+          <strong>Prompt 5: Evaluación Comparativa de Sistemas de Aplicación (Eficacia de Transferencia)</strong><br>
+          <span class="badge">Empleo: Unidad 9.4 (HVLP, Airless, Airmix, Electrostática, Cortina, Rodillo)</span>
+        </div>
+        <button class="btn-tool copy-btn" data-copy-target="prm-5">📋 COPIAR</button>
+      </div>
+      <pre class="prompt-code" id="prm-5">Compara las Mejores Técnicas Disponibles de aplicación de recubrimientos (HVLP, Airless, Airmix, Electrostática, Cortina y Rodillo) para una empresa que fabrica [TIPO DE PIEZAS: planas / sillería torneada / mueble montado] con un consumo de [LITROS/AÑO]. Evalúa porcentaje de eficacia de transferencia, reducción de overspray y COV, limitaciones de viscosidad y requisitos de seguridad del operario.</pre>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-head">
+        <div>
+          <strong>Prompt 6: Cálculo Orientativo de Rentabilidad de Recuperador de Disolventes</strong><br>
+          <span class="badge">Empleo: Unidad 9.6 (Destilación simple y minimización de RP)</span>
+        </div>
+        <button class="btn-tool copy-btn" data-copy-target="prm-6">📋 COPIAR</button>
+      </div>
+      <pre class="prompt-code" id="prm-6">Realiza un estudio técnico-económico orientativo para implantar un recuperador de disolventes por destilación simple en un taller que genera [LITROS/AÑO, mín. 500 L] de disolvente sucio de limpieza. Calcula el volumen recuperado (rango 60%-80%), los lodos generados (20%-40%), el consumo eléctrico estimado (4 kWh en 20 L o 18 kWh en 60 L) y el ahorro en compra de disolvente virgen y gestión de residuos peligrosos (LER 14.06.03 vs 07.01.08).</pre>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-head">
+        <div>
+          <strong>Prompt 7: Segregación de Residuos LER en Taller y Obra de Instalación</strong><br>
+          <span class="badge">Empleo: Unidad 8.1 y Unidad 10.3 (Gestión de residuos peligrosos y no peligrosos)</span>
+        </div>
+        <button class="btn-tool copy-btn" data-copy-target="prm-7">📋 COPIAR</button>
+      </div>
+      <pre class="prompt-code" id="prm-7">Clasifica los siguientes residuos generados durante la fabricación e instalación de muebles de madera según la codificación LER de referencia (distinguiendo Residuos Peligrosos RP de Residuos No Peligrosos RNP): [LISTA DE RESIDUOS: ej. recortes de tablero, polvo de barniz, trapos con disolvente, envases de cola blanca, cartón de embalaje]. Indica por qué no deben mezclarse y qué condiciones requiere su almacenamiento temporal.</pre>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-head">
+        <div>
+          <strong>Prompt 8: Autoevaluación Progresiva con la Regla del Aprendiz</strong><br>
+          <span class="badge">Empleo: Metodología de estudio (Inicio y Unidad 12)</span>
+        </div>
+        <button class="btn-tool copy-btn" data-copy-target="prm-8">📋 COPIAR</button>
+      </div>
+      <pre class="prompt-code" id="prm-8">Evalúa mi comprensión sobre [UNIDAD O CONCEPTO MTD: ej. Ciclofiltro, Jar-Test, COV, Regruesado]. Hazme 5 preguntas progresivas (de nivel básico a caso práctico de taller/obra), espera mis respuestas y corrígelas aplicando la Regla del Aprendiz: exige que explique cada término técnico con mis propias palabras y un ejemplo real.</pre>
+    </div>
+
+    <div class="tab-footer-nav"></div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- PESTAÑA 12: GLOSARIO -->
+  <!-- ===================================================================== -->
+  <section id="sec-glosario" class="tab-sec" data-t="Glosario">
+    <h2 class="sec-title">Unidad 11 — Glosario Completo de Estudio, Siglas y Definiciones</h2>
+    <p>Incluye todos los términos didácticos de la Unidad 11 y las definiciones reglamentarias del Capítulo 5 de la guía original.</p>
+
+    <div class="card">
+      <h3>Siglas y Acrónimos Clave</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Sigla</th>
+              <th>Significado</th>
+              <th>Definición / Contexto en la Guía</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>AAI</strong></td><td>Autorización Ambiental Integrada</td><td>Resolución que aglutina y sustituye autorizaciones ambientales (residuos, vertidos, atmósfera) para instalaciones de los Anexos I y II (en mueble: &gt; 200 t/año o 150 kg/h de disolventes). Vigencia máxima 8 años (Ley 16/2002 y Ley 2/2006).</td></tr>
+            <tr><td><strong>AIDIMA</strong></td><td>Instituto Tecnológico del Mueble, Madera, Embalaje y Afines</td><td>Entidad tecnológica colaboradora en la elaboración de la guía (2009).</td></tr>
+            <tr><td><strong>BAT / MTD</strong></td><td>Best Available Techniques / Mejores Técnicas Disponibles</td><td>Fase más eficaz y avanzada de desarrollo de actividades y explotación, técnica y económicamente viable, para prevenir o reducir emisiones e impactos.</td></tr>
+            <tr><td><strong>BREF</strong></td><td>BAT Reference Document</td><td>Documento europeo de referencia sobre MTD por sector industrial usado para orientar los VLE en las AAI.</td></tr>
+            <tr><td><strong>COT</strong></td><td>Carbono Orgánico Total</td><td>Parámetro de medición de emisiones canalizadas de compuestos orgánicos (ej. &lt; 50 mg COT/Nm³).</td></tr>
+            <tr><td><strong>COV</strong></td><td>Compuestos Orgánicos Volátiles</td><td>Compuesto orgánico con presión de vapor &ge; 0,01 kPa a 293,15 K (20 ºC) o volatilidad equivalente.</td></tr>
+            <tr><td><strong>CTL</strong></td><td>Centro de Tecnologías Limpias</td><td>Entidad de la Generalitat Valenciana promotora de la guía para impulsar tecnologías limpias.</td></tr>
+            <tr><td><strong>EPER / E-PRTR</strong></td><td>European Pollutant Emission Register</td><td>Registro europeo de emisiones y transferencias de contaminantes (Reglamento 166/2006).</td></tr>
+            <tr><td><strong>IPPC</strong></td><td>Integrated Pollution Prevention and Control</td><td>Directiva 96/61/CE y Ley 16/2002 de prevención y control integrados de la contaminación.</td></tr>
+            <tr><td><strong>LEL</strong></td><td>Lower Explosive Limit</td><td>Límite Inferior de Explosividad: porcentaje mínimo en volumen de un gas en aire que forma mezcla inflamable.</td></tr>
+            <tr><td><strong>LER</strong></td><td>Lista Europea de Residuos</td><td>Catálogo oficial de codificación de residuos peligrosos y no peligrosos (Decisión 2000/532/CE, Orden MAM/304/2002).</td></tr>
+            <tr><td><strong>SDDR</strong></td><td>Sistema de Depósito, Devolución y Retorno</td><td>Mecanismo que permite devolver envases industriales (ej. bidones de 200 L) al proveedor para su reutilización.</td></tr>
+            <tr><td><strong>VLA-ED / EC</strong></td><td>Valor Límite Ambiental (Exposición Diaria / Corta Duración)</td><td>Valores de referencia del INSHT en zona respiratoria para jornada de 8 h (ED) o períodos de 15 min (EC).</td></tr>
+            <tr><td><strong>VLE</strong></td><td>Valores Límite de Emisión</td><td>Masa, concentración o nivel máximo de una emisión que no debe superarse en un período determinado sin dilución previa.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Términos Técnicos de Fabricación, Acabados y Medio Ambiente</h3>
+      <div class="grid-2">
+        <div class="prompt-card">
+          <p><strong>Adsorción:</strong> Retención de moléculas gaseosas (COV) sobre la superficie de un sólido poroso (carbón activo, zeolitas).</p>
+          <p><strong>Alabeo:</strong> Deformación que hace que una pieza de madera deje de estar plana.</p>
+          <p><strong>Aplacado / Chapado de cantos:</strong> Recubrimiento protector y estético del canto de un tablero mediante chapa y adhesivo termofusible.</p>
+          <p><strong>Barniz:</strong> Todo recubrimiento transparente (R.D. 117/2003).</p>
+          <p><strong>Cabina húmeda:</strong> Cabina de aplicación que utiliza una cortina de agua para capturar el pulverizado sobrante (<em>overspray</em>).</p>
+          <p><strong>Capacidad nominal:</strong> Media diaria de masa de disolventes orgánicos utilizados en condiciones normales de funcionamiento.</p>
+          <p><strong>Ciclón y Ciclofiltro:</strong> El ciclón separa partículas por fuerza centrífuga (~95%); el ciclofiltro lo combina con un filtro de mangas poroso.</p>
+          <p><strong>Coagulación y Floculación:</strong> Coagulación desestabiliza partículas coloidales (sales Al/Fe); floculación las agrupa en flóculos voluminosos (polielectrolitos) para decantar.</p>
+          <p><strong>Condiciones normales:</strong> Temperatura de 273,15 K (0 ºC) y presión de 101,3 kPa (1 atm).</p>
+        </div>
+        <div class="prompt-card">
+          <p><strong>Decantación:</strong> Separación por sedimentación gravitatoria de sólidos suspendidos en un líquido.</p>
+          <p><strong>Despiece:</strong> Relación detallada de piezas que componen un mueble.</p>
+          <p><strong>Emisiones difusas:</strong> Emisiones de COV no contenidas en gases residuales canalizados (escapes por puertas, ventanas, evaporación).</p>
+          <p><strong>Escopleado:</strong> Mecanizado de un hueco alargado o corrido.</p>
+          <p><strong>Filtro de mangas:</strong> Captador sólido-gas mediante mangas de tejido poroso (tergal).</p>
+          <p><strong>Fresado y Moldurado:</strong> Mecanizado con herramienta rotativa para formas, perfiles o relieves; <em>replantillado</em> usa plantilla.</p>
+          <p><strong>Jar-Test:</strong> Ensayo de laboratorio para calibrar dosificación de coagulantes/floculantes y velocidad de agitación.</p>
+          <p><strong>Mechón / Clavija:</strong> Falsa espiga cilíndrica (Ø 6, 8, 10 mm) para ensamblar piezas.</p>
+          <p><strong>Overspray:</strong> Pulverizado sobrante de pintura o barniz que no se deposita sobre la pieza.</p>
+          <p><strong>Regruesado y Tronzado:</strong> Regruesado dimensiona espesor respecto a cara cepillada; tronzado corta transversalmente.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-footer-nav"></div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- PESTAÑA 13: APÉNDICE FUENTE ÍNTEGRA -->
+  <!-- ===================================================================== -->
+  <section id="sec-apendice" class="tab-sec" data-t="Apéndice — Fuente Íntegra">
+    <h2 class="sec-title">Apéndice A — Texto Extraído Íntegro de la Guía de Referencia (113 Págs.)</h2>
+    <div class="callout warn">
+      <strong>Nota de integridad documental:</strong> A continuación se incluye la transcripción completa página a página de la <em>Guía de Mejores Técnicas Disponibles para el Sector de Fabricación de Muebles de Madera en la Comunitat Valenciana</em> (CTL / AIDIMA, 2009), conservando todos sus capítulos, tablas, fórmulas, listado de legislación histórica, definiciones del Capítulo 5 y bibliografía del Capítulo 6.
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+        <strong>Documento fuente completo (Guía CTL / AIDIMA 2009)</strong>
+        <button class="btn-tool copy-btn" data-copy-target="full-source-text">📋 COPIAR TEXTO ÍNTEGRO</button>
+      </div>
+      <div class="verbatim-source" id="full-source-text">GUÍA DE MEJORES TÉCNICAS DISPONIBLES PARA EL SECTOR DE FABRICACIÓN DE MUEBLES DE MADERA EN LA COMUNITAT VALENCIANA
+Edición: Centro de Tecnologías Limpias (CTL) - Conselleria de Medi Ambient, Aigua, Urbanisme i Habitatge - Generalitat Valenciana.
+Elaboración: Instituto Tecnológico del Mueble, Madera, Embalaje y Afines (AIDIMA). Convenio REDIT 2009.
+Diseño y maquetación: www.efectiva.net | Primera edición | ISBN: 978-84-482-5275-5.
+Prólogo: Juan Cotino (Conseller de Medio Ambiente, Agua, Urbanismo y Vivienda y Vicepresidente tercero).
+
+COMISIÓN DE TRABAJO:
+- Generalitat Valenciana (Conselleria de Medio Ambiente, Agua, Urbanismo y Vivienda - DG Cambio Climático: Joaquín Niclós Ferragut, Yolanda Marqués Giménez, Raquel Minguet Mocholí, Úrsula Meneses Ruiz; DG Agua: José Mateu Calvo, Jairo Pascual Garrido; Conselleria de Industria, Comercio e Innovación - CICI: Isabel Hernández Carpintero).
+- Confederación Empresarial Valenciana (CEV): Beatriz Eslava Carboneras.
+- Cámara Oficial de Comercio, Industria y Navegación de Valencia: Rafael Mossi Peiró.
+- Consejo de Cámaras de la Comunitat Valenciana: Mireia Prieto Villena.
+- Federación Valenciana de Municipios y Provincias: José Antonio Redorat Fresquet, Robert Bermell Melià.
+- CIERVAL: Javier Mateo Fernández.
+- ASEFAPI: FEPYR (Ricardo Fibla Ávila), VALRESA (Francisco Perelló Ferreres, Pilar Calleja García).
+- FEVAMA: Rafael Pérez Bonmatí.
+- PUNT MOBLES: José Antonio Marín González.
+- MICUNA: Francisco Javier García Martín, José Adame Rodrigo.
+- AIDIMA: Mariano J. Pérez Campos, Rosa Mª Pérez Campos, Carlos Soriano Cardo.
+
+---
+CAPÍTULO 1. LEGISLACIÓN SOBRE PREVENCIÓN Y CONTROL DE LA CONTAMINACIÓN (Págs. 13-16)
+1.1. La Ley IPPC (Ley 16/2002, de 1 de julio, transposición Directiva 96/61/CE): Ventanilla única (Autorización Ambiental Integrada - AAI, renovación al menos cada 8 años), Valores Límite de Emisión (VLE) basados en MTD/BAT, transparencia y registro anual EPER / Reglamento 166/2006 E-PRTR. Documentos BREF.
+1.2. La Ley 2/2006, de 5 de mayo, de Prevención de la Contaminación y Calidad Ambiental de la Comunitat Valenciana y Decreto 127/2006, de 15 de septiembre:
+- Autorización Ambiental Integrada (AAI): Anexos I y II (incluye combustión > 20 MW). Vigencia máxima 8 años.
+- Licencia Ambiental: Tramitación municipal; mientras no se apruebe nomenclátor reglamentario aplica Decreto 54/1990 (actividades molestas, insalubres, nocivas y peligrosas).
+- Comunicación Ambiental: Resto de instalaciones de menor incidencia.
+1.3. Sector del mueble en la Comunitat Valenciana: Mayoritariamente sometido a Licencia Ambiental. Solo si la capacidad de consumo de disolventes orgánicos supera 200 t/año o 150 kg/h queda sometido a AAI.
+
+---
+CAPÍTULO 2. DESCRIPCIÓN DE LOS PROCESOS Y TÉCNICAS APLICADAS (Págs. 19-26)
+Secuencia operacional: 2.1 Diseño del mueble y prototipos (aspecto formal/ergonomía y aspecto técnico/planos/despiece/simulación) -> 2.2 Recepción y almacenamiento de materias primas (almacenes de madera maciza, tableros, adhesivos, inflamables, montaje/herrajes, embalaje) -> 2.3 Aserrado, alistonado y mecanizado de madera y tableros:
+- Madera maciza: Marcaje (espesores normalizados 22, 28, 32, 38, 45, 50, 60, 70 mm; ej. 2 piezas de 20 mm de tablón de 50 mm), Tronzado (corte transversal), Aserrado (corte longitudinal / dar hilos), Cepillado (aplanar cara de referencia sin alabeo), Regruesado (dimensionar espesor/ancho respecto cara cepillada), Corte a medida, Moldurado y Fresado (replantillado con plantilla, galces, recaladas), Taladrado (agujeros cilíndricos) y Escopleado (agujeros alargados/corridos), Espigado y Mechonado (clavijas de 20-60 mm largo; diámetros 6, 8, 10 mm), Torneado, Tallado (grabado, altorrelieve, talla exenta).
+- Tableros derivados: Corte a medida (formatos 2,44x1,22 m, 2x1 m, 3,66x1,88 m; espesores 10, 16, 19, 22, 25 mm; perfiladora escuadradora), Chapado de cantos (chapadora automática con adhesivos termofusibles), Moldurado y Fresado, Taladrado.
+-> 2.4 Pre-encolado (cola blanca acetato de polivinilo) -> 2.5 Montaje incluyendo encolado (piezas en crudo, herrajes, mechones, cola blanca) -> 2.6 Barnizado/acabado (pistolas, túneles cortina o rodillo; cabina húmeda presurizada o no; preparación mezclas, masillado, matar pincha, fondeado, lijado intermedio, glaseado, patinado, climado con lana de acero, entonado, acabado final) -> 2.7 Montaje de acabados e inspección visual -> 2.8 Embalaje (montado o desmontado; cartón, plástico burbuja, cantoneras, perfiles) -> 2.9 Expedición -> 2.10 Operaciones auxiliares (aceites prensas, luminarias, aspiración/filtros, carretillas, almacenamiento RP, silos polvo/serrín, mantenimiento cabinas, recuperación disolventes, depuración aguas, combustión).
+
+---
+CAPÍTULO 3. CONTROL DE CONTAMINANTES (Págs. 29-46)
+3.1. Vertidos de aguas residuales:
+- Aguas industriales (cabinas húmedas: aumento DQO, DBO5, sólidos en suspensión, materia sedimentable, nitrógeno amoniacal, conductividad y BTEX: benceno, tolueno, etilbenceno, xileno) y aguas fecales.
+- Caracterización media cabinas (AIDIMA): pH 6,5-8,5; Conductividad 1.000-2.000 µS/cm; Sólidos suspensión 100-400 mg/l; DQO 1.500-5.000 mg/l; DBO5 180-400 mg/l; Toxicidad <2-4 U.T.; Fósforo total 1,5-3 mg/l.
+- Medios receptores: Dominio Público Hidráulico (RDL 1/2001, RD 849/1986), Alcantarillado municipal (Ordenanza Entitat de Sanejament d'Aigües: pH 5,5-9,0; SS 500 mg/l; Mat. sedimentables 15 mg/l; DBO5 500 mg/l; DQO 1.000 mg/l; Temp 40ºC; Conductividad 3.000 µS/cm; Al 10; As 1,0; Ba 20; B 3; Cd 0,5; Cr III 2; Cr VI 0,5; Fe 5; Mn 5; Ni 5; Hg 0,1; Pb 1; Se 0,5; Sn 5; Cu 1; Zn 5; Cianuros 0,5; Cloruros 800; Sulfuros 2; Sulfitos 2; Sulfatos 1.000; Fluoruros 12; P total 15; N amoniacal 20; N nítrico 20; Aceites/grasas 100; Fenoles 2; Aldehídos 2; Detergentes 6; Pesticidas 0,1; Toxicidad 15 U.T.), Vertido al mar (Ley 22/1988 Costas).
+3.2. Emisiones a la atmósfera:
+- Focos: 1) COV (barnizado base disolvente), 2) Polvo madera (mecanizado/silos), 3) Polvo barniz (lijado/aplicación), 4) Gases combustión (calderas).
+- Fórmula: C (mg/Nm3) = C(ppm) * PM / 22,4.
+- VLE Decreto 127/2006 (1 atm, 0ºC, 15% O2, base seca): Partículas sólidas 30 mg/Nm3; HCl 10; HF 10; H2S 10; SO2 200; NOx 1.000; CO 625; Opacidad Ringelmann 1 / Bacharach 2; COV canalizadas 50 mg COT/Nm3.
+- 3.2.1 Orificios muestreo (O.M. 18/10/1976): L1 >= 8D, L2 >= 2D (relación L1/L2 = 4; mínimo absoluto L1>=2D, L2>=0,5D). Casquillo roscado 100 mm longitud, DN 100 mm, 2 orificios perpendiculares. Plataforma a 60-100 cm, barandillas, toma eléctrica 220-380 V.
+- 3.2.2 COV y R.D. 117/2003 (Epígrafe 10 recubrimiento madera):
+  * < 15 t/año: Decreto 127/2006 (< 50 mg COT/Nm3 canalizadas; difusas < 1/30 límites INSHT).
+  * 15-25 t/año: VLE gases residuales 100 mg C/Nm3; emisión difusa 25%.
+  * > 25 t/año: VLE 50 mg C/Nm3 (secado) / 75 mg C/Nm3 (recubrimiento); emisión difusa 20%.
+  * Obligación de Plan de Gestión de Disolventes anual.
+3.3. Residuos y suelos contaminados:
+- Códigos LER: RP: 08.01.11 Restos barnices; 14.06.03 Disolventes limpieza; 15.01.10 Envases contaminados; 15.02.02 Trapos/cartón impregnados; 08.01.99 Lijas barniz; 08.01.17 Polvo barniz; 20.01.21 Fluorescentes; 20.01.26 Aceite usado; 07.01.08 Lodos destilación disolvente; 08.01.19 Aguas alta carga orgánica; 08.01.15 Lodos depuración físico-química; 20.01.33 Baterías. RNP: 20.03.01 Asimilables urbanos; 03.01.05 Madera, tableros, virutas, serrín; 15.01.02 Envases cola blanca y embalaje plástico/fleje PP; 03.01.99 Lijas crudo; 20.01.40 Herrajes; 20.01.02 Cristales; 15.01.01 Cartón; 15.01.04 Flejes metálicos; 15.01.06 Resto embalajes. SDDR para bidones retornables.
+- Suelos contaminados (R.D. 9/2005): Informe preliminar de situación. Técnicas in situ (lavado, air sparging/stripping, térmicos, biológicos, bioaireación, oxidación química) y ex situ (desorción térmica, landfarming, incineración), además de aislamiento/vitrificación.
+3.4. Contaminación acústica (Ley 37/2003, R.D. 286/2006, Ley 7/2002 CV, Decreto 266/2004):
+- Límites externos dB(A) Día/Noche: Sanitario/docente 45/35; Residencial 55/45; Terciario 35/55; Industrial 70/60.
+- Límites internos dB(A) Día/Noche: Sanitario (zonas comunes 50/40, estancias 45/30, dormitorios 30/25); Residencial (habitables 40/30, pasillos/cocinas 45/35, comunes 50/40); Docente (aulas 40/30, lectura 35/30); Cultural (conciertos 30/30, bibliotecas 35/35, museos/exposiciones 40/40); Recreativo (cines/teatros 30/30, bingos 40/40); Comercial (hostelería/bares 45/45); Administrativo (despachos 40/40, oficinas 45/45).
+- Control del ruido: Acción sobre fuente sonora, sobre medio de propagación (barreras, absorbentes, silenciadores) y sobre receptor (protectores, rotación, horarios).
+
+---
+CAPÍTULO 4. MEJORES TÉCNICAS DISPONIBLES (Págs. 49-94)
+4.1. Buenas prácticas ambientales: Formación, mantenimiento, dosificación automática, optimización recursos, diagramas flujo/balances masas, control inventarios FIFO, almacén con solera hidrófuga y separación incompatibles, limpieza manual herramientas previa recogida mecánica, envases dosificadores con émbolo (Kaiser+Kraft).
+4.2. Cambios en materias primas:
+- 4.2.1 Disolventes menos perjudiciales y Reglamento REACH (CE 1907/2006). Definiciones INSHT 2008: VLA-ED, VLA-EC, ED (8h), EC (15min).
+- 4.2.2 Recubrimientos: A) Alto contenido en sólidos (>70% en punta pistola; reduce COV hasta 50%); B) Curado UV (70-98% o 100% sólidos poliéster/acrílicos; lámparas mercurio 367 nm transparentes y galio 420 nm pigmentados); C) Base acuosa (emulsiones acrílicas/poliuretano; secado aire caliente 90 min vs IR/microondas 3-6 min).
+4.3. Equipos y tecnologías:
+- 4.3.1 Alta eficacia de transferencia (BREF Aug 2007): Convencional 30-60%; HVLP 40-80% (<=0,7 bar, 300-600 l/min, coste 300-500€); Airless 40-75% (100-300 bar, 4.000-5.000€); Airmix 35-70% (0,3-2 bar aire, 2.000-3.000€); Electrostática 50-70% (18-24s Copa Ford nº4, punto inflamación >21ºC, velocidad aire cabina <=0,5 m/s, 3.000-8.000€); Cortina mín. 95% (labios o rebosadero, 25.000-35.000€); Rodillo mín. 95% (aplicador 6-17 m/min + dosificador 3-9 m/min; a favor / a la contra; espatuladora, reverse, tintadora, rodillo estriado +70%, 25.000-30.000€). Robots antropomórficos (5-6 ejes), reciprocadores y rotativos.
+- 4.3.2 Túneles de secado UV: Polimerización instantánea; potencia lámparas 80-100-120 W/cm; inversión ejemplo línea robot base agua UV: 249.000€ (limpieza 18.000€, IR 9.000€, robot 100.000€, pistolas 27.000€, túnel laminar 65.000€, horno UV 30.000€) + 4.200€ ATEX + 11.500€ aspiración; consumo 13,8 kW (2 lámparas).
+4.4. Tratamiento y minimización:
+- 4.4.1 Recuperador de disolventes: Destilación simple (evaporación + condensación); recuperación 60-80%, lodos 20-40%. Capacidades 20-180 L. Aceite diatérmico cambio cada 1.000 h o 1 año; bolsa teflón cada ciclo (3-5€). Rentable >=500 L/año. Costes: 20L (1.800-2.500€, 4 kWh/ciclo), 60L (5.500-8.000€, 18 kWh/ciclo), 90L (10.000-12.000€). Tarifas gestión RP: disolvente sucio 220-250 €/t, lodo pastoso 410-480 €/t, lodo endurecido 150-180 €/t.
+- 4.4.2 Depuración aguas residuales (Vertido cero): Coagulación (Sulfato Al, Policloruro Al, Sulfato/Cloruro Fe) + Floculación (poliacrilamidas) calibrada con Jar-Test + decantación + filtro banda + adsorción. Cargas 500-6.000 L. Coste depuradora desde 28.000€, depósitos 6.000L desde 7.500€, reactivos 50-60 €/ciclo.
+- 4.4.3 Ciclofiltro: Ciclón (95% partículas) + Filtro de mangas tergal 450 g/m2 (5% restante, duración 3 años o 6.000 h). Emisiones <30 mg/Nm3. Ejemplo 125.000 m3/h: 160.000€. Tarifas residuos: polvo madera 0 €/t, polvo barniz 220 €/t, mangas 240 €/t.
+- 4.4.4 Adsorción de COV: Carbón activo (caudales <10.000 Nm3/h, <1 g C/Nm3; retención hasta 50% peso; T <40ºC, HR <50-60%, partículas <5 mg/Nm3; vigilar LEL con cetonas) o zeolitas hidrófobas. Salida <50 mg COT/Nm3.
+- 4.4.5 Lavadora automática de pistolas: Ahorro disolvente 30-50%, reducción residuos 50-70%. Coste desde 1.800€.
+
+---
+CAPÍTULO 5. GLOSARIO (5.1 Legislación europea, estatal y autonómica; 5.2 Siglas y definiciones legales) — Integrado en la pestaña Glosario.
+CAPÍTULO 6. BIBLIOGRAFÍA (13 referencias técnicas AIDIMA, FEVAMA, AITIM, Comisión Europea, Ministerio Medio Ambiente, Parquet Coatings Congress, EUROWOOD) — Integrado en la pestaña Fuentes.</div>
+    </div>
+
+    <div class="tab-footer-nav"></div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- PESTAÑA 14: FUENTES -->
+  <!-- ===================================================================== -->
+  <section id="sec-fuentes" class="tab-sec" data-t="FUENTES">
+    <h2 class="sec-title">FUENTES — Documentación Oficial y Bibliografía de Referencia</h2>
+    <p>Todas las fuentes bibliográficas citadas en el Capítulo 6 de la guía original y enlaces institucionales verificables de referencia técnica. Cada enlace incluye su botón explícito para abrir en una nueva ventana y copiar la URL.</p>
+
+    <div class="card">
+      <h3>Enlaces Institucionales de Referencia</h3>
+
+      <div class="url-box">
+        <div>
+          <strong>AIDIMME (Instituto Tecnológico Metalmecánico, Mueble, Madera, Embalaje y Afines — sucesor de AIDIMA)</strong>
+          <div class="url-text" id="url-aidimme">https://www.aidimme.es</div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <button class="btn-tool copy-btn" data-copy-target="url-aidimme">📋 Copiar URL</button>
+          <button class="btn-tool btn-primary open-url-btn" data-url="https://www.aidimme.es">Abrir enlace en nueva ventana ↗</button>
+        </div>
+      </div>
+
+      <div class="url-box">
+        <div>
+          <strong>Generalitat Valenciana — Conselleria de Medio Ambiente, Infraestructuras y Territorio</strong>
+          <div class="url-text" id="url-gva">https://mediambient.gva.es</div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <button class="btn-tool copy-btn" data-copy-target="url-gva">📋 Copiar URL</button>
+          <button class="btn-tool btn-primary open-url-btn" data-url="https://mediambient.gva.es">Abrir enlace en nueva ventana ↗</button>
+        </div>
+      </div>
+
+      <div class="url-box">
+        <div>
+          <strong>European IPPC Bureau — Documentos BREF (Comisión Europea)</strong>
+          <div class="url-text" id="url-eippcb">https://eippcb.jrc.ec.europa.eu</div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <button class="btn-tool copy-btn" data-copy-target="url-eippcb">📋 Copiar URL</button>
+          <button class="btn-tool btn-primary open-url-btn" data-url="https://eippcb.jrc.ec.europa.eu">Abrir enlace en nueva ventana ↗</button>
+        </div>
+      </div>
+
+      <div class="url-box">
+        <div>
+          <strong>INSST (Instituto Nacional de Seguridad y Salud en el Trabajo — Límites Exposición Profesional)</strong>
+          <div class="url-text" id="url-insst">https://www.insst.es</div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <button class="btn-tool copy-btn" data-copy-target="url-insst">📋 Copiar URL</button>
+          <button class="btn-tool btn-primary open-url-btn" data-url="https://www.insst.es">Abrir enlace en nueva ventana ↗</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Bibliografía Completa de la Guía Original (Capítulo 6, pág. 109)</h3>
+      <ol>
+        <li><strong>Integrated Pollution Prevention and Control (IPPC), Reference Document on Best Available Techniques on Surface Treatment using Organic Solvents.</strong> European Commission. (January 2007).</li>
+        <li><strong>Guía de apoyo para la implantación del Real Decreto 117/2003 sobre limitaciones de compuestos orgánicos volátiles debidas al uso de disolventes en determinadas actividades.</strong> Ministerio de Medio Ambiente. (Febrero 2007).</li>
+        <li><strong>New Water-Borne Binders for VOC Compliant Parquet Coatings.</strong> Dirk Mestach; Derrick Twene. Nuplex Resins BV; Bergen op Zoom, The Netherlands. Parquet Coatings Congress, Berlín. (2006).</li>
+        <li><strong>2K Waterborne Polyurethane Coatings for Site Applied Wood Floor Coatings - The Next Generation.</strong> Irle, C; Almato, M; Getzmann, R. Bayer Polímeros, S.L. Barcelona, Spain. Parquet Coatings Congress, Berlín. (2006).</li>
+        <li><strong>Powder coating on wooden based materials: influence of surface parameters on furniture uses.</strong> Marie-Lise Roux. CTBA. Congreso EUROWOOD PANELS. (2006).</li>
+        <li><strong>La madera y su tecnología.</strong> García, L; Guindeo, A; Peraza, C &amp; de Palacios, P. Ed. Fundación Conde del Valle de Salazar y Ediciones Multiprensa. AITIM. Madrid. (2002).</li>
+        <li><strong>Tendencias 2001 Nuevos Materiales y Tecnologías en el sector de la madera y el Mueble.</strong> Lecuona, M; Songel, G. AIDIMA. Valencia. (2001).</li>
+        <li><strong>Guía Práctica: Gestión Medioambiental del Sector de la Madera y Mueble de Alicante.</strong> Mossi, R; Soriano, C; Minguet, R. Ed. FEVAMA / AIDIMA. Valencia. (2000).</li>
+        <li><strong>Guía Práctica: Diagnosis general Medioambiental del Sector del Mueble de la Comunidad Valenciana.</strong> Mossi, R; Soriano, C. Ed. FEVAMA / AIDIMA. Valencia. (1999).</li>
+        <li><strong>Guía Práctica: Manual de Minimización de Residuos en la Fabricación de Muebles y Afines.</strong> Mossi, R; Soriano, C. Ed. FEVAMA / AIDIMA. Valencia. (1999).</li>
+        <li><strong>Guía Práctica: Manual de buenas prácticas Medioambientales en el Sector del Mueble y Afines.</strong> Mossi, R; Soriano, C. Ed. FEVAMA / AIDIMA. Valencia. (1999).</li>
+        <li><strong>10 años de tendencias en tecnología y diseño del mueble.</strong> Miguel Juan, J; Lecuona, M. AIDIMA. Valencia. (1999).</li>
+        <li><strong>Guía Práctica de la Contaminación Atmosférica producida por la emisión de CO2 en la fabricación de chapas y tableros contrachapados.</strong> Mossi, R; Soriano, C. Ed. FEVAMA / AIDIMA. Valencia. (1998).</li>
+      </ol>
+    </div>
+
+    <div class="tab-footer-nav"></div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- PESTAÑA 15: CRÉDITOS -->
+  <!-- ===================================================================== -->
+  <section id="sec-creditos" class="tab-sec" data-t="CRÉDITOS">
+    <!-- 1. Título de la sección -->
+    <h2 class="sec-title">CRÉDITOS</h2>
+
+    <!-- 2. SVG animado compartido con INICIO (Instancia 2) -->
+    <div class="svg-stage" id="svg-host-creditos">
+      <div class="svg-mount" id="svg-mount-creditos"></div>
+      <div class="svg-controls no-print">
+        <span>Ilustración SVG compartida (Instancia sincronizada)</span>
+        <button class="btn-tool toggle-svg-anim" style="min-height:34px;padding:0 10px;font-size:0.78rem;" aria-label="Pausar o reanudar animación">⏸ Pausar</button>
+      </div>
+    </div>
+
+    <div class="card" style="text-align:center;">
+      <!-- 3. Breve descripción de la ilustración -->
+      <p style="color:var(--muted);max-width:640px;margin:0 auto 18px;">
+        <strong>Descripción de la ilustración:</strong> Esquema vectorial animado del ciclo completo de fabricación e instalación modular sostenible: captación de partículas por ciclofiltro (95%), pulverización HVLP con curado ultravioleta, verificación dimensional isométrica del mueble modular, depuración físico-química de agua ("vertido cero") y destilación de disolventes (60–80%).
+      </p>
+
+      <!-- 4. Nombre del autor (elemento visual más destacado) -->
+      <div style="font-size:clamp(2rem, 6vw, 3rem);font-weight:900;color:var(--accent);letter-spacing:-0.02em;line-height:1.15;margin-bottom:6px;">
+        Rubén Sbarsky
+      </div>
+
+      <!-- 5. Texto «Autor del tutorial» -->
+      <div style="font-size:1.15rem;font-weight:700;color:var(--text);margin-bottom:18px;">
+        Autor del tutorial
+      </div>
+
+      <!-- 6. Información adicional pertinente -->
+      <div style="max-width:680px;margin:0 auto 18px;text-align:left;background:var(--card-alt);padding:16px;border-radius:12px;border:1px solid var(--border);">
+        <p><strong>Material educativo:</strong> Curso de Instalación de Muebles Modulares — Adaptación didáctica integral de la <em>Guía de Mejores Técnicas Disponibles para el Sector de Fabricación de Muebles de Madera en la Comunitat Valenciana</em> (CTL / Generalitat Valenciana / AIDIMA, 2009, ISBN: 978-84-482-5275-5).</p>
+        <p><strong>Fecha y hora de creación:</strong> 23/11/2026 — 11:45:05</p>
+        <p style="margin-bottom:0;"><strong>Versión del entregable:</strong> V001 (<code>tutorial_mtd_muebles_modulares_V001.html</code>)</p>
+      </div>
+    </div>
+
+    <div class="tab-footer-nav"></div>
+  </section>
+</main>
+
+<!-- BOTONES FLOTANTES ARRASTRABLES -->
+<button id="fab-home" class="fab-movable no-print" aria-label="Ir a Inicio (botón movible)" title="Arrastra para mover o pulsa para ir a INICIO">🏠 INICIO</button>
+<button id="fab-top" class="fab-movable no-print" aria-label="Ir arriba de la pestaña actual (botón movible)" title="Arrastra para mover o pulsa para ir al comienzo de la pestaña">⬆️ ARRIBA</button>
+
+<!-- NOTIFICACIÓN TOAST -->
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function() {
+  "use strict";
+
+  /* =========================================================================
+     ESTADO GLOBAL Y GESTIÓN SEGURA DE ALMACENAMIENTO
+     ========================================================================= */
+  const STORAGE_KEYS = {
+    tab: "mtd_tutorial_active_tab_v1",
+    theme: "mtd_tutorial_theme_v1",
+    fontSize: "mtd_tutorial_fs_v1",
+    checks: "mtd_tutorial_checks_v1"
+  };
+
+  function safeStorageGet(key, fallback) {
+    try {
+      const val = window.localStorage.getItem(key);
+      return val !== null ? val : fallback;
+    } catch (err) {
+      return fallback;
+    }
+  }
+
+  function safeStorageSet(key, value) {
+    try {
+      window.localStorage.setItem(key, value);
+    } catch (err) {
+      /* Silencioso si localStorage está restringido */
+    }
+  }
+
+  function showToast(message) {
+    const toast = document.getElementById("toast");
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add("show");
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => toast.classList.remove("show"), 2600);
+  }
+
+  /* =========================================================================
+     DEFINICIÓN DE PESTAÑAS (NOMBRES DESCRIPTIVOS Y ORDEN EXACTO)
+     ========================================================================= */
+  const TAB_LABELS = {
+    "sec-inicio": "INICIO",
+    "sec-diseno-materiales": "Diseño y Materiales",
+    "sec-mecanizado-acabados": "Mecanizado y Acabados",
+    "sec-control-ambiental": "Control Ambiental",
+    "sec-tecnologias-mtd": "Tecnologías MTD",
+    "sec-instalacion-modular": "Instalación Modular",
+    "sec-casos-practicos": "10 Casos Prácticos",
+    "sec-proyectos": "10 Proyectos",
+    "sec-qa": "33 Preguntas (Q&A)",
+    "sec-errores": "ERRORES",
+    "sec-prompts": "PROMPTS",
+    "sec-glosario": "Glosario",
+    "sec-apendice": "Fuente Íntegra",
+    "sec-fuentes": "FUENTES",
+    "sec-creditos": "CRÉDITOS"
+  };
+
+  const secs = Array.from(document.querySelectorAll("section.tab-sec"));
+  const navChipsContainer = document.getElementById("nav-chips");
+  const dr = document.getElementById("dr");
+  const drLinks = document.getElementById("dr-links");
+  const mb = document.getElementById("mb");
+  let currentIndex = 0;
+
+  /* =========================================================================
+     PLANTILLA ÚNICA SVG (INICIO Y CRÉDITOS) CON IDS ÚNICOS Y FALLBACK DATA URI
+     ========================================================================= */
+  let rawSvgTemplate = "";
+  let isSvgPaused = false;
+
+  function initMasterSvgTemplate() {
+    const tpl = document.getElementById("master-hero-svg-template");
+    if (!tpl) return;
+    rawSvgTemplate = tpl.innerHTML.trim();
+    tpl.remove(); /* Eliminamos la fuente oculta del DOM */
+  }
+
+  function buildUniqueSvgMarkup(suffix) {
+    if (!rawSvgTemplate) return "";
+    const idsToScope = [
+      "bgSpaceGrad",
+      "woodPanelGrad",
+      "cyanBeamGrad",
+      "uvPurpleGrad",
+      "ecoEmeraldGrad",
+      "neonGlow",
+      "techGrid"
+    ];
+    let scoped = rawSvgTemplate;
+    idsToScope.forEach((id) => {
+      const uniqueId = id + "_" + suffix;
+      scoped = scoped.replace(new RegExp('id="' + id + '"', "g"), 'id="' + uniqueId + '"');
+      scoped = scoped.replace(new RegExp("url\\(#" + id + "\\)", "g"), "url(#" + uniqueId + ")");
+    });
+    return scoped;
+  }
+
+  function mountSvgInstance(containerId, suffix) {
+    const host = document.getElementById(containerId);
+    if (!host) return;
+    try {
+      const markup = buildUniqueSvgMarkup(suffix);
+      host.innerHTML = markup;
+      const svgEl = host.querySelector("svg");
+      if (!svgEl) {
+        throw new Error("SVG no renderizado");
+      }
+      if (isSvgPaused) {
+        host.classList.add("svg-paused");
+      } else {
+        host.classList.remove("svg-paused");
+      }
+    } catch (err) {
+      /* Mecanismo alternativo mediante data:image/svg+xml */
+      const fallbackData = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(buildUniqueSvgMarkup(suffix));
+      host.innerHTML = '<img src="' + fallbackData + '" alt="Diagrama técnico MTD de fabricación e instalación de muebles de madera" style="width:100%;height:auto;border-radius:12px;display:block;">';
+    }
+  }
+
+  function ensureVisibleSvgsMounted() {
+    const activeSec = secs[currentIndex];
+    if (!activeSec) return;
+    if (activeSec.id === "sec-inicio") {
+      const mount = document.getElementById("svg-mount-inicio");
+      if (mount && !mount.innerHTML.trim()) {
+        mountSvgInstance("svg-mount-inicio", "inicio");
+      }
+    } else if (activeSec.id === "sec-creditos") {
+      const mount = document.getElementById("svg-mount-creditos");
+      if (mount && !mount.innerHTML.trim()) {
+        mountSvgInstance("svg-mount-creditos", "creditos");
+      }
+    }
+  }
+
+  /* Comprobación periódica de integridad de contenedores SVG visibles */
+  setInterval(ensureVisibleSvgsMounted, 1500);
+
+  document.querySelectorAll(".toggle-svg-anim").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      isSvgPaused = !isSvgPaused;
+      document.querySelectorAll(".svg-mount").forEach((m) => {
+        m.classList.toggle("svg-paused", isSvgPaused);
+      });
+      document.querySelectorAll(".toggle-svg-anim").forEach((b) => {
+        b.textContent = isSvgPaused ? "▶ Reanudar" : "⏸ Pausar";
+      });
+    });
+  });
+
+  /* =========================================================================
+     NAVEGACIÓN SPA, ÍNDICE LATERAL (#dr) Y BOTONES ANTERIOR / SIGUIENTE
+     ========================================================================= */
+  function toggleIndexDrawer(forceState) {
+    const willOpen = typeof forceState === "boolean" ? forceState : !dr.classList.contains("o");
+    dr.classList.toggle("o", willOpen);
+    mb.setAttribute("aria-expanded", String(willOpen));
+  }
+
+  function scrollToTabTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function go(index) {
+    if (index < 0 || index >= secs.length) return;
+    currentIndex = index;
+
+    secs.forEach((sec, idx) => {
+      sec.classList.toggle("active", idx === index);
+    });
+
+    Array.from(navChipsContainer.children).forEach((chip, idx) => {
+      const active = idx === index;
+      chip.classList.toggle("active", active);
+      chip.setAttribute("aria-selected", String(active));
+      if (active) {
+        chip.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+      }
+    });
+
+    Array.from(drLinks.children).forEach((link, idx) => {
+      link.classList.toggle("on", idx === index);
+    });
+
+    ensureVisibleSvgsMounted();
+    safeStorageSet(STORAGE_KEYS.tab, secs[index].id);
+    scrollToTabTop();
+  }
+
+  function buildNavigationAndFooters() {
+    secs.forEach((sec, i) => {
+      const label = TAB_LABELS[sec.id] || sec.dataset.t || sec.querySelector("h2").textContent;
+
+      /* Chip en barra superior */
+      const chip = document.createElement("button");
+      chip.className = "chip";
+      chip.type = "button";
+      chip.setAttribute("role", "tab");
+      chip.setAttribute("aria-selected", i === 0 ? "true" : "false");
+      chip.textContent = label;
+      chip.addEventListener("click", () => {
+        go(i);
+        toggleIndexDrawer(false);
+      });
+      navChipsContainer.appendChild(chip);
+
+      /* Entrada en panel lateral Índice (numeradas salvo HOME/INICIO) */
+      const idxLink = document.createElement("a");
+      idxLink.href = "#" + sec.id;
+      const fullTitle = sec.dataset.t || (sec.querySelector("h2") ? sec.querySelector("h2").textContent : label);
+      idxLink.textContent = (i ? i + ". " : "") + fullTitle;
+      idxLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        go(i);
+        toggleIndexDrawer(false);
+      });
+      drLinks.appendChild(idxLink);
+
+      /* Navegación fija al final de cada pestaña */
+      const footerNav = sec.querySelector(".tab-footer-nav");
+      if (footerNav) {
+        if (i > 0) {
+          const prevLabel = TAB_LABELS[secs[i - 1].id] || "Anterior";
+          const prevBtn = document.createElement("button");
+          prevBtn.type = "button";
+          prevBtn.innerHTML = "← Anterior: " + prevLabel;
+          prevBtn.addEventListener("click", () => go(i - 1));
+          footerNav.appendChild(prevBtn);
+        }
+        if (i < secs.length - 1) {
+          const nextLabel = TAB_LABELS[secs[i + 1].id] || "Siguiente";
+          const nextBtn = document.createElement("button");
+          nextBtn.type = "button";
+          nextBtn.className = "next-btn";
+          nextBtn.innerHTML = "Siguiente: " + nextLabel + " →";
+          nextBtn.addEventListener("click", () => go(i + 1));
+          footerNav.appendChild(nextBtn);
+        }
+      }
+    });
+  }
+
+  /* Eventos del Índice */
+  mb.addEventListener("click", (e) => {
+    e.stopPropagation();
+    toggleIndexDrawer();
+  });
+
+  document.getElementById("dr-close").addEventListener("click", () => toggleIndexDrawer(false));
+
+  const btnHomeIndex = document.getElementById("ix");
+  if (btnHomeIndex) {
+    btnHomeIndex.addEventListener("click", () => toggleIndexDrawer(true));
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      toggleIndexDrawer(false);
+    }
+  });
+
+  document.addEventListener("click", (e) => {
+    if (dr.classList.contains("o") && !e.target.closest("#dr, #mb, #ix")) {
+      toggleIndexDrawer(false);
+    }
+  });
+
+  /* Logo superior vuelve a INICIO */
+  const logoHome = document.getElementById("logo-home-trigger");
+  logoHome.addEventListener("click", () => go(0));
+  logoHome.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      go(0);
+    }
+  });
+
+  /* Botones internos con data-goto-id */
+  document.querySelectorAll("[data-goto-id]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const targetIdx = secs.findIndex((s) => s.id === btn.dataset.gotoId);
+      if (targetIdx !== -1) go(targetIdx);
+    });
+  });
+
+  /* =========================================================================
+     BOTONES FLOTANTES ARRASTRABLES (INICIO Y ARRIBA)
+     ========================================================================= */
+  function makeDraggableActionButton(element, onClickAction) {
+    let isDragging = false;
+    let moved = false;
+    let startX = 0;
+    let startY = 0;
+    let origLeft = 0;
+    let origTop = 0;
+
+    element.addEventListener("pointerdown", (e) => {
+      isDragging = true;
+      moved = false;
+      startX = e.clientX;
+      startY = e.clientY;
+      const rect = element.getBoundingClientRect();
+      origLeft = rect.left;
+      origTop = rect.top;
+      element.setPointerCapture(e.pointerId);
+    });
+
+    element.addEventListener("pointermove", (e) => {
+      if (!isDragging) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+        moved = true;
+        const maxLeft = window.innerWidth - element.offsetWidth - 6;
+        const maxTop = window.innerHeight - element.offsetHeight - 6;
+        const nextLeft = Math.max(6, Math.min(maxLeft, origLeft + dx));
+        const nextTop = Math.max(64, Math.min(maxTop, origTop + dy));
+        element.style.left = nextLeft + "px";
+        element.style.top = nextTop + "px";
+        element.style.right = "auto";
+        element.style.bottom = "auto";
+      }
+    });
+
+    element.addEventListener("pointerup", (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      element.releasePointerCapture(e.pointerId);
+      if (!moved) {
+        onClickAction();
+      }
+    });
+  }
+
+  makeDraggableActionButton(document.getElementById("fab-home"), () => {
+    go(0);
+    showToast("🏠 En INICIO");
+  });
+
+  makeDraggableActionButton(document.getElementById("fab-top"), () => {
+    scrollToTabTop();
+  });
+
+  /* =========================================================================
+     33 PREGUNTAS (Q&A): DESPLEGAR TODAS / PLEGAR TODAS (DEFAULT: PLEGADAS)
+     ========================================================================= */
+  const qaItems = Array.from(document.querySelectorAll("#sec-qa details.qa-item"));
+  qaItems.forEach((d) => d.removeAttribute("open")); /* Default estricto plegado */
+
+  document.getElementById("qa-expand-all").addEventListener("click", () => {
+    qaItems.forEach((d) => d.setAttribute("open", ""));
+    showToast("Todas las 33 respuestas desplegadas");
+  });
+
+  document.getElementById("qa-collapse-all").addEventListener("click", () => {
+    qaItems.forEach((d) => d.removeAttribute("open"));
+    showToast("Todas las 33 respuestas plegadas");
+  });
+
+  /* =========================================================================
+     COPIAR AL PORTAPAPELES Y ENLACES EXTERNOS EN NUEVA VENTANA
+     ========================================================================= */
+  function copyTextSafely(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast("✓ Contenido copiado al portapapeles");
+      }).catch(() => fallbackCopy(text));
+    } else {
+      fallbackCopy(text);
+    }
+  }
+
+  function fallbackCopy(text) {
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      if (ok) {
+        showToast("✓ Contenido copiado al portapapeles");
+      } else {
+        showToast("⚠️ Selecciona el texto manualmente para copiarlo");
+      }
+    } catch (err) {
+      showToast("⚠️ No se pudo acceder al portapapeles");
+    }
+  }
+
+  document.querySelectorAll(".copy-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const target = document.getElementById(btn.dataset.copyTarget);
+      if (target) {
+        copyTextSafely(target.textContent);
+      }
+    });
+  });
+
+  document.querySelectorAll(".open-url-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const url = btn.dataset.url;
+      if (!url) return;
+      try {
+        const win = window.open(url, "_blank", "noopener,noreferrer");
+        if (!win) {
+          showToast("⚠️ El navegador bloqueó la ventana emergente. Usa el botón Copiar URL.");
+        }
+      } catch (err) {
+        showToast("⚠️ No se pudo abrir el enlace externamente. Copia la URL.");
+      }
+    });
+  });
+
+  /* =========================================================================
+     BUSCADOR INTERNO EN TODAS LAS PESTAÑAS
+     ========================================================================= */
+  const searchInput = document.getElementById("search-input");
+  const searchResults = document.getElementById("search-results");
+  const searchSummary = document.getElementById("search-summary");
+  const searchHitsList = document.getElementById("search-hits-list");
+
+  function performSearch(query) {
+    const q = query.trim().toLowerCase();
+    if (q.length < 2) {
+      searchResults.classList.remove("visible");
+      return;
+    }
+
+    const hits = [];
+    secs.forEach((sec, idx) => {
+      const blocks = sec.querySelectorAll("p, li, td, summary, .qa-body, .prompt-code, .verbatim-source");
+      blocks.forEach((el) => {
+        const txt = el.textContent;
+        const pos = txt.toLowerCase().indexOf(q);
+        if (pos !== -1 && hits.length < 25) {
+          const start = Math.max(0, pos - 45);
+          const end = Math.min(txt.length, pos + q.length + 75);
+          const snippet = (start > 0 ? "..." : "") + txt.slice(start, end).trim() + (end < txt.length ? "..." : "");
+          hits.push({
+            tabIdx: idx,
+            tabName: TAB_LABELS[sec.id] || sec.dataset.t,
+            snippet: snippet,
+            detailParent: el.closest("details")
+          });
+        }
+      });
+    });
+
+    searchSummary.textContent = hits.length
+      ? "Se encontraron " + hits.length + " coincidencias para «" + query.trim() + "»:"
+      : "Sin resultados para «" + query.trim() + "».";
+    searchHitsList.innerHTML = "";
+
+    hits.forEach((h) => {
+      const div = document.createElement("div");
+      div.className = "search-hit";
+      div.innerHTML = '<span class="badge">' + h.tabName + '</span><div style="font-size:0.86rem;margin-top:4px;">' + escapeHtml(h.snippet) + '</div>';
+      div.addEventListener("click", () => {
+        go(h.tabIdx);
+        if (h.detailParent) {
+          h.detailParent.setAttribute("open", "");
+        }
+        searchResults.classList.remove("visible");
+      });
+      searchHitsList.appendChild(div);
+    });
+
+    searchResults.classList.add("visible");
+  }
+
+  function escapeHtml(str) {
+    return str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+  searchInput.addEventListener("input", () => performSearch(searchInput.value));
+  document.getElementById("search-clear").addEventListener("click", () => {
+    searchInput.value = "";
+    searchResults.classList.remove("visible");
+  });
+  document.getElementById("close-search-panel").addEventListener("click", () => {
+    searchResults.classList.remove("visible");
+  });
+
+  /* =========================================================================
+     TEMA CLARO/OSCURO, TAMAÑO DE FUENTE Y PROGRESO DE LECTURA
+     ========================================================================= */
+  let currentFs = parseInt(safeStorageGet(STORAGE_KEYS.fontSize, "16"), 10) || 16;
+  document.documentElement.style.setProperty("--fs", currentFs + "px");
+
+  document.getElementById("font-inc").addEventListener("click", () => {
+    currentFs = Math.min(22, currentFs + 1);
+    document.documentElement.style.setProperty("--fs", currentFs + "px");
+    safeStorageSet(STORAGE_KEYS.fontSize, String(currentFs));
+  });
+
+  document.getElementById("font-dec").addEventListener("click", () => {
+    currentFs = Math.max(13, currentFs - 1);
+    document.documentElement.style.setProperty("--fs", currentFs + "px");
+    safeStorageSet(STORAGE_KEYS.fontSize, String(currentFs));
+  });
+
+  const themeToggle = document.getElementById("theme-toggle");
+  function applyTheme(isLight) {
+    document.body.classList.toggle("light-theme", isLight);
+    themeToggle.textContent = isLight ? "🌙 Oscuro" : "☀️ Claro";
+    safeStorageSet(STORAGE_KEYS.theme, isLight ? "light" : "dark");
+  }
+
+  applyTheme(safeStorageGet(STORAGE_KEYS.theme, "dark") === "light");
+  themeToggle.addEventListener("click", () => {
+    applyTheme(!document.body.classList.contains("light-theme"));
+  });
+
+  window.addEventListener("scroll", () => {
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.max(0, (window.scrollY / docHeight) * 100)) : 0;
+    document.getElementById("read-progress").style.width = pct + "%";
+  }, { passive: true });
+
+  /* =========================================================================
+     LISTA DE COMPROBACIÓN PERSISTENTE (UNIDAD 10)
+     ========================================================================= */
+  const checkboxes = Array.from(document.querySelectorAll("[data-check-id]"));
+  const statusBadge = document.getElementById("checklist-status");
+
+  function loadChecklistState() {
+    let saved = {};
+    try {
+      saved = JSON.parse(safeStorageGet(STORAGE_KEYS.checks, "{}")) || {};
+    } catch (e) {
+      saved = {};
+    }
+    checkboxes.forEach((cb) => {
+      cb.checked = Boolean(saved[cb.dataset.checkId]);
+    });
+    updateChecklistCounter();
+  }
+
+  function updateChecklistCounter() {
+    const done = checkboxes.filter((c) => c.checked).length;
+    if (statusBadge) {
+      statusBadge.textContent = "Progreso: " + done + " / " + checkboxes.length + " completados";
+    }
+  }
+
+  checkboxes.forEach((cb) => {
+    cb.addEventListener("change", () => {
+      const state = {};
+      checkboxes.forEach((item) => {
+        state[item.dataset.checkId] = item.checked;
+      });
+      safeStorageSet(STORAGE_KEYS.checks, JSON.stringify(state));
+      updateChecklistCounter();
+    });
+  });
+
+  document.getElementById("reset-checklist").addEventListener("click", () => {
+    checkboxes.forEach((cb) => (cb.checked = false));
+    safeStorageSet(STORAGE_KEYS.checks, "{}");
+    updateChecklistCounter();
+    showToast("Lista de verificación reiniciada");
+  });
+
+  /* =========================================================================
+     PREPARACIÓN DE IMPRESIÓN Y PDF (CON RESTAURACIÓN DE ESTADO)
+     ========================================================================= */
+  let closedDetailsBeforePrint = [];
+
+  function prepareForPrint() {
+    mountSvgInstance("svg-mount-inicio", "inicio");
+    mountSvgInstance("svg-mount-creditos", "creditos");
+    closedDetailsBeforePrint = Array.from(document.querySelectorAll("details")).filter((d) => !d.open);
+    closedDetailsBeforePrint.forEach((d) => d.setAttribute("open", ""));
+  }
+
+  function restoreAfterPrint() {
+    closedDetailsBeforePrint.forEach((d) => d.removeAttribute("open"));
+    closedDetailsBeforePrint = [];
+  }
+
+  window.addEventListener("beforeprint", prepareForPrint);
+  window.addEventListener("afterprint", restoreAfterPrint);
+
+  document.getElementById("print-btn").addEventListener("click", () => {
+    prepareForPrint();
+    try {
+      window.print();
+    } catch (err) {
+      restoreAfterPrint();
+      showToast("Abre este archivo directamente en el navegador y utiliza Ctrl+P o Cmd+P");
+    }
+  });
+
+  /* =========================================================================
+     INICIALIZACIÓN COMPLETA
+     ========================================================================= */
+  initMasterSvgTemplate();
+  buildNavigationAndFooters();
+  loadChecklistState();
+
+  const savedTabId = safeStorageGet(STORAGE_KEYS.tab, "sec-inicio");
+  const initialIdx = secs.findIndex((s) => s.id === savedTabId);
+  go(initialIdx !== -1 ? initialIdx : 0);
+})();
+</script>
+</body>
+</html>
