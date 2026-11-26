@@ -1,0 +1,2761 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Manual Maestro de Instalación de Cocinas Modulares by Rubén Sbarsky</title>
+<style>
+  :root {
+    --bg-main: #0a0e1a;
+    --bg-card: #0f172a;
+    --bg-elevated: #162038;
+    --border-subtle: #1e3a5f;
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --accent: #38bdf8;
+    --accent-glow: rgba(56, 189, 248, 0.22);
+    --accent-warm: #f59e0b;
+    --success: #10b981;
+    --danger: #ef4444;
+    --font-base: 16px;
+    --nav-height: 58px;
+  }
+
+  body.light-theme {
+    --bg-main: #f1f5f9;
+    --bg-card: #ffffff;
+    --bg-elevated: #e2e8f0;
+    --border-subtle: #cbd5e1;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --accent: #0284c7;
+    --accent-glow: rgba(2, 132, 199, 0.15);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    font-size: var(--font-base);
+    scroll-behavior: smooth;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    line-height: 1.65;
+    padding-top: var(--nav-height);
+    overflow-x: hidden;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  /* Barra de Progreso de Lectura */
+  #reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), #818cf8, var(--accent-warm));
+    width: 0%;
+    z-index: 60;
+    transition: width 0.1s linear;
+  }
+
+  /* Barra Superior Fija */
+  #top-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--nav-height);
+    background-color: rgba(10, 14, 26, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    gap: 8px;
+    z-index: 40;
+  }
+
+  body.light-theme #top-navbar {
+    background-color: rgba(255, 255, 255, 0.95);
+  }
+
+  .nav-logo-wrap {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 2px;
+  }
+
+  .nav-chips-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    flex: 1;
+    padding: 4px 0;
+  }
+
+  .nav-chips-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    min-height: 42px;
+    padding: 0 13px;
+    border-radius: 999px;
+    border: 1px solid var(--border-subtle);
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    text-decoration: none;
+  }
+
+  .chip:hover, .chip:focus-visible {
+    border-color: var(--accent);
+    background-color: var(--accent-glow);
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+
+  .chip.active {
+    background-color: var(--accent);
+    color: #0a0e1a;
+    border-color: var(--accent);
+    font-weight: 700;
+  }
+
+  body.light-theme .chip.active {
+    color: #ffffff;
+  }
+
+  /* Menú Sándwich Lateral (#dr) */
+  #dr {
+    position: fixed;
+    top: var(--nav-height);
+    left: 0;
+    bottom: 0;
+    width: min(330px, 88vw);
+    background: #0f172a;
+    border-right: 1px solid #1e3a5f;
+    transform: translateX(-105%);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 45;
+    overflow-y: auto;
+    padding: 12px;
+    box-shadow: 8px 0 24px rgba(0,0,0,0.6);
+  }
+
+  body.light-theme #dr {
+    background: #ffffff;
+    border-right: 1px solid #cbd5e1;
+  }
+
+  #dr.o {
+    transform: translateX(0);
+  }
+
+  #dr a {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-radius: 8px;
+    color: var(--text-primary);
+    cursor: pointer;
+    min-height: 44px;
+    font-size: 0.92rem;
+    font-weight: 500;
+    margin-bottom: 4px;
+    transition: background-color 0.15s ease;
+    text-decoration: none;
+  }
+
+  #dr a:hover, #dr a:focus-visible {
+    background: rgba(56, 189, 248, 0.12);
+    outline: none;
+  }
+
+  #dr a.on {
+    background: rgba(0, 212, 255, 0.18);
+    color: var(--accent);
+    font-weight: 700;
+    border-left: 3px solid var(--accent);
+  }
+
+  /* Barra de Utilidades Secundaria */
+  .utility-bar {
+    max-width: 1080px;
+    margin: 12px auto 0;
+    padding: 0 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .search-box {
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+  }
+
+  .search-box input {
+    width: 100%;
+    min-height: 42px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border-subtle);
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+  }
+
+  .search-box input:focus {
+    outline: 2px solid var(--accent);
+    border-color: var(--accent);
+  }
+
+  .util-buttons {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .btn-util {
+    min-height: 42px;
+    min-width: 42px;
+    padding: 0 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border-subtle);
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .btn-util:hover {
+    border-color: var(--accent);
+    background-color: var(--accent-glow);
+  }
+
+  /* Resultados del Buscador */
+  #search-results-panel {
+    max-width: 1080px;
+    margin: 10px auto;
+    padding: 0 12px;
+    display: none;
+  }
+
+  #search-results-panel.visible {
+    display: block;
+  }
+
+  .search-result-card {
+    background: var(--bg-card);
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 8px;
+  }
+
+  /* Contenedor Principal de Pestañas */
+  main {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 16px 12px 90px;
+  }
+
+  .tab-section {
+    display: none;
+    animation: fadeInTab 0.28s ease-out;
+  }
+
+  .tab-section.active {
+    display: block;
+  }
+
+  @keyframes fadeInTab {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Cabecera de Inicio con Logo y Título */
+  .hero-header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .title-with-logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .hero-title {
+    font-size: clamp(1.4rem, 4.5vw, 2.15rem);
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--text-primary);
+    flex: 1;
+  }
+
+  .hero-title span.author-tag {
+    display: inline-block;
+    color: var(--accent);
+    font-weight: 800;
+  }
+
+  .hero-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.98rem;
+  }
+
+  /* Contenedor SVG Animado */
+  .svg-hero-container {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    background: radial-gradient(circle at center, #111c33 0%, #070b14 100%);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    padding: 10px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.45);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .svg-hero-container svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+  }
+
+  /* Tarjetas y Tipografía de Contenido */
+  .card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  }
+
+  h2.section-heading {
+    font-size: clamp(1.3rem, 4vw, 1.75rem);
+    color: var(--accent);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  h3 {
+    font-size: 1.18rem;
+    color: var(--text-primary);
+    margin: 18px 0 10px;
+    font-weight: 700;
+  }
+
+  h4 {
+    font-size: 1.02rem;
+    color: var(--accent);
+    margin: 14px 0 6px;
+    font-weight: 700;
+  }
+
+  p {
+    margin-bottom: 12px;
+  }
+
+  ul, ol {
+    margin: 0 0 14px 20px;
+  }
+
+  li {
+    margin-bottom: 7px;
+  }
+
+  /* Bloques de Diagrama ASCII / Esquemas Técnicos */
+  pre.tech-diagram {
+    background-color: #060913;
+    color: #38bdf8;
+    border: 1px solid #1e3a5f;
+    border-radius: 10px;
+    padding: 14px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.76rem;
+    line-height: 1.35;
+    overflow-x: auto;
+    margin: 14px 0;
+  }
+
+  /* Cajas de Advertencia y Reglas de Oro */
+  .callout {
+    border-left: 4px solid var(--accent);
+    background-color: rgba(56, 189, 248, 0.08);
+    padding: 14px 16px;
+    border-radius: 0 10px 10px 0;
+    margin: 14px 0;
+  }
+
+  .callout.warning {
+    border-left-color: var(--danger);
+    background-color: rgba(239, 68, 68, 0.1);
+  }
+
+  .callout.gold {
+    border-left-color: var(--accent-warm);
+    background-color: rgba(245, 158, 11, 0.1);
+  }
+
+  /* Tablas Responsivas */
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    margin: 14px 0;
+    border-radius: 10px;
+    border: 1px solid var(--border-subtle);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 540px;
+    font-size: 0.9rem;
+  }
+
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  th {
+    background-color: var(--bg-elevated);
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* Acordeón de 33 Preguntas y Respuestas */
+  .qa-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .btn-qa {
+    min-height: 44px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--accent);
+    background-color: var(--bg-elevated);
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-qa:hover {
+    background-color: var(--accent);
+    color: #0a0e1a;
+  }
+
+  .qa-level-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin: 18px 0 10px;
+  }
+
+  .level-1 { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; }
+  .level-2 { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid #38bdf8; }
+  .level-3 { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; }
+
+  details.qa-item {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+
+  details.qa-item summary {
+    padding: 14px 16px;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    min-height: 48px;
+  }
+
+  details.qa-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  details.qa-item summary::after {
+    content: "+";
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  details.qa-item[open] summary::after {
+    content: "−";
+  }
+
+  details.qa-item[open] summary {
+    border-bottom: 1px solid var(--border-subtle);
+    background-color: rgba(56, 189, 248, 0.06);
+  }
+
+  .qa-answer {
+    padding: 14px 16px;
+    color: var(--text-secondary);
+  }
+
+  /* Bloques de Prompts y Botones Copiar */
+  .prompt-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+
+  .prompt-usage {
+    font-size: 0.88rem;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .prompt-box {
+    background-color: #060913;
+    color: #e2e8f0;
+    border: 1px solid #1e3a5f;
+    border-radius: 8px;
+    padding: 12px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.85rem;
+    white-space: pre-wrap;
+    margin-bottom: 10px;
+  }
+
+  .btn-copy, .btn-ext-link {
+    min-height: 44px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--accent);
+    background-color: rgba(56, 189, 248, 0.14);
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-copy:hover, .btn-ext-link:hover {
+    background-color: var(--accent);
+    color: #0a0e1a;
+  }
+
+  /* Listas de Comprobación Interactivas */
+  .checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.02);
+    margin-bottom: 8px;
+    cursor: pointer;
+    min-height: 44px;
+  }
+
+  .checklist-item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    accent-color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* Navegación Inferior Fija entre Pestañas */
+  .tab-bottom-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border-subtle);
+    flex-wrap: wrap;
+  }
+
+  .btn-nav-step {
+    min-height: 48px;
+    padding: 10px 18px;
+    border-radius: 12px;
+    border: 1px solid var(--accent);
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 0.92rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    flex: 1;
+    justify-content: center;
+    min-width: 140px;
+  }
+
+  .btn-nav-step.next {
+    background-color: var(--accent);
+    color: #0a0e1a;
+  }
+
+  .btn-nav-step:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--accent-glow);
+  }
+
+  /* Botones Flotantes Arrastrables (INICIO y ARRIBA) */
+  .floating-draggable {
+    position: fixed;
+    z-index: 50;
+    min-height: 46px;
+    min-width: 46px;
+    padding: 0 14px;
+    border-radius: 999px;
+    border: 2px solid var(--accent);
+    background-color: rgba(15, 23, 42, 0.94);
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 0.82rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.55);
+    cursor: grab;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    touch-action: none;
+    user-select: none;
+  }
+
+  .floating-draggable:active {
+    cursor: grabbing;
+    transform: scale(0.96);
+  }
+
+  #float-home-btn {
+    bottom: 18px;
+    left: 14px;
+  }
+
+  #float-top-btn {
+    bottom: 18px;
+    right: 14px;
+  }
+
+  /* Créditos Destacados */
+  .credits-author-box {
+    text-align: center;
+    padding: 24px 16px;
+    background: linear-gradient(145deg, var(--bg-card), var(--bg-elevated));
+    border: 1px solid var(--accent);
+    border-radius: 16px;
+    margin: 18px 0;
+  }
+
+  .author-huge {
+    font-size: clamp(1.8rem, 6vw, 2.75rem);
+    font-weight: 900;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+
+  /* Notificación Toast */
+  #toast-msg {
+    position: fixed;
+    bottom: 76px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background-color: var(--success);
+    color: #06281e;
+    font-weight: 700;
+    padding: 10px 18px;
+    border-radius: 999px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.25s ease;
+    z-index: 70;
+    font-size: 0.88rem;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+  }
+
+  #toast-msg.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Animaciones SVG internas */
+  @keyframes pulseGlow {
+    0%, 100% { opacity: 0.65; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.04); }
+  }
+  @keyframes floatCabinet {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-7px); }
+  }
+  @keyframes laserSweep {
+    0%, 100% { stroke-dashoffset: 0; opacity: 0.95; }
+    50% { stroke-dashoffset: 24; opacity: 0.55; }
+  }
+  @keyframes bubbleLevel {
+    0%, 100% { transform: translateX(-4px); }
+    50% { transform: translateX(4px); }
+  }
+  @keyframes screwSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .anim-cabinet { animation: floatCabinet 4.5s ease-in-out infinite; }
+  .anim-laser { stroke-dasharray: 8 4; animation: laserSweep 2.4s linear infinite; }
+  .anim-bubble { animation: bubbleLevel 3s ease-in-out infinite; }
+  .anim-pulse { animation: pulseGlow 3.2s ease-in-out infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .anim-cabinet, .anim-laser, .anim-bubble, .anim-pulse {
+      animation: none !important;
+    }
+  }
+
+  /* Optimización específica para pantallas estrechas (Samsung Galaxy A02s 360px) */
+  @media (max-width: 380px) {
+    .chip { padding: 0 10px; font-size: 0.8rem; }
+    .card { padding: 14px; }
+    .hero-header { padding: 14px; }
+    pre.tech-diagram { font-size: 0.68rem; padding: 10px; }
+    .floating-draggable { padding: 0 11px; font-size: 0.78rem; min-height: 44px; }
+  }
+
+  /* Hoja de Estilos de Impresión A4 */
+  @media print {
+    @page {
+      size: A4 vertical;
+      margin: 14mm 12mm;
+    }
+    body {
+      background: #ffffff !important;
+      color: #000000 !important;
+      padding-top: 0 !important;
+    }
+    #top-navbar, #dr, .utility-bar, .tab-bottom-nav, .floating-draggable, #reading-progress, #toast-msg, .qa-controls {
+      display: none !important;
+    }
+    .tab-section {
+      display: block !important;
+      opacity: 1 !important;
+      transform: none !important;
+      margin-bottom: 24px;
+    }
+    .card, .hero-header, .prompt-card, details.qa-item, .credits-author-box {
+      background: #ffffff !important;
+      color: #000000 !important;
+      border: 1px solid #999999 !important;
+      box-shadow: none !important;
+    }
+    h2.section-heading, h3, h4, .author-huge, .prompt-usage {
+      color: #000000 !important;
+    }
+    pre.tech-diagram, .prompt-box {
+      background: #f8fafc !important;
+      color: #000000 !important;
+      border: 1px solid #666666 !important;
+      white-space: pre-wrap !important;
+      overflow: visible !important;
+    }
+    .svg-hero-container {
+      background: #0f172a !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      max-width: 360px;
+    }
+    table { min-width: 100% !important; }
+    th, td { color: #000000 !important; border: 1px solid #666666 !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="reading-progress" aria-hidden="true"></div>
+
+<!-- BARRA DE NAVEGACIÓN SUPERIOR FIJA -->
+<nav id="top-navbar" aria-label="Navegación principal del manual">
+  <div class="nav-logo-wrap" title="Tutoriales IA - Rubén Sbarsky">
+    <!-- Logo integrado en SVG compacto -->
+    <svg width="36" height="36" viewBox="0 0 100 100" aria-label="Logo Tutoriales IA">
+      <defs>
+        <linearGradient id="navLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#38bdf8"/>
+          <stop offset="100%" stop-color="#818cf8"/>
+        </linearGradient>
+      </defs>
+      <path d="M50 6 L88 22 V52 C88 75 50 94 50 94 C50 94 12 75 12 52 V22 Z" fill="#091326" stroke="url(#navLogoGrad)" stroke-width="5"/>
+      <path d="M46 26 C32 26 24 36 24 48 C24 60 32 69 46 69 Z" fill="none" stroke="#38bdf8" stroke-width="3.5"/>
+      <circle cx="64" cy="36" r="3.5" fill="#818cf8"/>
+      <circle cx="72" cy="48" r="3.5" fill="#38bdf8"/>
+      <circle cx="64" cy="60" r="3.5" fill="#818cf8"/>
+      <line x1="54" y1="36" x2="64" y2="36" stroke="#38bdf8" stroke-width="2.5"/>
+      <line x1="54" y1="48" x2="72" y2="48" stroke="#38bdf8" stroke-width="2.5"/>
+      <line x1="54" y1="60" x2="64" y2="60" stroke="#818cf8" stroke-width="2.5"/>
+      <polygon points="44,39 60,48 44,57" fill="url(#navLogoGrad)"/>
+    </svg>
+  </div>
+
+  <button class="chip" id="mb" aria-label="Abrir índice" aria-expanded="false">☰ Índice</button>
+
+  <div class="nav-chips-container" id="nav-chips" role="tablist">
+    <button class="chip active" data-tab="0" role="tab" aria-selected="true">Inicio</button>
+    <button class="chip" data-tab="1" role="tab" aria-selected="false">Planificación y Herramientas</button>
+    <button class="chip" data-tab="2" role="tab" aria-selected="false">Recepción y Despiece</button>
+    <button class="chip" data-tab="3" role="tab" aria-selected="false">Módulos Bajos</button>
+    <button class="chip" data-tab="4" role="tab" aria-selected="false">Módulos Altos</button>
+    <button class="chip" data-tab="5" role="tab" aria-selected="false">Costados, Rincones y Zócalo</button>
+    <button class="chip" data-tab="6" role="tab" aria-selected="false">10 Casos Prácticos</button>
+    <button class="chip" data-tab="7" role="tab" aria-selected="false">10 Proyectos</button>
+    <button class="chip" data-tab="8" role="tab" aria-selected="false">Glosario</button>
+    <button class="chip" data-tab="9" role="tab" aria-selected="false">33 Preguntas (Q&amp;A)</button>
+    <button class="chip" data-tab="10" role="tab" aria-selected="false">ERRORES</button>
+    <button class="chip" data-tab="11" role="tab" aria-selected="false">PROMPTS</button>
+    <button class="chip" data-tab="12" role="tab" aria-selected="false">FUENTES</button>
+    <button class="chip" data-tab="13" role="tab" aria-selected="false">CRÉDITOS</button>
+  </div>
+</nav>
+
+<!-- PANEL LATERAL ÍNDICE MENÚ SÁNDWICH -->
+<div id="dr" aria-label="Índice completo de secciones"></div>
+
+<!-- BARRA DE UTILIDADES (BUSCADOR, FUENTE, TEMA, PDF) -->
+<div class="utility-bar">
+  <div class="search-box">
+    <input type="search" id="global-search" placeholder="Buscar cotas, tornillos, bisagras, patas..." aria-label="Buscar en todo el tutorial">
+  </div>
+  <div class="util-buttons">
+    <button class="btn-util" id="font-dec" aria-label="Reducir tamaño de letra">A-</button>
+    <button class="btn-util" id="font-inc" aria-label="Aumentar tamaño de letra">A+</button>
+    <button class="btn-util" id="theme-toggle" aria-label="Cambiar entre tema oscuro y claro">Tema</button>
+    <button class="btn-util" id="print-pdf" aria-label="Imprimir o guardar como PDF">PDF / Imprimir</button>
+  </div>
+</div>
+
+<!-- PANEL DE RESULTADOS DE BÚSQUEDA -->
+<div id="search-results-panel" aria-live="polite"></div>
+
+<!-- PLANTILLA ÚNICA OCULTA PARA EL SVG ANIMADO COMPARTIDO -->
+<template id="master-hero-svg-template">
+  <svg viewBox="0 0 400 500" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustración técnica animada de instalación de cocina modular con niveles láser, módulos altos, módulos bajos, pletinas de anclaje y cotas milimétricas">
+    <defs>
+      <linearGradient id="__BG_GRAD__" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#070d1f"/>
+        <stop offset="50%" stop-color="#0f1d3a"/>
+        <stop offset="100%" stop-color="#060a14"/>
+      </linearGradient>
+      <linearGradient id="__CABINET_GRAD__" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#1e3a5f"/>
+        <stop offset="100%" stop-color="#0f172a"/>
+      </linearGradient>
+      <linearGradient id="__ACCENT_GRAD__" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#38bdf8"/>
+        <stop offset="50%" stop-color="#818cf8"/>
+        <stop offset="100%" stop-color="#f59e0b"/>
+      </linearGradient>
+      <filter id="__GLOW__" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="3" result="blur"/>
+        <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+      </filter>
+      <pattern id="__GRID__" width="20" height="20" patternUnits="userSpaceOnUse">
+        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e3a5f" stroke-width="0.6" opacity="0.45"/>
+      </pattern>
+    </defs>
+
+    <!-- Fondo arquitectónico cuadriculado -->
+    <rect width="400" height="500" fill="url(#__BG_GRAD__)"/>
+    <rect width="400" height="500" fill="url(#__GRID__)"/>
+
+    <!-- Línea de techo y cota 5,5 cm -->
+    <line x1="20" y1="36" x2="380" y2="36" stroke="#94a3b8" stroke-width="3"/>
+    <text x="200" y="26" fill="#94a3b8" font-size="10" font-family="monospace" text-anchor="middle">TECHO / CIELO RASO (COTA CERO)</text>
+    <line x1="55" y1="36" x2="55" y2="62" stroke="#f59e0b" stroke-width="1.5" class="anim-laser"/>
+    <text x="64" y="53" fill="#fbbf24" font-size="10" font-family="monospace" font-weight="bold">5,5 cm</text>
+
+    <!-- Pletinas Murales con tornillos -->
+    <rect x="75" y="58" width="38" height="12" rx="2" fill="#38bdf8" filter="url(#__GLOW__)"/>
+    <circle cx="84" cy="64" r="2.5" fill="#0a0e1a"/>
+    <circle cx="104" cy="64" r="2.5" fill="#0a0e1a"/>
+
+    <rect x="287" y="58" width="38" height="12" rx="2" fill="#38bdf8" filter="url(#__GLOW__)"/>
+    <circle cx="296" cy="64" r="2.5" fill="#0a0e1a"/>
+    <circle cx="316" cy="64" r="2.5" fill="#0a0e1a"/>
+
+    <!-- Cota 76,5 cm entre ejes -->
+    <line x1="113" y1="64" x2="287" y2="64" stroke="#38bdf8" stroke-width="1.2" class="anim-laser"/>
+    <rect x="148" y="54" width="104" height="18" rx="4" fill="#0a0e1a" stroke="#38bdf8" stroke-width="1"/>
+    <text x="200" y="66" fill="#38bdf8" font-size="10" font-family="monospace" text-anchor="middle" font-weight="bold">76,5 cm EJES</text>
+
+    <!-- Módulo Alto Suspensión Animado -->
+    <g class="anim-cabinet">
+      <rect x="65" y="76" width="270" height="118" rx="6" fill="url(#__CABINET_GRAD__)" stroke="#38bdf8" stroke-width="2"/>
+      <!-- División central y balda telescópica -->
+      <line x1="200" y1="76" x2="200" y2="194" stroke="#38bdf8" stroke-width="1.5"/>
+      <line x1="68" y1="135" x2="198" y2="135" stroke="#818cf8" stroke-width="2" stroke-dasharray="4 2"/>
+      <line x1="202" y1="135" x2="332" y2="135" stroke="#818cf8" stroke-width="2" stroke-dasharray="4 2"/>
+      <!-- Colgadores L y R -->
+      <rect x="73" y="82" width="22" height="18" rx="3" fill="#f59e0b"/>
+      <text x="84" y="94" fill="#0a0e1a" font-size="10" font-weight="bold" text-anchor="middle">L</text>
+      <rect x="305" y="82" width="22" height="18" rx="3" fill="#f59e0b"/>
+      <text x="316" y="94" fill="#0a0e1a" font-size="10" font-weight="bold" text-anchor="middle">R</text>
+      <!-- Tiradores minimalistas -->
+      <rect x="186" y="122" width="4" height="32" rx="2" fill="#e2e8f0"/>
+      <rect x="210" y="122" width="4" height="32" rx="2" fill="#e2e8f0"/>
+      <text x="200" y="182" fill="#94a3b8" font-size="9" font-family="monospace" text-anchor="middle">MÓDULO ALTO PREENSAMBLADO (16 mm)</text>
+    </g>
+
+    <!-- Luz entre encimera y mueble alto (55-60 cm) y Nivel Láser -->
+    <line x1="35" y1="226" x2="365" y2="226" stroke="#10b981" stroke-width="1.8" class="anim-laser" filter="url(#__GLOW__)"/>
+    <rect x="135" y="216" width="130" height="20" rx="10" fill="#06281e" stroke="#10b981" stroke-width="1.2"/>
+    <circle cx="200" cy="226" r="4" fill="#34d399" class="anim-bubble"/>
+    <text x="200" y="209" fill="#34d399" font-size="9.5" font-family="monospace" text-anchor="middle">NIVEL LÁSER BIAXIAL 0.0°</text>
+
+    <!-- Encimera / Mesada de trabajo -->
+    <rect x="36" y="256" width="328" height="12" rx="3" fill="url(#__ACCENT_GRAD__)"/>
+
+    <!-- Módulos Bajos Solidarios -->
+    <g>
+      <!-- Módulo Bajo Izquierdo -->
+      <rect x="44" y="268" width="154" height="142" rx="4" fill="url(#__CABINET_GRAD__)" stroke="#38bdf8" stroke-width="1.8"/>
+      <rect x="52" y="276" width="138" height="28" rx="2" fill="#162038" stroke="#475569"/>
+      <rect x="52" y="310" width="138" height="92" rx="2" fill="#162038" stroke="#475569"/>
+      <!-- Módulo Bajo Derecho (Rincón 170°) -->
+      <rect x="202" y="268" width="154" height="142" rx="4" fill="url(#__CABINET_GRAD__)" stroke="#38bdf8" stroke-width="1.8"/>
+      <path d="M 210 276 L 348 276 L 348 402 L 210 402 Z" fill="#162038" stroke="#475569"/>
+      <path d="M 210 276 Q 265 339 210 402" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <text x="280" y="343" fill="#fbbf24" font-size="10" font-family="monospace" text-anchor="middle">APERTURA 170°</text>
+
+      <!-- Unión Intermodular Tornillo 30mm -->
+      <circle cx="200" cy="300" r="7" fill="#f59e0b" class="anim-pulse"/>
+      <line x1="186" y1="300" x2="214" y2="300" stroke="#ffffff" stroke-width="2"/>
+      <text x="200" y="288" fill="#fbbf24" font-size="8.5" font-family="monospace" text-anchor="middle">COSIDO 30mm</text>
+    </g>
+
+    <!-- Patas Regulables y Zócalo con Labio de Goma -->
+    <rect x="64" y="410" width="12" height="36" fill="#64748b"/>
+    <rect x="176" y="410" width="12" height="36" fill="#64748b"/>
+    <rect x="216" y="410" width="12" height="36" fill="#64748b"/>
+    <rect x="328" y="410" width="12" height="36" fill="#64748b"/>
+
+    <!-- Zócalo frontal translúcido y labio inferior -->
+    <rect x="52" y="414" width="296" height="28" rx="2" fill="#1e3a5f" fill-opacity="0.82" stroke="#38bdf8" stroke-width="1.2"/>
+    <line x1="52" y1="444" x2="348" y2="444" stroke="#10b981" stroke-width="3.5"/>
+    <text x="200" y="432" fill="#e2e8f0" font-size="9.5" font-family="monospace" text-anchor="middle">ZÓCALO + LABIO ESTANCO AL SUELO</text>
+
+    <!-- Suelo terminado -->
+    <line x1="16" y1="447" x2="384" y2="447" stroke="#94a3b8" stroke-width="3"/>
+    <text x="200" y="472" fill="#38bdf8" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">METODOLOGÍA MODULAR COCINAS</text>
+  </svg>
+</template>
+
+<!-- CONTENIDO PRINCIPAL DE LAS PESTAÑAS -->
+<main id="main-content">
+
+  <!-- PESTAÑA 0: INICIO -->
+  <section class="tab-section active" id="tab-0" data-t="Inicio">
+    <div class="hero-header">
+      <div class="title-with-logo">
+        <!-- Logo adjunto integrado en SVG a la izquierda del título principal -->
+        <svg width="64" height="64" viewBox="0 0 100 100" aria-label="Logo Tutoriales IA" style="flex-shrink:0;">
+          <defs>
+            <linearGradient id="heroLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#38bdf8"/>
+              <stop offset="50%" stop-color="#6366f1"/>
+              <stop offset="100%" stop-color="#a855f7"/>
+            </linearGradient>
+          </defs>
+          <path d="M50 5 L90 21 V52 C90 77 50 95 50 95 C50 95 10 77 10 52 V21 Z" fill="#081226" stroke="url(#heroLogoGrad)" stroke-width="4.5"/>
+          <path d="M46 25 C31 25 22 35 22 48 C22 61 31 70 46 70 Z" fill="none" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M32 38 C28 42 28 54 33 58 M39 32 C34 38 34 56 39 62" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="64" cy="34" r="3.5" fill="#a855f7"/>
+          <circle cx="74" cy="48" r="3.5" fill="#38bdf8"/>
+          <circle cx="64" cy="62" r="3.5" fill="#a855f7"/>
+          <line x1="54" y1="34" x2="64" y2="34" stroke="#38bdf8" stroke-width="2.2"/>
+          <line x1="54" y1="48" x2="74" y2="48" stroke="#38bdf8" stroke-width="2.2"/>
+          <line x1="54" y1="62" x2="64" y2="62" stroke="#a855f7" stroke-width="2.2"/>
+          <polygon points="44,38 61,48 44,58" fill="url(#heroLogoGrad)"/>
+          <text x="50" y="83" fill="#38bdf8" font-size="11" font-weight="900" font-family="sans-serif" text-anchor="middle">IA</text>
+        </svg>
+
+        <h1 class="hero-title">Manual Maestro de Instalación de Cocinas Modulares <span class="author-tag">by Rubén Sbarsky</span></h1>
+      </div>
+
+      <p class="hero-subtitle">Este manual técnico e instruccional está diseñado para capacitar a cualquier persona, desde el nivel de principiante absoluto sin experiencia previa en bricolaje o carpintería, hasta un estándar de ejecución profesional. La metodología sistematiza el procedimiento práctico desarrollado por Rubén Sbarsky para la empresa especialista <strong>Modular Cocinas</strong>, garantizando alineaciones milimétricas, anclajes seguros, estabilidad estructural y acabados impecables sin saltos conceptuales ni pasos omitidos.</p>
+
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn-qa" id="ix">☰ Ver índice completo</button>
+        <button class="btn-util" onclick="go(1)">Comenzar aprendizaje →</button>
+      </div>
+    </div>
+
+    <!-- Contenedor SVG Hero Animado Compartido -->
+    <div class="svg-hero-container" id="svg-mount-inicio" aria-label="Esquema animado de instalación de cocina modular"></div>
+
+    <div class="card" style="margin-top:20px;">
+      <h2 class="section-heading">🗺️ Índice Maestro Jerárquico Exhaustivo</h2>
+      <p>Explora la estructura completa de esta guía técnica paso a paso:</p>
+      <ul>
+        <li><strong>1. Fundamentos del Sistema Modular y Planificación Previa:</strong> Anatomía del mueble preensamblado, toma de cotas, diferencias con kits planos y ergonomía.</li>
+        <li><strong>2. Equipamiento, Herramientas y Seguridad en Obra (EPI):</strong> Herramientas de precisión, maquinaria electroportátil, selección de tornillería y seguridad laboral.</li>
+        <li><strong>3. Recepción, Logística y Control de Calidad en Obra:</strong> Descarga, desembalaje preventivo, gestión de incidencias y zonificación.</li>
+        <li><strong>4. Despiece Operativo y Preparación Previa de los Módulos:</strong> Desmontaje rápido de puertas mediante clips, extracción de baldas y protección del suelo.</li>
+        <li><strong>5. Instalación y Nivelación de Módulos Bajos:</strong> Espigas de patas, atornillado completo, calibración de altura, volteo en vilo, nivelación biaxial y cosido intermodular.</li>
+        <li><strong>6. Instalación, Anclaje Mural y Nivelación de Módulos Altos:</strong> Baldas telescópicas, colgadores ocultos L/R, replanteo a 5,5 cm del techo, perforación y doble reglaje.</li>
+        <li><strong>7. Montaje de Costados Vistos Decorativos y Remates:</strong> Regruesos, sujeción con sargentos protegidos, regla de los 35 mm y tornillos de 30 mm.</li>
+        <li><strong>8. Ajuste de Herrajes, Puertas y Sistemas Especiales de Rincón:</strong> Bisagras de 170°-180°, tacos de expansión, placas base con flecha direccional y secuencia cinemática.</li>
+        <li><strong>9. Ajuste y Colocación del Zócalo Inferior de Remate:</strong> Corte longitudinal, grapas rotativas, orientación del labio de goma al suelo y pieza esquinera flexible.</li>
+        <li><strong>10. Diez Ejemplos Prácticos de Aplicación en Escenarios Reales.</strong></li>
+        <li><strong>11. Buenas Prácticas y Matriz de Solución de Problemas (Troubleshooting).</strong></li>
+        <li><strong>12. Diez Proyectos Integradores Graduados.</strong></li>
+        <li><strong>13. Glosario Técnico Exhaustivo de Carpintería y Mobiliario Modular.</strong></li>
+        <li><strong>14. Banco de 33 Preguntas y Respuestas Técnicas (Nivel 1, Nivel 2 y Nivel 3).</strong></li>
+        <li><strong>15. Repositorio de Prompts de Planificación, Cubicaje y Asistencia con IA.</strong></li>
+        <li><strong>16. Directorio de Fuentes Fiables y Referencias Técnicas Oficiales.</strong></li>
+      </ul>
+    </div>
+
+    <div class="tab-bottom-nav">
+      <span style="flex:1"></span>
+      <button class="btn-nav-step next" onclick="go(1)">Siguiente: Planificación y Herramientas →</button>
+    </div>
+  </section>
+
+  <!-- PESTAÑA 1: PLANIFICACIÓN Y HERRAMIENTAS (Secciones 1 y 2) -->
+  <section class="tab-section" id="tab-1" data-t="Planificación, Fundamentos y Herramientas">
+    <div class="card">
+      <h2 class="section-heading">📐 1. Fundamentos del Sistema Modular y Planificación Previa</h2>
+      <p>El montaje de una cocina moderna bajo el estándar modular contemporáneo se basa en la repetición sistemática de módulos geométricos estandarizados (cascos o cuerpos de mueble), diseñados para unirse de forma solidaria y crear una estructura autoportante, continua y rígida. La metodología de Rubén Sbarsky para la plataforma técnica Modular Cocinas demuestra que la precisión final de la cocina no depende de la fuerza física, sino de un orden estricto de operaciones y del respeto absoluto por las tolerancias métricas.</p>
+
+      <pre class="tech-diagram">       [ TECHO / CIELO RASO ]
+   =================================
+             |
+             v (Cota fija: 5,5 cm)
+       [PLETINA MURAL] ------- (76,5 cm entre ejes) ------- [PLETINA MURAL]
+       +------------------------------------------------------------------+
+       | [Colgador L]                                        [Colgador R] |
+       |                                                                  |
+       |                      MUEBLE ALTO COLGANTE                        |
+       |                     (Balda telescópica)                          |
+       |                                                                  |
+       +------------------------------------------------------------------+
+             |
+             v (Luz entre muebles: 55 - 60 cm)
+   ------------------------------------------------------------------------
+   [ENCIMERA / MESADA DE TRABAJO]
+   ========================================================================
+   +------------------------------+    +----------------------------------+
+   |                              |    |                                  |
+   |   MUEBLE BAJO FREGADERO      |&lt;--&gt;|   MUEBLE BAJO CAJONERO / RINCON  |
+   |                              |    |                                  |
+   +------------------------------+    +----------------------------------+
+          |                |                  |                    |
+        [Pata]           [Pata]             [Pata]               [Pata]
+   ------------------------------------------------------------------------
+   [==================== ZÓCALO CON LABIO DE GOMA ========================]
+   ------------------------------------------------------------------------
+   [ SUELO TERMINADO ]</pre>
+
+      <h3>1.1. Anatomía y concepto del mueble modular preensamblado en fábrica</h3>
+      <p>Un módulo de cocina industrializado consta de dos costados laterales, una base inferior, un techo o traviesas superiores de refuerzo y una trasera encastrada en ranura. En los sistemas profesionales servidos montados de fábrica, los tableros de melamina de alta densidad (habitualmente de <strong>16 mm de espesor</strong>) están ensamblados mediante espigas de haya encoladas a presión hidráulica y escuadrados en banco automático. Esto garantiza un ángulo recto de 90° perfecto, eliminando la holgura y el descuadre típico del montaje manual doméstico.</p>
+
+      <h3>1.2. Toma de cotas, replanteo del espacio y dibujo del plano de replanteo</h3>
+      <p>Antes de encargar el mobiliario, es mandatorio generar un plano acotado en milímetros. Se deben registrar:</p>
+      <ol>
+        <li><strong>Longitud total de pared:</strong> Medida a tres alturas distintas (a 10 cm del suelo, a 90 cm en la zona de encimera y a 210 cm en la zona de muebles altos) para detectar desplomes o abombamientos de la albañilería.</li>
+        <li><strong>Ubicación de tomas e instalaciones:</strong> Posición exacta de tomas de agua limpia, desagües de PVC, llaves de paso de gas, enchufes de fuerza para electrodomésticos y salida de humos de campana extractora.</li>
+        <li><strong>Puntos de nivel cero:</strong> El suelo real nunca es 100% plano. Se debe localizar el punto más alto del suelo mediante un nivel láser o de burbuja largo para fijar allí la altura de referencia de las patas del primer mueble bajo.</li>
+      </ol>
+
+      <h3>1.3. Diferencias críticas: módulos en kit para armar vs. módulos preensamblados de fábrica</h3>
+      <p>El sistema empleado en este método utiliza muebles recibidos ya encolados y armados desde fábrica. Las ventajas operativas frente a los kits planos tradicionales son determinantes:</p>
+      <ul>
+        <li><strong>Rigidez estructural:</strong> La unión por espiga prensada resiste el peso continuo de vajillas y encimeras pesadas (granito, cuarzo compacto o porcelánico) sin flectar.</li>
+        <li><strong>Ahorro de tiempo:</strong> Se eliminan horas de atornillado de excéntricas, clavado de traseras y escuadrado manual.</li>
+        <li><strong>Menor margen de error:</strong> El mueble llega con todos los mecanizados interiores de fábrica (orificios para bases de patas, taladros para cremalleras de baldas, cazoletas para bisagras y rebajes para colgadores). El instalador únicamente debe montar herrajes externos, nivelar y unir.</li>
+      </ul>
+
+      <h3>1.4. Ergonomía, accesibilidad y modulación estándar</h3>
+      <ul>
+        <li><strong>Módulos bajos:</strong> Altura de casco de 70 a 80 cm, fondo exterior de 58 a 60 cm (para dejar cámara sanitaria trasera de ventilación y paso de tuberías). Con patas reguladas (10 a 15 cm) y encimera (2 a 4 cm), la altura final de trabajo se sitúa entre 85 y 92 cm del suelo.</li>
+        <li><strong>Módulos altos:</strong> Altura de 70 a 90 cm, fondo estándar de 33 a 35 cm para evitar que el usuario se golpee la frente al inclinarse sobre la encimera.</li>
+        <li><strong>Distancia entre encimera y base de muebles altos:</strong> La luz recomendada oscila entre 55 cm y 60 cm, permitiendo maniobrabilidad sobre los fuegos y visibilidad total.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2 class="section-heading">🧰 2. Equipamiento, Herramientas y Seguridad en Obra (EPI)</h2>
+      <p>El éxito y la rapidez en la instalación residen en contar con el utillaje adecuado antes de retirar el primer precinto. Trabajar con herramientas deficientes provoca redondeo de cabezas de tornillo, desgarros en la melamina y fallos de nivelación.</p>
+
+      <h3>2.1. Inventario de herramientas manuales de precisión y trazado</h3>
+      <ul>
+        <li><strong>Nivel de burbuja tubular de precisión:</strong> Mínimo 80 cm a 100 cm de longitud, con ampollas calibradas vertical, horizontal y a 45°. Se recomienda complementar con un nivel torpedo de 25 cm para el interior de módulos estrechos.</li>
+        <li><strong>Flexómetro profesional:</strong> Cinta de acero de 5 metros con uña ancha y freno deslizante.</li>
+        <li><strong>Destornilladores manuales:</strong> Puntas Pozidriv (PZ2) y Phillips (PH2) aisladas, con mango ergonómico bimateria para el ajuste fino de tornillos de regulación donde la máquina podría pasarse de rosca.</li>
+        <li><strong>Martillo de peña o maza de carpintero:</strong> De peso ligero o medio, utilizado para embutir tacos de expansión y espigas de patas sin dañar los componentes.</li>
+        <li><strong>Juego de sargentos o mordazas de apriete rápido:</strong> Mínimo 2 unidades con almohadillas protectoras de plástico para evitar marcas en las caras vistas de los costados decorativos.</li>
+        <li><strong>Lápiz de carpintero y cúter profesional con hoja retráctil.</strong></li>
+      </ul>
+
+      <h3>2.2. Maquinaria electroportátil y consumibles esenciales</h3>
+      <ul>
+        <li><strong>Taladro percutor / Martillo perforador a batería o cable:</strong> Para taladrar mampostería, ladrillo o azulejo cerámico con brocas de widia (calibre 6 mm u 8 mm según taco).</li>
+        <li><strong>Atornilladora a batería:</strong> Con embrague de par ajustable (control de torque). Imprescindible graduar el embrague en posición media-baja para no barrenar ni trasroscar la madera aglomerada de 16 mm.</li>
+        <li><strong>Puntas de atornillar PZ2 de alta dureza y portapuntas magnético:</strong> Evitan el resbalamiento de la punta (cam-out).</li>
+        <li><strong>Sierra ingletadora o serrucho de costilla fino:</strong> Para el corte limpio y sin astillas del zócalo de PVC/aluminio.</li>
+      </ul>
+
+      <h3>2.3. Selección de tornillería y fijaciones mecánicas según espesores de tablero</h3>
+      <div class="callout gold">
+        <strong>Regla de oro de la carpintería modular:</strong> Ningún tornillo de unión debe atravesar la cara vista exterior.
+      </div>
+      <ul>
+        <li><strong>Tornillos para bases de patas:</strong> Tornillos de rosca para madera de 3,5 × 15 mm o 4,0 × 16 mm de cabeza avellanada.</li>
+        <li><strong>Tornillos de unión entre módulos (cosido intermodular):</strong> Tornillos de 4,0 × 30 mm de rosca total o casquillos de unión macho-hembra.</li>
+        <li><strong>Tornillos para fijación de costados decorativos vistos:</strong>
+          <ul>
+            <li>Espesor del casco del mueble: 16 mm.</li>
+            <li>Espesor del costado embellecedor: 19 mm.</li>
+            <li>Espesor combinado: 16 + 19 = 35 mm.</li>
+            <li><strong>Tornillo obligatorio seleccionado: 4,0 × 30 mm.</strong> Deja un margen de seguridad de 5 mm antes de la cara vista, garantizando un agarre masivo sin peligro de perforar el acabado lacado o melamínico.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>2.4. Protocolos de seguridad laboral, ergonomía y manipulación de cargas</h3>
+      <ul>
+        <li><strong>Protección individual:</strong> Uso de guantes anticorte ligeros con revestimiento de poliuretano (protegen contra astillas y filos de melamina), gafas de seguridad en las operaciones de taladrado mural y calzado de trabajo con suela antideslizante.</li>
+        <li><strong>Técnica de elevación:</strong> Flexionar siempre las rodillas manteniendo la espalda recta al levantar módulos bajos o alacenas altas. Solicitar ayuda de una segunda persona para izar los módulos superiores a la altura de los colgadores.</li>
+      </ul>
+    </div>
+
+    <div class="tab-bottom-nav">
+      <button class="btn-nav-step" onclick="go(0)">← Anterior: Inicio</button>
+      <button class="btn-nav-step next" onclick="go(2)">Siguiente: Recepción y Despiece →</button>
+    </div>
+  </section>
+
+  <!-- PESTAÑA 2: RECEPCIÓN Y DESPIECE (Secciones 3 y 4) -->
+  <section class="tab-section" id="tab-2" data-t="Recepción en Obra y Despiece Operativo">
+    <div class="card">
+      <h2 class="section-heading">📦 3. Recepción, Logística y Control de Calidad en Obra</h2>
+
+      <h3>3.1. Procedimiento de descarga, desembalaje e inspección preventiva</h3>
+      <p>Al recibir los palets o paquetes procedentes del transportista de Modular Cocinas:</p>
+      <ol>
+        <li>Comprobar que el precinto y las cajas de cartón corrugado y cantoneras no presenten aplastamientos, agujeros o humedades.</li>
+        <li>Desembalar cuidadosamente con cúter, cortando el precinto en el aire sin clavar la cuchilla profundamente para no rayar los tableros interiores.</li>
+        <li>Cotejar cada bulto con el albarán de entrega y el plano maestro de distribución de la cocina.</li>
+      </ol>
+
+      <h3>3.2. Gestión de incidencias de transporte y sustitución de piezas</h3>
+      <p>Como enseña la experiencia en obra de Rubén Sbarsky, el transporte de paquetería voluminosa puede sufrir impactos fortuitos. Si un casco llega cascado, con una esquina hendida o un golpe en una arista:</p>
+      <ul>
+        <li>Detener el montaje de ese módulo en particular.</li>
+        <li>Fotografiar inmediatamente el embalaje exterior, la etiqueta identificativa del módulo y la zona del daño.</li>
+        <li>Notificar al servicio técnico o plataforma online de atención al cliente. En servicios profesionales como Modular Cocinas, la reposición del módulo nuevo es automática y sin sobrecostes. Continuar mientras tanto con la preparación de los módulos intactos.</li>
+      </ul>
+
+      <h3>3.3. Zonificación del espacio de trabajo y acopio de materiales</h3>
+      <p>La cocina suele ser una estancia angosta. Se debe organizar el espacio en tres áreas:</p>
+      <ol>
+        <li><strong>Zona de descarga y almacenaje de módulos embalados:</strong> Preferiblemente en el salón o pasillo colindante.</li>
+        <li><strong>Zona de taller/mecanizado:</strong> Espacio despejado central de la cocina, con suelo protegido por cartones gruesos extendidos para colocar los muebles boca abajo o de costado.</li>
+        <li><strong>Paredes libres de montaje:</strong> Sin cajas ni obstáculos que impidan el libre trazado con nivel y taladro.</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2 class="section-heading">🔧 4. Despiece Operativo y Preparación Previa de los Módulos</h2>
+      <p>El error típico del novato es intentar instalar el mueble tal como sale de la caja, con puertas y baldas puestas. Esto multiplica el peso del casco, desestabiliza el centro de gravedad e incrementa exponencialmente el riesgo de que una puerta se abra bruscamente y sufra desperfectos.</p>
+
+      <pre class="tech-diagram">       Mecanismo de Desenganche Rápido de Bisagra:
+       +---------------------------------------------+
+       |   Brazo articulado de la bisagra            |
+       |                              [ Presilla ]   |
+       |                                   |         |
+       |                                   v         |
+       +-----------------------------( Presionar )---+
+                                           |
+                                           v
+       [ BASE METÁLICA EN CASCO ] &lt;=== [ SALE LA PUERTA SIN TORNILLOS ]</pre>
+
+      <h3>4.1. Desmontaje preventivo de frentes y puertas mediante presillas de desenganche rápido</h3>
+      <p>Las bisagras de cazoleta modernas incorporan un sistema de anclaje por clip automático:</p>
+      <ol>
+        <li>Abrir la puerta a 90°.</li>
+        <li>Localizar la pequeña presilla o lengüeta metálica situada en la parte trasera extrema del brazo articulado de cada bisagra.</li>
+        <li>Presionar la lengüeta hacia adentro con el dedo índice o con la punta de un destornillador plano.</li>
+        <li>Tirar suavemente de la puerta hacia el frente: la bisagra se soltará instantáneamente de su base de fijación sin necesidad de destornillar nada.</li>
+        <li>Retirar la puerta y apoyarla en vertical sobre una pared limpia, interponiendo cartón o mantas entre puerta y puerta.</li>
+      </ol>
+
+      <h3>4.2. Extracción y conservación de baldas interiores y componentes móviles</h3>
+      <p>En los muebles altos y muebles de despensa, retirar las baldas intermedias (como se detalla en la pestaña de Módulos Altos mediante su pasador retráctil). Aligerar el casco facilita la maniobra de cuelgue y evita que las baldas caigan sobre el instalador al inclinar el mueble.</p>
+
+      <h3>4.3. Preparación de superficies de apoyo con mantas y cartones protectores</h3>
+      <p>Nunca apoyar un módulo de melamina desnudo directamente sobre baldosas cerámicas, gres o cemento: el menor grano de arena o gravilla actuará como un abrasivo, rayando la laca o despostillando el canto de PVC. Conservar los cartones del propio embalaje plano para utilizarlos como colchón de apoyo en el suelo durante todas las operaciones.</p>
+    </div>
+
+    <div class="tab-bottom-nav">
+      <button class="btn-nav-step" onclick="go(1)">← Anterior: Planificación y Herramientas</button>
+      <button class="btn-nav-step next" onclick="go(3)">Siguiente: Módulos Bajos →</button>
+    </div>
+  </section>
+
+  <!-- PESTAÑA 3: MÓDULOS BAJOS (Sección 5) -->
+  <section class="tab-section" id="tab-3" data-t="Instalación de Módulos Bajos">
+    <div class="card">
+      <h2 class="section-heading">🧱 5. Instalación y Nivelación de Módulos Bajos</h2>
+      <p>Los módulos bajos conforman la cimentación de toda la cocina. Un fallo de nivelación de tan solo 2 milímetros en los muebles inferiores se traducirá en descuadres masivos de varios centímetros en la encimera y en los muebles superiores.</p>
+
+      <pre class="tech-diagram">       Base de Pata de Mueble Bajo:
+       +-------------------------------------------+
+       |   (Tornillo)   [Espiga Central]  (Tornillo)|
+       |       (O)            [===]           (O)   |
+       |                    |     |                 |
+       |       (O)          |     |           (O)   |
+       |   (Tornillo)       +-----+       (Tornillo)|
+       +-------------------------------------------+
+                             |
+                             v  (Inserción a golpe)
+       ORIFICIO MECANIZADO EN LA BASE INFERIOR DEL MUEBLE</pre>
+
+      <h3>5.1. Mecánica del soporte de patas: espiga central de impacto y orificios de fijación</h3>
+      <p>El conjunto de patas regulables suministrado en bolsa independiente consta de dos elementos: la base de anclaje (platina de PVC de alta resistencia con espiga macho central cilíndrica) y la caña o pata roscada desmontable.</p>
+      <ol>
+        <li>Volcar el módulo bajo (por ejemplo, el módulo del fregadero) de costado sobre el cartón protector en el suelo.</li>
+        <li>Identificar en las cuatro esquinas de la base inferior los orificios ciegos pretaladrados de fábrica.</li>
+        <li>Insertar la espiga macho central de la base de la pata en el orificio correspondiente.</li>
+        <li>Dar un golpe seco y firme con el talón de la mano o con una maza de carpintero. La espiga entrará a presión garantizando la posición perpendicular exacta.</li>
+      </ol>
+
+      <h3>5.2. Secuencia de atornillado de bases con atornilladora electroportátil</h3>
+      <p>Alrededor de la espiga central, la platina plástica presenta cuatro orificios perimetrales para tornillos avellanados:</p>
+      <ol>
+        <li>Montar una punta PZ2 en la atornilladora con el par de apriete ajustado para madera blanda.</li>
+        <li>Introducir tornillos de 3,5 × 15 mm en los orificios.</li>
+        <li><strong>Criterio de fijación:</strong> Aunque algunos operarios coloquen únicamente dos o tres tornillos por pata para ahorrar tiempo, el estándar de Rubén Sbarsky prescribe atornillar <strong>los cuatro orificios en cada pata</strong>. Esto distribuye uniformemente los más de 100 kg que soportará el módulo (entre el mueble, los enseres, la encimera y el peso de electrodomésticos llenos de agua).</li>
+      </ol>
+
+      <pre class="tech-diagram">   Pies Regulables y Altura de Zócalo:
+   +------------------------------------+
+   |   Base atornillada al fondo        |
+   +------------------------------------+
+              |        |
+              | [Rosca]| &lt;--- Enroscar a fondo al inicio
+              |        |      (Garantiza altura mínima para zócalo)
+              +--------+
+              |  Pie   |
+             (==========)</pre>
+
+      <h3>5.3. Calibración previa de altura de patas y reserva para el zócalo</h3>
+      <ol>
+        <li>Tomar la caña roscada de la pata y embutirla en el zócalo cilíndrico de la base atornillada hasta escuchar el enganche mecánico.</li>
+        <li>Enroscar la pata a tope en sentido horario para dejarla en su cota de mínima altura.</li>
+        <li>Esta práctica es fundamental: comenzar con la altura mínima garantiza que, al encarar el zócalo embellecedor al final de la obra, el mueble no quede excesivamente levantado y permita un margen de ajuste ascendente milimétrico para salvar desniveles del suelo.</li>
+      </ol>
+
+      <pre class="tech-diagram">       TÉCNICA DE VOLTEO Y PUESTA EN PIE:
+       
+       FORMA INCORRECTA (PELIGRO DE QUIEBRE):
+            Mueble inclinándose
+                 /|
+                / |
+               /  |   Peso del mueble ejerciendo palanca
+              /   |     \
+             /____|      \
+                 || &lt;--- [PATA SUFRE FUERZA DE CIZALLA Y SE PARTE]
+           ============= [SUELO]
+
+       FORMA CORRECTA (LEVANTE EN VILO):
+            Mueble
+            +-----+
+            |     |   ^  Fuerza hacia arriba (dos personas)
+            |     |   |  Levantamiento en vilo
+            +-----+
+             || ||
+           ============= [SUELO]
+           Apoyo vertical limpio sin arrastre lateral</pre>
+
+      <h3>5.4. Técnica ergonómica de volteo y puesta en pie del mueble (prohibición del pivote)</h3>
+      <div class="callout warning">
+        <strong>Advertencia crítica de seguridad:</strong> Bajo ninguna circunstancia se debe girar o voltear el mueble apoyando todo su peso sobre las patas exteriores a modo de bisagra sobre el suelo.
+      </div>
+      <p>Las patas de PVC están diseñadas para resistir una enorme carga por compresión vertical pura, pero carecen de resistencia frente al esfuerzo cortante o momento de palanca lateral (cizalla). Si el mueble se hace bascular sobre dos patas, la espiga plástica o el aglomerado de la base se fracturarán de inmediato.</p>
+      <ul>
+        <li><strong>Procedimiento obligatorio:</strong> Sujetar el mueble firmemente, levantarlo en vilo separándolo completamente del suelo, girarlo en el aire y posarlo en vertical descansando simultáneamente sobre las cuatro patas.</li>
+      </ul>
+
+      <pre class="tech-diagram">       Nivelación Biaxial Cruzada:
+       
+          Eje X (Longitudinal / Frontal):
+          +-----------------------[Nivel Tubular]-----------------------+
+          |                                                             |
+          |                  Módulo Bajo de Cocina                      |
+          |                                                             |
+          
+          Eje Y (Transversal / Fondo de pared a frente):
+          +--+
+          |N |
+          |i |
+          |v |  (Colocar el nivel perpendicularmente sobre el costado lateral)
+          |e |
+          |l |
+          +--+</pre>
+
+      <h3>5.5. Protocolo de nivelación biaxial (longitudinal y transversal) mediante rosca</h3>
+      <ol>
+        <li>Colocar el nivel de burbuja en el canto superior frontal del mueble (eje longitudinal X).</li>
+        <li>Si la burbuja se desplaza hacia un lateral, meter la mano por debajo del módulo y girar la base estriada de la pata del lado que requiere elevación en sentido antihorario hasta que la burbuja se sitúe exactamente entre las dos marcas guía.</li>
+        <li>Desplazar el nivel al canto lateral superior (eje transversal Y, profundidad pared-frente).</li>
+        <li>Si el mueble presenta inclinación hacia el frente o hacia la pared (muy común por irregularidades en el alicatado), regular las patas traseras o delanteras según corresponda.</li>
+        <li>Repetir la verificación cruzada en forma de cruz hasta que ambos ejes marquen horizontalidad perfecta.</li>
+      </ol>
+
+      <pre class="tech-diagram">       Cosido Intermodular Solidario:
+       
+       Módulo 1                     Módulo 2
+       +-------------+            +-------------+
+       |   Costado   |            |   Costado   |
+       |    16 mm    |  Mordaza   |    16 mm    |
+       |             |  [====]    |             |
+       |         (O)===================&gt;        |  Tornillo de 30 mm
+       |             |            |             |  (Cabeza embutida al ras)
+       |             |            |             |
+       +-------------+            +-------------+
+       [   ENRASE FRONTAL EXACTO SIN DIENTES   ]</pre>
+
+      <h3>5.6. Solidarización y cosido entre módulos contiguos con tornillería de ensamble</h3>
+      <p>Un módulo bajo individual es inestable por sí solo; la estabilidad estructural definitiva se consigue mediante la unión solidaria de toda la bancada:</p>
+      <ol>
+        <li>Colocar el segundo mueble bajo junto al primero y nivelarlo de forma independiente repitiendo el proceso de patas.</li>
+        <li>Hacer coincidir las caras frontales de ambos muebles hasta lograr un enrase táctil continuo (pasando la yema del dedo para verificar que no exista ningún escalón o "diente").</li>
+        <li>Colocar dos mordazas o sargentos de apriete con cantoneras plásticas en la parte superior e inferior de los costados en contacto para inmovilizarlos.</li>
+        <li>Con una broca fina para madera (de 2,5 o 3 mm) o directamente con tornillos autoperforantes de 4,0 × 30 mm, introducir dos tornillos desde el interior del primer mueble hacia el segundo (uno en la parte delantera superior y otro en la delantera inferior, preferiblemente escondidos bajo las alturas donde coincidirán las bisagras o placas).</li>
+        <li>Retirar las mordazas. Los dos módulos forman ahora una única estructura monobloque solidaria e indeformable.</li>
+      </ol>
+    </div>
+
+    <div class="tab-bottom-nav">
+      <button class="btn-nav-step" onclick="go(2)">← Anterior: Recepción y Despiece</button>
+      <button class="btn-nav-step next" onclick="go(4)">Siguiente: Módulos Altos →</button>
+    </div>
+  </section>
+
+  <!-- PESTAÑA 4: MÓDULOS ALTOS (Sección 6) -->
+  <section class="tab-section" id="tab-4" data-t="Instalación de Módulos Altos">
+    <div class="card">
+      <h2 class="section-heading">🏗️ 6. Instalación, Anclaje Mural y Nivelación de Módulos Altos</h2>
+      <p>Los muebles altos o alacenas soportan el peso en suspensión de vajillas de loza, cristalería y conservas. El sistema de suspensión modular oculto permite un montaje limpio, una regulación tridimensional desde el interior y una capacidad de carga certificada de alta resistencia.</p>
+
+      <pre class="tech-diagram">       Mecanismo Telescópico de Baldas:
+       
+       Costado Mueble                             Balda Interior
+       +-------------------+               +-------------------------------+
+       |                   |               |        [ Corredera ] &lt;== (Tirar)
+       | [Orificio Casco]  | &lt;===========  |            [===]              |
+       |                   |  (Perno sale) |  (Se retrae con destornillador)|
+       +-------------------+               +-------------------------------+</pre>
+
+      <h3>6.1. Sistema de baldas telescópicas: mecanismo de correderas plásticas retráctiles</h3>
+      <p>El sistema de baldas empleado por Rubén Sbarsky prescinde de los tradicionales soportes de perno metálico suelto que se caen durante el transporte. En su lugar, incorpora un soporte telescópico embutido en el propio espesor del tablero de la balda:</p>
+      <ol>
+        <li>Vuelque o incline el mueble alto sobre una superficie protegida.</li>
+        <li>Observe los extremos laterales de cada balda: encontrará una pequeña tapa deslizante de plástico técnico.</li>
+        <li>Introduzca la punta plana de un destornillador en la ranura de la corredera y tire de ella hacia el centro de la balda.</li>
+        <li>Al deslizarse la tapa, el perno cilíndrico de anclaje se retrae mecánicamente dentro del cuerpo de la balda, liberándola instantáneamente del orificio lateral del casco.</li>
+        <li>Extraer las baldas y reservarlas para el final del montaje.</li>
+      </ol>
+
+      <pre class="tech-diagram">       Mecanismo de Colgador Regulable Oculto:
+       
+       Cuerpo del Colgador (Marcado 'L' o 'R'):
+       +---------------------------------------------+
+       | [Pestaña de Bloqueo] ---&gt; (Bajar para fijar)|
+       |                                             |
+       |  (Tornillo Inferior) : Regula ALTURA [^ v]  |
+       |  (Tornillo Superior) : Regula FONDO  [&lt; &gt;]  |
+       |                                             |
+       |           [Gancho Metálico Dentado]--------&gt;| Sale hacia la pared
+       +---------------------------------------------+</pre>
+
+      <h3>6.2. Mecánica de los colgadores ocultos regulables: orientación L/R y bloqueo por palanca</h3>
+      <p>En las esquinas superiores traseras del mueble alto se instalan los herrajes de suspensión:</p>
+      <ul>
+        <li><strong>Identificación de lateralidad:</strong> Cada colgador viene troquelado con una letra: <strong>L</strong> (<em>Left</em> / Izquierda) y <strong>R</strong> (<em>Right</em> / Derecha). Esta indicación se interpreta siempre <strong>mirando el mueble de frente desde la cara de apertura</strong>.</li>
+        <li><strong>Inserción y palanca de bloqueo:</strong>
+          <ol>
+            <li>Retirar la tapa embellecedora plástica frontal.</li>
+            <li>Levantar la pestaña basculante del herraje hacia arriba.</li>
+            <li>Encarar los dos pitones traseros del colgador en los orificios pretaladrados de la trasera del mueble. La pieza entra suavemente con la mano.</li>
+            <li>Bajar firmemente la pestaña basculante hacia abajo: el mecanismo acciona una leva excéntrica que expande los pernos internos, ejerciendo una presión de anclaje colosal contra el tablero de aglomerado.</li>
+            <li>Con un destornillador de estrella manual, girar el tornillo de regulación para proyectar el gancho metálico hacia afuera y elevarlo pegado a la madera superior, dejándolo en la posición óptima de recepción antes de subirlo a la pared.</li>
+          </ol>
+        </li>
+      </ul>
+
+      <pre class="tech-diagram">       Cálculo Métrico de Replanteo de Pletinas Murales:
+       
+       [ LÍNEA DE TECHO O CIELO RASO ]
+       ================================================================
+             |
+             |  5,5 cm (Cota medida desde el techo)
+             v
+       [=== PLETINA IZQUIERDA ===]         [=== PLETINA DERECHA ===]
+       +---(Talo 1)---(Talo 2)---+         +---(Talo 1)---(Talo 2)---+
+                    |                                   |
+                    |&lt;-------- 76,5 cm entre ejes -----&gt;|
+                    | (Luz interior entre ganchos)      |</pre>
+
+      <h3>6.3. Replanteo milimétrico de las pletinas murales: cotas de techo y luz entre centros</h3>
+      <p>El anclaje se realiza sobre pletinas metálicas dentadas perforadas, que vienen unidas en pares y se parten cómodamente por la mitad con un movimiento de flexión manual. Para marcar los taladros con precisión matemática:</p>
+      <ol>
+        <li><strong>Medición de distancia al techo:</strong> Presentar el gancho del mueble y medir la cota de su alojamiento. Si el gancho en reposo se ubica a 4 cm del borde superior de la madera, se proyecta la línea de perforación a <strong>5,5 cm respecto al techo</strong>. Este margen de 1,5 cm proporciona la holgura necesaria para meter el gancho por encima de la pletina y posteriormente accionar el tornillo elevador para enrasar el mueble a ras del techo.</li>
+        <li><strong>Medición de distancia entre ejes (luz intercostados):</strong> Tomar la medida interior neta del mueble entre colgadores. En un módulo estándar de 80 cm con tableros de 16 mm, la luz interior entre los centros de ambos ganchos es de <strong>76,5 cm</strong>.</li>
+        <li><strong>Trazado en pared:</strong> Con el nivel tubular largo, trazar una línea horizontal a 5,5 cm del techo. Marcar el punto del primer anclaje y, con el flexómetro, marcar el segundo taladro exactamente a 76,5 cm en paralelo.</li>
+      </ol>
+
+      <h3>6.4. Perforación mural, colocación de tacos y fijación de placas de cuelgue</h3>
+      <ol>
+        <li>Colocar cinta de carrocero sobre el azulejo cerámico para evitar que la broca resbale al comenzar a girar.</li>
+        <li>Iniciar el taladro con broca de widia de 6 mm u 8 mm en modo rotación pura (sin percusión). Una vez perforado el esmalte del azulejo y alcanzado el ladrillo o bloque, accionar el percutor.</li>
+        <li>Introducir tacos de nylon de expansión de alta calidad (tipo Fischer SX o DuoPower) enrasados con la superficie del azulejo.</li>
+        <li>Atornillar las dos mitades de pletina metálica firmemente utilizando tornillos de cabeza hexagonal o avellanada ancha de al menos 5,0 × 50 mm.</li>
+      </ol>
+
+      <pre class="tech-diagram">       Mecanismo de Doble Reglaje del Colgador:
+       
+       [ Vista Frontal Tras Tapa ]
+             ( Tornillo 1 - Superior ) ----&gt; REGULACIÓN DE PROFUNDIDAD
+                                              - Sentido horario: tira del mueble
+                                                hacia la pared pegándolo firme.
+       
+             ( Tornillo 2 - Inferior ) ----&gt; REGULACIÓN DE ALTURA
+                                              - Sube o baja el casco para
+                                                nivelar con precisión milimétrica.</pre>
+
+      <h3>6.5. Mecanismo de doble reglaje: calibración de altura y tracción de pegado a pared</h3>
+      <ol>
+        <li>Con ayuda de una segunda persona, izar el mueble alto, encarar los ganchos metálicos traseros sobre las pletinas murales y dejarlos caer suavemente. Se escuchará el chasquido del resorte o muelle de seguridad que impide el descuelgue accidental.</li>
+        <li>Colocar el nivel de burbuja en la base inferior del mueble alto.</li>
+        <li><strong>Regulación de altura (Nivelación):</strong> Introducir el destornillador en el orificio inferior del colgador. Al girar este tornillo, el gancho sube o baja verticalmente, permitiendo compensar techos caídos o alinear la arista inferior con el mueble contiguo con precisión de medio milímetro.</li>
+        <li><strong>Regulación de profundidad (Tracción mural):</strong> Introducir el destornillador en el orificio superior. Al apretarlo, el sistema tracciona el mueble hacia adentro, aplastándolo literalmente contra el alicatado de la pared y eliminando cualquier holgura o cabeceo.</li>
+      </ol>
+
+      <h3>6.6. Colocación de tapitas embellecedoras y bloqueo anticaída</h3>
+      <p>Una vez nivelado y aplastado el mueble contra la pared, insertar las tapas de plástico embellecedoras a presión en los orificios del colgador. Estas tapas no solo tienen función estética ocultando los mecanismos, sino que sellan la entrada de vapores y grasa procedentes de la cocción.</p>
+    </div>
+
+    <div class="tab-bottom-nav">
+      <button class="btn-nav-step" onclick="go(3)">← Anterior: Módulos Bajos</button>
+      <button class="btn-nav-step next" onclick="go(5)">Siguiente: Costados, Rincones y Zócalo →</button>
+    </div>
+  </section>
+
+  <!-- PESTAÑA 5: COSTADOS, RINCONES Y ZÓCALO (Secciones 7, 8 y 9) -->
+  <section class="tab-section" id="tab-5" data-t="Costados Vistos, Rincones y Zócalo">
+    <div class="card">
+      <h2 class="section-heading">🪵 7. Montaje de Costados Vistos Decorativos y Remates</h2>
+      <p>En las cocinas de alta calidad, los laterales exteriores de los muebles que quedan a la vista (por ejemplo, el lateral que da a la puerta de entrada o el costado final de una isla) no muestran la melamina estándar del casco, sino que se forran con un costado decorativo lacado o texturizado a juego exacto con las puertas.</p>
+
+      <pre class="tech-diagram">       Fijación de Costado Visto Decorativo:
+       
+       Costado Mueble (16 mm)            Costado Decorativo (19 mm)
+       +-----------------------+        +------------------------------+
+       |                       |        |                              |
+       |  (Interior mueble)    |        |        (Cara vista)          |
+       |        \              |        |                              |
+       |         (O)=========================&gt; (Penetra 14 mm)         |
+       |          Tornillo 30 mm|        |                              |
+       |                       |        |       [5 mm de margen        |
+       |                       |        |        de seguridad]         |
+       +-----------------------+        +------------------------------+
+       Total espesor: 16 mm + 19 mm = 35 mm</pre>
+
+      <h3>7.1. Función estética y dimensional de los costados vistos (regruesos)</h3>
+      <p>El costado visto o regrueso cumple dos misiones: tapar los tornillos de ensamble y las ranuras de traseras de los cascos, y aportar el vuelo frontal adecuado para que el frente de la cocina quede alineado con el grosor de las puertas frontales.</p>
+
+      <h3>7.2. Sujeción temporal con mordazas y sargentos de apriete protegido</h3>
+      <ol>
+        <li>Presentar el tablero de costado visto contra el lateral del módulo alto o bajo.</li>
+        <li>Comprobar con el flexómetro que el tablero tenga el mismo saliente o vuelo tanto por la parte superior como por la inferior. En la práctica mostrada por Rubén Sbarsky, la tolerancia se fija exactamente en <strong>25 mm de saliente por arriba y 25 mm por abajo</strong> respecto al cuerpo del mueble.</li>
+        <li>Fijar el costado mediante dos sargentos de apriete rápido, uno en la parte alta y otro en la baja. Interponer siempre cartón o protectores plásticos en las zapatas de los sargentos para no marcar el acabado pulido del costado.</li>
+      </ol>
+
+      <h3>7.3. Cálculo exacto de profundidad de tornillo: regla de los tableros de 16 mm y 19 mm</h3>
+      <div class="callout warning">
+        <strong>Regla inviolable de carpintería:</strong>
+        <ul>
+          <li>Espesor del costado estructural del casco del mueble = <strong>16 mm</strong>.</li>
+          <li>Espesor del tablero de regrueso decorativo = <strong>19 mm</strong>.</li>
+          <li>Espesor total combinado = <strong>16 + 19 = 35 mm</strong>.</li>
+        </ul>
+      </div>
+      <p>Si un instalador inexperto utiliza tornillos comunes de 35 o 40 mm, o aprieta excesivamente un tornillo largo, la punta del tornillo reventará la cara exterior del costado decorativo, arruinando la pieza de forma irreversible. Se deben emplear <strong>exclusivamente tornillos para madera de 30 mm de longitud</strong>. Con un tornillo de 30 mm, la rosca penetra los 16 mm del casco y 14 mm dentro del tablero decorativo, dejando un colofón de <strong>5 mm íntegros de madera virgen de seguridad</strong>.</p>
+
+      <h3>7.4. Distribución de los cuatro puntos de fijación oculta desde el interior</h3>
+      <ol>
+        <li>Con los sargentos bloqueando la pieza, introducir los dos primeros tornillos de 30 mm desde el interior del mueble en la zona delantera (cerca del marco frontal), aprovechando la presión de la mordaza.</li>
+        <li>Desplazar la presión hacia la zona trasera y fijar otros dos tornillos en la parte posterior interior.</li>
+        <li>Con cuatro tornillos por costado, la fijación queda completamente oculta a la vista exterior, inmovilizada y sin peligro de torsión térmica por humedad.</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2 class="section-heading">🚪 8. Ajuste de Herrajes, Puertas y Sistemas Especiales de Rincón</h2>
+      <pre class="tech-diagram">       Reinstalación de Baldas Interiores:
+       
+       1. Presentar la balda inclinada dentro del casco.
+       2. Encajar los balancines/correderas del lado izquierdo en sus orificios.
+       3. Nivelar la balda horizontalmente.
+       4. Deslizar las pletinas plásticas del lado derecho hacia afuera:
+          el pasador entra en el orificio lateral con un [CLIC] audible.</pre>
+
+      <h3>8.1. Mecanismo de bisagras de rincón de gran apertura (170° - 180°)</h3>
+      <p>En los módulos bajos esquineros en "L" o rinconeros ciegos, el acceso al interior queda estrangulado si se utilizan bisagras estándar de 110°. Para estos módulos se suministran bisagras articuladas de gran apertura (170° a 180°), que se abren doblando la hoja completamente hacia atrás y despejando la totalidad de la boca del mueble.</p>
+
+      <pre class="tech-diagram">       Bisagra Especial Rinconera y Base con Flecha:
+       
+       Cazoleta de Bisagra en Puerta:
+       +---------------------------------------------+
+       |   (Tornillo de Taco de Expansión)           |
+       |       +-----+                               |
+       |       |  |  |  (Golpear con martillo)       |
+       |       +-----+                               |
+       |      [Cazoleta Metálica Embutida]           |
+       +---------------------------------------------+
+       
+       Placa Base en Casco de Mueble:
+       +---------------------------------------------+
+       |   [Taquitos de fijación]                    |
+       |               ^                             |
+       |               | (FLECHA GRABADA EN ACERO)   |
+       |               | Apunta hacia el exterior    |
+       |                                             |
+       +---------------------------------------------+</pre>
+
+      <h3>8.2. Colocación de cazoletas con tacos de expansión y placas base con flecha direccional</h3>
+      <ol>
+        <li>Aflojar un par de vueltas los tornillos premontados en los tacos de expansión de la cazoleta de la bisagra para permitir su introducción.</li>
+        <li>Encarar la cazoleta circular en el fresado de la puerta y los taquitos de nylon en sus respectivos orificios auxiliares.</li>
+        <li>Con un martillo pequeño, dar golpes muy suaves y controlados sobre la cabeza de los tornillos hasta que los tacos y la chapa queden totalmente embutidos al ras de la melamina.</li>
+        <li>Apretar los tornillos con un destornillador manual: el taco de plástico se abre internamente en el aglomerado, quedando bloqueado firmemente sin riesgo de arranque.</li>
+        <li><strong>Instalación de la placa base en el interior del casco:</strong> Tomar la base metálica cuadrangular. Observar atentamente la superficie del acero: lleva estampada una <strong>flecha direccional</strong>.
+          <ul>
+            <li><strong>Regla obligatoria de montaje:</strong> <strong>La flecha debe apuntar siempre hacia la parte exterior del mueble.</strong> Si se monta invertida hacia el fondo de la trasera, el enganche de la bisagra será físicamente imposible o quedará bloqueado. Atornillar firmemente la placa base al casco con atornilladora.</li>
+          </ul>
+        </li>
+      </ol>
+
+      <h3>8.3. Instalación de topes amortiguadores de goma y cierre hidráulico</h3>
+      <ol>
+        <li>En el orificio ciego frontal del canto del mueble rinconero, embutir a presión el tapón de goma amortiguador suministrado en el kit. Este elemento previene el choque directo de la madera al cerrar.</li>
+        <li>Las bisagras modernas de alta gama incorporan pistones hidráulicos en el brazo basculante, que absorben la inercia del cierre manual produciendo un cierre ralentizado y silencioso.</li>
+      </ol>
+
+      <h3>8.4. Regulación tridimensional de frentes y secuencia de apertura/cierre de esquina</h3>
+      <ol>
+        <li>Enganchar la bisagra de la puerta a la base del casco haciendo presión en el brazo hasta oír el doble chasquido (<em>clic</em>).</li>
+        <li><strong>Secuencia cinemática de apertura en rinconera:</strong> Abrir primero la hoja frontal exterior que abate a 170°, y a continuación abatir la segunda hoja hacia atrás. Todo el fondo del mueble queda diáfano.</li>
+        <li><strong>Secuencia de cierre:</strong> Se debe cerrar siempre en primer lugar la puerta interior de fondo, y finalmente la puerta solapada con tope de retención.</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2 class="section-heading">📏 9. Ajuste y Colocación del Zócalo Inferior de Remate</h2>
+      <p>El zócalo o rodapié inferior de cocina no es un mero accesorio decorativo: es la barrera sanitaria que sella el hueco bajo los muebles, evitando la acumulación de suciedad, pelusas y la entrada de agua o humedad generada durante el fregado diario del pavimento.</p>
+
+      <pre class="tech-diagram">       Anatomía y Colocación del Zócalo:
+       
+       Módulo Bajo de Cocina
+       +-------------------------------------------------------------+
+       |                                                             |
+       +-------------------------------------------------------------+
+               |                                             |
+             [PATA]                                        [PATA]
+               |                                             |
+             [GRAPA PINZA] &lt;============================= [GRAPA PINZA]
+               |                                             |
+         +---------------------------------------------------------+
+         |     CANAL TRASERO DEL ZÓCALO                            |
+         |     Tira de Zócalo (Aluminio / PVC laminado)            |
+         +---------------------------------------------------------+
+         |================= LABIO DE GOMA FLEXIBLE ===============|
+         =========================================================== [SUELO]
+         (El labio sella herméticamente contra el pavimento)</pre>
+
+      <h3>9.1. Dimensionado y corte longitudinal de las tiras de zócalo</h3>
+      <ol>
+        <li>Los zócalos se suministran en tiras largas estándar (habitualmente de 4 metros lineales).</li>
+        <li>Para trabajar con agilidad y evitar flectar el material, Rubén Sbarsky corta la tira inicial por la mitad (a tramos de 2 metros) o según las cotas exactas de cada línea de bancada.</li>
+        <li>Medir con flexómetro desde el costado final del mueble hasta la esquina o pared.</li>
+        <li>Trasladar la medida al zócalo y cortar con ingletadora con disco de dientes finos para aluminio/plástico o con serrucho de costilla, garantizando un corte a 90° limpio y libre de rebabas.</li>
+      </ol>
+
+      <h3>9.2. Mecanismo de grapas rotativas con inserción en guía trasera</h3>
+      <ol>
+        <li>Observar la cara posterior del zócalo: dispone de uno o dos canales horizontales de extrusión en forma de carril.</li>
+        <li>Tomar las grapas de sujeción suministradas con las patas.</li>
+        <li>Insertar la aleta de la grapa en la ranura del zócalo en posición horizontal y girarla 90°: la grapa quedará trabada dentro de la guía pero con libertad para deslizarse longitudinalmente a izquierda y derecha.</li>
+        <li>Alinear visualmente las grapas para que coincidan con la posición física de las patas de los módulos. Se recomienda colocar al menos dos o tres grapas por cada tramo de 2 metros para que el zócalo no pandee.</li>
+      </ol>
+
+      <h3>9.3. Orientación crítica del labio de goma estanco hacia el suelo</h3>
+      <div class="callout gold">
+        <strong>Regla de oro de estanqueidad:</strong> La lengüeta o labio de goma debe colocarse obligatoriamente orientada hacia abajo, en contacto directo contra las baldosas del suelo. Si se coloca invertida hacia arriba, el agua de fregar penetrará directamente bajo los muebles pudriendo los aglomerados y el zócalo no ajustará adecuadamente contra el pavimento.
+      </div>
+
+      <pre class="tech-diagram">       Pieza de Esquina Flexible para Falsas Escuadras:
+       
+       Tramo Zócalo A                                    Tramo Zócalo B
+       +--------------+                                +--------------+
+       |              |   +------------------------+   |              |
+       |  Entra en    |==&gt;| Pieza Central Flexible |&lt;==|   Entra en   |
+       |  ranura A    |   | Gira libremente        |   |   ranura B   |
+       |              |   | entre 80° y 135°       |   |              |
+       +--------------+   +------------------------+   +--------------+
+       (Soluciona esquinas con albañilería que no está a 90° perfectos)</pre>
+
+      <h3>9.4. Esquinas perfectas: pieza de unión angular flexible para falsas escuadras</h3>
+      <ol>
+        <li>Esta pieza consta de dos ranuras laterales receptoras y un núcleo central articulado de elastómero o bisagra plástica continua.</li>
+        <li>Introducir el extremo del primer tramo de zócalo a presión dentro de la ranura de la pieza esquinera.</li>
+        <li>Encarar el zócalo contra las patas del mueble y presionar fuertemente con la palma de la mano: las grapas harán un sonido seco (<em>clac</em>) aprisionando las patas cilíndricas.</li>
+        <li>Introducir el segundo tramo de zócalo en la ranura opuesta de la pieza flexible. Como el núcleo es oscilante, la pieza se autoajusta con naturalidad tanto a esquinas exactas de 90° como a esquinas abiertas de 93° o cerradas de 87°, ocultando cualquier holgura de la pared con un acabado curvo impecable.</li>
+      </ol>
+    </div>
+
+    <div class="tab-bottom-nav">
+      <button class="btn-nav-step" onclick="go(4)">← Anterior: Módulos Altos</button>
+      <button class="btn-nav-step next" onclick="go(6)">Siguiente: 10 Casos Prácticos →</button>
+    </div>
+  </section>
+
+  <!-- PESTAÑA 6: 10 CASOS PRÁCTICOS (Sección 10) -->
+  <section class="tab-section" id="tab-6" data-t="10 Casos Prácticos en Obra">
+    <div class="card">
+      <h2 class="section-heading">🛠️ 10. Diez Ejemplos Prácticos de Aplicación en Escenarios Reales</h2>
+      <p>Para consolidar el aprendizaje, se analizan diez situaciones prácticas cotidianas que surgen en obra y su resolución metódica según las técnicas descritas.</p>
+
+      <h3>Ejemplo 1: Nivelación de un mueble bajo con suelo en pendiente pronunciada</h3>
+      <ul>
+        <li><strong>Situación:</strong> En una cocina antigua con pendiente hacia el desagüe central, la pata delantera derecha necesita una cota de 10 cm, pero la trasera izquierda exige 12,8 cm para que la encimera quede horizontal.</li>
+        <li><strong>Resolución:</strong> Se parte con todas las patas roscadas a su cota mínima (10 cm). Se ubica el nivel sobre el costado longitudinal y transversal. Se va desenroscando manualmente la pata trasera izquierda hasta que el cuerpo sube los 28 mm necesarios. Se verifica con el nivel que el plano superior no tenga alabeo. El recorrido de rosca de las patas de calidad (hasta 50 mm de regulación) absorbe la pendiente sin necesidad de colocar calzos de madera precarios.</li>
+      </ul>
+
+      <h3>Ejemplo 2: Encuentro con pilar o mocheta saliente en pared de muebles altos</h3>
+      <ul>
+        <li><strong>Situación:</strong> Un pilar sobresale 5 cm de la pared principal a mitad de la línea donde deben colgarse dos módulos de 80 cm.</li>
+        <li><strong>Resolución:</strong> No se pueden colgar los muebles a la misma profundidad de pared. El módulo que coincide con el pilar se ancla con su pletina directamente sobre la cara frontal del pilar. El módulo continuo que queda en la zona retranqueada requerirá suplementar su fijación o colocar un panel de regrueso posterior de 50 mm para enrasar ambas caras frontales, regulando con el tornillo superior del colgador la alineación fina.</li>
+      </ul>
+
+      <h3>Ejemplo 3: Ajuste de alacena contra techo irregular con caída</h3>
+      <ul>
+        <li><strong>Situación:</strong> En el caso documentado por Rubén Sbarsky, el techo de escayola o pladur presenta una caída que impide pegar el mueble alto a tope sin que la puerta roce arriba al abrirse.</li>
+        <li><strong>Resolución:</strong> En lugar de forzar el mueble contra el techo, se deja una holgura técnica de 5 a 10 mm respecto a la zona más baja del techo. Se utiliza el tornillo de regulación vertical inferior de ambos colgadores para colocar el mueble rigurosamente a nivel. La pequeña sombra superior se asume o se tapa posteriormente con un remate de coronación, garantizando que las puertas abran con holgura total.</li>
+      </ul>
+
+      <h3>Ejemplo 4: Desvío de taladro mural al chocar con una varilla o vigueta</h3>
+      <ul>
+        <li><strong>Situación:</strong> Al taladrar a 5,5 cm del techo con broca de 8 mm para la pletina del colgador, la broca choca contra un redondo de acero del forjado a 2 cm de profundidad.</li>
+        <li><strong>Resolución:</strong> La pletina de cuelgue suministrada no tiene un único orificio, sino una ranura colisa continua y varios taladros perforados. Se corre la pletina 2 cm hacia el interior a lo largo de la misma horizontal y se perfora en un nuevo punto libre de armadura. El gancho del colgador cuenta con margen de apoyo lateral a lo largo de toda la pletina dentada.</li>
+      </ul>
+
+      <h3>Ejemplo 5: Falsa escuadra de 94° en el zócalo de una península</h3>
+      <ul>
+        <li><strong>Situación:</strong> El tabique de pladur que divide la cocina y el comedor no está a 90° respecto a la bancada principal, sino abierto a 94°.</li>
+        <li><strong>Resolución:</strong> Se descarta el inglete rígido de carpintería. Se corta el zócalo frontal y el lateral con corte recto a 90°. Se intercala la pieza esquinera flexible articulada. Al presionar las tiras contra las patas, el eje elástico absorbe automáticamente los 4° de apertura sin abrir ninguna grieta en la arista.</li>
+      </ul>
+
+      <h3>Ejemplo 6: Evitar que el tornillo del costado decorativo traspase la cara vista</h3>
+      <ul>
+        <li><strong>Situación:</strong> Un instalador dispone de tornillos de 3,5 × 35 mm y 4,0 × 30 mm en su maletín y debe fijar un regrueso de 19 mm sobre un casco de 16 mm.</li>
+        <li><strong>Resolución:</strong> Se calcula el espesor total (16 + 19 = 35 mm). Si se usa el tornillo de 35 mm, el cono de la cabeza avellanada al hundirse en el aglomerado de 16 mm hará que la punta sobrepase los 35 mm totales, abombando o perforando la laca del costado. Se seleccionan obligatoriamente los tornillos de 30 mm, que penetran exactamente 14 mm en el costado dejando 5 mm intactos de margen protector.</li>
+      </ul>
+
+      <h3>Ejemplo 7: Desenganche rápido de puerta para instalar fontanería en el fregadero</h3>
+      <ul>
+        <li><strong>Situación:</strong> Tras fijar el módulo bajo de fregadero, el fontanero necesita espacio libre para conectar las tomas de agua fría/caliente y el sifón de evacuación de PVC.</li>
+        <li><strong>Resolución:</strong> En lugar de desatornillar las bases de las bisagras, se presiona la presilla trasera de cada bisagra de clip con el dedo. Las dos puertas se retiran en 3 segundos, dejando la embocadura del mueble completamente expedita para trabajar con llaves de fontanería sin golpear los frentes.</li>
+      </ul>
+
+      <h3>Ejemplo 8: Salvar tuberías de desagüe superficiales mediante cámara trasera</h3>
+      <ul>
+        <li><strong>Situación:</strong> Un tubo de PVC de desagüe de 40 mm discurre en horizontal por la pared a 15 cm del suelo.</li>
+        <li><strong>Resolución:</strong> Los módulos bajos de calidad disponen de una trasera retranqueada (cámara sanitaria de 5 a 6 cm) respecto a la pared posterior. El tubo queda alojado dentro de esta cámara sin necesidad de calar ni mutilar los costados del mueble. Si la tubería interfiere con una pata, la base de la pata se reubica atornillándola 4 cm más hacia el interior en una zona libre de la base.</li>
+      </ul>
+
+      <h3>Ejemplo 9: Eliminación de roce entre dos puertas contiguas en bancada baja</h3>
+      <ul>
+        <li><strong>Situación:</strong> Tras montar y solidarizar dos muebles bajos de 60 cm, las puertas rozan entre sí en su arista vertical central al cerrarse.</li>
+        <li><strong>Resolución:</strong> Las bisagras incorporan tres tornillos de reglaje en su brazo: frontal (regulación lateral X), central (regulación en profundidad Z) y corredera de base (regulación en altura Y). Se actúa sobre el tornillo frontal de regulación lateral aflojándolo un cuarto de vuelta para desplazar la hoja 1 mm hacia el exterior, dejando la holgura reglamentaria de 2 mm entre frentes.</li>
+      </ul>
+
+      <h3>Ejemplo 10: Retirada de una balda interior cargada con guías telescópicas</h3>
+      <ul>
+        <li><strong>Situación:</strong> El usuario decide cambiar la altura de una balda en una alacena alta tras haber montado el mueble.</li>
+        <li><strong>Resolución:</strong> Se vacía la balda. Se introduce un destornillador plano en la ranura de la corredera plástica de la balda. Al retraer la tapa hacia adentro, el pasador se esconde dentro de la balda. Se saca la balda con facilidad, se eligen los nuevos orificios de la cremallera interior del mueble y se vuelve a encajar deslizando la tapa hacia afuera.</li>
+      </ul>
+    </div>
+
+    <div class="tab-bottom-nav">
+      <button class="btn-nav-step" onclick="go(5)">← Anterior: Costados, Rincones y Zócalo</button>
+      <button class="btn-nav-step next" onclick="go(7)">Siguiente: 10 Proyectos →</button>
+    </div>
+  </section>
+
+  <!-- PESTAÑA 7: 10 PROYECTOS (Sección 12) -->
+  <section class="tab-section" id="tab-7" data-t="10 Proyectos Integradores">
+    <div class="card">
+      <h2 class="section-heading">🎓 12. Diez Proyectos Integradores Graduados</h2>
+      <p>Para estructurar un plan formativo completo, se presentan 10 proyectos que escalan progresivamente en dificultad, aplicando cada uno de los conceptos del manual. Marca las casillas conforme vayas completando cada proyecto práctico (tu progreso se guarda automáticamente).</p>
+
+      <pre class="tech-diagram">+-----------------------------------------------------------------------------------+
+|                            ESCALA DE PROYECTOS TÉCNICOS                           |
+|                                                                                   |
+|  [Fase Inicial]                                                                   |
+|   - Proyecto 1: Banco de pruebas de pata de PVC y calibración de par de apriete  |
+|   - Proyecto 2: Despiece, desenganche de clips y protección de cantos             |
+|   - Proyecto 3: Montaje y ensamblado de baldas con guías telescópicas             |
+|                                                                                   |
+|  [Fase Intermedia]                                                                |
+|   - Proyecto 4: Nivelación biaxial de módulo bajo individual sobre suelo falso    |
+|   - Proyecto 5: Batería solidaria de dos muebles bajos con unión oculta           |
+|   - Proyecto 6: Anclaje mural de módulo alto individual con replanteo métrico     |
+|   - Proyecto 7: Instalación de costado decorativo visto con regla de 35 mm        |
+|                                                                                   |
+|  [Fase Avanzada y Profesional]                                                    |
+|   - Proyecto 8: Montaje de esquinero rinconero con bisagras de 170° y flechas     |
+|   - Proyecto 9: Instalación de zócalo perimetral con pieza de esquina flexible    |
+|   - Proyecto 10: Cocina modular completa en "L" con línea alta y baja continua   |
++-----------------------------------------------------------------------------------+</pre>
+
+      <div id="projects-checklist">
+        <label class="checklist-item">
+          <input type="checkbox" data-proj="p1">
+          <div>
+            <strong>Proyecto 1: Banco de pruebas de pata de PVC y calibración de par de apriete</strong><br>
+            <em>Objetivo:</em> Dominar la inserción por golpe de la espiga central de la pata y calibrar el embrague de la atornilladora para no dañar aglomerados de 16 mm.<br>
+            <em>Entregable:</em> Tablero de pruebas con una base de pata fijada con sus 4 tornillos de 3,5 × 15 mm, comprobando que las cabezas queden perfectamente enrasadas sin pasar de rosca.
+          </div>
+        </label>
+
+        <label class="checklist-item">
+          <input type="checkbox" data-proj="p2">
+          <div>
+            <strong>Proyecto 2: Despiece, desenganche de clips y protección de cantos</strong><br>
+            <em>Objetivo:</em> Automatizar la retirada e inserción rápida de puertas mediante bisagras de clip sin herramientas mecánicas.<br>
+            <em>Entregable:</em> Módulo de 2 puertas despiezado en menos de 30 segundos, con frentes apilados verticalmente sobre base de cartón con separadores.
+          </div>
+        </label>
+
+        <label class="checklist-item">
+          <input type="checkbox" data-proj="p3">
+          <div>
+            <strong>Proyecto 3: Montaje y ensamblado de baldas con guías telescópicas</strong><br>
+            <em>Objetivo:</em> Manipular el sistema retráctil de correderas plásticas para extraer e insertar baldas intermedias sin arañar el interior del mueble.<br>
+            <em>Entregable:</em> Alacena con 3 baldas colocadas a diferentes cotas métricas perfectamente niveladas.
+          </div>
+        </label>
+
+        <label class="checklist-item">
+          <input type="checkbox" data-proj="p4">
+          <div>
+            <strong>Proyecto 4: Nivelación biaxial de módulo bajo individual sobre suelo falso</strong><br>
+            <em>Objetivo:</em> Aprender a corregir desniveles simulados interponiendo calzos de 10 mm bajo dos patas, alcanzando el nivel cero mediante la rosca manual.<br>
+            <em>Entregable:</em> Módulo con ampolla de nivel centrada en los ejes X e Y simultáneamente.
+          </div>
+        </label>
+
+        <label class="checklist-item">
+          <input type="checkbox" data-proj="p5">
+          <div>
+            <strong>Proyecto 5: Batería solidaria de dos muebles bajos con unión oculta</strong><br>
+            <em>Objetivo:</em> Alinear y coser dos módulos contiguos eliminando cualquier diente táctil en la unión frontal.<br>
+            <em>Entregable:</em> Bloque de dos módulos unidos con mordazas y 2 tornillos pasantes de 4,0 × 30 mm con verificación de planaridad total.
+          </div>
+        </label>
+
+        <label class="checklist-item">
+          <input type="checkbox" data-proj="p6">
+          <div>
+            <strong>Proyecto 6: Anclaje mural de módulo alto individual con replanteo métrico</strong><br>
+            <em>Objetivo:</em> Trazar a 5,5 cm del techo, taladrar sobre azulejo, fijar pletinas y regular altura y pegado a pared con los dos tornillos del colgador.<br>
+            <em>Entregable:</em> Módulo alto suspendido firmemente, pegado a la pared sin cabeceo y con tapas embellecedoras colocadas.
+          </div>
+        </label>
+
+        <label class="checklist-item">
+          <input type="checkbox" data-proj="p7">
+          <div>
+            <strong>Proyecto 7: Instalación de costado decorativo visto con regla de 35 mm</strong><br>
+            <em>Objetivo:</em> Presentar, amordazar con sargentos y atornillar un costado de 19 mm sobre un casco de 16 mm manteniendo 25 mm de vuelo simétrico.<br>
+            <em>Entregable:</em> Costado fijado con 4 tornillos de 30 mm desde el interior sin marcas ni penetraciones en la cara exterior.
+          </div>
+        </label>
+
+        <label class="checklist-item">
+          <input type="checkbox" data-proj="p8">
+          <div>
+            <strong>Proyecto 8: Montaje de esquinero rinconero con bisagras de 170° y flechas</strong><br>
+            <em>Objetivo:</em> Instalar bisagras de gran apertura con tacos de expansión y posicionar la placa base con la flecha grabada hacia afuera.<br>
+            <em>Entregable:</em> Módulo de rincón funcional con apertura de 170°, cierre amortiguado y secuencia de cierre ordenada sin colisiones.
+          </div>
+        </label>
+
+        <label class="checklist-item">
+          <input type="checkbox" data-proj="p9">
+          <div>
+            <strong>Proyecto 9: Instalación de zócalo perimetral con pieza de esquina flexible</strong><br>
+            <em>Objetivo:</em> Cortar tiras de zócalo, montar grapas rotativas en guías traseras, orientar el labio de goma hacia el pavimento e interconectar dos tramos con la pieza angular.<br>
+            <em>Entregable:</em> Zócalo inferior estanco, anclado a presión en las patas y con esquina perfectamente resuelta.
+          </div>
+        </label>
+
+        <label class="checklist-item">
+          <input type="checkbox" data-proj="p10">
+          <div>
+            <strong>Proyecto 10: Cocina modular completa en "L" con línea alta y baja continua</strong><br>
+            <em>Objetivo:</em> Integrar todas las competencias en el montaje de una cocina real con fregadero, módulo cajonero, rinconera y batería de muebles altos.<br>
+            <em>Entregable:</em> Instalación completa terminada, nivelada, cosida, con holguras milimétricas de frentes y lista para recibir la encimera.
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div class="tab-bottom-nav">
+      <button class="btn-nav-step" onclick="go(6)">← Anterior: 10 Casos Prácticos</button>
+      <button class="btn-nav-step next" onclick="go(8)">Siguiente: Glosario →</button>
+    </div>
+  </section>
+
+  <!-- PESTAÑA 8: GLOSARIO (Sección 13) -->
+  <section class="tab-section" id="tab-8" data-t="Glosario Técnico">
+    <div class="card">
+      <h2 class="section-heading">📖 13. Glosario Técnico Exhaustivo de Carpintería y Mobiliario Modular</h2>
+      <ol>
+        <li><strong>Aglomerado:</strong> Tablero estructural fabricado a partir de partículas de madera aglutinadas con resinas sintéticas bajo presión y calor, habitualmente recubierto con melamina.</li>
+        <li><strong>Alacena:</strong> Módulo superior o mueble alto colgado de la pared, diseñado para vajilla o despensa ligera.</li>
+        <li><strong>Ampolla de nivel:</strong> Tubo curvo de vidrio o acrílico lleno de líquido con una burbuja de aire, que indica la horizontalidad o verticalidad exacta al situarse entre dos marcas.</li>
+        <li><strong>Balancín / Corredera de balda:</strong> Dispositivo plástico embutido en el canto de la balda que permite retraer el perno metálico mediante una lengüeta deslizante.</li>
+        <li><strong>Bisagra de cazoleta:</strong> Herraje mecánico articulado que se encastra en un fresado circular de 35 mm en la puerta y se ancla a una placa base en el interior del mueble.</li>
+        <li><strong>Bisagra de clip (Desenganche rápido):</strong> Bisagra moderna con mecanismo de resorte que permite desacoplar la puerta del mueble presionando una presilla sin desatornillar.</li>
+        <li><strong>Bisagra rinconera de 170°:</strong> Bisagra especial de brazos articulados múltiples que abre la puerta doblándola hacia atrás para despejar esquinas ciegas.</li>
+        <li><strong>Cámara sanitaria trasera:</strong> Espacio libre de 5 a 6 cm que queda entre la trasera encastrada del mueble bajo y la pared para permitir el paso de desagües y tuberías.</li>
+        <li><strong>Canto de PVC / ABS:</strong> Tira termoplástica extrusionada que se pega a los bordes del aglomerado para protegerlo de la humedad y golpes mecánicos.</li>
+        <li><strong>Casco:</strong> Estructura cuadrangular básica o caja interior del mueble sin puertas ni frentes instalados.</li>
+        <li><strong>Cizalla (Esfuerzo cortante):</strong> Tensión mecánica producida cuando se aplican fuerzas paralelas en sentidos opuestos, causa principal de fractura de patas al inclinar el mueble.</li>
+        <li><strong>Colgador oculto regulable:</strong> Herraje mecánico alojado en las esquinas superiores traseras de los muebles altos, dotado de un gancho móvil accionado por tornillos sinfín.</li>
+        <li><strong>Costado visto (Regrueso):</strong> Tablero embellecedor del mismo acabado de las puertas que se atornilla al lateral del mueble que queda expuesto en la habitación.</li>
+        <li><strong>Desplome:</strong> Desviación vertical de una pared o tabique respecto a la línea de plomada.</li>
+        <li><strong>Embrague de par (Torque):</strong> Dispositivo en la atornilladora que desconecta el giro cuando el tornillo alcanza una resistencia determinada, evitando reventar la madera.</li>
+        <li><strong>Enrase:</strong> Alineación perfecta y continua entre dos planos o piezas adyacentes sin escalones ni resaltes.</li>
+        <li><strong>Espiga macho de pata:</strong> Saliente cilíndrico de la base plástica de la pata que se introduce a presión en un orificio mecanizado del tablero inferior.</li>
+        <li><strong>Falsa escuadra:</strong> Esquina arquitectónica o encuentro de dos paredes cuyo ángulo difiere de los 90° geométricos (por ejemplo, 88° o 93°).</li>
+        <li><strong>Grapa rotativa de zócalo:</strong> Pinza de plástico con aletas que se introduce en la ranura trasera del rodapié y se gira 90° para quedar retenida en la guía.</li>
+        <li><strong>Labio de goma estanco:</strong> Faldón flexible de caucho o silicona ubicado en el borde inferior del zócalo para sellar contra el suelo y repeler líquidos.</li>
+        <li><strong>Luz entre centros:</strong> Distancia métrica exacta medida entre los ejes geométricos de dos colgadores o pletinas murales.</li>
+        <li><strong>Melamina:</strong> Papel decorativo impregnado con resinas que se fusiona térmicamente sobre el tablero de aglomerado proporcionando textura y protección.</li>
+        <li><strong>Mordaza / Sargento:</strong> Herramienta de sujeción manual por tornillo o leva que inmoviliza dos tableros durante el taladrado o atornillado.</li>
+        <li><strong>Pieza esquinera flexible:</strong> Perfil articulado con ranuras laterales que enlaza dos tramos de zócalo absorbiendo variaciones de ángulo en la esquina.</li>
+        <li><strong>Pletina mural:</strong> Chapa metálica dentada con ranuras perforadas que se ancla a la pared para recibir y sujetar el gancho del colgador.</li>
+        <li><strong>Pozidriv (PZ):</strong> Tipo de cabeza de tornillo y punta de atornillar con forma de cruz y cuatro ranuras diagonales adicionales para un agarre antideslizante superior al Phillips (PH).</li>
+        <li><strong>Presilla de bisagra:</strong> Lengüeta metálica situada en la cola de la bisagra de clip que libera el mecanismo al ser presionada.</li>
+        <li><strong>Punta de centrado / Broca de widia:</strong> Broca con punta de carburo de tungsteno diseñada para perforar materiales pétreos, ladrillo y azulejo.</li>
+        <li><strong>Taco de expansión:</strong> Manguito cilíndrico de nylon o plástico ranurado que se introduce en un taladro mural y se expande radialmente al penetrar el tornillo.</li>
+        <li><strong>Tracción mural:</strong> Fuerza ejercida por el tornillo superior del colgador regulable que tira del mueble alto comprimiéndolo contra el alicatado de la pared.</li>
+        <li><strong>Vuelo / Saliente:</strong> Distancia en milímetros que sobresale una pieza o tablero respecto a la superficie o arista de referencia adyacente.</li>
+        <li><strong>Zócalo:</strong> Rodapié inferior continuo que oculta las patas de los muebles bajos y remata estéticamente la base de la cocina.</li>
+      </ol>
+    </div>
+
+    <div class="tab-bottom-nav">
+      <button class="btn-nav-step" onclick="go(7)">← Anterior: 10 Proyectos</button>
+      <button class="btn-nav-step next" onclick="go(9)">Siguiente: 33 Preguntas (Q&amp;A) →</button>
+    </div>
+  </section>
+
+  <!-- PESTAÑA 9: 33 PREGUNTAS (Q&A) (Sección 14, ANTES QUE ERRORES) -->
+  <section class="tab-section" id="tab-9" data-t="33 Preguntas (Q&amp;A)">
+    <div class="card">
+      <h2 class="section-heading">❓ 14. Banco de 33 Preguntas y Respuestas Técnicas (Nivel 1, Nivel 2 y Nivel 3)</h2>
+      <p>Preguntas ordenadas por nivel de dificultad técnico. Pulsa sobre cualquier pregunta para ver su respuesta o utiliza los controles globales:</p>
+
+      <div class="qa-controls">
+        <button class="btn-qa" id="qa-expand-all">+ Desplegar todas respuestas</button>
+        <button class="btn-qa" id="qa-collapse-all">- Plegar todas las respuestas</button>
+      </div>
+
+      <!-- NIVEL 1 -->
+      <div class="qa-level-badge level-1">Nivel 1: Nivel Básico (Fundamentos para Principiantes)</div>
+
+      <details class="qa-item">
+        <summary>1. ¿Por qué es preferible encargar los muebles montados de fábrica en lugar de desmontados en kit?</summary>
+        <div class="qa-answer">Porque los muebles montados de fábrica se ensamblan mediante espigas encoladas en prensas hidráulicas automáticas, garantizando una escuadra perfecta a 90° y una rigidez estructural muy superior, ahorrando horas de armado manual y eliminando desajustes en obra.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>2. ¿Cuál es el primer paso antes de empezar a manipular e instalar los muebles?</summary>
+        <div class="qa-answer">Desmontar preventivamente las puertas y extraer las baldas interiores. Esto aligera considerablemente el peso del mueble, cambia favorablemente su centro de gravedad y previene arañazos o golpes en los frentes durante el montaje.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>3. ¿Cómo se retira una puerta que dispone de bisagras con sistema de clip?</summary>
+        <div class="qa-answer">Se abre la puerta a 90°, se localiza la pequeña presilla o palanca metálica en la parte posterior del brazo de la bisagra y se presiona hacia adentro; la bisagra se desacopla de su base al instante sin necesidad de desatornillar nada.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>4. ¿Cómo se encajan las bases de las patas en los muebles bajos?</summary>
+        <div class="qa-answer">Se inserta la espiga macho central en el orificio pretaladrado de la base del mueble y se aplica un golpe seco y firme con la mano o con una maza de carpintero hasta que asiente completamente.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>5. ¿Por qué se deben colocar los cuatro tornillos en cada base de pata en lugar de solo dos?</summary>
+        <div class="qa-answer">Porque los cuatro tornillos distribuyen uniformemente las enormes cargas verticales de la encimera, electrodomésticos y menaje, evitando que la base plástica se fracture o se arranque del tablero aglomerado.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>6. ¿Por qué se deben enroscar las patas a tope antes de colocar el mueble de pie?</summary>
+        <div class="qa-answer">Porque esto sitúa el mueble en su cota de altura mínima, asegurando que quede margen suficiente para colocar el zócalo inferior y permitiendo regular hacia arriba para salvar desniveles del suelo.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>7. ¿Por qué está terminantemente prohibido voltear un mueble bajo apoyándolo sobre dos patas?</summary>
+        <div class="qa-answer">Porque las patas de PVC no soportan fuerzas de cizallamiento o palanca lateral. Al bascular el mueble sobre ellas, la espiga plástica o el tablero de la base se quiebran de inmediato por el peso.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>8. ¿Qué herramienta se emplea para verificar la correcta colocación de los muebles bajos?</summary>
+        <div class="qa-answer">Un nivel de burbuja tubular de precisión, de al menos 80 a 100 cm de longitud, colocándolo tanto a lo largo del frente como en profundidad hacia la pared.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>9. ¿Cómo se corrigen los desniveles del suelo en los muebles bajos?</summary>
+        <div class="qa-answer">Girando manualmente con la mano la caña roscada de las patas: desenroscando para subir la altura del apoyo y enroscando para bajarla, hasta centrar la burbuja del nivel.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>10. ¿Por qué deben protegerse las superficies de apoyo con mantas o cartones?</summary>
+        <div class="qa-answer">Porque cualquier arenilla, viruta o irregularidad del suelo puede rayar irreversiblemente la melamina o laca de los costados del mueble al manipularlos.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>11. ¿Para qué sirven las tapitas de plástico que acompañan a los colgadores de los muebles altos?</summary>
+        <div class="qa-answer">Tienen una doble función: estética, tapando los tornillos y mecanismos metálicos interiores, y protectora, impidiendo la entrada de humedad, vapores y grasa en el herraje.</div>
+      </details>
+
+      <!-- NIVEL 2 -->
+      <div class="qa-level-badge level-2">Nivel 2: Nivel Avanzado (Técnicas de Precisión y Ajuste de Sistemas)</div>
+
+      <details class="qa-item">
+        <summary>12. ¿Cómo funciona el mecanismo de fijación de los colgadores ocultos en los muebles altos?</summary>
+        <div class="qa-answer">Se levanta la pestaña basculante del herraje, se introducen los pernos en los orificios del mueble y se baja la pestaña con fuerza; una leva interna expande los pernos generando un bloqueo por presión de alta resistencia.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>13. ¿Qué significan las marcas 'L' y 'R' troqueladas en los colgadores regulables?</summary>
+        <div class="qa-answer">Indican la lateralidad: 'L' para el lado izquierdo (<em>Left</em>) y 'R' para el lado derecho (<em>Right</em>), mirando siempre el mueble de frente desde el exterior.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>14. ¿Cómo se retiran las baldas interiores que poseen sistema telescópico?</summary>
+        <div class="qa-answer">Se introduce un destornillador plano en la ranura de la tapa plástica situada en el canto de la balda y se desliza hacia adentro; el perno retráctil se esconde en el interior de la balda liberándola del orificio lateral del casco.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>15. ¿Qué función cumple cada uno de los dos tornillos visibles en el colgador del mueble alto?</summary>
+        <div class="qa-answer">El tornillo inferior ajusta la altura vertical (sube o baja el mueble para nivelarlo), mientras que el tornillo superior ajusta la profundidad horizontal (tira del gancho traccionando el mueble hacia la pared para pegarlo al azulejo).</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>16. ¿Cómo se calcula la altura exacta para perforar la pared y colocar las pletinas de los muebles altos?</summary>
+        <div class="qa-answer">Se mide la distancia del gancho del colgador al borde superior del mueble (habitualmente 4 cm) y se le añade una holgura técnica de 1,5 cm, marcando la línea de perforación a 5,5 cm desde el techo para permitir encajar el gancho con facilidad.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>17. ¿Cuál es la cota de separación entre ejes para colgar un módulo alto estándar de 80 cm?</summary>
+        <div class="qa-answer">La cota entre centros de pletinas es de 76,5 cm, coincidiendo con la luz interior neta entre los dos colgadores del mueble descontando el espesor de ambos costados de 16 mm.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>18. ¿Qué dispositivo de seguridad incorporan los colgadores para impedir que el mueble salte de la pared?</summary>
+        <div class="qa-answer">Un muelle o trinquete de seguridad que emite un chasquido (<em>clic</em>) cuando el gancho entra en la pletina mural, impidiendo que el mueble se desenganche si recibe un empuje accidental hacia arriba.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>19. ¿Cuál es el procedimiento técnico para solidarizar ("coser") dos módulos bajos contiguos?</summary>
+        <div class="qa-answer">Se nivelan ambos módulos individualmente, se enrasan perfectamente sus caras frontales, se inmovilizan con mordazas o sargentos de apriete protegido y se unen mediante tornillos pasantes de 4,0 × 30 mm desde el interior.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>20. ¿Qué espesor total suman el costado del mueble y un costado decorativo visto estándar?</summary>
+        <div class="qa-answer">Suman exactamente 35 mm (16 mm del costado estructural del casco más 19 mm del tablero decorativo exterior).</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>21. ¿Por qué está prohibido usar tornillos de 35 mm o más para fijar los costados decorativos?</summary>
+        <div class="qa-answer">Porque al avellanar la cabeza en el aglomerado de 16 mm, la punta del tornillo excederá los 35 mm totales, perforando o deformando la cara lacada exterior. Se deben usar estrictamente tornillos de 30 mm, dejando 5 mm de margen de seguridad.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>22. ¿Cómo se fija y orienta el zócalo inferior respecto a las baldosas del pavimento?</summary>
+        <div class="qa-answer">Se fija encajando a presión sus grapas rotativas en las cañas de las patas, asegurándose de que la lengüeta o labio de goma flexible quede orientada hacia abajo, en contacto sellante contra el suelo.</div>
+      </details>
+
+      <!-- NIVEL 3 -->
+      <div class="qa-level-badge level-3">Nivel 3: Nivel PRO (Casos Complejos, Rincón y Geometría en Obra)</div>
+
+      <details class="qa-item">
+        <summary>23. ¿Qué peculiaridad de montaje presentan las bases de las bisagras de rincón de gran apertura (170°)?</summary>
+        <div class="qa-answer">Tienen grabada una flecha direccional en el metal que debe apuntar obligatoriamente hacia el exterior del mueble para que el brazo articulado encaje y funcione adecuadamente.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>24. ¿Cómo se instalan las cazoletas de las bisagras rinconeras que incorporan tacos de expansión?</summary>
+        <div class="qa-answer">Se aflojan ligeramente los tornillos de los tacos, se embute la cazoleta golpeando suavemente las cabezas de los tornillos con un martillo hasta enrasar y finalmente se aprietan con destornillador manual para expandir los tacos en la madera.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>25. ¿Cuál es la secuencia cinemática obligatoria de apertura y cierre en una puerta de rincón en "L"?</summary>
+        <div class="qa-answer">Para abrir: se abate primero la puerta exterior frontal (170°) y luego la interior. Para cerrar: se cierra siempre primero la hoja interior de fondo y finalmente la hoja frontal solapada.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>26. ¿Cómo resuelve la pieza esquinera flexible los problemas de falsas escuadras en el zócalo?</summary>
+        <div class="qa-answer">Posee un núcleo articulado oscilante que permite enlazar los dos tramos de zócalo en cualquier ángulo comprendido entre 80° y 135°, absorbiendo las desviaciones de tabiquería sin dejar rendijas abiertas.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>27. ¿Qué medida de vuelo o saliente simétrico debe mantenerse al instalar costados vistos en muebles altos?</summary>
+        <div class="qa-answer">Debe mantenerse un saliente de 25 mm tanto por la parte superior como por la inferior respecto al casco, asegurando una simetría visual perfecta respecto a las puertas.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>28. ¿Cómo se ajusta un mueble alto si el techo de la estancia presenta una inclinación irregular?</summary>
+        <div class="qa-answer">Se cuelga el mueble dejando un margen técnico de 5 a 10 mm en el punto más bajo del techo y se nivela perfectamente en horizontal mediante el tornillo inferior del colgador, evitando que las puertas rocen con el techo al abrirse.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>29. ¿Qué solución se aplica si al taladrar para las pletinas murales la broca choca contra una armadura de hormigón?</summary>
+        <div class="qa-answer">Aprovechar las perforaciones colisas alternativas de la pletina mural desplazándola 2 o 3 cm en horizontal a lo largo de la misma cota de nivel, ya que el gancho del colgador admite apoyo a lo largo de toda la superficie dentada.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>30. ¿Cómo se montan las grapas de sujeción en la parte trasera del zócalo?</summary>
+        <div class="qa-answer">Se introducen horizontalmente en la ranura guía de extrusión del zócalo y se giran 90° para trabarlas en el carril, deslizándolas luego libremente hasta la posición de cada pata.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>31. ¿Qué función cumple el tapón de goma embutido en el marco del mueble rinconero?</summary>
+        <div class="qa-answer">Actúa como amortiguador de impacto mecánico, evitando que la puerta golpee contra el aglomerado y absorbiendo la presión final del sistema de cierre amortiguado.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>32. ¿Cómo se debe proceder si un mueble llega con daños de transporte al desembalarlo?</summary>
+        <div class="qa-answer">Fotografiar el daño, el embalaje exterior y la etiqueta identificativa, notificar de inmediato al proveedor para activar la reposición gratuita de la pieza y continuar el montaje de los módulos restantes sin detener la obra.</div>
+      </details>
+
+      <details class="qa-item">
+        <summary>33. ¿Qué holgura técnica perimetral debe existir entre dos frentes de puerta contiguos para un funcionamiento óptimo?</summary>
+        <div class="qa-answer">Debe dejarse una holgura constante de 2 mm a 3 mm, regulable mediante el tornillo de ajuste lateral frontal de la bisagra de cazoleta.</div>
+      </details>
+    </div>
+
+    <div class="tab-bottom-nav">
+      <button class="btn-nav-step" onclick="go(8)">← Anterior: Glosario</button>
+      <button class="btn-nav-step next" onclick="go(10)">Siguiente: ERRORES →</button>
+    </div>
+  </section>
+
+  <!-- PESTAÑA 10: ERRORES Y SOLUCIÓN DE PROBLEMAS (Sección 11) -->
+  <section class="tab-section" id="tab-10" data-t="ERRORES y Solución de Problemas">
+    <div class="card">
+      <h2 class="section-heading">⚠️ 11. Buenas Prácticas y Matriz de Solución de Problemas (Troubleshooting)</h2>
+      <p>Consulta esta matriz de diagnóstico rápido para prevenir fallos irreversibles en obra y corregir desviaciones al instante:</p>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Problema / Síntoma Detectado</th>
+              <th>Causa Raíz Probable</th>
+              <th>Procedimiento de Corrección Inmediata</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>La pata de PVC se quiebra o se arranca de la base al levantar el mueble.</strong></td>
+              <td>Se volteó el mueble haciendo palanca lateral sobre las patas contra el suelo.</td>
+              <td>Sustituir la base dañada. Levantar siempre el mueble en vilo sin apoyar el peso en ángulo.</td>
+            </tr>
+            <tr>
+              <td><strong>Al apretar el tornillo del costado visto, aparece un bulto blanco o grieta en la cara externa.</strong></td>
+              <td>Se utilizó un tornillo demasiado largo (&gt;30 mm) o el embrague de la atornilladora estaba al máximo.</td>
+              <td>Utilizar estrictamente tornillos de 4,0 × 30 mm para la combinación de 16 mm + 19 mm y regular el embrague de par.</td>
+            </tr>
+            <tr>
+              <td><strong>La puerta del mueble alto roza contra el techo al abrirse.</strong></td>
+              <td>El mueble se colgó demasiado pegado a un techo con desnivel o alabeo.</td>
+              <td>Actuar sobre el tornillo de regulación vertical inferior del colgador para descender el mueble 4-6 mm.</td>
+            </tr>
+            <tr>
+              <td><strong>El mueble alto queda separado de la pared en su parte superior (cabecea).</strong></td>
+              <td>El tornillo superior de tracción del colgador no ha sido apretado adecuadamente.</td>
+              <td>Girar el tornillo superior del colgador en sentido horario para retraer el gancho y aplastar el mueble al muro.</td>
+            </tr>
+            <tr>
+              <td><strong>Las dos hojas del mueble esquinero colisionan al cerrarse.</strong></td>
+              <td>Secuencia de cierre incorrecta o bisagra de 170° montada con placa base al revés.</td>
+              <td>Cerrar primero la puerta interior de fondo. Verificar que la flecha de la placa base metálica mire hacia afuera.</td>
+            </tr>
+            <tr>
+              <td><strong>El zócalo se cae hacia adelante o no se sujeta a las patas.</strong></td>
+              <td>Las grapas giratorias se salieron del carril o no están alineadas con los cilindros de las patas.</td>
+              <td>Reinsertar las grapas en el canal trasero, girar 90° para bloquear y deslizar hasta la vertical exacta de la pata.</td>
+            </tr>
+            <tr>
+              <td><strong>El agua de fregar se filtra por debajo del zócalo hacia el interior.</strong></td>
+              <td>El zócalo se instaló al revés, con el labio de goma hacia arriba.</td>
+              <td>Desmontar el zócalo tirando hacia afuera, invertir la orientación dejando la goma contra el suelo y reajustar.</td>
+            </tr>
+            <tr>
+              <td><strong>Se crea un escalón o "diente" entre las encimeras de dos muebles bajos.</strong></td>
+              <td>Los cascos no fueron nivelados ni cosidos con mordazas antes del apriete de tornillos.</td>
+              <td>Aflojar los tornillos de unión, colocar sargentos con mordazas de goma enrasando las caras y volver a atornillar.</td>
+            </tr>
+            <tr>
+              <td><strong>La broca patina sobre el azulejo y perfora fuera de la marca.</strong></td>
+              <td>No se empleó guía ni cinta sobre la superficie vidriada lisa del azulejo.</td>
+              <td>Colocar dos capas de cinta de carrocero sobre el punto de trazado y taladrar a bajas revoluciones sin percutor.</td>
+            </tr>
+            <tr>
+              <td><strong>La corredera plástica de la balda no encaja en el lateral.</strong></td>
+              <td>La balda se introdujo en orificios desalineados de la cremallera de taladros.</td>
+              <td>Contar los orificios desde la base del mueble en ambos costados para asegurar que estén en la misma horizontal exacta.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tab-bottom-nav">
+      <button class="btn-nav-step" onclick="go(9)">← Anterior: 33 Preguntas (Q&amp;A)</button>
+      <button class="btn-nav-step next" onclick="go(11)">Siguiente: PROMPTS →</button>
+    </div>
+  </section>
+
+  <!-- PESTAÑA 11: PROMPTS (Sección 15 con descripción de uso) -->
+  <section class="tab-section" id="tab-11" data-t="PROMPTS de Asistencia con IA">
+    <div class="card">
+      <h2 class="section-heading">🤖 15. Repositorio de Prompts de Planificación, Cubicaje y Asistencia con IA</h2>
+      <p>Para los usuarios que deseen utilizar asistentes de inteligencia artificial como apoyo en la fase de replanteo, despiece o verificación técnica de su instalación de cocina modular, se proporciona el siguiente repertorio de prompts estructurados y testeados:</p>
+
+      <div class="prompt-card">
+        <h3>Prompt 1: Generación y Validación del Plano de Replanteo Técnico</h3>
+        <p class="prompt-usage">📍 Dónde se emplea: En la Fase 1 (Planificación Previa y Toma de Cotas), antes de encargar los módulos a fábrica, para validar medidas a tres alturas y acometidas.</p>
+        <div class="prompt-box" id="prompt-text-1">Actúa como delineante proyectista y técnico especialista en cocinas modulares. Te proporciono las siguientes medidas reales de mi cocina tomadas a tres alturas (suelo, encimera y techo): [INSERTAR MEDIDAS EN MILÍMETROS], junto con la posición de la toma de agua, desagüe, llave de gas y enchufes: [INSERTAR UBICACIONES]. Genera una distribución modular estandarizada detallando el ancho de cada mueble bajo, alto y de rincón, indicando holguras perimetrales, cámara sanitaria trasera y puntos críticos de nivelación.</div>
+        <button class="btn-copy" data-copy-target="prompt-text-1">📋 Copiar Prompt 1</button>
+      </div>
+
+      <div class="prompt-card">
+        <h3>Prompt 2: Cubicaje de Tornillería y Selección de Fijaciones</h3>
+        <p class="prompt-usage">📍 Dónde se emplea: En la Fase 2 (Equipamiento y Herramientas) y Fase 7 (Costados Vistos), para calcular exactamente los tornillos de 15 mm y 30 mm sin riesgo de perforar tableros.</p>
+        <div class="prompt-box" id="prompt-text-2">Actúa como jefe de compras de carpintería técnica. Para una cocina modular compuesta por [NÚMERO] muebles bajos de aglomerado de 16 mm, [NÚMERO] muebles altos y [NÚMERO] costados decorativos de 19 mm, genera una tabla detallada con la lista exacta de tornillería requerida: longitud en milímetros, diámetro, tipo de cabeza (avellanada PZ2) y cantidad estimada por cada función (fijación de patas, unión intermodular, fijación de costados de regrueso y anclajes murales de pletinas).</div>
+        <button class="btn-copy" data-copy-target="prompt-text-2">📋 Copiar Prompt 2</button>
+      </div>
+
+      <div class="prompt-card">
+        <h3>Prompt 3: Cálculo Métrico de Trazado de Pletinas Murales</h3>
+        <p class="prompt-usage">📍 Dónde se emplea: En la Fase 6 (Instalación y Anclaje Mural de Módulos Altos), para calcular la cota de 5,5 cm respecto al techo y los 76,5 cm entre centros de pletinas.</p>
+        <div class="prompt-box" id="prompt-text-3">Actúa como instalador oficial de muebles altos. Tengo una altura de techo a suelo de [INSERTAR ALTURA EN MM] y voy a instalar [NÚMERO] alacenas de [INSERTAR ANCHURA] mm de ancho con cascos de 16 mm. La distancia del gancho en reposo a la testa superior del mueble es de [INSERTAR VALOR] mm. Calcula las cotas exactas en milímetros a las que debo trazar la línea horizontal de taladrado respecto al techo y la separación entre centros de taladros para cada pletina, asegurando un margen de regulación vertical de al menos 15 mm.</div>
+        <button class="btn-copy" data-copy-target="prompt-text-3">📋 Copiar Prompt 3</button>
+      </div>
+
+      <div class="prompt-card">
+        <h3>Prompt 4: Asistente de Diagnóstico y Regulación Tridimensional de Puertas</h3>
+        <p class="prompt-usage">📍 Dónde se emplea: En la Fase 8 (Ajuste de Herrajes y Puertas) y Fase 11 (Solución de Problemas), para calibrar los tres tornillos de las bisagras de cazoleta (ejes X, Y, Z).</p>
+        <div class="prompt-box" id="prompt-text-4">Actúa como técnico especialista en herrajes de cazoleta. Al colocar dos puertas de cocina modular contiguas de [INSERTAR MEDIDAS], observo el siguiente desajuste: [DESCRIBIR PROBLEMA: ej. rozan en el centro / la puerta derecha está 2 mm más baja / la puerta queda separada 4 mm del casco en la parte superior]. Explica paso a paso sobre cuál de los tres tornillos de la bisagra debo actuar (regulación lateral X, vertical Y o profundidad Z), en qué sentido de giro (horario o antihorario) y en qué proporción de vueltas para corregir el desvío.</div>
+        <button class="btn-copy" data-copy-target="prompt-text-4">📋 Copiar Prompt 4</button>
+      </div>
+
+      <div class="prompt-card">
+        <h3>Prompt 5: Protocolo de Replanteo y Corte de Zócalos con Falsas Escuadras</h3>
+        <p class="prompt-usage">📍 Dónde se emplea: En la Fase 9 (Ajuste y Colocación del Zócalo Inferior), para dimensionar cortes, grapas rotativas y piezas esquineras flexibles en ángulos irregulares.</p>
+        <div class="prompt-box" id="prompt-text-5">Actúa como carpintero montador en obra. Tengo una bancada de cocina en 'L' cuyos tramos miden [LONGITUD A] mm y [LONGITUD B] mm. El ángulo entre paredes medido con goniómetro es de [INSERTAR GRADOS: ej. 93°]. Detalla la secuencia de corte de las tiras de zócalo de PVC, la posición y cantidad de grapas rotativas a colocar por metro lineal, la comprobación del labio de goma hacia el suelo y el método para intercalar la pieza esquinera flexible sin que se produzcan tensiones en las patas.</div>
+        <button class="btn-copy" data-copy-target="prompt-text-5">📋 Copiar Prompt 5</button>
+      </div>
+    </div>
+
+    <div class="tab-bottom-nav">
+      <button class="btn-nav-step" onclick="go(10)">← Anterior: ERRORES</button>
+      <button class="btn-nav-step next" onclick="go(12)">Siguiente: FUENTES →</button>
+    </div>
+  </section>
+
+  <!-- PESTAÑA 12: FUENTES (Sección 16 con botones Abrir enlace en nueva ventana) -->
+  <section class="tab-section" id="tab-12" data-t="FUENTES Oficiales">
+    <div class="card">
+      <h2 class="section-heading">🔗 16. Directorio de Fuentes Fiables y Referencias Técnicas Oficiales</h2>
+      <p>El contenido de este manual técnico se fundamenta estrictamente en los procedimientos audiovisuales oficiales, las buenas prácticas de la carpintería industrializada europea y las especificaciones de fabricantes de herrajes técnicos para mobiliario:</p>
+
+      <div class="prompt-card">
+        <h3>1. Canal Oficial de Bricolaje y Carpintería: Rubén Sbarsky / Aquilino Manitas</h3>
+        <p>Tutorial audiovisual de referencia: <em>Colocación de MUEBLES de COCINA, Paso a Paso</em>.</p>
+        <div class="prompt-box" id="url-1">https://www.youtube.com/@AquilinoManitas</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <a href="https://www.youtube.com/@AquilinoManitas" target="_blank" rel="noopener noreferrer" class="btn-ext-link">↗ Abrir enlace en nueva ventana</a>
+          <button class="btn-copy" data-copy-target="url-1">📋 Copiar URL</button>
+        </div>
+      </div>
+
+      <div class="prompt-card">
+        <h3>2. Plataforma de Mobiliario y Asesoramiento Técnico Online: Modular Cocinas</h3>
+        <p>Servicio de diseño online, asesoramiento personalizado, fabricación de cascos montados de fábrica y distribución logística.</p>
+        <div class="prompt-box" id="url-2">https://modularcocinas.com/</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <a href="https://modularcocinas.com/" target="_blank" rel="noopener noreferrer" class="btn-ext-link">↗ Abrir enlace en nueva ventana</a>
+          <button class="btn-copy" data-copy-target="url-2">📋 Copiar URL</button>
+        </div>
+      </div>
+
+      <div class="prompt-card">
+        <h3>3. Documentación Técnica de Sistemas de Herrajes: Hettich Group</h3>
+        <p>Manuales de montaje de colgadores regulables, bisagras Sensys de gran apertura y sistemas de ensamble.</p>
+        <div class="prompt-box" id="url-3">https://www.hettich.com/</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <a href="https://www.hettich.com/" target="_blank" rel="noopener noreferrer" class="btn-ext-link">↗ Abrir enlace en nueva ventana</a>
+          <button class="btn-copy" data-copy-target="url-3">📋 Copiar URL</button>
+        </div>
+      </div>
+
+      <div class="prompt-card">
+        <h3>4. Catálogo Técnico de Herrajes: Blum</h3>
+        <p>Catálogo de bisagras CLIP top, sistemas de puertas para rinconeras y regulación tridimensional.</p>
+        <div class="prompt-box" id="url-4">https://www.blum.com/</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <a href="https://www.blum.com/" target="_blank" rel="noopener noreferrer" class="btn-ext-link">↗ Abrir enlace en nueva ventana</a>
+          <button class="btn-copy" data-copy-target="url-4">📋 Copiar URL</button>
+        </div>
+      </div>
+
+      <div class="prompt-card">
+        <h3>5. Especificaciones de Suspensión Oculta: Camar SpA</h3>
+        <p>Especificaciones de herrajes de suspensión oculta para muebles altos de cocina y normativas de carga estática.</p>
+        <div class="prompt-box" id="url-5">https://www.camar.it/</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <a href="https://www.camar.it/" target="_blank" rel="noopener noreferrer" class="btn-ext-link">↗ Abrir enlace en nueva ventana</a>
+          <button class="btn-copy" data-copy-target="url-5">📋 Copiar URL</button>
+        </div>
+      </div>
+
+      <div class="prompt-card">
+        <h3>6. Normativas Técnicas y Estándares de Seguridad: AENOR (UNE-EN 14749)</h3>
+        <p>Norma UNE-EN 14749: <em>Mobiliario doméstico y de cocina. Muebles de almacenamiento y encimeras. Requisitos de seguridad y métodos de ensayo</em>.</p>
+        <div class="prompt-box" id="url-6">https://www.aenor.com/</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <a href="https://www.aenor.com/" target="_blank" rel="noopener noreferrer" class="btn-ext-link">↗ Abrir enlace en nueva ventana</a>
+          <button class="btn-copy" data-copy-target="url-6">📋 Copiar URL</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-bottom-nav">
+      <button class="btn-nav-step" onclick="go(11)">← Anterior: PROMPTS</button>
+      <button class="btn-nav-step next" onclick="go(13)">Siguiente: CRÉDITOS →</button>
+    </div>
+  </section>
+
+  <!-- PESTAÑA 13: CRÉDITOS -->
+  <section class="tab-section" id="tab-13" data-t="CRÉDITOS">
+    <div class="card">
+      <h2 class="section-heading">🏆 Créditos y Autoría</h2>
+
+      <!-- SVG Animado Compartido con INICIO -->
+      <div class="svg-hero-container" id="svg-mount-creditos" aria-label="Ilustración técnica animada de cocina modular"></div>
+
+      <p style="text-align:center; color:var(--text-secondary); margin-top:12px;">Ilustración técnica vectorial animada de replanteo biaxial láser, suspensión oculta de alacenas a 5,5 cm del techo, unión intermodular y zócalo estanco.</p>
+
+      <div class="credits-author-box">
+        <div class="author-huge">Rubén Sbarsky</div>
+        <p style="font-size:1.15rem; font-weight:700; color:var(--text-primary); margin-bottom:8px;">Autor del tutorial.</p>
+        <p style="color:var(--text-secondary); max-width:620px; margin:0 auto 14px;">Metodología práctica de carpintería e instalación profesional de cocinas modulares preensambladas de fábrica desarrollada para Modular Cocinas y el canal técnico Aquilino Manitas.</p>
+        <div style="display:inline-block; padding:8px 16px; border-radius:8px; background:var(--bg-main); border:1px solid var(--border-subtle); font-family:monospace; font-size:0.9rem;">
+          Versión: <strong>V001</strong> · Archivo: <strong>manual_instalacion_cocinas_modulares_V001.html</strong><br>
+          Fecha y hora de creación: <strong>25/11/2026 — 11:10:05</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-bottom-nav">
+      <button class="btn-nav-step" onclick="go(12)">← Anterior: FUENTES</button>
+      <span style="flex:1"></span>
+    </div>
+  </section>
+
+</main>
+
+<!-- BOTONES FLOTANTES ARRASTRABLES (INICIO Y ARRIBA) -->
+<button class="floating-draggable" id="float-home-btn" aria-label="Ir a la pestaña de Inicio" title="Arrastra para mover · Pulsa para ir a Inicio">🏠 INICIO</button>
+<button class="floating-draggable" id="float-top-btn" aria-label="Subir al comienzo de la pestaña actual" title="Arrastra para mover · Pulsa para subir arriba">⬆ ARRIBA</button>
+
+<!-- NOTIFICACIÓN TOAST -->
+<div id="toast-msg" role="status" aria-live="polite"></div>
+
+<script>
+(function() {
+  "use strict";
+
+  const STORAGE_KEY = "cocinas_modulares_v001_state";
+  const sections = Array.from(document.querySelectorAll(".tab-section"));
+  const chips = Array.from(document.querySelectorAll("#nav-chips .chip"));
+  const drawer = document.getElementById("dr");
+  const menuBtn = document.getElementById("mb");
+  const toastEl = document.getElementById("toast-msg");
+
+  let currentTabIndex = 0;
+  let currentFontSize = 16;
+  let masterSvgMarkup = "";
+
+  /* --- GESTIÓN SEGURA DE LOCALSTORAGE --- */
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveState(partial) {
+    try {
+      const prev = loadState();
+      const next = Object.assign({}, prev, partial);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    } catch (e) {
+      /* Silencioso si localStorage está restringido */
+    }
+  }
+
+  function showToast(message) {
+    toastEl.textContent = message;
+    toastEl.classList.add("show");
+    clearTimeout(showToast._timer);
+    showToast._timer = setTimeout(() => {
+      toastEl.classList.remove("show");
+    }, 2600);
+  }
+
+  /* --- PLANTILLA ÚNICA SVG ANIMADO Y MONTAJE SEGURO --- */
+  function initMasterSvgTemplate() {
+    const tpl = document.getElementById("master-hero-svg-template");
+    if (!tpl) return;
+    masterSvgMarkup = tpl.innerHTML.trim();
+    tpl.remove();
+  }
+
+  function mountSvgInstance(containerId, uniqueSuffix) {
+    const container = document.getElementById(containerId);
+    if (!container || !masterSvgMarkup) return;
+
+    const customizedSvg = masterSvgMarkup
+      .replace(/__BG_GRAD__/g, "bgGrad_" + uniqueSuffix)
+      .replace(/__CABINET_GRAD__/g, "cabGrad_" + uniqueSuffix)
+      .replace(/__ACCENT_GRAD__/g, "accGrad_" + uniqueSuffix)
+      .replace(/__GLOW__/g, "glow_" + uniqueSuffix)
+      .replace(/__GRID__/g, "grid_" + uniqueSuffix);
+
+    container.innerHTML = customizedSvg;
+
+    /* Fallback con data: URI si por alguna razón el SVG inline no renderiza nodos */
+    if (!container.querySelector("svg")) {
+      const encoded = encodeURIComponent(customizedSvg);
+      container.innerHTML = '<img src="data:image/svg+xml;utf8,' + encoded + '" alt="Ilustración técnica de cocina modular" style="width:100%;height:auto;display:block;">';
+    }
+  }
+
+  function ensureVisibleSvgsMounted() {
+    if (currentTabIndex === 0) {
+      const c0 = document.getElementById("svg-mount-inicio");
+      if (c0 && !c0.querySelector("svg, img")) mountSvgInstance("svg-mount-inicio", "inicio");
+    }
+    if (currentTabIndex === 13) {
+      const c13 = document.getElementById("svg-mount-creditos");
+      if (c13 && !c13.querySelector("svg, img")) mountSvgInstance("svg-mount-creditos", "creditos");
+    }
+  }
+
+  /* --- NAVEGACIÓN ENTRE PESTAÑAS (SPA) --- */
+  window.go = function(index) {
+    const targetIdx = Math.max(0, Math.min(sections.length - 1, Number(index)));
+    currentTabIndex = targetIdx;
+
+    sections.forEach((sec, idx) => {
+      sec.classList.toggle("active", idx === targetIdx);
+    });
+
+    chips.forEach((chip, idx) => {
+      const isAct = idx === targetIdx;
+      chip.classList.toggle("active", isAct);
+      chip.setAttribute("aria-selected", isAct ? "true" : "false");
+      if (isAct) {
+        chip.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+      }
+    });
+
+    Array.from(drawer.children).forEach((link, idx) => {
+      link.classList.toggle("on", idx === targetIdx);
+    });
+
+    if (targetIdx === 0) mountSvgInstance("svg-mount-inicio", "inicio");
+    if (targetIdx === 13) mountSvgInstance("svg-mount-creditos", "creditos");
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    updateReadingProgress();
+    saveState({ activeTab: targetIdx });
+  };
+
+  chips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      window.go(chip.dataset.tab);
+    });
+  });
+
+  /* --- ÍNDICE MENÚ SÁNDWICH LATERAL --- */
+  function buildDrawerIndex() {
+    drawer.innerHTML = "";
+    sections.forEach((sec, i) => {
+      const a = document.createElement("a");
+      const titleText = sec.dataset.t || (sec.querySelector("h2") ? sec.querySelector("h2").textContent : "Sección " + i);
+      a.textContent = (i ? i + ". " : "") + titleText;
+      a.href = "#tab-" + i;
+      a.setAttribute("role", "button");
+      if (i === 0) a.classList.add("on");
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.go(i);
+        toggleDrawer(false);
+      });
+      drawer.appendChild(a);
+    });
+  }
+
+  function toggleDrawer(forceState) {
+    const isOpen = typeof forceState === "boolean" ? forceState : !drawer.classList.contains("o");
+    drawer.classList.toggle("o", isOpen);
+    menuBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+  }
+
+  menuBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    toggleDrawer();
+  });
+
+  const homeIndexBtn = document.getElementById("ix");
+  if (homeIndexBtn) {
+    homeIndexBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleDrawer(true);
+    });
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") toggleDrawer(false);
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest("#dr") && !e.target.closest("#mb") && !e.target.closest("#ix")) {
+      toggleDrawer(false);
+    }
+  });
+
+  /* --- BOTONES DE 33 PREGUNTAS (DESPLEGAR / PLEGAR TODAS) --- */
+  const qaItems = Array.from(document.querySelectorAll("details.qa-item"));
+  const btnExpandAll = document.getElementById("qa-expand-all");
+  const btnCollapseAll = document.getElementById("qa-collapse-all");
+
+  if (btnExpandAll) {
+    btnExpandAll.addEventListener("click", () => {
+      qaItems.forEach((d) => { d.open = true; });
+      showToast("33 respuestas desplegadas");
+    });
+  }
+
+  if (btnCollapseAll) {
+    btnCollapseAll.addEventListener("click", () => {
+      qaItems.forEach((d) => { d.open = false; });
+      showToast("Todas las respuestas plegadas");
+    });
+  }
+
+  /* --- BOTONES COPIAR (PROMPTS Y URLS) --- */
+  document.querySelectorAll(".btn-copy").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const targetId = btn.getAttribute("data-copy-target");
+      const el = document.getElementById(targetId);
+      if (!el) return;
+      const textToCopy = el.textContent;
+
+      try {
+        const tempArea = document.createElement("textarea");
+        tempArea.value = textToCopy;
+        tempArea.style.position = "fixed";
+        tempArea.style.opacity = "0";
+        document.body.appendChild(tempArea);
+        tempArea.select();
+        const ok = document.execCommand("copy");
+        document.body.removeChild(tempArea);
+        if (ok) {
+          showToast("✓ Copiado exactamente al portapapeles");
+        } else {
+          showToast("Selecciona el texto manualmente para copiar");
+        }
+      } catch (err) {
+        showToast("No se pudo copiar automáticamente");
+      }
+    });
+  });
+
+  /* --- CHECKLIST INTERACTIVA DE 10 PROYECTOS --- */
+  const projectCheckboxes = Array.from(document.querySelectorAll('#projects-checklist input[type="checkbox"]'));
+  function restoreProjectsChecklist() {
+    const st = loadState();
+    const checkedMap = st.projects || {};
+    projectCheckboxes.forEach((cb) => {
+      cb.checked = Boolean(checkedMap[cb.dataset.proj]);
+      cb.addEventListener("change", () => {
+        const currentMap = loadState().projects || {};
+        currentMap[cb.dataset.proj] = cb.checked;
+        saveState({ projects: currentMap });
+      });
+    });
+  }
+
+  /* --- BUSCADOR INTERNO EN TODAS LAS PESTAÑAS --- */
+  const searchInput = document.getElementById("global-search");
+  const searchPanel = document.getElementById("search-results-panel");
+
+  searchInput.addEventListener("input", () => {
+    const query = searchInput.value.trim().toLowerCase();
+    if (query.length < 2) {
+      searchPanel.classList.remove("visible");
+      searchPanel.innerHTML = "";
+      return;
+    }
+
+    const matches = [];
+    sections.forEach((sec, idx) => {
+      const title = sec.dataset.t || "Sección " + idx;
+      const text = sec.textContent.replace(/\s+/g, " ");
+      const pos = text.toLowerCase().indexOf(query);
+      if (pos !== -1) {
+        const start = Math.max(0, pos - 45);
+        const end = Math.min(text.length, pos + query.length + 75);
+        const snippet = "..." + text.slice(start, end) + "...";
+        matches.push({ idx, title, snippet });
+      }
+    });
+
+    if (matches.length === 0) {
+      searchPanel.innerHTML = '<div class="search-result-card">No se encontraron coincidencias para "' + query.replace(/</g, "&lt;") + '".</div>';
+    } else {
+      searchPanel.innerHTML = matches.map((m) =>
+        '<div class="search-result-card">' +
+          '<strong>Pestaña: ' + m.title + '</strong>' +
+          '<p style="font-size:0.85rem; margin:6px 0; color:var(--text-secondary);">' + m.snippet.replace(/</g, "&lt;") + '</p>' +
+          '<button class="btn-util" onclick="go(' + m.idx + '); document.getElementById(\'search-results-panel\').classList.remove(\'visible\');">Ir a esta pestaña →</button>' +
+        '</div>'
+      ).join("");
+    }
+    searchPanel.classList.add("visible");
+  });
+
+  /* --- CONTROLES DE TAMAÑO DE FUENTE Y TEMA --- */
+  function applyFontSize(size) {
+    currentFontSize = Math.max(13, Math.min(22, size));
+    document.documentElement.style.setProperty("--font-base", currentFontSize + "px");
+    saveState({ fontSize: currentFontSize });
+  }
+
+  document.getElementById("font-dec").addEventListener("click", () => applyFontSize(currentFontSize - 1));
+  document.getElementById("font-inc").addEventListener("click", () => applyFontSize(currentFontSize + 1));
+
+  const themeBtn = document.getElementById("theme-toggle");
+  function applyTheme(isLight) {
+    document.body.classList.toggle("light-theme", isLight);
+    themeBtn.textContent = isLight ? "🌙 Oscuro" : "☀️ Claro";
+    saveState({ lightTheme: isLight });
+  }
+
+  themeBtn.addEventListener("click", () => {
+    applyTheme(!document.body.classList.contains("light-theme"));
+  });
+
+  /* --- IMPRESIÓN / GUARDADO COMO PDF --- */
+  document.getElementById("print-pdf").addEventListener("click", () => {
+    const closedDetails = qaItems.filter((d) => !d.open);
+    try {
+      mountSvgInstance("svg-mount-inicio", "inicio");
+      mountSvgInstance("svg-mount-creditos", "creditos");
+      qaItems.forEach((d) => { d.open = true; });
+      window.print();
+    } catch (err) {
+      showToast("Abre este archivo directamente en el navegador y utiliza Ctrl+P o Cmd+P");
+    } finally {
+      setTimeout(() => {
+        closedDetails.forEach((d) => { d.open = false; });
+      }, 500);
+    }
+  });
+
+  /* --- BOTONES FLOTANTES MÓVILES (INICIO Y ARRIBA) --- */
+  function makeDraggableButton(btnEl, onTapAction) {
+    let isDragging = false;
+    let moved = false;
+    let startX = 0, startY = 0;
+    let origLeft = 0, origTop = 0;
+
+    btnEl.addEventListener("pointerdown", (e) => {
+      isDragging = true;
+      moved = false;
+      startX = e.clientX;
+      startY = e.clientY;
+      const rect = btnEl.getBoundingClientRect();
+      origLeft = rect.left;
+      origTop = rect.top;
+      btnEl.setPointerCapture(e.pointerId);
+    });
+
+    btnEl.addEventListener("pointermove", (e) => {
+      if (!isDragging) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      if (Math.abs(dx) > 5 || Math.abs(dy) > 5) moved = true;
+      if (!moved) return;
+
+      const maxLeft = window.innerWidth - btnEl.offsetWidth - 6;
+      const maxTop = window.innerHeight - btnEl.offsetHeight - 6;
+      const newLeft = Math.max(6, Math.min(maxLeft, origLeft + dx));
+      const newTop = Math.max(64, Math.min(maxTop, origTop + dy));
+
+      btnEl.style.left = newLeft + "px";
+      btnEl.style.top = newTop + "px";
+      btnEl.style.right = "auto";
+      btnEl.style.bottom = "auto";
+    });
+
+    btnEl.addEventListener("pointerup", (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      btnEl.releasePointerCapture(e.pointerId);
+      if (!moved) {
+        onTapAction();
+      }
+    });
+  }
+
+  makeDraggableButton(document.getElementById("float-home-btn"), () => {
+    window.go(0);
+  });
+
+  makeDraggableButton(document.getElementById("float-top-btn"), () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  /* --- BARRA DE PROGRESO DE LECTURA --- */
+  const progressBar = document.getElementById("reading-progress");
+  function updateReadingProgress() {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / docHeight) * 100)) : 0;
+    progressBar.style.width = pct + "%";
+  }
+
+  window.addEventListener("scroll", updateReadingProgress, { passive: true });
+
+  /* --- INICIALIZACIÓN GENERAL --- */
+  initMasterSvgTemplate();
+  buildDrawerIndex();
+  restoreProjectsChecklist();
+
+  const saved = loadState();
+  if (saved.fontSize) applyFontSize(saved.fontSize);
+  if (saved.lightTheme) applyTheme(true);
+
+  mountSvgInstance("svg-mount-inicio", "inicio");
+  if (typeof saved.activeTab === "number" && saved.activeTab > 0 && saved.activeTab < sections.length) {
+    window.go(saved.activeTab);
+  }
+
+  setInterval(ensureVisibleSvgsMounted, 2000);
+})();
+</script>
+</body>
+</html>
