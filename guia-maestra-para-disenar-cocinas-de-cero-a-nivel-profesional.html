@@ -1,0 +1,3116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía Maestra para Diseñar Cocinas: De Cero a Nivel Profesional by Rubén Sbarsky</title>
+  <style>
+    /* ==========================================================================
+       1. VARIABLES DE DISEÑO Y PALETA DE COLORES (TEMA OSCURO POR DEFECTO Y CLARO)
+       ========================================================================== */
+    :root {
+      --bg-app: #0a0e1a;
+      --bg-card: #0f172a;
+      --bg-card-alt: #162038;
+      --bg-nav: rgba(10, 14, 26, 0.94);
+      --border-accent: #1e3a5f;
+      --border-subtle: rgba(148, 163, 184, 0.18);
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-hover: #7dd3fc;
+      --accent-bg: rgba(56, 189, 248, 0.14);
+      --gold: #f59e0b;
+      --emerald: #10b981;
+      --danger: #f43f5e;
+      --shadow-card: 0 10px 28px -6px rgba(0, 0, 0, 0.55);
+      --radius-lg: 14px;
+      --radius-md: 10px;
+      --radius-sm: 8px;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --font-scale: 1;
+    }
+
+    body.light-theme {
+      --bg-app: #f1f5f9;
+      --bg-card: #ffffff;
+      --bg-card-alt: #f8fafc;
+      --bg-nav: rgba(255, 255, 255, 0.95);
+      --border-accent: #bae6fd;
+      --border-subtle: rgba(15, 23, 42, 0.12);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --accent: #0284c7;
+      --accent-hover: #0369a1;
+      --accent-bg: rgba(2, 132, 199, 0.12);
+      --shadow-card: 0 8px 24px -6px rgba(15, 23, 42, 0.12);
+    }
+
+    /* ==========================================================================
+       2. RESET Y BASE RESPONSIVE (OPTIMIZADO PARA 360px / GALAXY A02s Y ESCRITORIO)
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: calc(16px * var(--font-scale));
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-app);
+      color: var(--text-main);
+      line-height: 1.65;
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    /* Barra de progreso de lectura superior */
+    #reading-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--emerald), var(--gold));
+      z-index: 60;
+      transition: width 0.12s linear;
+    }
+
+    /* ==========================================================================
+       3. BARRA SUPERIOR FIJA DE NAVEGACIÓN Y UTILIDADES
+       ========================================================================== */
+    .top-header {
+      position: fixed;
+      top: 3px;
+      left: 0;
+      right: 0;
+      background: var(--bg-nav);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-accent);
+      z-index: 40;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    .nav-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-accent) transparent;
+    }
+
+    .nav-bar-row::-webkit-scrollbar {
+      height: 4px;
+    }
+    .nav-bar-row::-webkit-scrollbar-thumb {
+      background: var(--border-accent);
+      border-radius: 99px;
+    }
+
+    .brand-mini {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--accent);
+      padding: 2px;
+      cursor: pointer;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 42px;
+      padding: 0 13px;
+      border-radius: 999px;
+      border: 1px solid var(--border-accent);
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-size: 0.84rem;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .chip:hover, .chip:focus-visible {
+      border-color: var(--accent);
+      background: var(--accent-bg);
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+    }
+
+    .chip.active {
+      background: var(--accent);
+      color: #06101f;
+      border-color: var(--accent);
+      font-weight: 700;
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.38);
+    }
+
+    /* Fila secundaria compacta de herramientas (buscador, fuente, tema, PDF) */
+    .tools-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-top: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.55);
+      flex-wrap: wrap;
+    }
+
+    body.light-theme .tools-bar {
+      background: rgba(241, 245, 249, 0.85);
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1 1 170px;
+      min-width: 140px;
+    }
+
+    .search-box input {
+      width: 100%;
+      min-height: 36px;
+      padding: 6px 32px 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border-accent);
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-size: 0.85rem;
+    }
+
+    .search-box input:focus {
+      outline: 2px solid var(--accent);
+      border-color: var(--accent);
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 4px;
+      display: none;
+    }
+
+    .tool-btn {
+      min-height: 36px;
+      min-width: 36px;
+      padding: 0 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border-accent);
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .tool-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ==========================================================================
+       4. PANEL LATERAL DE ÍNDICE (COMPORTAMIENTO Y ESTILO EXACTO SOLICITADO)
+       ========================================================================== */
+    #dr {
+      position: fixed;
+      top: 58px;
+      left: 0;
+      bottom: 0;
+      width: min(330px, 88vw);
+      background: #0f172a;
+      border-right: 1px solid #1e3a5f;
+      transform: translateX(-105%);
+      transition: transform 0.25s ease;
+      z-index: 45;
+      overflow-y: auto;
+      padding: 12px 10px 80px;
+      box-shadow: 12px 0 32px rgba(0, 0, 0, 0.65);
+    }
+
+    #dr.o {
+      transform: none;
+    }
+
+    .drawer-header {
+      padding: 8px 12px 12px;
+      border-bottom: 1px solid #1e3a5f;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #38bdf8;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.03em;
+    }
+
+    #dr a {
+      display: flex;
+      align-items: center;
+      padding: 11px 12px;
+      border-radius: 8px;
+      color: #e2e8f0;
+      cursor: pointer;
+      min-height: 44px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      margin-bottom: 4px;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    #dr a:hover, #dr a:focus-visible {
+      background: rgba(255, 255, 255, 0.08);
+      outline: none;
+    }
+
+    #dr a.on {
+      background: rgba(0, 212, 255, 0.18);
+      color: #38bdf8;
+      font-weight: 700;
+      border-left: 3px solid #38bdf8;
+    }
+
+    /* ==========================================================================
+       5. CONTENEDOR PRINCIPAL Y PESTAÑAS SPA
+       ========================================================================== */
+    .main-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 114px 12px 110px;
+    }
+
+    @media (min-width: 640px) {
+      .main-wrapper {
+        padding: 108px 24px 100px;
+      }
+    }
+
+    .tab-section {
+      display: none;
+      animation: fadeTab 0.25s ease;
+    }
+
+    .tab-section.active {
+      display: block;
+    }
+
+    @keyframes fadeTab {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Resultados del buscador */
+    #search-results-panel {
+      display: none;
+      background: var(--bg-card);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .search-result-item {
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border-subtle);
+      margin-top: 8px;
+      cursor: pointer;
+    }
+
+    .search-result-item:hover {
+      border-color: var(--accent);
+    }
+
+    /* ==========================================================================
+       6. HERO DE INICIO Y SVG ANIMADO MULTICAPA
+       ========================================================================== */
+    .hero-card {
+      background: linear-gradient(145deg, var(--bg-card) 0%, #0d1930 100%);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      margin-bottom: 22px;
+      box-shadow: var(--shadow-card);
+    }
+
+    body.light-theme .hero-card {
+      background: linear-gradient(145deg, #ffffff 0%, #e0f2fe 100%);
+    }
+
+    .hero-title-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .hero-logo-box {
+      width: 62px;
+      height: 62px;
+      flex-shrink: 0;
+      border-radius: 14px;
+      background: #060b16;
+      border: 1.5px solid var(--accent);
+      padding: 4px;
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.35);
+    }
+
+    .hero-title-row h1 {
+      font-size: clamp(1.3rem, 4.5vw, 2.05rem);
+      line-height: 1.2;
+      font-weight: 800;
+      color: var(--text-main);
+      flex: 1 1 240px;
+    }
+
+    .hero-subtitle {
+      color: var(--text-muted);
+      font-size: 0.96rem;
+      margin-bottom: 16px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .btn-primary, .btn-secondary {
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #06101f;
+      border: 1px solid var(--accent);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--bg-card-alt);
+      color: var(--text-main);
+      border: 1px solid var(--border-accent);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      background: var(--accent-bg);
+    }
+
+    /* Contenedor SVG Hero compartido (formato 4:5 adaptable) */
+    .svg-stage {
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto 14px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border-accent);
+      background: #060b16;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+      position: relative;
+    }
+
+    .svg-stage svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .svg-controls {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    /* Animaciones SVG multicapa */
+    @keyframes scanLaser {
+      0%, 100% { transform: translateY(0px); opacity: 0.35; }
+      50% { transform: translateY(230px); opacity: 0.95; }
+    }
+    @keyframes pulseNode {
+      0%, 100% { transform: scale(1); opacity: 0.85; }
+      50% { transform: scale(1.22); opacity: 1; }
+    }
+    @keyframes dashFlow {
+      to { stroke-dashoffset: -48; }
+    }
+    @keyframes floatModule {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+    @keyframes rotateGear {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes shimmerGlow {
+      0%, 100% { opacity: 0.35; }
+      50% { opacity: 0.9; }
+    }
+
+    .anim-laser { animation: scanLaser 4.8s ease-in-out infinite; }
+    .anim-pulse { transform-box: fill-box; transform-origin: center; animation: pulseNode 2.4s ease-in-out infinite; }
+    .anim-dash { stroke-dasharray: 8 6; animation: dashFlow 1.8s linear infinite; }
+    .anim-float { animation: floatModule 4s ease-in-out infinite; }
+    .anim-float-delay { animation: floatModule 4s ease-in-out 1.4s infinite; }
+    .anim-gear { transform-box: fill-box; transform-origin: center; animation: rotateGear 18s linear infinite; }
+    .anim-glow { animation: shimmerGlow 3.2s ease-in-out infinite; }
+
+    .svg-paused * {
+      animation-play-state: paused !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .svg-stage * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    /* ==========================================================================
+       7. TARJETAS, TIPOGRAFÍA DE CONTENIDO, TABLAS Y FÓRMULAS
+       ========================================================================== */
+    .section-header {
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border-accent);
+    }
+
+    .section-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--accent-bg);
+      color: var(--accent);
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(1.25rem, 4vw, 1.75rem);
+      line-height: 1.25;
+      color: var(--text-main);
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow-card);
+    }
+
+    @media (min-width: 640px) {
+      .card { padding: 22px; }
+    }
+
+    .card h3 {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card h4 {
+      font-size: 1rem;
+      color: var(--gold);
+      margin: 14px 0 6px;
+    }
+
+    .card p {
+      margin-bottom: 12px;
+      color: var(--text-main);
+    }
+
+    .card ul, .card ol {
+      padding-left: 20px;
+      margin-bottom: 14px;
+    }
+
+    .card li {
+      margin-bottom: 7px;
+    }
+
+    .callout {
+      background: var(--accent-bg);
+      border-left: 4px solid var(--accent);
+      padding: 12px 14px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin: 14px 0;
+      font-size: 0.94rem;
+    }
+
+    .callout.gold {
+      background: rgba(245, 158, 11, 0.12);
+      border-left-color: var(--gold);
+    }
+
+    .formula-box {
+      background: #060b16;
+      color: #38bdf8;
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      margin: 12px 0;
+      overflow-x: auto;
+      line-height: 1.5;
+    }
+
+    body.light-theme .formula-box {
+      background: #0f172a;
+      color: #7dd3fc;
+    }
+
+    /* Tablas adaptables sin desborde en 360px */
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 14px 0;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-accent);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 520px;
+      font-size: 0.88rem;
+    }
+
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-subtle);
+      vertical-align: top;
+    }
+
+    th {
+      background: rgba(30, 58, 95, 0.55);
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    body.light-theme th {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* ==========================================================================
+       8. BLOQUES DE PROMPTS COPIABLES Y ENLACES CON BOTÓN NUEVA VENTANA
+       ========================================================================== */
+    .prompt-card {
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+
+    .prompt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .prompt-text {
+      background: #060b16;
+      color: #e2e8f0;
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 0.84rem;
+      line-height: 1.55;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .btn-copy {
+      min-height: 38px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--accent);
+      background: var(--accent-bg);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .btn-copy:hover {
+      background: var(--accent);
+      color: #06101f;
+    }
+
+    .source-item {
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .source-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      align-items: center;
+    }
+
+    .btn-ext-link {
+      min-height: 42px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: var(--accent);
+      color: #06101f;
+      font-weight: 700;
+      font-size: 0.84rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-ext-link:hover {
+      background: var(--accent-hover);
+    }
+
+    .url-display {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      word-break: break-all;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 4px 8px;
+      border-radius: 6px;
+      margin-top: 6px;
+    }
+
+    /* ==========================================================================
+       9. ACORDEONES PARA 33 PREGUNTAS (Q&A), CASOS PRÁCTICOS Y PROYECTOS
+       ========================================================================== */
+    .qa-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+      padding: 12px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-md);
+    }
+
+    .accordion-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-md);
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+
+    .accordion-trigger {
+      width: 100%;
+      min-height: 48px;
+      padding: 12px 14px;
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.94rem;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .accordion-trigger:hover {
+      background: var(--accent-bg);
+    }
+
+    .accordion-icon {
+      color: var(--accent);
+      font-size: 1.15rem;
+      font-weight: 800;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .accordion-item.open .accordion-icon {
+      transform: rotate(45deg);
+    }
+
+    .accordion-panel {
+      display: none;
+      padding: 0 14px 14px;
+      border-top: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      font-size: 0.92rem;
+    }
+
+    .accordion-item.open .accordion-panel {
+      display: block;
+      padding-top: 12px;
+    }
+
+    /* ==========================================================================
+       10. LISTAS DE COMPROBACIÓN INTERACTIVAS Y CALCULADORA DE DESPIECE
+       ========================================================================== */
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border-subtle);
+      margin-bottom: 8px;
+      cursor: pointer;
+      min-height: 44px;
+    }
+
+    .checklist-item input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      accent-color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .checklist-item.checked span {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    .calc-field label {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .calc-field input, .calc-field select {
+      width: 100%;
+      min-height: 42px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border-accent);
+      background: var(--bg-card-alt);
+      color: var(--text-main);
+      font-size: 0.92rem;
+    }
+
+    /* ==========================================================================
+       11. NAVEGACIÓN INFERIOR ENTRE PESTAÑAS Y BOTONES FLOTANTES ARRASTRABLES
+       ========================================================================== */
+    .bottom-pager {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border-accent);
+      flex-wrap: wrap;
+    }
+
+    .pager-btn {
+      flex: 1 1 140px;
+      min-height: 48px;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-accent);
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .pager-btn.next {
+      background: var(--accent);
+      color: #06101f;
+      border-color: var(--accent);
+    }
+
+    .pager-btn:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+    }
+
+    /* Botones flotantes arrastrables: INICIO y ARRIBA */
+    .floating-fab {
+      position: fixed;
+      z-index: 50;
+      min-height: 46px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1.5px solid var(--accent);
+      background: rgba(15, 23, 42, 0.94);
+      color: #38bdf8;
+      font-weight: 800;
+      font-size: 0.82rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65);
+      cursor: grab;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      touch-action: none;
+      user-select: none;
+    }
+
+    .floating-fab:active {
+      cursor: grabbing;
+      transform: scale(0.97);
+    }
+
+    #fab-home {
+      bottom: 74px;
+      right: 12px;
+    }
+
+    #fab-top {
+      bottom: 20px;
+      right: 12px;
+    }
+
+    /* Notificación Toast accesible (reemplazo seguro de alert) */
+    #toast-msg {
+      position: fixed;
+      bottom: 130px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #0f172a;
+      color: #38bdf8;
+      border: 1px solid #38bdf8;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s ease;
+      z-index: 70;
+      max-width: 92vw;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.65);
+    }
+
+    #toast-msg.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ==========================================================================
+       12. CRÉDITOS DESTACADOS
+       ========================================================================== */
+    .credits-author {
+      font-size: clamp(1.85rem, 6vw, 2.75rem);
+      font-weight: 900;
+      color: var(--accent);
+      text-align: center;
+      margin: 14px 0 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .credits-role {
+      text-align: center;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 18px;
+    }
+
+    /* ==========================================================================
+       13. HOJA DE ESTILOS DE IMPRESIÓN / PDF (A4 VERTICAL)
+       ========================================================================== */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 14mm 12mm;
+      }
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-size: 11pt;
+      }
+      .top-header, #dr, .floating-fab, .bottom-pager, .qa-toolbar, .btn-copy, .svg-controls, #reading-progress, #toast-msg {
+        display: none !important;
+      }
+      .main-wrapper {
+        padding: 0 !important;
+        max-width: 100% !important;
+      }
+      .tab-section {
+        display: block !important;
+        margin-bottom: 24px;
+      }
+      .card, .hero-card, .accordion-item, .prompt-card, .source-item {
+        background: #ffffff !important;
+        color: #000000 !important;
+        border: 1px solid #999999 !important;
+        box-shadow: none !important;
+      }
+      .accordion-panel {
+        display: block !important;
+      }
+      .formula-box, .prompt-text {
+        background: #f4f4f4 !important;
+        color: #000000 !important;
+        border: 1px solid #666666 !important;
+      }
+      th {
+        background: #e2e8f0 !important;
+        color: #000000 !important;
+      }
+      .svg-stage {
+        background: #0f172a !important;
+        max-width: 340px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="reading-progress" aria-hidden="true"></div>
+
+  <!-- ========================================================================
+       PLANTILLA ÚNICA OCULTA DE SVG HERO (SE EXTRAE Y SE ELIMINA DEL DOM EN JS)
+       ======================================================================== -->
+  <template id="hero-svg-template">
+    <svg viewBox="0 0 400 500" role="img" aria-label="Ilustración técnica animada de diseño paramétrico de cocinas modulares, triángulo de trabajo NKBA y despiece milimétrico">
+      <defs>
+        <linearGradient id="bgGrad-__UID__" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#060d1f"/>
+          <stop offset="50%" stop-color="#0f2342"/>
+          <stop offset="100%" stop-color="#071124"/>
+        </linearGradient>
+        <linearGradient id="cyanNeon-__UID__" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#38bdf8"/>
+          <stop offset="100%" stop-color="#22d3ee"/>
+        </linearGradient>
+        <linearGradient id="goldNeon-__UID__" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#fbbf24"/>
+          <stop offset="100%" stop-color="#f59e0b"/>
+        </linearGradient>
+        <linearGradient id="emeraldGrad-__UID__" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#34d399"/>
+          <stop offset="100%" stop-color="#059669"/>
+        </linearGradient>
+        <pattern id="cadGrid-__UID__" width="20" height="20" patternUnits="userSpaceOnUse">
+          <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(56,189,248,0.12)" stroke-width="0.7"/>
+        </pattern>
+        <filter id="glowFilter-__UID__" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+
+      <!-- Fondo arquitectónico y malla milimétrica CAD -->
+      <rect width="400" height="500" fill="url(#bgGrad-__UID__)"/>
+      <rect width="400" height="500" fill="url(#cadGrid-__UID__)"/>
+
+      <!-- Marco de plano técnico con cotas -->
+      <rect x="14" y="14" width="372" height="472" rx="14" fill="none" stroke="#1e3a5f" stroke-width="1.5"/>
+      <text x="26" y="34" fill="#38bdf8" font-family="monospace" font-size="10" font-weight="bold">CAD-PRO // ESCALA 1:10 [mm]</text>
+      <text x="285" y="34" fill="#f59e0b" font-family="monospace" font-size="10">NKBA + SBARSKY</text>
+
+      <!-- SECCIÓN SUPERIOR: TRIÁNGULO DE TRABAJO NKBA INTERACTIVO -->
+      <g transform="translate(0, 46)">
+        <rect x="28" y="6" width="344" height="128" rx="10" fill="rgba(15,23,42,0.75)" stroke="#1e3a5f" stroke-width="1.2"/>
+        <text x="42" y="25" fill="#94a3b8" font-family="sans-serif" font-size="10" font-weight="bold">TRIÁNGULO DE TRABAJO CINEMÁTICO (4.00m - 7.90m)</text>
+
+        <!-- Líneas dinámicas del triángulo -->
+        <polygon points="95,108 205,46 310,108" fill="rgba(56,189,248,0.08)" stroke="url(#cyanNeon-__UID__)" stroke-width="2" class="anim-dash"/>
+
+        <!-- Vértice 1: Frigorífico / Almacenaje -->
+        <g class="anim-pulse">
+          <circle cx="95" cy="108" r="14" fill="#0f172a" stroke="#38bdf8" stroke-width="2" filter="url(#glowFilter-__UID__)"/>
+          <text x="95" y="112" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="bold">FRÍO</text>
+        </g>
+
+        <!-- Vértice 2: Fregadero / Lavado -->
+        <g class="anim-pulse" style="animation-delay:0.8s">
+          <circle cx="205" cy="46" r="15" fill="#0f172a" stroke="#10b981" stroke-width="2" filter="url(#glowFilter-__UID__)"/>
+          <text x="205" y="50" text-anchor="middle" fill="#34d399" font-size="10" font-weight="bold">AGUA</text>
+        </g>
+
+        <!-- Vértice 3: Placa / Cocción -->
+        <g class="anim-pulse" style="animation-delay:1.5s">
+          <circle cx="310" cy="108" r="14" fill="#0f172a" stroke="#f59e0b" stroke-width="2" filter="url(#glowFilter-__UID__)"/>
+          <text x="310" y="112" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="bold">FUEGO</text>
+        </g>
+
+        <!-- Cotas de distancia -->
+        <text x="132" y="70" fill="#7dd3fc" font-family="monospace" font-size="9">1800mm</text>
+        <text x="262" y="70" fill="#7dd3fc" font-family="monospace" font-size="9">2130mm</text>
+        <text x="202" y="122" text-anchor="middle" fill="#fbbf24" font-family="monospace" font-size="9">Σ = 5.17m OK</text>
+      </g>
+
+      <!-- SECCIÓN CENTRAL: DESPIECE ISOMÉTRICO / EXPLOSIONADO DE MÓDULO BAJO 600mm -->
+      <g transform="translate(0, 192)">
+        <!-- Mueble Alto Flotante -->
+        <g class="anim-float">
+          <rect x="65" y="10" width="120" height="58" rx="4" fill="#162038" stroke="#38bdf8" stroke-width="1.6"/>
+          <line x1="125" y1="10" x2="125" y2="68" stroke="#38bdf8" stroke-width="1.2"/>
+          <circle cx="118" cy="42" r="2" fill="#f59e0b"/>
+          <circle cx="132" cy="42" r="2" fill="#f59e0b"/>
+          <text x="125" y="4" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="8">MÓDULO ALTO 700×350</text>
+        </g>
+
+        <!-- Campana Extractora -->
+        <g class="anim-float-delay">
+          <path d="M 245 10 L 285 10 L 285 38 L 325 56 L 205 56 L 245 38 Z" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+          <line x1="215" y1="62" x2="315" y2="62" stroke="#34d399" stroke-width="1.2" stroke-dasharray="4 3"/>
+          <text x="265" y="74" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="8">600mm INDUCCIÓN</text>
+        </g>
+
+        <!-- Encimera continua -->
+        <rect x="46" y="114" width="308" height="10" rx="2" fill="url(#cyanNeon-__UID__)" filter="url(#glowFilter-__UID__)"/>
+        <text x="352" y="109" text-anchor="end" fill="#38bdf8" font-family="monospace" font-size="8.5">H = 900mm (FÓRMULA CODO)</text>
+
+        <!-- Casco Bajo 600mm + Cajonero 13mm corredera + Zócalo retranqueado -->
+        <g>
+          <!-- Módulo Izquierdo: Puerta solapa total -->
+          <rect x="55" y="126" width="90" height="92" rx="3" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+          <rect x="59" y="130" width="82" height="84" rx="2" fill="none" stroke="rgba(56,189,248,0.4)" stroke-width="1"/>
+          <text x="100" y="175" text-anchor="middle" fill="#e2e8f0" font-family="monospace" font-size="9">600×720</text>
+
+          <!-- Módulo Central: 1 Cubertero + 2 Caceroleros -->
+          <rect x="150" y="126" width="100" height="92" rx="3" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5"/>
+          <rect x="154" y="130" width="92" height="18" rx="2" fill="rgba(245,158,11,0.15)" stroke="#fbbf24" stroke-width="1"/>
+          <rect x="154" y="152" width="92" height="30" rx="2" fill="rgba(56,189,248,0.12)" stroke="#38bdf8" stroke-width="1"/>
+          <rect x="154" y="186" width="92" height="28" rx="2" fill="rgba(56,189,248,0.12)" stroke="#38bdf8" stroke-width="1"/>
+          <text x="200" y="142" text-anchor="middle" fill="#fbbf24" font-family="monospace" font-size="7.5">-26mm CORREDERA</text>
+
+          <!-- Módulo Derecho: Horno + Placa -->
+          <rect x="255" y="126" width="90" height="92" rx="3" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+          <rect x="264" y="136" width="72" height="48" rx="4" fill="#060b16" stroke="#34d399" stroke-width="1.2"/>
+          <circle cx="300" cy="160" r="12" fill="none" stroke="#f59e0b" stroke-width="1.5" class="anim-gear"/>
+          <text x="300" y="204" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="8">CIRCUITO C3 25A</text>
+
+          <!-- Zócalo Retranqueado Ergonomía Sbarsky -->
+          <rect x="68" y="218" width="264" height="16" rx="2" fill="#1e293b" stroke="#94a3b8" stroke-width="1"/>
+          <text x="200" y="229" text-anchor="middle" fill="#e2e8f0" font-family="monospace" font-size="8">ZÓCALO RETRANQUEADO 60mm // PATAS 100mm</text>
+        </g>
+
+        <!-- Haz láser de nivelación 360° -->
+        <line x1="22" y1="12" x2="378" y2="12" stroke="#f43f5e" stroke-width="1.5" stroke-dasharray="6 3" class="anim-laser"/>
+      </g>
+
+      <!-- PIE DEL SVG: INDICADORES TÉCNICOS -->
+      <g transform="translate(26, 444)">
+        <rect x="0" y="0" width="110" height="28" rx="6" fill="rgba(56,189,248,0.14)" stroke="#38bdf8" stroke-width="1"/>
+        <text x="55" y="18" text-anchor="middle" fill="#38bdf8" font-family="monospace" font-size="9.5" font-weight="bold">MDP 16 / 18 mm</text>
+
+        <rect x="119" y="0" width="110" height="28" rx="6" fill="rgba(16,185,129,0.14)" stroke="#10b981" stroke-width="1"/>
+        <text x="174" y="18" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="9.5" font-weight="bold">ESCUADRA 3-4-5</text>
+
+        <rect x="238" y="0" width="110" height="28" rx="6" fill="rgba(245,158,11,0.14)" stroke="#f59e0b" stroke-width="1"/>
+        <text x="293" y="18" text-anchor="middle" fill="#fbbf24" font-family="monospace" font-size="9.5" font-weight="bold">KERF 3.5 mm</text>
+      </g>
+    </svg>
+  </template>
+
+  <!-- ========================================================================
+       BARRA SUPERIOR FIJA DE NAVEGACIÓN (CON BOTÓN ÍNDICE COMO PRIMER ELEMENTO)
+       ======================================================================== -->
+  <header class="top-header">
+    <nav class="nav-bar-row" id="main-nav" aria-label="Navegación principal del tutorial">
+      <!-- 1. Botón Índice (primer elemento obligatorio según Agregar Índice.txt) -->
+      <button class="chip" id="mb" aria-label="Abrir índice" aria-expanded="false" type="button">☰ Índice</button>
+
+      <!-- Logo tutoriales IA integrado en SVG en la barra superior -->
+      <button class="brand-mini" id="logo-home-btn" title="Ir a INICIO" aria-label="Logo IA Tutoriales - Ir a Inicio" type="button">
+        <svg viewBox="0 0 100 100" width="32" height="32" aria-hidden="true">
+          <defs>
+            <linearGradient id="shieldNavGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#38bdf8"/>
+              <stop offset="100%" stop-color="#818cf8"/>
+            </linearGradient>
+          </defs>
+          <path d="M50 6 L88 22 V52 C88 74 70 89 50 95 C30 89 12 74 12 52 V22 Z" fill="#071124" stroke="url(#shieldNavGrad)" stroke-width="5"/>
+          <path d="M46 28 C33 28 26 37 26 48 C26 59 33 68 46 68" fill="none" stroke="#38bdf8" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="64" cy="36" r="3" fill="#a855f7"/>
+          <circle cx="70" cy="48" r="3" fill="#38bdf8"/>
+          <circle cx="64" cy="60" r="3" fill="#a855f7"/>
+          <line x1="54" y1="42" x2="64" y2="36" stroke="#818cf8" stroke-width="2.5"/>
+          <line x1="54" y1="48" x2="70" y2="48" stroke="#38bdf8" stroke-width="2.5"/>
+          <line x1="54" y1="54" x2="64" y2="60" stroke="#818cf8" stroke-width="2.5"/>
+          <polygon points="45,41 58,48 45,55" fill="#38bdf8"/>
+        </svg>
+      </button>
+
+      <!-- Chips de pestañas (se sincronizan automáticamente con las secciones) -->
+      <div id="nav-chips" style="display:inline-flex; gap:8px;"></div>
+    </nav>
+
+    <!-- Fila secundaria de herramientas interactivas -->
+    <div class="tools-bar" role="region" aria-label="Herramientas de lectura">
+      <div class="search-box">
+        <input type="search" id="search-input" placeholder="Buscar fórmula, medida, herraje..." aria-label="Buscar en el tutorial">
+        <button type="button" class="search-clear" id="search-clear" aria-label="Limpiar búsqueda">✕</button>
+      </div>
+      <button type="button" class="tool-btn" id="font-dec" title="Reducir tamaño de letra" aria-label="Reducir tamaño de letra">A−</button>
+      <button type="button" class="tool-btn" id="font-inc" title="Aumentar tamaño de letra" aria-label="Aumentar tamaño de letra">A+</button>
+      <button type="button" class="tool-btn" id="theme-toggle" title="Cambiar tema claro/oscuro" aria-label="Cambiar tema">☀/☾</button>
+      <button type="button" class="tool-btn" id="print-btn" title="Imprimir o guardar en PDF" aria-label="Imprimir o guardar en PDF">🖨 PDF</button>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       PANEL LATERAL DE ÍNDICE (#dr)
+       ======================================================================== -->
+  <aside id="dr" aria-label="Índice completo del tutorial">
+    <div class="drawer-header">
+      <span>ÍNDICE GENERAL</span>
+      <button type="button" id="close-dr-btn" style="background:none;border:none;color:#94a3b8;font-size:1.1rem;cursor:pointer;padding:4px 8px;" aria-label="Cerrar índice">✕</button>
+    </div>
+    <div id="dr-list"></div>
+  </aside>
+
+  <!-- ========================================================================
+       CONTENIDO PRINCIPAL SPA (13 PESTAÑAS COMPLETAS Y AUTÓNOMAS)
+       ======================================================================== -->
+  <main class="main-wrapper" id="main-content">
+    <!-- Panel dinámico de resultados de búsqueda -->
+    <section id="search-results-panel" aria-live="polite"></section>
+
+    <!-- ======================================================================
+         PESTAÑA 0: INICIO
+         ====================================================================== -->
+    <section class="tab-section active" id="tab-inicio" data-tab-label="INICIO" data-t="INICIO — Guía Maestra de Cocinas">
+      <div class="hero-card">
+        <div class="hero-title-row">
+          <!-- Logo tutoriales IA integrado en SVG a la izquierda del título principal -->
+          <div class="hero-logo-box" aria-label="Logo IA Tutoriales">
+            <svg viewBox="0 0 120 120" width="52" height="52" role="img" aria-label="Escudo IA Tutoriales">
+              <defs>
+                <linearGradient id="logoHeroShield" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#38bdf8"/>
+                  <stop offset="50%" stop-color="#22d3ee"/>
+                  <stop offset="100%" stop-color="#a855f7"/>
+                </linearGradient>
+                <linearGradient id="logoHeroText" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#7dd3fc"/>
+                  <stop offset="100%" stop-color="#0284c7"/>
+                </linearGradient>
+              </defs>
+              <path d="M60 6 L106 24 V58 C106 84 85 102 60 110 C35 102 14 84 14 58 V24 Z" fill="#060d1f" stroke="url(#logoHeroShield)" stroke-width="4.5"/>
+              <!-- Hemisferio izquierdo cerebral -->
+              <path d="M55 26 C38 26 28 37 28 50 C28 63 38 74 55 74 M42 35 C35 38 35 46 43 48 M40 53 C33 56 35 65 44 66" fill="none" stroke="#38bdf8" stroke-width="3.2" stroke-linecap="round"/>
+              <!-- Hemisferio derecho circuito IA -->
+              <line x1="65" y1="36" x2="82" y2="30" stroke="#38bdf8" stroke-width="2.4"/>
+              <line x1="65" y1="45" x2="88" y2="45" stroke="#818cf8" stroke-width="2.4"/>
+              <line x1="65" y1="54" x2="86" y2="62" stroke="#a855f7" stroke-width="2.4"/>
+              <line x1="65" y1="64" x2="78" y2="72" stroke="#38bdf8" stroke-width="2.4"/>
+              <circle cx="82" cy="30" r="3.2" fill="#38bdf8"/>
+              <circle cx="88" cy="45" r="3.2" fill="#818cf8"/>
+              <circle cx="86" cy="62" r="3.2" fill="#a855f7"/>
+              <circle cx="78" cy="72" r="3.2" fill="#38bdf8"/>
+              <!-- Botón Play central -->
+              <circle cx="60" cy="50" r="12" fill="#0f172a" stroke="#38bdf8" stroke-width="2.2"/>
+              <polygon points="56,44 68,50 56,56" fill="#38bdf8"/>
+              <!-- Tipografía IA TUTORIALES -->
+              <text x="60" y="94" text-anchor="middle" fill="url(#logoHeroText)" font-family="sans-serif" font-weight="900" font-size="18">IA</text>
+              <text x="60" y="104" text-anchor="middle" fill="#bae6fd" font-family="sans-serif" font-weight="700" font-size="7.5" letter-spacing="1">TUTORIALES</text>
+            </svg>
+          </div>
+
+          <h1>Guía Maestra para Diseñar Cocinas: De Cero a Nivel Profesional by Rubén Sbarsky</h1>
+        </div>
+
+        <p class="hero-subtitle">
+          Manual instruccional y documentación técnica integral para diseño, medición en obra, ergonomía NKBA, despiece milimétrico, optimización de corte, presupuestos y montaje de cocinas modulares según las fuentes técnicas especializadas.
+        </p>
+
+        <!-- Instancia 1 del SVG HERO animado -->
+        <div class="svg-stage" id="hero-svg-inicio" aria-label="Esquema animado del triángulo de trabajo NKBA y despiece modular de cocina"></div>
+        <div class="svg-controls">
+          <button type="button" class="tool-btn toggle-svg-anim" data-target="hero-svg-inicio">⏸ Pausar / Reanudar animación</button>
+        </div>
+
+        <div class="hero-actions">
+          <button type="button" class="btn-primary" id="start-course-btn">Comenzar Tutorial Paso a Paso →</button>
+          <button type="button" class="btn-secondary" id="ix">☰ Ver índice</button>
+        </div>
+      </div>
+
+      <!-- Prólogo y Marco Pedagógico completo -->
+      <article class="card">
+        <h3>Prólogo y Marco Pedagógico</h3>
+        <p>
+          El diseño y la construcción de una cocina no es una simple tarea decorativa ni un ensamblaje aleatorio de cajas de madera. Constituye una de las disciplinas más complejas y rigurosas de la arquitectura interior y la ebanistería moderna, donde convergen la antropometría humana, la ingeniería de instalaciones (electricidad, fontanería, gas y ventilación), la resistencia de materiales y la optimización geométrica de corte.
+        </p>
+        <p>
+          Tradicionalmente, quienes se inician en el diseño de cocinas se enfrentan a un vacío documental significativo: los manuales comerciales suelen limitarse a catálogos estéticos con medidas genéricas, mientras que los talleres de carpintería tradicional transmiten fórmulas empíricas de boca en boca, dejando sin explicar los principios matemáticos y mecánicos subyacentes. Un error de apenas <strong>tres milímetros</strong> en la toma de medidas de una pared o en el descuento del espesor de un tablero de melamina desencadena desajustes acumulativos: puertas que rozan, gavetas que se traban, campanas extractoras inoperantes y descuadres insalvables en obra.
+        </p>
+        <p>
+          Este manual ha sido estructurado desde un enfoque de diseño instruccional progresivo. Su objetivo es dotar a cualquier persona, incluso sin experiencia previa en carpintería o dibujo técnico, de los conocimientos, metodologías, fórmulas exactas y protocolos de verificación necesarios para concebir, proyectar, despiezar, presupuestar y ensamblar una cocina con estándares profesionales. A lo largo de esta guía se articulan las directrices de normalización internacional como las de la <strong>Asociación Nacional de Cocina y Baño (NKBA)</strong>, las especificaciones de fabricantes de electrodomésticos y sistemas de cocción como <strong>Siemens</strong> y <strong>BORA España</strong>, los métodos de medición y modelado tridimensional de <strong>Grup3D</strong> y <strong>OPPOLIA</strong>, los tutoriales prácticos de <strong>JMC Construcción y Mueblería</strong> y las plataformas de optimización técnica como <strong>optimizadordecorte.app</strong> y <strong>Flatma</strong>.
+        </p>
+
+        <div class="callout">
+          <strong>Secuencia de aprendizaje progresivo:</strong> QUÉ ES → PARA QUÉ SIRVE → POR QUÉ IMPORTA → CÓMO SE HACE → EJEMPLOS → PRÁCTICA → ERRORES → RESUMEN. Todas las cotas técnicas de este manual están normalizadas en <strong>milímetros (mm)</strong>.
+        </div>
+      </article>
+
+      <!-- Índice Maestro Jerárquico Completo (Sección 1 del documento fuente) -->
+      <article class="card">
+        <h3>1. Índice Maestro Jerárquico, Exhaustivo y Numerado</h3>
+        <p>Estructura integral de la obra, organizada sistemáticamente desde los fundamentos preliminares hasta la ejecución profesional de proyectos completos:</p>
+        <ul>
+          <li><strong>1.0 Marco Introductorio y Fundamentos Conceptuales:</strong> 1.1 El rol del diseñador de cocinas · 1.2 La cocina como sistema integral · 1.3 Vocabulario técnico esencial y el milímetro como estándar.</li>
+          <li><strong>2.0 Requisitos, Instrumental y Preparación del Espacio:</strong> 2.1 Herramientas manuales y digitales de alta precisión · 2.2 Tolerancias geométricas y márgenes de dilatación · 2.3 Libreta de campo, croquis y simbología · 2.4 Seguridad y preparación del recinto.</li>
+          <li><strong>3.0 Protocolo Técnico de Medición y Verificación de Escuadras:</strong> 3.1 Medición en tres planos altimétricos · 3.2 Comprobación de plomo · 3.3 Verificación de escuadras y diagonales (regla 3-4-5) · 3.4 Carpinterías · 3.5 Mochetas, bajantes y pilares · 3.6 Relevamiento de instalaciones.</li>
+          <li><strong>4.0 Ergonomía Científica, Antropometría y Triángulo de Trabajo:</strong> 4.1 Antropometría aplicada · 4.2 Fórmula biomecánica del codo · 4.3 Planos horizontales · 4.4 Módulos aéreos y visuales · 4.5 Triángulo NKBA · 4.6 Secuencia cinemática · 4.7 Pasillos y radios de apertura.</li>
+          <li><strong>5.0 Tipologías Espaciales y Zonificación:</strong> 5.1 Lineal · 5.2 En L · 5.3 En U · 5.4 Galera · 5.5 Isla y península · 5.6 Zonificación técnica funcional.</li>
+          <li><strong>6.0 Anatomía Modular, Despiece y Fórmulas Matemáticas de Corte:</strong> 6.1 Estructura del casco · 6.2 Tableros MDP, MDF y HDF · 6.3 Fórmulas módulos bajos (16 y 18 mm) · 6.4 Módulos altos · 6.5 Columnas · 6.6 Holguras · 6.7 Mecánica del cajón (-26 mm) · 6.8 Zócalo retranqueado según las fuentes técnicas.</li>
+          <li><strong>7.0 Sistema de Herrajes, Ensamble, Fijación y Movimiento:</strong> 7.1 Confirmat, Spax y espigas · 7.2 Minifix · 7.3 Bisagras de cazoleta 35 mm · 7.4 Correderas telescópicas y ocultas · 7.5 Colgadores 3D · 7.6 Patas regulables y zócalos.</li>
+          <li><strong>8.0 Optimización de Corte, Canteado y Aprovechamiento de Tableros:</strong> 8.1 Formatos comerciales · 8.2 Kerf (3-4,5 mm) y refilado perimetral · 8.3 Sentido de veta · 8.4 Cantos PVC/ABS · 8.5 Algoritmos 2D Bin Packing.</li>
+          <li><strong>9.0 Modelado 2D/3D y Documentación Técnica:</strong> 9.1 Planta, alzados y secciones · 9.2 SketchUp y Flatma · 9.3 Codificación de piezas · 9.4 Planos ejecutivos de instalaciones.</li>
+          <li><strong>10.0 Presupuestación, Costeo y Análisis Económico:</strong> 10.1 Costo directo · 10.2 Desperdicio (10%-15%) · 10.3 Corte y CNC · 10.4 Mano de obra · 10.5 Encimeras y aparatos · 10.6 Margen comercial e IVA.</li>
+          <li><strong>11.0 Protocolo de Ensamble en Taller e Instalación en Obra:</strong> 11.1 Prearmado y escuadra · 11.2 Cajones · 11.3 Logística · 11.4 Nivel láser · 11.5 Unión de cuerpos · 11.6 Módulos altos · 11.7 Encimeras · 11.8 Sellado · 11.9 Calibración 3 ejes.</li>
+          <li><strong>12.0 Seguridad, Instalaciones Especiales y Normativa Técnica:</strong> 12.1 Separaciones agua-electricidad-gas · 12.2 Circuitos eléctricos (C1-C5) · 12.3 Evacuación de humos · 12.4 Ventilación gas natural vs GLP · 12.5 Accesibilidad PMR.</li>
+          <li><strong>13.0 a 19.0 Secciones Especiales:</strong> 10 Casos Prácticos · Buenas Prácticas · Diagnóstico de Errores · 10 Proyectos Integradores · Glosario · 33 Preguntas (Q&A) · Fuentes Oficiales.</li>
+        </ul>
+      </article>
+
+      <div class="bottom-pager" data-pager></div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 1: MEDICIÓN Y ERGONOMÍA (CAPÍTULOS 2, 3 Y 4)
+         ====================================================================== -->
+    <section class="tab-section" id="tab-medicion" data-tab-label="Medición y Ergonomía" data-t="Medición en Obra y Ergonomía NKBA">
+      <div class="section-header">
+        <span class="section-badge">Fase 1 · Replanteo y Biomecánica</span>
+        <h2>Medición Técnica en Obra, Escuadras y Ergonomía Científica</h2>
+      </div>
+
+      <article class="card">
+        <h3>2. Requisitos, Instrumental y Preparación del Espacio</h3>
+        <p>
+          Para diseñar y ejecutar una cocina con precisión profesional sin incurrir en desajustes durante el montaje, el proyectista principiante debe erradicar por completo la improvisación visual. La ebanistería modular exige trabajar bajo la unidad de medida estándar de la industria del mueble: <strong>el milímetro (mm)</strong>. Cualquier tolerancia expresada en centímetros abre la puerta a errores de redondeo que, multiplicados por el número de módulos contiguos, arruinan la alineación general.
+        </p>
+        <h4>2.1 Instrumental Técnico Obligatorio</h4>
+        <ol>
+          <li><strong>Flexómetro profesional de alta rigidez (5 a 8 metros):</strong> Con cinta de acero de al menos 25 mm de ancho para evitar combaduras en mediciones al aire, y pestaña final con remaches deslizantes que compensan automáticamente su propio espesor en mediciones de tope interior o enganche exterior.</li>
+          <li><strong>Distanciómetro láser de precisión (rango mínimo 20 a 40 metros):</strong> Con precisión certificada de ±1,5 mm. Vital para tomar distancias largas entre paredes y alturas libres de suelo a techo sin curvatura de cinta.</li>
+          <li><strong>Nivel de burbuja tubular (80 a 120 cm) o nivel láser autonivelante 360°:</strong> Permite verificar la horizontalidad del suelo terminado y la perfecta verticalidad (plomo) de los muros de apoyo.</li>
+          <li><strong>Falsa escuadra articulada con bloqueo mecánico y escuadra de carpintero de 50 o 60 cm:</strong> Indispensables para medir los ángulos reales de las esquinas del recinto, los cuales rara vez son de 90° exactos.</li>
+          <li><strong>Cinta de carrocero o pintor y rotulador permanente fino:</strong> Para marcar sobre paramentos y suelos las cotas de replanteo, ejes de instalaciones y líneas de plomo sin dañar revestimientos.</li>
+          <li><strong>Libreta técnica cuadriculada (tamaño A4) o tableta gráfica:</strong> Para levantar el croquis de campo con suficiente espacio visual sin amontonar cotas.</li>
+        </ol>
+
+        <h4>2.2 Preparación del Recinto y Condiciones de Seguridad</h4>
+        <p>
+          El levantamiento de medidas debe realizarse siempre sobre el <strong>recinto terminado</strong>, es decir, con el pavimento final colocado y los alicatados o enlucidos de pared completamente rematados. Asimismo, en paramentos de placas de yeso laminado (pladur o drywall), es mandatorio localizar la posición de los montantes metálicos estructurales o planificar refuerzos interiores de madera para garantizar el anclaje seguro de los muebles altos, los cuales soportarán cargas superiores a 60–80 kg por módulo.
+        </p>
+      </article>
+
+      <article class="card">
+        <h3>3. Protocolo Técnico de Medición y Verificación de Escuadras</h3>
+        <p>
+          El método documentado por firmas especializadas como Grup3D e IN Sukaldeak establece que una pared nunca debe medirse con una única cota longitudinal. Los tabiques de albañilería presentan pandeos, desplomes y curvaturas que solo se detectan al realizar un barrido tridimensional completo.
+        </p>
+        <h4>3.1 Medición de Paredes en Tres Planos Altimétricos</h4>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Plano Altimétrico</th>
+                <th>Altura desde el suelo terminado</th>
+                <th>Justificación Mecánica</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Cota Z1 (Base)</strong></td>
+                <td>50 – 100 mm</td>
+                <td>Determina el ancho real disponible para el zócalo y las patas de apoyo.</td>
+              </tr>
+              <tr>
+                <td><strong>Cota Z2 (Encimera)</strong></td>
+                <td>850 – 900 mm</td>
+                <td>Cota crítica: si la pared se cierra aquí, la encimera no encajará o dejará holguras visibles.</td>
+              </tr>
+              <tr>
+                <td><strong>Cota Z3 (Módulos Altos)</strong></td>
+                <td>2000 – 2200 mm</td>
+                <td>Define la longitud máxima admisible para el conjunto de muebles aéreos y columnas.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout gold">
+          <strong>Regla de Oro del Proyectista:</strong> Para definir la longitud nominal de diseño del frente de muebles, se tomará siempre la <strong>menor de las tres medidas registradas</strong>, restando además un margen de seguridad o tolerancia de instalación de <strong>15 a 20 mm</strong>, el cual se cubrirá posteriormente con una regleta de ajuste o remate lateral.
+        </div>
+
+        <h4>3.2 Comprobación de Escuadras Mediante Triangulación Diagonal (Regla 3-4-5)</h4>
+        <ol>
+          <li>Desde el vértice de la esquina interior, se miden exactamente <strong>600 mm</strong> sobre la pared A y se marca un punto de referencia PA.</li>
+          <li>Desde el mismo vértice, se miden exactamente <strong>800 mm</strong> sobre la pared B y se marca un punto PB.</li>
+          <li>Se mide la distancia diagonal directa en línea recta entre PA y PB:
+            <ul>
+              <li>Exactamente <strong>1000 mm</strong> → Escuadra perfecta (90°).</li>
+              <li><strong>Menos de 1000 mm</strong> → Ángulo cerrado (agudo &lt; 90°).</li>
+              <li><strong>Más de 1000 mm</strong> → Ángulo abierto (obtuso &gt; 90°).</li>
+            </ul>
+          </li>
+        </ol>
+        <p>
+          En recintos cuadrangulares completos, se miden las dos diagonales globales de esquina a esquina opuesta. Si difieren por más de 10 mm, la habitación está en rombo o trapecio, obligando a encimeras de 650 mm de fondo en lugar de 600 mm.
+        </p>
+
+        <h4>3.3 Huecos de Carpintería e Instalaciones</h4>
+        <ul>
+          <li><strong>Ventanas:</strong> Distancia desde el rincón a las jambas, ancho/alto total y <strong>altura de antepecho</strong> (si queda por debajo de 900 mm interfiere con muebles bajos; si hay fregadero debajo y hojas batientes interiores, exige grifo abatible).</li>
+          <li><strong>Puertas de acceso:</strong> Ningún cajón, tirador ni puerta de módulo puede situarse dentro del barrido de la puerta de paso.</li>
+          <li><strong>Fontanería y desagües:</strong> Ejes de agua fría/caliente y desagüe (PVC 40 o 50 mm) con cota desde suelo y esquina.</li>
+          <li><strong>Salida de humos, gas y electricidad:</strong> Eje de campana (Ø 120 o 150 mm), llave de paso de gas, tomas de fuerza (200–300 mm del suelo) y enchufes de encimera (1050–1150 mm del suelo), además de mochetas, pilares, vigas y radiadores.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h3>4. Ergonomía Científica, Antropometría y Triángulo de Trabajo</h3>
+        <h4>4.1 La Fórmula Biomecánica del Codo (IN Sukaldeak)</h4>
+        <div class="formula-box">H_encimera = H_codo − (100 mm a 150 mm)</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Estatura Usuario Principal</th>
+                <th>Altura de Codo (H_codo)</th>
+                <th>Altura Encimera Terminada</th>
+                <th>Configuración Típica (Zócalo + Casco + Encimera)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Menor a 1,60 m</strong></td>
+                <td>970 – 1020 mm</td>
+                <td><strong>850 – 880 mm</strong></td>
+                <td>Zócalo 100 mm + Casco 720 mm + Encimera 30–40 mm</td>
+              </tr>
+              <tr>
+                <td><strong>Entre 1,60 m y 1,75 m</strong></td>
+                <td>1020 – 1070 mm</td>
+                <td><strong>890 – 920 mm</strong></td>
+                <td>Zócalo 150 mm + Casco 720 mm + Encimera 20–30 mm (o Zócalo 100 + Casco 780 + Encimera 20)</td>
+              </tr>
+              <tr>
+                <td><strong>Mayor a 1,75 m</strong></td>
+                <td>1080 – 1150 mm</td>
+                <td><strong>930 – 960 mm</strong></td>
+                <td>Zócalo 150 mm + Casco 760–780 mm + Encimera 30–40 mm</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>4.2 Distancias Verticales Críticas y Triángulo NKBA</h4>
+        <ul>
+          <li><strong>Encimera a muebles altos:</strong> Entre <strong>500 mm y 600 mm</strong> (550 mm ideal). Base de muebles altos a <strong>1400–1500 mm</strong> del suelo.</li>
+          <li><strong>Campana extractora (Siemens / MediaMarkt):</strong> Mínimo <strong>550–600 mm</strong> sobre inducción/vitrocerámica (600 mm exigido por Siemens) y <strong>650–750 mm</strong> sobre placas de gas.</li>
+          <li><strong>Hornos y microondas en columna:</strong> Centro del horno entre <strong>900 y 1200 mm</strong> del suelo; borde inferior del microondas entre <strong>1300 y 1400 mm</strong>.</li>
+          <li><strong>Barras desayunadoras:</strong> A nivel de encimera (90–92 cm) → taburetes de 65 cm; a nivel barra americana (105–110 cm) → taburetes de 75 cm. Voladizo libre para rodillas: <strong>300–350 mm</strong>.</li>
+          <li><strong>Triángulo de trabajo NKBA:</strong> Vértices: 1) Almacenamiento (frigorífico/despensa), 2) Preparación/Lavado (fregadero/residuos), 3) Cocción (placa/horno). Cada lado debe medir entre <strong>1,20 m y 2,70 m</strong>; perímetro total acumulado entre <strong>4,00 m y 7,90 m</strong>.</li>
+          <li><strong>Separaciones y pasillos (BORA / URU):</strong> Mínimo <strong>500 mm</strong> entre frigorífico y placa; <strong>600–800 mm</strong> entre placa y fregadero. Pasillos de circulación: <strong>900–1000 mm</strong> en un frente y <strong>1000–1200 mm</strong> en doble frente o alrededor de isla.</li>
+        </ul>
+      </article>
+
+      <div class="bottom-pager" data-pager></div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 2: TIPOLOGÍAS Y DESPIECE (CAPÍTULOS 5 Y 6 + CALCULADORA)
+         ====================================================================== -->
+    <section class="tab-section" id="tab-despiece" data-tab-label="Tipologías y Despiece" data-t="Tipologías Espaciales y Fórmulas de Despiece">
+      <div class="section-header">
+        <span class="section-badge">Fase 2 · Arquitectura Modular y Matemáticas</span>
+        <h2>Tipologías Espaciales y Fórmulas Matemáticas de Despiece</h2>
+      </div>
+
+      <article class="card">
+        <h3>5. Tipologías Espaciales y Zonificación de la Cocina</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Tipología</th>
+                <th>Configuración Espacial</th>
+                <th>Ventajas Técnicas</th>
+                <th>Limitaciones y Requisitos Críticos</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Lineal (Frente Único)</strong></td>
+                <td>Todos los módulos alineados en un solo muro.</td>
+                <td>Ideal para espacios estrechos (&lt; 2,20 m) o estudios. Simplicidad máxima de instalaciones.</td>
+                <td>No forma triángulo cerrado; exige secuencia lineal estricta (Frío → Fregadero → Fuego).</td>
+              </tr>
+              <tr>
+                <td><strong>En L (Dos Frentes Perpendiculares)</strong></td>
+                <td>Disposición en ángulo recto de 90° en dos muros contiguos.</td>
+                <td>Excelente triángulo de trabajo; adaptable a estancias medianas y cuadradas.</td>
+                <td>Exige resolución milimétrica del mueble de rincón (ciego o esquinero) para evitar zonas muertas.</td>
+              </tr>
+              <tr>
+                <td><strong>En U (Tres Frentes Continuos)</strong></td>
+                <td>Distribución envolvente a lo largo de tres muros continuos.</td>
+                <td>Máxima superficie de encimera y almacenamiento; triángulo ergonómico perfecto.</td>
+                <td>Requiere ancho mínimo libre de 2,40 m para garantizar ≥ 1200 mm de paso central; genera dos esquinas.</td>
+              </tr>
+              <tr>
+                <td><strong>En Galera (Doble Frente Paralelo)</strong></td>
+                <td>Dos líneas de muebles enfrentadas en muros opuestos.</td>
+                <td>Altamente eficiente; separación clara entre zona húmeda y zona de cocción.</td>
+                <td>Pasillo central estricto de 1000–1200 mm. Si es &lt; 900 mm, las puertas de aparatos colisionan.</td>
+              </tr>
+              <tr>
+                <td><strong>Con Isla Central</strong></td>
+                <td>Frente lineal o en L con bloque central exento.</td>
+                <td>Centro social y funcional; amplía superficie de trabajo y permite cocinar de cara al salón.</td>
+                <td>Demanda recintos amplios (15–20 m²) para pasos perimetrales mínimos de 1000 mm en los 4 lados.</td>
+              </tr>
+              <tr>
+                <td><strong>Con Península</strong></td>
+                <td>Módulos anexados perpendicularmente a un frente con extremo abierto.</td>
+                <td>Delimita espacios sin tabiques; actúa como barra desayunadora y preparación.</td>
+                <td>Estudiar flujo de entrada/salida para no estrangular el acceso a la cocina.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>6. Anatomía Modular, Despiece y Fórmulas Matemáticas de Corte</h3>
+        <p>
+          En la ebanistería moderna basada en MDP/MDF, el mueble es un conjunto de <strong>cascos modulares autoportantes</strong> compuestos por: 1) Dos laterales, 2) Suelo o base, 3) Techo o dos amarres superiores de 100 mm, 4) Fondo o trasera (HDF/MDF de 3 a 8 mm en ranura o galce), 5) Estantes interiores y 6) Frentes (puertas o tapas de cajón).
+        </p>
+
+        <h4>6.2 Fórmulas Paramétricas del Casco y Puertas</h4>
+        <div class="formula-box">• Laterales (2 uds): Largo = H − H_patas  |  Ancho = F − E_p (580 mm para encimera de 600 mm)
+• Base / Suelo (1 ud): Largo = A − (2 × E)  |  Ancho = F_lateral
+• Amarres Superiores (2 uds): Largo = A − (2 × E)  |  Ancho = 100 mm
+• Trasera HDF 8 mm (ranura 6 mm): Ancho = A − 2E + 12 mm  |  Alto = H_lateral − 20 mm
+• Puerta Solapa Total: Ancho = A − 4 mm (2 mm/lado)  |  Alto = H_casco − 4 mm</div>
+
+        <h4>6.3 Tabla de Despiece: Módulo Bajo de 60 cm (A=600, H=720, F=580 mm)</h4>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Pieza</th>
+                <th>Cant.</th>
+                <th>Tablero 16 mm</th>
+                <th>Tablero 18 mm</th>
+                <th>Canteado / Tapacanto Requerido</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Laterales</strong></td>
+                <td>2</td>
+                <td>720 × 580 mm</td>
+                <td>720 × 580 mm</td>
+                <td>Canto 1 mm en frente vertical (L1)</td>
+              </tr>
+              <tr>
+                <td><strong>Suelo / Base</strong></td>
+                <td>1</td>
+                <td>568 × 580 mm (600 − 32)</td>
+                <td>564 × 580 mm (600 − 36)</td>
+                <td>Canto 1 mm en frente longitudinal (L1)</td>
+              </tr>
+              <tr>
+                <td><strong>Amarres Superiores</strong></td>
+                <td>2</td>
+                <td>568 × 100 mm</td>
+                <td>564 × 100 mm</td>
+                <td>Canto 0,4 mm en frente longitudinal</td>
+              </tr>
+              <tr>
+                <td><strong>Estante Regulable</strong></td>
+                <td>1</td>
+                <td>566 × 560 mm (-2 mm ancho, -20 mm fondo)</td>
+                <td>562 × 560 mm (-2 mm ancho, -20 mm fondo)</td>
+                <td>Canto 1 mm en frente visible (L1)</td>
+              </tr>
+              <tr>
+                <td><strong>Trasera (HDF 8 mm)</strong></td>
+                <td>1</td>
+                <td>580 × 700 mm</td>
+                <td>576 × 700 mm</td>
+                <td>Sin canteado (bordes ocultos en ranura)</td>
+              </tr>
+              <tr>
+                <td><strong>Puerta Exterior</strong></td>
+                <td>1</td>
+                <td>596 × 716 mm (holguras 2 mm)</td>
+                <td>596 × 716 mm (holguras 2 mm)</td>
+                <td>Canto 2 mm o 1 mm en los 4 bordes (4C)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>6.4 Mecánica del Cajón (Correderas Telescópicas -26 mm) y Zócalo Retranqueado (Según las Fuentes)</h4>
+        <div class="formula-box">Holgura Total Correderas = 13 mm + 13 mm = 26 mm
+A_cajón = [A_módulo − (2 × E)] − 26 mm  →  Para 600 mm en 18 mm: [600 − 36] − 26 = 538 mm</div>
+        <ul>
+          <li><strong>Doble Frente (Según las fuentes técnicas de mueblería):</strong> La caja interior se atornilla desde el frente interior hacia los costados; luego la <strong>tapa decorativa exterior</strong> se fija desde el interior con tornillos Spax de 4 × 30 mm, ocultando toda la tornillería.</li>
+          <li><strong>Zócalo Retranqueado Ergonómico:</strong> Retranqueado entre <strong>50 mm y 70 mm</strong> respecto a los frentes (o con laterales retranqueados de 285 mm para mueble de 450–500 mm), creando 100 mm libres inferiores para la punta de los pies.</li>
+        </ul>
+
+        <!-- Calculadora Interactiva Real de Despiece Paramétrico -->
+        <div class="callout" style="margin-top:16px;">
+          <strong>Calculadora Interactiva de Despiece (Módulo Bajo y Cajón):</strong>
+          <div class="calc-grid">
+            <div class="calc-field">
+              <label for="calc-ancho">Ancho Módulo A (mm)</label>
+              <input type="number" id="calc-ancho" value="600" min="200" max="1200">
+            </div>
+            <div class="calc-field">
+              <label for="calc-alto">Alto Casco H (mm)</label>
+              <input type="number" id="calc-alto" value="720" min="400" max="2400">
+            </div>
+            <div class="calc-field">
+              <label for="calc-fondo">Fondo Casco F (mm)</label>
+              <input type="number" id="calc-fondo" value="580" min="300" max="800">
+            </div>
+            <div class="calc-field">
+              <label for="calc-esp">Espesor Tablero E (mm)</label>
+              <select id="calc-esp">
+                <option value="16">16 mm</option>
+                <option value="18" selected>18 mm</option>
+              </select>
+            </div>
+          </div>
+          <div class="formula-box" id="calc-output"></div>
+        </div>
+      </article>
+
+      <div class="bottom-pager" data-pager></div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 3: HERRAJES Y OPTIMIZACIÓN (CAPÍTULOS 7 Y 8)
+         ====================================================================== -->
+    <section class="tab-section" id="tab-herrajes" data-tab-label="Herrajes y Corte" data-t="Sistema de Herrajes y Optimización de Corte">
+      <div class="section-header">
+        <span class="section-badge">Fase 3 · Mecánica y Aprovechamiento Industrial</span>
+        <h2>Sistema de Herrajes, Ensamble y Optimización de Corte</h2>
+      </div>
+
+      <article class="card">
+        <h3>7. Sistema de Herrajes, Ensamble, Fijación y Movimiento</h3>
+        <h4>7.1 Métodos de Ensamble y Uniones Mecánicas</h4>
+        <ul>
+          <li><strong>Tornillos Confirmat (7 × 50 mm):</strong> Vástago ancho y cuello de centrado. Requieren broca escalonada previa (5 mm punta, 7 mm cuello y avellanador). Aportan >40% más resistencia al arrancamiento que el tornillo rosca madera común.</li>
+          <li><strong>Sistema Minifix / Rastex (Perno + Excéntrica de Zamak de 15 mm):</strong> Uniones ocultas desmontables. Cazoleta ciega de 15 mm a 24 o 34 mm del borde, taladro de 8 mm en canto para el perno y taladro de 5 mm en lateral contiguo.</li>
+          <li><strong>Espigas o Tarugos de Madera Estriada (8 × 30 mm u 8 × 40 mm):</strong> Absorben esfuerzos cortantes y garantizan alineación milimétrica durante el prensado.</li>
+        </ul>
+
+        <h4>7.2 Bisagras de Cazoleta de 35 mm (Fresa Forstner a 21,5 mm, K = 4–5 mm)</h4>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Tipo de Bisagra</th>
+                <th>Brazo de la Bisagra</th>
+                <th>Solape sobre el Lateral</th>
+                <th>Aplicación Técnica</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Recta (Solapa Total)</strong></td>
+                <td>Completamente recto, sin acodamiento.</td>
+                <td>Solapa 14 a 16 mm (casi todo el canto).</td>
+                <td>Módulos independientes o extremos de una fila de muebles.</td>
+              </tr>
+              <tr>
+                <td><strong>Acodada (Media Solapa)</strong></td>
+                <td>Curvatura media (acodamiento 7 a 9 mm).</td>
+                <td>Solapa 7 a 8 mm.</td>
+                <td>Laterales compartidos donde dos puertas contiguas abren hacia el mismo costado central.</td>
+              </tr>
+              <tr>
+                <td><strong>Superacodada (Interior / Enrasada)</strong></td>
+                <td>Fuerte acodamiento interior (&gt; 15 mm).</td>
+                <td>Solape 0 mm (puerta embutida en el vano).</td>
+                <td>Diseños donde el canto del casco queda visto como marco perimetral.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Incluyen pistón <em>soft-close</em> y 3 tornillos de regulación (±2 mm): <strong>horizontal/lateral</strong> (fuga entre puertas), <strong>vertical</strong> (altura) y <strong>profundidad</strong> (apoyo sobre topes de silicona).
+        </p>
+
+        <h4>7.3 Suspensión Oculta para Muebles Altos y Patas</h4>
+        <ul>
+          <li><strong>Colgadores mecánicos regulables ocultos 3D:</strong> Engranan en pletina o riel continuo de acero galvanizado atornillado al muro con tacos de 8 o 10 mm. Regulan nivelación vertical y tracción horizontal contra el azulejo.</li>
+          <li><strong>Patas regulables de polipropileno/ABS (100 o 150 mm) y clips de zócalo:</strong> Permiten absorber desniveles del pavimento sin deformar los cascos.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h3>8. Optimización de Corte, Canteado y Aprovechamiento de Tableros</h3>
+        <ul>
+          <li><strong>Formatos comerciales MDP/MDF:</strong> 2440 × 1220 mm (8 × 4 pies), 2750 × 1830 mm (formato medio industrial) y 2800 × 2070 mm (formato jumbo europeo).</li>
+          <li><strong>Espesor de corte de sierra (Saw Kerf):</strong> Cada pasada del disco pulveriza entre <strong>3 mm y 4,5 mm</strong> de tablero en serrín.</li>
+          <li><strong>Refilado perimetral (Trim Cut):</strong> Purgar entre <strong>10 mm y 15 mm</strong> en los 4 bordes del tablero nuevo para sanear golpes e hinchamientos de transporte.</li>
+          <li><strong>Dirección de la veta:</strong> Bloquear la rotación de piezas en el optimizador (2D Bin Packing) para garantizar veta vertical uniforme en puertas y frentes.</li>
+          <li><strong>Tecnología de canteado:</strong> Canto <strong>0,4 mm</strong> (PVC/melamínico) para interior no expuesto; canto <strong>1 mm a 2 mm</strong> (PVC/ABS con radio boleado) para puertas, frentes de cajón y bordes frontales de cascos.</li>
+        </ul>
+      </article>
+
+      <div class="bottom-pager" data-pager></div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 4: MODELADO Y PRESUPUESTO (CAPÍTULOS 9 Y 10)
+         ====================================================================== -->
+    <section class="tab-section" id="tab-modelado" data-tab-label="Modelado y Costos" data-t="Modelado 3D y Presupuestación Profesional">
+      <div class="section-header">
+        <span class="section-badge">Fase 4 · Ingeniería Digital y Rentabilidad</span>
+        <h2>Modelado 2D/3D y Presupuestación Económica de Fabricación</h2>
+      </div>
+
+      <article class="card">
+        <h3>9. Modelado 2D/3D y Documentación Técnica de Proyecto</h3>
+        <p>
+          Siguiendo las guías técnicas de modelado en SketchUp y el flujo en 5 pasos de Flatma documentados en las fuentes, modelar la cocina pieza a pieza elimina el 99% de las sorpresas en taller:
+        </p>
+        <ol>
+          <li><strong>Plano de Planta Acotado (2D):</strong> Perímetro real del recinto, ángulos verdaderos, ventanas con antepecho, radios de barrido de puertas y puntos fijos de instalaciones.</li>
+          <li><strong>Elevaciones y Alzados Frontales:</strong> Composición modular, continuidad de líneas horizontales entre frentes y alineación de campana con muebles altos.</li>
+          <li><strong>Modelado Tridimensional Componente a Componente (Según las fuentes técnicas):</strong> Nunca dibujar un mueble como bloque sólido ciego; modelar cada pieza con su espesor real (15, 16 o 18 mm) como <strong>Componente Independiente</strong> (<code>Lateral_Izquierdo_Bajo_60</code>, <code>Piso_Bajo_60</code>, <code>Amarre_Bajo_60</code>, <code>Frente_Cajon_Cubiertos</code>), aplicando veta y holguras de 13 mm por lado para correderas.</li>
+          <li><strong>Extracción Automática de Lista de Corte:</strong> Exportar medidas exactas, etiquetas y planos de taladrado hacia la hoja de corte.</li>
+        </ol>
+      </article>
+
+      <article class="card">
+        <h3>10. Presupuestación, Costeo y Análisis Económico de Fabricación</h3>
+        <h4>10.1 Partidas del Costo Directo (CD)</h4>
+        <ul>
+          <li><strong>Tableros de cascos (MDP 16/18 mm):</strong> Planchas calculadas en mapa de corte + <strong>factor de desperdicio técnico del 10% al 15%</strong>.</li>
+          <li><strong>Tableros para frentes (Melamina diseño / MDF lacado):</strong> Calculados respetando dirección de veta.</li>
+          <li><strong>Traseras HDF/MDF (3 a 8 mm):</strong> Para cascos y fondos de cajón.</li>
+          <li><strong>Metros lineales de canto (0,4 mm y 1–2 mm):</strong> + 10% de merma.</li>
+          <li><strong>Maquila industrial:</strong> Metro lineal de corte con incisor, pegado de canto con cola EVA o poliuretano (PUR) y taladro CNC.</li>
+          <li><strong>Herrajes y accesorios:</strong> Bisagras 35 mm <em>soft-close</em>, correderas telescópicas/ocultas, colgadores 3D y riel, patas ABS, tornillería (confirmat 7×50, Spax 4×16, 4×30, 4×50, tacos nylon 8/10 mm), tiradores o perfil gola.</li>
+          <li><strong>Superficie de trabajo (Encimera y copete):</strong> Granito, cuarzo compacto, porcelánico o HPL hidrófugo, incluyendo calados de fregadero y placa.</li>
+        </ul>
+
+        <h4>10.2 Fórmula de Costeo y Margen Comercial</h4>
+        <div class="formula-box">PV = [ (CD + MO) / (1 − MC) ] × (1 + IVA)
+Donde: CD = Costo Directo materiales/servicios | MO = Mano de obra taller/montaje | MC = Margen comercial (ej. 0,35) | IVA = Impuesto aplicable</div>
+      </article>
+
+      <div class="bottom-pager" data-pager></div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 5: ENSAMBLE, OBRA Y NORMATIVA (CAPÍTULOS 11, 12 Y 14 + CHECKLIST)
+         ====================================================================== -->
+    <section class="tab-section" id="tab-montaje" data-tab-label="Montaje y Normativa" data-t="Ensamble en Taller, Instalación en Obra y Normativa">
+      <div class="section-header">
+        <span class="section-badge">Fase 5 · Ejecución y Seguridad Reglamentaria</span>
+        <h2>Ensamble en Taller, Instalación en Obra, Seguridad y Buenas Prácticas</h2>
+      </div>
+
+      <article class="card">
+        <h3>11. Protocolo de Ensamble en Taller e Instalación en Obra</h3>
+        <h4>11.1 Ensamble en Taller (5 Pasos)</h4>
+        <ol>
+          <li><strong>Inspección de Piezas:</strong> Verificar ausencia de astilladuras en cantos y comprobar medidas con flexómetro.</li>
+          <li><strong>Perforación y Premecanizado:</strong> Taladrar confirmat con broca escalonada e instalar bases de bisagras y correderas <strong>antes de cerrar el casco</strong>.</li>
+          <li><strong>Armado del Casco:</strong> Prensar con sargentos de esquina a 90°, atornillar confirmat y fijar amarres superiores.</li>
+          <li><strong>Escuadrado y Fijación de Trasera:</strong> Deslizar trasera HDF en ranura, medir <strong>ambas diagonales</strong> hasta igualarlas al milímetro y clavar/grapar perimetralmente.</li>
+          <li><strong>Armado de Cajones:</strong> Escuadrar estructura interior, fijar fondo ranurado y montar guías telescópicas.</li>
+        </ol>
+
+        <h4>11.2 Instalación en Obra (5 Pasos)</h4>
+        <ol>
+          <li><strong>Trazo de Nivel Láser 360°:</strong> Marcar cota base muebles altos (1400–1500 mm) y coronación cascos bajos (850–880 mm).</li>
+          <li><strong>Montaje de Módulos Altos Primero:</strong> Fijar riel continuo de acero, colgar módulos, nivelar con colgadores 3D y unir cuerpos entre sí.</li>
+          <li><strong>Instalación y Nivelación de Módulos Bajos:</strong> Iniciar en el rincón o punto más alto del suelo, regular patas con nivel láser, unir cuerpos con tornillos pasantes M4/M6 y anclar a pared contra vuelco.</li>
+          <li><strong>Instalación de Encimera:</strong> Ajustar contra muro (<em>scribing</em>), realizar calados y <strong>sellar inmediatamente los cantos vivos con silicona neutra o barniz poliuretánico</strong>.</li>
+          <li><strong>Calibración Final:</strong> Regular bisagras en los 3 ejes (fugas de 2 mm), colocar topes amortiguadores y fijar zócalo retranqueado.</li>
+        </ol>
+      </article>
+
+      <article class="card">
+        <h3>12. Seguridad, Instalaciones Especiales y Normativa Técnica</h3>
+        <h4>12.1 Separaciones Críticas entre Suministros</h4>
+        <ul>
+          <li><strong>Separación Fuego – Agua:</strong> Mínimo <strong>400 a 600 mm</strong> (800 mm recomendados por BORA España).</li>
+          <li><strong>Separación Electricidad – Agua:</strong> Ningún enchufe a menos de <strong>400 mm horizontales</strong> del fregadero ni bajo el sifón.</li>
+          <li><strong>Distancia Fuego – Paramentos Laterales:</strong> Mínimo <strong>300 mm</strong> respecto a columnas o paredes laterales.</li>
+        </ul>
+
+        <h4>12.2 Cuadro de Cargas y Circuitos Eléctricos</h4>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Circuito</th>
+                <th>Protección</th>
+                <th>Sección Cable</th>
+                <th>Aplicación Dedicada</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>C1 (Iluminación)</strong></td>
+                <td>10 A</td>
+                <td>1,5 mm²</td>
+                <td>Luminarias de techo y regletas LED bajo muebles altos.</td>
+              </tr>
+              <tr>
+                <td><strong>C2 (Uso General / Frío)</strong></td>
+                <td>16 A</td>
+                <td>2,5 mm²</td>
+                <td>Frigorífico y enchufes de encimera (batidora, cafetera, tostador).</td>
+              </tr>
+              <tr>
+                <td><strong>C3 (Cocina y Horno)</strong></td>
+                <td>25 A</td>
+                <td><strong>6 mm²</strong></td>
+                <td>Placa de inducción/vitrocerámica y horno eléctrico.</td>
+              </tr>
+              <tr>
+                <td><strong>C4 (Lavado / Termo)</strong></td>
+                <td>20 A (o 16 A indiv.)</td>
+                <td>4 mm² (o 2,5 mm²)</td>
+                <td>Lavavajillas, lavadora y termo eléctrico.</td>
+              </tr>
+              <tr>
+                <td><strong>C5 (Bases Auxiliares)</strong></td>
+                <td>16 A</td>
+                <td>2,5 mm²</td>
+                <td>Tomas de corriente de baños y bases auxiliares de cocina.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>12.3 Evacuación de Humos y Gas</h4>
+        <ul>
+          <li><strong>Conducto de humos:</strong> Tubo rígido liso de <strong>Ø 150 mm</strong> (mínimo 120 mm) con válvula antirretorno obligatoria.</li>
+          <li><strong>Gas Natural vs. GLP:</strong> Gas natural (más ligero que el aire) → rejilla superior a ≤ 30 cm del techo. Butano/Propano GLP (más pesado que el aire) → rejilla inferior a ≤ 15 cm del suelo.</li>
+        </ul>
+
+        <h4>14. Buenas Prácticas Esenciales (Checklist de Obra Guardable)</h4>
+        <div id="obra-checklist"></div>
+      </article>
+
+      <div class="bottom-pager" data-pager></div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 6: 10 CASOS PRÁCTICOS (CAPÍTULO 13)
+         ====================================================================== -->
+    <section class="tab-section" id="tab-casos" data-tab-label="10 Casos Prácticos" data-t="10 Casos Prácticos Paso a Paso">
+      <div class="section-header">
+        <span class="section-badge">Sección Especial · Resolución Numérica Aplicada</span>
+        <h2>10 Ejemplos Prácticos Paso a Paso</h2>
+      </div>
+      <p style="margin-bottom:14px; color:var(--text-muted);">
+        Pulsa sobre cada caso práctico para desplegar el escenario, el diagnóstico matemático y el procedimiento técnico paso a paso.
+      </p>
+      <div id="casos-container"></div>
+      <div class="bottom-pager" data-pager></div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 7: 10 PROYECTOS (CAPÍTULO 16)
+         ====================================================================== -->
+    <section class="tab-section" id="tab-proyectos" data-tab-label="10 Proyectos" data-t="10 Proyectos Integradores Completos">
+      <div class="section-header">
+        <span class="section-badge">Sección Especial · Proyectos Llave en Mano</span>
+        <h2>10 Proyectos Integradores de Cocina Completos</h2>
+      </div>
+      <p style="margin-bottom:14px; color:var(--text-muted);">
+        Diez proyectos reales calculados milimétricamente desde la memoria técnica y distribución hasta el despiece, herrajes y presupuesto estimado.
+      </p>
+      <div id="proyectos-container"></div>
+      <div class="bottom-pager" data-pager></div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 8: GLOSARIO (CAPÍTULO 17)
+         ====================================================================== -->
+    <section class="tab-section" id="tab-glosario" data-tab-label="Glosario" data-t="Glosario Técnico Exhaustivo">
+      <div class="section-header">
+        <span class="section-badge">Terminología Normalizada</span>
+        <h2>17. Glosario Técnico Exhaustivo de Términos</h2>
+      </div>
+      <div class="card" id="glosario-container"></div>
+      <div class="bottom-pager" data-pager></div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 9: 33 PREGUNTAS (Q&A) — OBLIGATORIAMENTE ANTES QUE ERRORES
+         CON BOTONES "+ Desplegar todas respuestas" Y "- Plegar todas las respuestas"
+         ====================================================================== -->
+    <section class="tab-section" id="tab-qa" data-tab-label="33 Preguntas (Q&A)" data-t="33 Preguntas (Q&A) por Nivel de Dificultad">
+      <div class="section-header">
+        <span class="section-badge">Evaluación Técnica Progresiva</span>
+        <h2>18. Banco de 33 Preguntas y Respuestas Técnicas (Nivel 1, Nivel 2 y Nivel 3)</h2>
+      </div>
+
+      <!-- Botones exactos exigidos por el usuario; estado inicial: todas plegadas -->
+      <div class="qa-toolbar" role="region" aria-label="Controles de respuestas">
+        <button type="button" class="btn-primary" id="btn-expand-qa">+ Desplegar todas respuestas</button>
+        <button type="button" class="btn-secondary" id="btn-collapse-qa">- Plegar todas las respuestas</button>
+      </div>
+
+      <div id="qa-container"></div>
+
+      <div class="bottom-pager" data-pager></div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 10: ERRORES (CAPÍTULO 15 - TROUBLESHOOTING)
+         ====================================================================== -->
+    <section class="tab-section" id="tab-errores" data-tab-label="ERRORES" data-t="ERRORES — Diagnóstico y Solución en Obra">
+      <div class="section-header">
+        <span class="section-badge">Troubleshooting Crítico</span>
+        <h2>15. Diagnóstico y Solución de Problemas Críticos en Obra</h2>
+      </div>
+
+      <article class="card">
+        <p>Matriz de diagnóstico rápido de los 10 fallos mecánicos, geométricos y de montaje más frecuentes en instalaciones de cocina, junto con su causa raíz y protocolo de corrección inmediata:</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Síntoma / Problema en Obra</th>
+                <th>Causa Raíz Mecánica</th>
+                <th>Protocolo de Corrección Inmediata</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1. Las puertas chocan entre sí al centro del módulo.</strong></td>
+                <td>Falta de holgura o regulación lateral incorrecta de las bisagras.</td>
+                <td>Girar en sentido antihorario el tornillo de regulación frontal de la bisagra para retraer la puerta hacia el canto exterior. Mantener una fuga central mínima de 2 a 3 mm.</td>
+              </tr>
+              <tr>
+                <td><strong>2. Las esquinas de un mueble en L quedan desalineadas en altura.</strong></td>
+                <td>El suelo tiene pendiente y las patas no se ajustaron con nivel láser.</td>
+                <td>Aflojar los tornillos de unión de cuerpos entre módulos, calzar el nivel láser y roscar/desenroscar la base hexagonal de las patas regulables hasta alcanzar la cota perfecta.</td>
+              </tr>
+              <tr>
+                <td><strong>3. Los cajones entran excesivamente duros y se traban.</strong></td>
+                <td>La caja del cajón fue cortada con ancho mayor al vano interior menos 26 mm, comprimiendo las bolas.</td>
+                <td>Desmontar la caja del cajón, retirar la corredera y cepillar o cortar los testeros interiormente para recuperar los 13 mm de holgura por lado.</td>
+              </tr>
+              <tr>
+                <td><strong>4. Se filtra agua hacia el interior del mueble fregadero.</strong></td>
+                <td>El cordón de estanqueidad entre encimera y ala del fregadero se interrumpió o grapas mal apretadas.</td>
+                <td>Retirar el fregadero, limpiar silicona vieja con alcohol isopropílico, aplicar cordón continuo de polímero MS o silicona neutra sanitaria y reapretar grapas en cruz.</td>
+              </tr>
+              <tr>
+                <td><strong>5. La campana extractora hace ruido ensordecedor y apenas absorbe.</strong></td>
+                <td>Tubo corrugado de aluminio flexible de 100 mm con codos pronunciados en lugar de tubo rígido de 150 mm.</td>
+                <td>Reemplazar canalización por tubo rígido liso de PVC de evacuación de 150 mm, reduciendo codos y evitando estrangulamientos en falso techo.</td>
+              </tr>
+              <tr>
+                <td><strong>6. Los muebles altos se separan de la pared en la parte superior.</strong></td>
+                <td>Anclajes cedidos o tornillos de colgadores ocultos no traccionados a fondo.</td>
+                <td>Vaciar contenido pesado, girar tornillo de tracción horizontal en el colgador oculto para apretar el casco contra el muro y verificar resistencia del taco.</td>
+              </tr>
+              <tr>
+                <td><strong>7. La puerta roza en el zócalo o en la encimera al abrir.</strong></td>
+                <td>El casco está descuadrado (paralelogramo) porque la trasera no se clavó a 90°.</td>
+                <td>Aflojar fijaciones a pared, forzar la diagonal del casco con sargento hasta nivelar esquinas y colocar escuadras metálicas de refuerzo en vértices traseros.</td>
+              </tr>
+              <tr>
+                <td><strong>8. Pandeo o combadura en estantes anchos de 90 o 100 cm.</strong></td>
+                <td>Espesor de 16 mm insuficiente para soportar vajillas en vanos superiores a 80 cm sin apoyo central.</td>
+                <td>Añadir perfil de aluminio de refuerzo en U en canto frontal, sustituir balda por tablero de 19/25 mm o añadir división vertical central.</td>
+              </tr>
+              <tr>
+                <td><strong>9. El lavavajillas no entra en su hueco debajo de la encimera.</strong></td>
+                <td>Hueco planificado en 600 mm exactos pero muebles contiguos desplomados dejando 595 mm libres.</td>
+                <td>Ajustar patas de muebles laterales abriéndolos o rebajar 2 mm en costados no visibles. Replantear siempre el hueco de lavavajillas a <strong>605 mm</strong>.</td>
+              </tr>
+              <tr>
+                <td><strong>10. Se despega el canto de melamina cerca del horno.</strong></td>
+                <td>Fuga térmica del horno por deterioro de junta o canto pegado con cola de baja temperatura.</td>
+                <td>Instalar perfiles deflectores de calor de aluminio en cantos contiguos al horno y sustituir por canto ABS pegado con adhesivo poliuretano reactivo (PUR).</td>
+              </tr>
+            </tbody>
+        </table>
+      </div>
+    </article>
+
+    <div class="bottom-pager" data-pager></div>
+  </section>
+
+  <!-- ======================================================================
+       PESTAÑA 11: FUENTES (CAPÍTULO 20 — TODOS LOS ENLACES CON BOTÓN NUEVA VENTANA)
+       ====================================================================== -->
+  <section class="tab-section" id="tab-fuentes" data-tab-label="FUENTES" data-t="FUENTES — Documentación Técnica y Oficial">
+      <div class="section-header">
+        <span class="section-badge">Referencias Oficiales</span>
+        <h2>20. Fuentes Técnicas Fiables y Documentación Oficial</h2>
+      </div>
+      <p style="margin-bottom:16px; color:var(--text-muted);">
+        Compilación íntegra de entidades normalizadoras, fabricantes y plataformas oficiales consultadas. Cada enlace incorpora botón dedicado para abrir en nueva ventana y botón para copiar la URL.
+      </p>
+      <div id="fuentes-container"></div>
+      <div class="bottom-pager" data-pager></div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 13: CRÉDITOS (ORDEN OBLIGATORIO Y SVG COMPARTIDO)
+         ====================================================================== -->
+    <section class="tab-section" id="tab-creditos" data-tab-label="CRÉDITOS" data-t="CRÉDITOS — Autoría y Control de Versión">
+      <div class="section-header">
+        <span class="section-badge">Ficha Técnica del Documento</span>
+        <h2>CRÉDITOS</h2>
+      </div>
+
+      <div class="hero-card">
+        <!-- 2. SVG animado compartido con INICIO (misma plantilla única) -->
+        <div class="svg-stage" id="hero-svg-creditos" aria-label="Ilustración técnica animada compartida del sistema modular de cocinas"></div>
+        <div class="svg-controls">
+          <button type="button" class="tool-btn toggle-svg-anim" data-target="hero-svg-creditos">⏸ Pausar / Reanudar animación</button>
+        </div>
+
+        <!-- 3. Breve descripción de la ilustración -->
+        <p style="text-align:center; color:var(--text-muted); font-size:0.9rem; max-width:560px; margin:0 auto 14px;">
+          Diagrama paramétrico animado en formato 4:5 que integra el triángulo cinemático NKBA (4,00–7,90 m), las cotas ergonómicas de altura de encimera, las holguras de correderas telescópicas (−26 mm), el zócalo retranqueado y el láser de nivelación en obra.
+        </p>
+
+        <!-- 4. Nombre del autor (elemento visual más destacado) -->
+        <div class="credits-author">Rubén Sbarsky</div>
+
+        <!-- 5. Texto obligatorio -->
+        <div class="credits-role">Autor del tutorial.</div>
+
+        <!-- 6. Información adicional pertinente y 7. Número de versión + Fecha/Hora fijas -->
+        <div class="card" style="margin-top:16px; margin-bottom:0;">
+          <p><strong>Obra:</strong> Guía Maestra para Diseñar Cocinas: De Cero a Nivel Profesional.</p>
+          <p><strong>Fundamento documental:</strong> Compilación pedagógica basada en los estándares internacionales y documentación técnica de las fuentes citadas (NKBA, Siemens, BORA España, Grup3D, IN Sukaldeak, URU Reformas, OPPOLIA Home, optimizadordecorte.app, Flatma y JMC Construcción y Mueblería).</p>
+          <p><strong>Versión del entregable:</strong> <code>V001</code> (<code>tutorial_diseno_cocinas_V001.html</code>)</p>
+          <p style="margin-bottom:0;"><strong>Fecha y hora de creación:</strong> <strong>27/11/2026 — 12:30:05</strong></p>
+        </div>
+      </div>
+
+      <div class="bottom-pager" data-pager></div>
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       BOTONES FLOTANTES ARRASTRABLES: INICIO Y ARRIBA
+       ======================================================================== -->
+  <button type="button" class="floating-fab" id="fab-home" title="Arrastrar o pulsar para ir a INICIO" aria-label="Ir a Inicio">🏠 INICIO</button>
+  <button type="button" class="floating-fab" id="fab-top" title="Arrastrar o pulsar para subir arriba" aria-label="Volver arriba en la pestaña actual">⬆ ARRIBA</button>
+
+  <!-- Mensaje flotante no intrusivo (nunca usa alert/confirm) -->
+  <div id="toast-msg" role="status" aria-live="polite"></div>
+
+  <script>
+    /* ==========================================================================
+       DATOS ESTRUCTURADOS DEL MANUAL (100% DEL CONTENIDO DEL DOCUMENTO FUENTE)
+       ========================================================================== */
+    const CASOS_PRACTICOS = [
+      {
+        titulo: "Ejemplo 1: Relevamiento y Compensación de Pared Desescuadrada Mediante Falsa Escuadra",
+        contenido: `
+          <p><strong>Escenario:</strong> Al proyectar una cocina en L en una vivienda antigua, las paredes A y B miden 3200 mm y 2400 mm. Al aplicar la regla 600-800-1000 mm en el rincón, la diagonal obtenida es de <strong>985 mm</strong> en lugar de 1000 mm. El ángulo es agudo (88,3°).</p>
+          <p><strong>Problema:</strong> Si se colocan módulos estándar de 600 mm de fondo contra ambas paredes, a medida que los muebles se alejan de la esquina, el frente se separará de la pared dejando una hendidura triangular visible, o la encimera no apoyará plana.</p>
+          <p><strong>Procedimiento de Solución Paso a Paso:</strong></p>
+          <ol>
+            <li>Calcular el desfase angular mediante trigonometría: <code>cos(α) = (600² + 800² − 985²) / (2 × 600 × 800) = 29775 / 960000 ≈ 0,031</code>, lo que arroja <strong>α ≈ 88,22°</strong>. El cierre angular representa una pérdida de aproximadamente <strong>31 mm</strong> a lo largo de un frente de 2400 mm.</li>
+            <li>En lugar de forzar los cascos contra la pared, se fija una línea de referencia en escuadra perfecta a 90° separada del punto más saliente de la pared.</li>
+            <li>Se diseña un <strong>módulo de rincón ciego</strong> de 1050 mm de largo con una regleta frontal de ajuste de 70 mm.</li>
+            <li>La encimera se solicita con un fondo sobredimensionado de <strong>630 mm</strong> (en lugar de 600 mm) para permitir realizar un corte en cuña (<em>refilado cónico</em> en obra) que absorba los 30 mm de descuadre sin perder el voladizo frontal respecto a las puertas.</li>
+          </ol>
+        `
+      },
+      {
+        titulo: "Ejemplo 2: Cálculo Biomecánico Personalizado de Altura de Encimera",
+        contenido: `
+          <p><strong>Escenario:</strong> Una clienta de 1,72 m de estatura y su pareja de 1,85 m solicitan una reforma de cocina. Cocinan diariamente.</p>
+          <p><strong>Medición:</strong> Se mide la altura de codo doblado a 90° con calzado de casa: Usuaria A: <code>H_codo = 1050 mm</code>. Usuario B: <code>H_codo = 1140 mm</code>.</p>
+          <p><strong>Cálculo de Altura Óptima:</strong></p>
+          <ul>
+            <li>Para usuaria A: <code>1050 − (100 a 150) = 900 a 950 mm</code>.</li>
+            <li>Para usuario B: <code>1140 − (100 a 150) = 990 a 1040 mm</code>.</li>
+          </ul>
+          <p><strong>Solución Técnica de Compromiso:</strong></p>
+          <ul>
+            <li>Se fija la altura general de trabajo en <strong>920 mm</strong>, extraordinariamente cómoda para la usuaria A y aceptable para el usuario B.</li>
+            <li>Composición de cotas: Zócalo de patas regulables a 100 mm + Casco bajo maximizado de 780 mm (ganando un 10% de volumen interior frente a 700/720 mm) + Encimera de cuarzo compacto de 40 mm (<code>100 + 780 + 40 = 920 mm</code>).</li>
+            <li>Para el usuario B, se diseña una tabla de corte gruesa de madera maciza de 50 mm con topes perimetrales que eleva la superficie de preparación a <strong>970 mm</strong> cuando realiza tareas de picado intensivo.</li>
+          </ul>
+        `
+      },
+      {
+        titulo: "Ejemplo 3: Trazado y Validación Cinemática del Triángulo de Trabajo en Cocina en L",
+        contenido: `
+          <p><strong>Escenario:</strong> Espacio de 3,50 × 2,80 m con distribución en L.</p>
+          <p><strong>Implantación de Elementos:</strong> Frigorífico combi en extremo izquierdo de pared A (x = 300 mm); fregadero de 1 seno con escurridor centrado en pared A (x = 2100 mm); placa de cocción en pared B perpendicular (y = 1600 mm desde esquina).</p>
+          <div class="formula-box">• Lado 1 (Frigorífico a Fregadero): 2100 − 300 = 1800 mm = 1,80 m.
+• Lado 2 (Fregadero a Placa): D = √(1400² + 1600²) = √4520000 ≈ 2126 mm = 2,13 m.
+• Lado 3 (Placa a Frigorífico): D = √(300² + 1200²) = √1530000 ≈ 1237 mm = 1,24 m.</div>
+          <p><strong>Validación NKBA:</strong> Lado 1 (1,80 m), Lado 2 (2,13 m) y Lado 3 (1,24 m) cumplen todos el rango de 1,20 m a 2,70 m. Perímetro total: <code>1,80 + 2,13 + 1,24 = 5,17 m</code> (dentro del rango 4,00 m ≤ P ≤ 7,90 m). Encimera intermedia continua de 1400 mm en esquina, superando los 800 mm exigidos por BORA España.</p>
+        `
+      },
+      {
+        titulo: "Ejemplo 4: Despiece Integral de Módulo Bajo de 60 cm con 1 Cajón Cubertero y 2 Caceroleros en Melamina de 18 mm",
+        contenido: `
+          <p><strong>Dimensiones Nominales:</strong> Ancho 600 mm, Alto casco 720 mm, Fondo casco 580 mm. Tablero 18 mm. Correderas telescópicas de 13 mm de holgura por lado (fondo nominal 500 mm).</p>
+          <ul>
+            <li><strong>Despiece Estructural del Casco:</strong> 2 Laterales: 720 × 580 mm (canto frontal 1 mm); 1 Suelo/Base: 564 × 580 mm (canto frontal 1 mm); 2 Amarres superiores: 564 × 100 mm (canto 0,4 mm); 1 Trasera HDF 8 mm en ranura a 15 mm del borde: 576 × 700 mm.</li>
+            <li><strong>Despiece de Cajas de Cajones Interiores (3 uds):</strong> Ancho exterior caja: <code>564 − 26 = 538 mm</code>. Ancho testeros: <code>538 − 36 = 502 mm</code>.
+              <br>– 1 Cajón superior cubertero (alto 100 mm): 2 costados 500 × 100 mm, 2 testeros 502 × 100 mm, 1 fondo HDF 8 mm 514 × 490 mm.
+              <br>– 2 Caceroleros inferiores (alto 200 mm): 4 costados 500 × 200 mm, 4 testeros 502 × 200 mm, 2 fondos HDF 8 mm 514 × 490 mm.</li>
+            <li><strong>Frentes Exteriores Decorativos (3 tapas):</strong> Ancho <code>600 − 4 = 596 mm</code> (canto 2 mm 4C). Altura disponible: <code>720 − (4 × 3 mm holguras) = 708 mm</code> → Tapa superior cubertero: <strong>140 × 596 mm</strong>; Tapa media cacerolero: <strong>284 × 596 mm</strong>; Tapa inferior cacerolero: <strong>284 × 596 mm</strong>. Verificación: <code>140 + 284 + 284 + 12 = 720 mm</code> exactos.</li>
+          </ul>
+        `
+      },
+      {
+        titulo: "Ejemplo 5: Despiece de Módulo Bajo Fregadero de 80 cm con Doble Puerta y Vano para Fontanería",
+        contenido: `
+          <p><strong>Dimensiones:</strong> Ancho 800 mm, Alto 720 mm, Fondo 580 mm. Tablero 16 mm.</p>
+          <p><strong>Modificación Técnica:</strong> Sin estantes intermedios completos ni trasera entera para permitir paso de llaves de corte y desagüe de 50 mm. El amarre superior frontal va vertical para librar la cubeta del fregadero.</p>
+          <ul>
+            <li>2 Laterales: 720 × 580 mm (canto frontal 1 mm).</li>
+            <li>1 Suelo/Base: 768 × 580 mm (800 − 32).</li>
+            <li>1 Amarre superior frontal vertical: 768 × 100 mm + 1 Amarre superior posterior horizontal: 768 × 100 mm.</li>
+            <li>1 Faja de rigidización inferior trasera: 768 × 150 mm.</li>
+            <li>2 Puertas abatibles: Ancho <code>(800 − 6) / 2 = 397 mm</code> cada una; Alto <code>720 − 4 = 716 mm</code> (canto 2 mm 4C).</li>
+          </ul>
+        `
+      },
+      {
+        titulo: "Ejemplo 6: Despiece de Módulo Alto de 80 × 70 × 35 cm con Balda Regulable en 16 mm",
+        contenido: `
+          <p><strong>Dimensiones:</strong> Ancho 800 mm, Alto 700 mm, Fondo 350 mm. Tablero 16 mm.</p>
+          <ul>
+            <li>2 Laterales: 700 × 330 mm (fondo reducido 20 mm para cámara trasera de riel de cuelgue oculto).</li>
+            <li>1 Techo y 1 Suelo: 768 × 330 mm (800 − 32).</li>
+            <li>1 Trasera HDF 8 mm: 780 × 680 mm (encastrada en ranura).</li>
+            <li>1 Estante móvil regulable: 766 × 310 mm (−2 mm ancho para no rayar costados, −20 mm fondo para no golpear puertas/bisagras).</li>
+            <li>2 Puertas: Ancho 397 mm cada una, Alto 696 mm (700 − 4 mm).</li>
+          </ul>
+        `
+      },
+      {
+        titulo: "Ejemplo 7: Cálculo Exacto de Deducciones para Cajonera con Correderas Telescópicas de 13 mm",
+        contenido: `
+          <p><strong>Problema de Taller:</strong> Un carpintero construye un cajón con un ancho interior de mueble de 464 mm (módulo de 500 mm en 18 mm). Corta la caja exterior del cajón en 445 mm.</p>
+          <p><strong>Diagnóstico del Error:</strong> Las guías telescópicas requieren 26 mm de holgura total (13 mm × 2): <code>464 − 26 = 438 mm</code>. El cajón mide 445 mm (7 mm más ancho de lo debido); las bolas de acero se traban y no cierra.</p>
+          <p><strong>Corrección:</strong> Desarmar el cajón, cortar 7 mm a los testeros frontal y trasero (dejándolos en 402 mm en lugar de 409 mm) y volver a armar.</p>
+        `
+      },
+      {
+        titulo: "Ejemplo 8: Configuración de Mapa de Corte en Tablero de 2750 × 1830 mm Respetando Veta",
+        contenido: `
+          <p><strong>Objetivo:</strong> Optimizar 6 puertas de melamina roble rústico de 716 × 396 mm y 4 frentes de cacerolero de 356 × 796 mm, con veta vertical (a lo largo de 716 mm y 356 mm).</p>
+          <ol>
+            <li>Definir material: Tablero 2750 × 1830 mm, espesor 18 mm, veta horizontal respecto al largo del tablero.</li>
+            <li>Ajustar sierra: Kerf de 3,5 mm. Refilado perimetral de 15 mm (área útil: 2720 × 1800 mm).</li>
+            <li>Bloquear rotación de piezas (<em>Do Not Rotate</em>). El optimizador agrupa cortes en franjas longitudinales.</li>
+            <li>Resultado: Aprovechamiento neto del <strong>89,4%</strong> sin ninguna pieza con veta invertida.</li>
+          </ol>
+        `
+      },
+      {
+        titulo: "Ejemplo 9: Resolución de Interferencia entre Ventana Abatible y Grifería de Fregadero",
+        contenido: `
+          <p><strong>Caso Real:</strong> Ventana de dos hojas batientes interiores sobre fregadero. Alféizar a 930 mm y encimera a 910 mm. Al abrir la hoja golpea el cuello del grifo monomando de caño alto (320 mm).</p>
+          <ul>
+            <li><strong>Opción A (Recomendada):</strong> Instalar un <strong>grifo abatible frontalmente hacia el seno</strong> (<em>tap-down</em>), que reduce su altura a 65 mm al abatirse.</li>
+            <li><strong>Opción B:</strong> Desplazar la cuba del fregadero 150 mm a izquierda o derecha en el despiece para hacer coincidir el grifo con el montante fijo central de la ventana.</li>
+          </ul>
+        `
+      },
+      {
+        titulo: "Ejemplo 10: Presupuestación Completa y Desglosada para Cocina Lineal de 3 Metros",
+        contenido: `
+          <p><strong>Composición:</strong> Frente de 3,00 m con 5 módulos bajos (columna horno/microondas 60, placa con gavetas 60, lavavajillas 60, fregadero 60, auxiliar 60) y 4 muebles altos de 60 cm.</p>
+          <ul>
+            <li>Tableros estructura 16 mm (7 planchas 2440×1220 mm a 38 €/ud): <strong>266,00 €</strong></li>
+            <li>Tableros frentes diseño 18 mm (4 planchas a 55 €/ud): <strong>220,00 €</strong></li>
+            <li>Tableros trasera HDF 8 mm (2 planchas a 22 €/ud): <strong>44,00 €</strong></li>
+            <li>Canto PVC 1 mm y 0,4 mm (120 m lineales + encolado): <strong>110,00 €</strong></li>
+            <li>Herrajes (18 bisagras soft-close, 3 correderas 500 mm, 8 colgadores, 20 patas, tornillería): <strong>215,00 €</strong></li>
+            <li>Encimera HPL hidrófuga 3,00 m × 65 cm × 38 mm con copete: <strong>180,00 €</strong></li>
+            <li>Subtotal Materiales Directos (CD): <strong>1.035,00 €</strong> + Desperdicio (10%): <strong>103,50 €</strong></li>
+            <li>Mano de obra taller y montaje (35 h a 25 €/h): <strong>875,00 €</strong> → Coste Directo Total (CD + MO): <strong>2.013,50 €</strong></li>
+            <li>Base imponible con margen comercial 35% (<code>2013,50 / 0,65</code>): <strong>3.097,69 €</strong> + IVA (21%): <strong>650,51 €</strong></li>
+            <li><strong>Precio Total de Venta al Cliente: 3.748,20 €</strong></li>
+          </ul>
+        `
+      }
+    ];
+
+    const PROYECTOS_INTEGRADORES = [
+      {
+        titulo: "Proyecto 1: Cocina Lineal Compacta para Estudio Urbano (Longitud 2,40 m)",
+        contenido: `
+          <p><strong>Contexto:</strong> Apartamento estudio de 35 m². Pared única de 2420 mm y altura libre de 2500 mm.</p>
+          <p><strong>Distribución (Izquierda a Derecha):</strong> 1) Frigorífico bajo encimera (600 mm), 2) Fregadero 1 puerta seno 45 cm (600 mm), 3) Cajonero 1 cubertero + 2 caceroleros (600 mm), 4) Placa 2 fuegos + horno compacto (600 mm) + Regleta ajuste 20 mm. <strong>Altos (700 × 350 mm):</strong> 4 módulos de 600 mm (sobre frío, escurreplatos, despensero y campana telescópica).</p>
+          <p><strong>Despiece (Tablero 16 mm):</strong> 8 laterales bajos (720×580), 4 suelos bajos (568×580), 8 amarres bajos (568×100), 4 traseras HDF 8 mm (576×700), 8 laterales altos (700×330), 8 techos/suelos altos (568×330), 3 traseras altas (576×680), 7 puertas (596×716 y 596×696).</p>
+          <p><strong>Presupuesto Estimado:</strong> Materiales: 620 € · Herrajes: 145 € · Encimera HPL: 95 € · Mano de obra: 550 €. <strong>Total: 1.410 €</strong>.</p>
+        `
+      },
+      {
+        titulo: "Proyecto 2: Cocina en L Funcional con Columna Técnica (3,00 × 2,20 m)",
+        contenido: `
+          <p><strong>Contexto:</strong> Vivienda unifamiliar (3 personas). Pared A (3050 mm) y Pared B (2250 mm) verificadas con hipotenusa de 3790 mm.</p>
+          <p><strong>Distribución:</strong> <em>Pared A (3,00 m):</em> Columna horno/microondas (600) + Cajonero 3 gavetas (800) + Placa inducción 3 fuegos sobre cajonero (800) + Rincón ciego (800 mm con puerta 400 mm y regleta). <em>Pared B (2,20 m):</em> Fondo rincón ciego (600) + Lavavajillas integrable (600) + Fregadero 2 puertas (800) + Frigorífico combi libre (600).</p>
+          <p><strong>Triángulo NKBA:</strong> Frío-Fregadero: 1,40 m · Fregadero-Placa: 2,10 m · Placa-Frío: 2,45 m · Perímetro: <strong>5,95 m</strong>.</p>
+          <p><strong>Presupuesto Estimado:</strong> Materiales: 1.250 € · Herrajes (esquinero riñón, 20 bisagras, 6 guías 80 cm 45 kg): 420 € · Silestone (4,40 m): 1.100 € · Montaje: 1.100 €. <strong>Total: 3.870 €</strong>.</p>
+        `
+      },
+      {
+        titulo: "Proyecto 3: Cocina en Dos Frentes Paralelos o Galera (3,20 × 2,40 m)",
+        contenido: `
+          <p><strong>Distribución:</strong> <em>Frente Izquierdo (Húmedo/Frío):</em> Columna despensero (600) + Frigorífico integrable (600) + Fregadero (800) + Lavavajillas (600) + Terminal 1 puerta (600) = 3200 mm. <em>Frente Derecho (Caliente/Preparación):</em> Bajo 2 puertas (600) + Placa con caceroleros (900) + Bajo trabajo (900) + Columna hornos (600). <em>Pasillo libre central:</em> <code>2400 − 1200 = 1200 mm</code> exactos.</p>
+          <p><strong>Presupuesto Estimado:</strong> Tableros/cantos (14 cascos 18 mm hidrófuga): 1.680 € · Herrajes y perfil gola: 560 € · Encimeras porcelánicas (6,4 m): 1.850 € · Instalación: 1.400 €. <strong>Total: 5.490 €</strong>.</p>
+        `
+      },
+      {
+        titulo: "Proyecto 4: Cocina en U de Alta Capacidad con Rincón Ciego Aprovechado (2,80 × 2,60 m)",
+        contenido: `
+          <p><strong>Distribución:</strong> <em>Frente Central (2,60 m):</em> Fregadero bajo ventana corredera (800) + lavavajillas (600) + auxiliar (600) + encuentros rincón. <em>Frente Izquierdo (2,80 m):</em> Columna frigorífico (600) + columna despensera (600) + bajo trabajo (600) + rincón. <em>Frente Derecho (2,80 m):</em> Placa inducción 80 cm sobre cajonero (900) + campana 90 cm + cajonero auxiliar (900).</p>
+          <p><strong>Solución Rincones:</strong> Dos muebles ciegos de 1050 mm con herrajes extraíbles <em>Magic Corner</em> (90% aprovechamiento).</p>
+          <p><strong>Presupuesto Estimado:</strong> Total fabricación y montaje con encimera de granito nacional pulido: <strong>6.250 €</strong>.</p>
+        `
+      },
+      {
+        titulo: "Proyecto 5: Cocina Abierta con Isla Central de Trabajo y Cocción (4,00 × 3,50 m)",
+        contenido: `
+          <p><strong>Frente Pared (4,00 m):</strong> 6 columnas de 600 mm (3600 mm) + regletas: frigorífico, congelador, horno/microondas, despensa tándem y módulo persiana para pequeños aparatos.</p>
+          <p><strong>Isla Central (2400 × 1000 mm):</strong> Cara cocina: cajonero 80 cm con inducción y extractor de superficie integrado (evacuación por zócalo con filtro carbón regenerable tipo BORA), lavavajillas 60 cm y fregadero 80 cm. Cara salón: muebles fondo 350 mm <em>push-to-open</em> y voladizo encimera 300 mm para 3 taburetes. Pasos perimetrales ≥ 1100 mm.</p>
+          <p><strong>Presupuesto Estimado:</strong> Mobiliario lacado/tablero marino: 4.800 € · Inducción con extractor: 2.400 € · Dekton 20 mm en cascada: 3.600 € · Instalación: 1.800 €. <strong>Total: 12.600 €</strong>.</p>
+        `
+      },
+      {
+        titulo: "Proyecto 6: Cocina con Península y Barra Desayunadora Integrada (3,60 × 3,00 m)",
+        contenido: `
+          <p><strong>Distribución:</strong> Frente en L de 3,60 × 1,80 m con columnas altas en extremo y zona cocción/fregadero continuos. Península perpendicular de 1800 × 900 mm con dos cajoneros de 900 mm en cara interior y voladizo de encimera de 350 mm reforzado con escuadras de acero de 6 mm.</p>
+          <p><strong>Presupuesto Estimado:</strong> Total proyecto terminado con encimera de cuarzo blanco: <strong>4.920 €</strong>.</p>
+        `
+      },
+      {
+        titulo: "Proyecto 7: Cocina Compacta de Techo Bajo con Muebles hasta el Dintel (2,10 × 2,10 m)",
+        contenido: `
+          <p><strong>Desafío:</strong> Techo bajo a 2250 mm de altura libre. Encimera a 900 mm (zócalo 100 + casco 770 + encimera 30) + hueco libre de 550 mm → quedan 800 mm hasta el techo.</p>
+          <p><strong>Solución:</strong> Muebles altos a medida de <strong>780 mm</strong> rematando los 20 mm superiores con imposta sellada.</p>
+          <p><strong>Presupuesto Estimado:</strong> Total materiales a medida y montaje: <strong>2.350 €</strong>.</p>
+        `
+      },
+      {
+        titulo: "Proyecto 8: Cocina Rústica Contemporánea con Distribución por Zonas (3,80 × 2,50 m)",
+        contenido: `
+          <p><strong>Acabados y Zonificación:</strong> Melamina texturada nudo de roble sincrónico y frentes verde salvia mate. Muro de 2,50 m con frigorífico <em>side-by-side</em> de 90 cm enmarcado; muro de 3,80 m con campana rústica de 120 cm y gavetas con guías ocultas y freno hidráulico.</p>
+          <p><strong>Presupuesto Estimado:</strong> Total con encimera de madera maciza de roble hidrófuga: <strong>4.680 €</strong>.</p>
+        `
+      },
+      {
+        titulo: "Proyecto 9: Módulo Independiente Multifunción / Desayunador de Apoyo (Longitud 1,20 m)",
+        contenido: `
+          <p><strong>Dimensiones:</strong> Ancho 1200 mm, Alto 2100 mm, Fondo inferior 600 mm, Fondo superior 350 mm. Dos cascos bajos de 600 mm con cajón para cápsulas/cubiertos, encimera de madera alistonada a 920 mm y vitrina superior de 1200 mm con marcos de aluminio, cristal translúcido e iluminación LED fresada.</p>
+          <p><strong>Presupuesto Estimado:</strong> Total materiales, vitrina, madera y LED: <strong>780 €</strong>.</p>
+        `
+      },
+      {
+        titulo: "Proyecto 10: Cocina Adaptada y Accesible para Personas con Movilidad Reducida (PMR) (3,20 × 2,80 m)",
+        contenido: `
+          <p><strong>Criterios Ergonómicos Universales:</strong></p>
+          <ul>
+            <li><strong>Radio de Giro:</strong> Círculo central libre de obstáculos de <strong>1500 mm de diámetro</strong> para giro de 360° de silla de ruedas.</li>
+            <li><strong>Altura Encimera Reducida:</strong> <strong>800 a 820 mm</strong> del suelo.</li>
+            <li><strong>Vanos Inferiores Libres:</strong> Bajo placa y fregadero hueco diáfano de mínimo <strong>700 mm alto × 500 mm fondo</strong> para aproximación frontal, con placa de aislamiento térmico bajo cubeta.</li>
+            <li><strong>Muebles Altos Basculantes:</strong> Herrajes elevadores neumáticos (<em>iMove</em>) y zócalo de 150 mm retranqueado 100 mm.</li>
+          </ul>
+          <p><strong>Presupuesto Estimado:</strong> Total proyecto adaptado con herrajes cinemáticos accesibles: <strong>5.980 €</strong>.</p>
+        `
+      }
+    ];
+
+    const GLOSARIO_TERMINOS = [
+      ["Alféizar", "Elemento constructivo horizontal que corona la parte inferior del hueco de una ventana, sobre el cual se asienta el marco."],
+      ["Antepecho", "Altura vertical de pared maciza comprendida entre el suelo terminado y la cara superior del alféizar de una ventana. Cota crítica para determinar si un mueble bajo o grifo interfiere con la apertura."],
+      ["Bisagra de Cazoleta", "Herraje articulado oculto de cuatro pivotes con cazoleta de embutir (habitualmente de 35 mm de diámetro) que permite regular la posición de las puertas en los tres ejes del espacio (X, Y, Z)."],
+      ["Cacerolero", "Cajón de gran profundidad y altura de costados (habitualmente de 200 a 350 mm) diseñado para soportar peso elevado (30 a 50 kg) mediante guías reforzadas, destinado a ollas, sartenes y pequeños electrodomésticos."],
+      ["Canto PVC / ABS", "Tira continua de material termoplástico extruido que se adhiere mediante cola termofusible al borde vivo del tablero cortado para protegerlo de la humedad, los impactos mecánicos y conferirle acabado estético."],
+      ["Casco / Carcasa", "Estructura portante básica con forma de prisma rectangular (compuesta por laterales, base, amarres superiores y trasera) sobre la cual se montan los frentes, baldas y herrajes."],
+      ["Colgador Oculto Regulable", "Herraje embutido o atornillado en el interior de la esquina superior de un mueble alto que engrana mecánicamente sobre una pletina o riel anclado al muro, permitiendo regular el nivel horizontal y la aproximación a la pared."],
+      ["Confirmat", "Tornillo técnico de acero con rosca ancha y cuello cilíndrico de centrado diseñado específicamente para ensamblar tableros de aglomerado sin agrietar las capas internas."],
+      ["Copete / Zocalillo", "Remate longitudinal de aluminio, resina o piedra que se coloca en la unión en ángulo recto entre la encimera y la pared alicatada para sellar la junta e impedir filtraciones de líquidos."],
+      ["Corredera Telescópica", "Guía mecánica de rodamientos de bolas de acero en tres etapas que permite la extracción total del cajón fuera del casco del mueble. Demanda una holgura estándar de 13 mm por lado (26 mm en total)."],
+      ["Despiece", "Lista analítica y detallada de todas y cada una de las piezas individuales de tablero que componen los muebles de un proyecto, especificando largo, ancho, grosor, sentido de veta y cantos a aplicar."],
+      ["Escuadra / Falsa Escuadra", "Condición geométrica de dos planos que forman un ángulo recto de 90°. La falsa escuadra es cualquier desviación angular (aguda u obtusa) respecto al ángulo recto teórico de una pared o esquina."],
+      ["Fuga / Holgura Perimetral", "Separación intencional de 1,5 a 3 mm que se deja entre frentes de cajón o puertas contiguas para evitar que choquen entre sí durante la apertura y permitir la dilatación térmica del material."],
+      ["HDF (High Density Fiberboard)", "Tablero de fibras de madera de alta densidad (superior a 800 kg/m³), habitualmente de 3 a 8 mm de espesor, utilizado para traseras de muebles y fondos de cajón por su extrema rigidez."],
+      ["Kerf (Ancho de Corte)", "Espesor de material que la hoja de la sierra circular o disco de la seccionadora pulveriza y convierte en serrín durante cada pasada de corte (habitualmente entre 3,2 y 4,5 mm)."],
+      ["MDF (Medium Density Fiberboard)", "Tablero de fibras de madera de densidad media aglomeradas con resinas sintéticas bajo presión y calor. Superficie ultrasuave idónea para lacar y moldurar frentes."],
+      ["MDP (Medium Density Particleboard)", "Tablero aglomerado de partículas de madera en tres capas con gradiente de densidad. Es el material más utilizado para la fabricación de cascos de cocina por su estabilidad dimensional y ligereza."],
+      ["Minifix", "Sistema de herraje de unión oculta desmontable consistente en un perno de acero roscado en un tablero y una caja excéntrica de zamak alojada en el tablero perpendicular que, al girar, tracciona el perno bloqueando la junta."],
+      ["Módulo Ciego (Rincón Ciego)", "Mueble bajo o alto de esquina que se extiende longitudinalmente detrás de otro módulo perpendicular, permitiendo acceder a su fondo a través de una puerta frontal única provista de regleta de separación."],
+      ["Optimizador de Corte", "Algoritmo informático que distribuye geométricamente una lista de piezas sobre uno o varios tableros comerciales con el objetivo de maximizar el aprovechamiento y minimizar el retal sobrante."],
+      ["Plomo (Verticalidad)", "Condición física de un elemento constructivo cuya dirección es perpendicular exacta a la línea del horizonte terrestre, verificada mediante plomada o nivel láser."],
+      ["Refilado Perimetral (Trim Cut)", "Primer corte perimetral de saneamiento (10 a 15 mm) que se realiza a un tablero comercial para eliminar cantos golpeados, escuadrados imperfectos o hinchamientos por humedad de transporte."],
+      ["Regleta de Ajuste", "Listón de melamina del mismo color que los frentes que se coloca entre el último módulo de una fila y la pared para absorber los descuadres y desplomes del tabique de obra."],
+      ["Retranqueo", "Desplazamiento intencional hacia el interior de un elemento respecto a la línea de fachada del mueble (ej. zócalo retranqueado 50 mm para alojar la punta de los pies del usuario)."],
+      ["Scribing (Ajuste al Contorno)", "Técnica de carpintería consistente en transferir el perfil irregular de una pared curvada o rugosa sobre una regleta o encimera mediante compás para recortarla y lograr un ajuste hermético sin holguras."],
+      ["Solapa de Bisagra", "Distancia que el borde de la puerta monta o solapa sobre la cara frontal del canto del lateral del mueble al estar cerrada."],
+      ["Tándem / Guía Oculta", "Sistema de corredera para cajón situado completamente por debajo del fondo de la caja, invisible a la vista lateral y provisto de mecanismos de deslizamiento silencioso y autocierre hidráulico."],
+      ["Triángulo de Trabajo", "Concepto ergonómico que conecta los tres centros funcionales de la cocina: almacenamiento (frigorífico), lavado/preparación (fregadero) y cocción (placa/horno), optimizando los movimientos del usuario."],
+      ["Uñero / Perfil Gola", "Sistema de apertura de puertas y cajones sin tiradores vistos exteriores, mediante un perfil de aluminio continuo fijado en el casco que permite introducir los dedos para traccionar el frente."],
+      ["Veta", "Dirección y patrón longitudinal predominante de las fibras de la madera reproducido en el papel melamínico decorativo, cuya continuidad visual debe coordinarse en el plano de corte."],
+      ["Voladizo", "Saliente horizontal de una encimera que vuela libre sin apoyo inferior directo para crear barras desayunadoras o vuelos de goteo sobre los frentes."],
+      ["Zócalo", "Elemento horizontal continuo fijado a las patas niveladoras de los muebles bajos que sella el espacio inferior entre el suelo y los cascos impidiendo la entrada de suciedad y objetos."]
+    ];
+
+    const PREGUNTAS_QA = [
+      {
+        nivel: "Nivel 1 · Básico (Fundamentos, Medidas y Ergonomía Inicial)",
+        items: [
+          { q: "P1: ¿Por qué en carpintería y diseño de cocinas se utiliza exclusivamente el milímetro y nunca el centímetro?", a: "El milímetro (mm) es la unidad estándar de la industria mecánica y del mueble porque elimina las ambigüedades decimales y errores de redondeo. En una línea de 5 módulos de cocina contiguos, un redondeo acumulativo de apenas 2 mm por módulo arroja un desajuste final de 10 mm en obra, lo que imposibilita la entrada de la encimera o genera holguras insalvables contra la pared." },
+          { q: "P2: ¿Cuál es la altura estándar universal de un mueble bajo de cocina y cómo se descompone?", a: "La altura terminada estándar de la superficie de trabajo suele situarse entre 850 mm y 950 mm (siendo 900 mm la cota más repetida en la industria). Esta cota se descompone físicamente en tres capas: patas o zócalo inferior (100 a 150 mm), altura del casco o caja del mueble (700 a 720 mm) y espesor de la encimera terminada (20 a 40 mm)." },
+          { q: "P3: ¿A qué distancia de la encimera deben colocarse los muebles altos?", a: "La separación libre recomendada entre la cara superior de la encimera y la base inferior de los muebles altos oscila entre 500 mm y 600 mm (siendo 550 mm la medida de equilibrio más funcional). Menos de 500 mm asfixia el campo de visión y dificulta el manejo de electrodomésticos pequeños, mientras que más de 600 mm sitúa los estantes aéreos fuera del alcance antropométrico normal." },
+          { q: "P4: ¿Qué es el triángulo de trabajo y cuáles son sus tres vértices?", a: "Es un modelo ergonómico normalizado por la NKBA que optimiza los desplazamientos del cocinero al conectar las tres zonas neurálgicas: 1) Zona de almacenamiento (frigorífico y despensa), 2) Zona de lavado y preparación (fregadero y cubo de residuos) y 3) Zona de cocción (placa y horno)." },
+          { q: "P5: ¿Cuánto deben medir los lados del triángulo de trabajo según la normativa NKBA?", a: "Cada lado individual del triángulo debe medir entre 1,20 m y 2,70 m, y la suma del perímetro total acumulado debe situarse estrictamente entre 4,00 m y 7,90 m, garantizando que ninguna circulación principal atraviese este triángulo." },
+          { q: "P6: ¿A qué altura mínima debe instalarse una campana extractora sobre la placa de cocina?", a: "Sobre placas de inducción o vitrocerámica, la campana debe colocarse a una distancia vertical mínima de 550 mm a 600 mm (600 mm exigido por Siemens en sus fichas técnicas). Sobre placas de gas, la distancia mínima obligatoria aumenta a 650 mm - 750 mm por motivos estrictos de seguridad contra incendios." },
+          { q: "P7: ¿Qué profundidad tienen habitualmente los muebles bajos y los muebles altos?", a: "Los muebles bajos tienen una profundidad estándar de casco de 580 mm (que con puertas de 18 mm alcanza 598 mm, quedando bajo una encimera de 600 a 630 mm). Los muebles altos tienen un fondo estándar de 300 mm a 350 mm, lo que evita que el usuario se golpee la frente al inclinarse sobre la encimera." },
+          { q: "P8: ¿Qué ancho mínimo de paso libre debe dejarse en un pasillo de cocina o alrededor de una isla?", a: "El ancho funcional mínimo para el paso de una persona es de 900 mm a 1000 mm. Sin embargo, en cocinas con dos frentes paralelos o alrededor de islas donde dos personas cocinan a la vez y se abren puertas de lavavajillas o cajones profundos, el pasillo óptimo recomendado es de 1000 mm a 1200 mm." },
+          { q: "P9: ¿Qué diferencia existe entre un tablero aglomerado (MDP) y un tablero de fibras (MDF)?", a: "El MDP (partículas de madera aglomeradas) es más ligero, económico y ofrece una gran estabilidad dimensional para soportar peso horizontal en cascos y estantes. El MDF (fibras microscópicas de madera desfibradas y prensadas) tiene una densidad uniforme y superficie lisa ideal para ser fresada, moldurada y lacada en frentes y puertas decorativas." },
+          { q: "P10: ¿Por qué es fundamental que el zócalo de una cocina esté retranqueado?", a: "Según las fuentes técnicas de ergonomía y mueblería, el zócalo debe retranquearse entre 50 mm y 70 mm hacia el interior respecto a la línea de los frentes para generar un hueco ergonómico libre donde el usuario pueda introducir la punta de los pies al pararse recto frente a la encimera, evitando dolores lumbares provocados por cocinar con el torso inclinado hacia adelante." },
+          { q: "P11: ¿Qué holgura perimetral debe preverse entre las puertas de cocina?", a: "Se debe descontar entre 1,5 mm y 2 mm por cada borde libre, lo que equivale a restar 3 a 4 mm al ancho y al alto nominal del casco del mueble (por ejemplo, para un módulo de 600 × 720 mm, la puerta se corta en 596 × 716 mm). Esta holgura impide que las puertas rocen entre sí al abrirse y absorbe las tolerancias de escuadrado." }
+        ]
+      },
+      {
+        nivel: "Nivel 2 · Avanzado (Despiece, Herrajes, Holguras e Instalaciones)",
+        items: [
+          { q: "P12: ¿Cómo se calcula exactamente el ancho de un cajón interior para correderas telescópicas estándar?", a: "Las correderas telescópicas de bolas de acero consumen exactamente 13 mm de holgura por cada costado (26 mm en total). Por tanto, la fórmula exacta es: Ancho exterior del cajón = [Ancho nominal del mueble - (2 × Espesor del tablero)] - 26 mm. Para un mueble de 600 mm con tablero de 18 mm, el ancho del cajón es: [600 - 36] - 26 = 564 - 26 = 538 mm." },
+          { q: "P13: ¿Cuál es la diferencia mecánica entre una bisagra recta, una acodada y una superacodada?", a: "La bisagra recta (solapa total) tiene brazo plano y monta la puerta sobre todo el canto del lateral (14-16 mm de solape). La acodada (media solapa) tiene un quiebre de 7-9 mm y solapa únicamente la mitad del canto (7-8 mm), permitiendo que dos puertas contiguas compartan el mismo lateral intermedio. La superacodada (interior o enrasada) tiene un pronunciado ángulo que mantiene la puerta embutida dentro del hueco interior del casco, dejando el canto del mueble totalmente visto." },
+          { q: "P14: ¿Cómo debe ajustarse la medida de los estantes interiores regulables respecto al casco?", a: "Los estantes interiores deben tener un descuento de 2 mm en la anchura respecto a la luz interior del mueble para poder deslizarse verticalmente sobre los soportes sin rayar los costados de melamina, y un retranqueo de al menos 20 mm en el fondo para no colisionar con la cara interior de las puertas ni con las cazoletas de las bisagras al cerrarse." },
+          { q: "P15: ¿Qué distancia de separación de seguridad debe mantenerse entre la placa de cocción y el fregadero?", a: "Debe existir una separación continua mínima de encimera de 400 mm a 600 mm (siendo altamente recomendable 800 mm según BORA España). Esta separación evita que las salpicaduras de agua alcancen el aceite caliente o las sartenes hirviendo, previene el choque térmico y suministra la zona principal de corte y preparación de alimentos." },
+          { q: "P16: ¿Por qué los muebles fregadero no llevan una trasera completa de HDF?", a: "Porque el espacio posterior debe quedar despejado para el paso y registro de las tomas de agua fría y caliente, las llaves de escuadra de corte, el tubo colector de desagüe de PVC de 40 o 50 mm y las conexiones del grifo y lavavajillas. En su lugar, se instalan dos fajas de rigidización horizontales (una superior y otra inferior de 100-150 mm) que atan los laterales sin entorpecer la fontanería." },
+          { q: "P17: ¿Cómo se resuelve constructivamente un módulo de rincón ciego en una cocina en L?", a: "Se construye un módulo alargado (habitualmente de 1000 a 1100 mm de largo por 580 mm de fondo) donde la mitad del mueble queda oculta tras el frente del mueble perpendicular. Para evitar que las puertas y tiradores de ambos módulos colisionen al abrirse en la esquina interior de 90°, se instala una regleta de rincón ciego de 60 a 80 mm de ancho que actúa como separador espacial ciego." },
+          { q: "P18: ¿Qué diámetro debe tener el conducto de extracción de humos y por qué no debe reducirse?", a: "Las campanas extractoras modernas exigen un conducto de evacuación de 150 mm de diámetro interior (o mínimo 120 mm en aparatos pequeños de baja potencia). Reducir este conducto a 100 mm o utilizar tubos de aluminio flexible corrugado estrangulado genera un estrangulamiento de flujo aerodinámico, reduce la capacidad de absorción en más del 40% y duplica los decibelios de ruido emitidos por el motor." },
+          { q: "P19: ¿Cuál es el procedimiento técnico para comprobar escuadras en una esquina mediante la regla 3-4-5?", a: "Se marcan exactamente 600 mm sobre un tabique desde el vértice de la esquina y 800 mm sobre el tabique contiguo. Se mide la distancia diagonal recta entre ambas marcas con flexómetro tenso: si mide exactamente 1000 mm, el ángulo es de 90° perfecto; si mide menos, el ángulo es agudo (cerrado); si mide más de 1000 mm, el ángulo es obtuso (abierto)." },
+          { q: "P20: ¿Por qué la base de un mueble bajo debe apoyarse entre los laterales o con fijación reforzada hacia las patas?", a: "Si la base se coloca pasando por debajo de los cantos inferiores de los laterales y las patas se atornillan directamente a la base, el peso de los laterales, la encimera y las vajillas descansa por gravedad sobre la base y las patas sin someter los tornillos a cizallamiento. Si la base va entre laterales, el peso descansa en los tornillos de ensamble, requiriendo el uso mandatorio de tornillos confirmat de 7 mm o tarugos de madera que absorban el esfuerzo cortante." },
+          { q: "P21: ¿Qué circuito eléctrico específico debe alimentar la placa de inducción y el horno?", a: "De acuerdo con el reglamento electrotécnico, la cocina y el horno deben alimentarse mediante el Circuito C3, con cable de cobre de sección reforzada de 6 mm² protegido en el cuadro general mediante un interruptor magnetotérmico unipolar+neutro (o bipolar) de 25 A. Conectar un horno o placa a un enchufe común de 16 A con cable de 2,5 mm² genera calentamiento por sobrecarga e incendios en las tomas." },
+          { q: "P22: ¿Qué espesor de canto debe aplicarse en las puertas frente al cuerpo interior de los muebles?", a: "En las puertas y frentes de cajón se debe aplicar canto de PVC/ABS de 1 mm a 2 mm de espesor con radio de arista boleado, el cual amortigua golpes diarios y no corta las manos. En los bordes interiores no visibles del casco o baldas interiores se puede aplicar canto delgado de 0,4 mm, suficiente para proteger el aglomerado de la humedad ambiental sin encarecer el proyecto." }
+        ]
+      },
+      {
+        nivel: "Nivel 3 · PRO (Optimización CNC, Casos Complejos, Descuadres Críticos y Automatización)",
+        items: [
+          { q: "P23: ¿Cómo se compensa un descuadre de pared severo en una cocina en U donde los tabiques abren 3 cm?", a: "Cuando los muros presentan falsas escuadras divergentes superiores a 15-20 mm, es inviable forzar los cascos modulares contra la pared. El protocolo profesional consiste en: 1) Trazar con nivel láser un rectángulo geométrico en escuadra perfecta a 90° dentro de la habitación, 2) Alinear y unir los cascos modulares respetando ese eje perfecto, dejando un espacio hueco triangular detrás de los muebles, y 3) Solicitar encimeras con fondo sobredimensionado (650 mm en lugar de 600 mm) para realizar el ajuste perimetral en obra mediante la técnica del scribing (copiado del perfil irregular de la pared con compás) y rematar los extremos vistos con regletas cónicas de ajuste." },
+          { q: "P24: ¿Cómo influye el 'Kerf' o espesor de sierra en el mapa de corte optimizado de 8 tableros de melamina?", a: "El disco principal de una sierra escuadradora o seccionadora industrial desbasta entre 3,2 mm y 4,5 mm de tablero en cada pasada de corte longitudinal o transversal. Si se planea cortar 4 piezas de 600 mm a partir de un tablero de 2440 mm (4 × 600 = 2400 mm), los tres cortes intermedios destruyen 3 × 4 mm = 12 mm de material, y el refilado inicial destruye otros 20 mm. Total consumido: 2432 mm. La última pieza saldrá con una medida deficitaria de apenas 588 mm. Ignorar el kerf en el software de corte arruina la precisión de todo el lote." },
+          { q: "P25: ¿Qué adhesivo debe utilizarse para cantear zonas expuestas a calor y vapor intenso (bajo encimera y lavavajillas)?", a: "Debe exigirse canteado con adhesivo de Poliuretano Reactivo (PUR) en lugar de la cola termofusible convencional de Etilvinilacetato (EVA). El adhesivo PUR genera un enlace químico reticulado irreversible que soporta temperaturas de hasta 140°C y una inmersión continua en vapor de agua, impidiendo que el canto de las puertas cercanas al lavavajillas o campana extractora se ablande y se desprenda con los años." },
+          { q: "P26: ¿Cómo se calcula y previene el pandeo elástico en un estante de melamina cargado de vajilla?", a: "El pandeo de un estante responde a la fórmula de flexión para vigas biapoyadas con carga repartida: f = (5 · q · L⁴) / (384 · Em · I), donde la flecha máxima (f) es directamente proporcional a la longitud a la cuarta (L⁴) e inversamente proporcional al momento de inercia (I = b · h³ / 12). Para aglomerado estándar de 16 mm con módulo de elasticidad Em ≈ 2200 N/mm², cualquier balda que supere los 800 mm de vano libre experimentará un pandeo visible bajo 20 kg de platos. Para evitarlo en módulos de 900 o 1000 mm se debe: 1) Aumentar el espesor a 19 o 25 mm, 2) Rigidizar el borde frontal con un perfil de aluminio en U, o 3) Introducir un puntal vertical de apoyo central en el casco." },
+          { q: "P27: ¿Cómo se formula la secuencia de corte en una seccionadora CNC para garantizar la continuidad de la veta en frentes contiguos?", a: "Para lograr el efecto de 'veta corrida' (matching grain) a lo largo de un frente de cajones o puertas de cocina, las piezas contiguas no pueden distribuirse aleatoriamente en el optimizador de corte. Deben agruparse dentro de un único bloque continuo en el plano de corte, programando cortes de guillotina sucesivos (rip cuts) y etiquetando numéricamente cada pieza en el orden exacto de extracción para que el instalador las monte en estricta secuencia secuencial (Pieza 1A, 1B, 1C)." },
+          { q: "P28: ¿Cómo se resuelve el encuentro técnico de una encimera de porcelánico de gran formato sobre muebles de melamina?", a: "Las encimeras porcelánicas (ej. Dekton, Neolith) de 12 o 20 mm poseen una altísima dureza pero son quebradizas ante esfuerzos de flexión originados por asentamientos de los cascos. Exigen: 1) Nivelación absoluta de los muebles bajos con tolerancia máxima de ±1 mm en todo el desarrollo longitudinal, 2) Sustitución de los listones de amarre abiertos por una base superior o sub-tapa continua de tablero marino hidrófugo de 15 mm en los muebles de vanos anchos, y 3) Fijación elástica mediante cordones de silicona neutra o polímero MS, evitando masillas epóxicas rígidas que transmitan las dilataciones térmicas del mueble a la piedra." },
+          { q: "P29: ¿Qué precauciones normativas deben tomarse al diseñar una cocina con suministro de gas butano/propano (GLP) frente a gas natural?", a: "El gas natural es más ligero que el aire (densidad relativa ≈ 0,6) y tiende a ascender, por lo que las rejillas de ventilación reglamentarias deben ubicarse en la parte superior de la pared (a no más de 30 cm del techo). En cambio, los gases licuados del petróleo (GLP: butano y propano) son más pesados que el aire (densidad relativa ≈ 1,5 a 2,0) y se acumulan en el suelo; por tanto, la rejilla de ventilación debe situarse a ras de pavimento (a no más de 15 cm del suelo), y está estrictamente prohibido colocar bombonas o tuberías de GLP en sótanos o encima de rejillas de desagüe abiertas." },
+          { q: "P30: ¿Cómo se integran y ocultan las tiras de iluminación LED bajo muebles altos sin deslumbrar al usuario?", a: "El proyectista debe mecanizar una ranura o fresado ciego longitudinal de 15 mm de ancho por 10 mm de profundidad en la cara inferior de los suelos de los muebles altos, situada a unos 50-70 mm del borde frontal. Se embute un perfil disipador de aluminio con difusor opal blanco esmerilado que proyecta la luz en un ángulo de 45° hacia la zona central de trabajo, evitando que el usuario sentado en una mesa cercana vea los diodos directamente y sufra deslumbramiento." },
+          { q: "P31: ¿Qué protocolo debe seguirse para calcular el factor de desperdicio real de un proyecto y evitar pérdidas financieras en el taller?", a: "El cálculo de coste nunca debe hacerse sobre los metros cuadrados netos de las piezas de los muebles. Se debe calcular la tasa de rendimiento volumétrico: Desperdicio (%) = [1 − (∑ Superficie de piezas cortadas / ∑ Superficie de tableros brutos empleados)] × 100. En cortes con dirección de veta bloqueada y piezas grandes de costados de columnas, el desperdicio real oscila entre el 12% y el 18%. Si el proyectista presupuesta con un desperdicio genérico del 5%, el costo real del material superará la cotización, evaporando el margen de beneficio neto del proyecto." },
+          { q: "P32: ¿Cómo se calculan y mecanizan los voladizos de encimera en barras de cocina sin apoyos verticales intermedios?", a: "Un voladizo estándar de encimera de 300 mm en piedra o cuarzo de 20 o 30 mm puede autosoportarse por gravedad siempre que al menos el 70% del ancho total de la pieza repose sobre los muebles bajos y el voladizo no supere el 30%. Si el voladizo supera los 300 mm (por ejemplo, barras de 400 mm para piernas holgadas), es técnicamente obligatorio instalar pletinas estructurales invisibles de acero calibrado de al menos 6 mm de espesor enrasadas mediante fresado en las tapas de los muebles bajos cada 600 mm, impidiendo la fractura por sobrecarga cuando un usuario se apoya con los codos." },
+          { q: "P33: ¿Cuál es el procedimiento para diseñar una cocina accesible bajo la normativa universal PMR garantizando que sea reversible?", a: "Consiste en modular los muebles bajos sobre patas independientes desmontables fijadas a un chasis estructural metálico autoportante bajo encimera. Debajo del fregadero y la placa de cocción, los módulos de almacenamiento son 'cajoneras rodantes con ruedas de silicona y freno' que pueden extraerse hacia afuera o retirarse por completo, liberando instantáneamente el vano inferior de 700 mm de altura libre para el acceso de una silla de ruedas sin tener que demoler la encimera ni modificar la fontanería." }
+        ]
+      }
+    ];
+
+    const FUENTES_OFICIALES = [
+      {
+        nombre: "1. National Kitchen and Bath Association (NKBA) — Kitchen Planning Guidelines",
+        desc: "Entidad normativa internacional de referencia en la estandarización de medidas ergonómicas, distancias de seguridad, circulaciones mínimas y perímetros del triángulo de trabajo en arquitectura residencial.",
+        url: "https://kb.nkba.org/uploads/2022/05/Kitchen-Planning-Guidelines.pdf"
+      },
+      {
+        nombre: "2. BORA España — Planificar la distribución ideal de la cocina: Triángulo de trabajo",
+        desc: "Documentación técnica de fabricante especializado en extracción de superficie y zonas de cocción, que aporta los estándares de separación mínima entre frigorífico, placa (50 cm) y fregadero (80 cm).",
+        url: "https://www.bora.com/es-es/guia/planificar-la-distribucion-ideal-de-la-cocina-todo-lo-que-debe-saber-sobre-el-triangulo-magico-de-trabajo"
+      },
+      {
+        nombre: "3. Siemens Home Electrodomésticos — Altura de instalación de campanas extractoras",
+        desc: "Fichas de ingeniería con cotas milimétricas obligatorias para la fijación de campanas decorativas, de pared e integradas sobre placas de inducción y gas.",
+        url: "https://www.siemens-home.bsh-group.com/es/inspiracion/blog/altura-instalacion-campana"
+      },
+      {
+        nombre: "4. MediaMarkt Hogar — Mejor altura para la campana extractora",
+        desc: "Manual divulgativo técnico que consolida las distancias reglamentarias habituales en la instalación de campanas sobre placas de vitrocerámica (55-60 cm) y gas (65-70 cm).",
+        url: "https://www.mediamarkt.es/es/content/hogar/mejor-altura-campana-extractora"
+      },
+      {
+        nombre: "5. Grup3D — Cómo medir una cocina para diseñarla (Configurador 3D)",
+        desc: "Protocolo técnico de replanteo en tres cotas altimétricas, tolerancias de carpintería, registro de bajantes, mochetas y comprobación de reglas cinemáticas en software de modelado 3D.",
+        url: "https://grup3d.es/configurador-3d-cocinas/"
+      },
+      {
+        nombre: "6. IN Sukaldeak — Guía de medidas y ergonomía de cocina: alturas, distancias y pasillos ideales",
+        desc: "Estudio biométrico de alturas de trabajo según la fórmula del codo, dimensiones de pasillos de circulación y zonas de apertura de electrodomésticos.",
+        url: "https://insukaldeak.com/medidas-ergonomia-cocina/"
+      },
+      {
+        nombre: "7. URU Reformas — Triángulo de trabajo en la cocina: medidas y cómo aplicarlo",
+        desc: "Análisis funcional de las tipologías de cocina (lineal, en L, en U, galera e isla), adaptaciones para cocinas pequeñas y secuencias cinemáticas de trabajo.",
+        url: "https://www.reformasuru.com/post/triangulo-de-trabajo-cocina"
+      },
+      {
+        nombre: "8. Optimizadordecorte.app — Despiece de cocina de melamina: medidas y piezas de cada módulo",
+        desc: "Algoritmos y tablas maestras de despiece milimétrico para módulos bajos de 60 cm, muebles altos y columnas en tableros de 16 y 18 mm, incluyendo holguras de mecanizado y planes de corte.",
+        url: "https://optimizadordecorte.app/despiece-cocina-melamina/"
+      },
+      {
+        nombre: "9. Optimizadordecorte.app — Plataforma Principal de Optimización",
+        desc: "Herramienta online de generación de mapas de corte 2D para tableros comerciales con control de kerf y veta.",
+        url: "https://optimizadordecorte.app/"
+      },
+      {
+        nombre: "10. Flatma — Constructor de muebles online 3D",
+        desc: "Metodología en cinco pasos para modelar muebles de melamina, incorporar uniones (confirmat, minifix, espigas) y exportar automáticamente especificaciones técnicas.",
+        url: "https://flatma.com/es/"
+      },
+      {
+        nombre: "11. Flatma Designer — Crea muebles y descarga plano de corte",
+        desc: "Entorno interactivo web para diseño paramétrico de mobiliario, planos de taladrado y mapas de corte.",
+        url: "https://flatma.com/es/create/designer"
+      },
+      {
+        nombre: "12. OPPOLIA Home — Cómo dibujar el plano de una cocina",
+        desc: "Metodología paso a paso para el diseño conceptual de cocinas a medida, selección de distribuciones y coordinación de mobiliario y acabados.",
+        url: "https://www.oppoliahome.com/es/how-to-draw-a-kitchen-layout/"
+      },
+      {
+        nombre: "13. JMC Construcción y Mueblería — Tutoriales Técnicos de Referencia",
+        desc: "Serie instruccional práctica documentada en las fuentes sobre diseño de componentes 3D pieza por pieza en SketchUp, despiece ordenado de abajo hacia arriba, construcción de zócalos retranqueados ergonómicos, ensamblaje de cajones con doble tapa para ocultar tornillería y cálculo de deducciones para correderas telescópicas de 13 mm. (Referencia audiovisual y documental).",
+        url: null
+      }
+    ];
+
+    const CHECKLIST_OBRA = [
+      "Sellado inmediato de cantos expuestos con silicona neutra, cola D3 o barniz poliuretánico.",
+      "Uso obligatorio de brocas con avellanador antes de introducir tornillos confirmat o Spax.",
+      "Fijación de guías telescópicas y bases de bisagras en despiece antes de cerrar el casco.",
+      "Verificación de escuadra de cada casco midiendo ambas diagonales al milímetro.",
+      "Protección de encimeras y frentes con cartón ondulado o mantas durante el montaje.",
+      "Comprobación de nivel longitudinal y transversal (cruzado) con nivel láser 360°."
+    ];
+
+    /* ==========================================================================
+       SISTEMA DE PERSISTENCIA SEGURA (SIN FALLOS SI LOCALSTORAGE ESTÁ BLOQUEADO)
+       ========================================================================== */
+    const safeStorage = {
+      get(key, fallback) {
+        try {
+          const val = localStorage.getItem(key);
+          return val !== null ? JSON.parse(val) : fallback;
+        } catch (e) {
+          return fallback;
+        }
+      },
+      set(key, value) {
+        try {
+          localStorage.setItem(key, JSON.stringify(value));
+        } catch (e) {
+          /* Modo degradado silencioso si el navegador bloquea storage */
+        }
+      }
+    };
+
+    /* ==========================================================================
+       NOTIFICACIÓN VISUAL TOAST (NUNCA USA ALERT/CONFIRM)
+       ========================================================================== */
+    let toastTimer = null;
+    function showToast(message) {
+      const toast = document.getElementById("toast-msg");
+      if (!toast) return;
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
+    }
+
+    /* ==========================================================================
+       COPIA AL PORTAPAPELES ROBUSTA (EXEC_COMMAND + CLIPBOARD API)
+       ========================================================================== */
+    function copyTextClean(text, label = "Contenido") {
+      if (!text) return;
+      const fallbackCopy = () => {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          const ok = document.execCommand("copy");
+          showToast(ok ? `✔ ${label} copiado exactamente al portapapeles` : "⚠ Selecciona el texto manualmente para copiar");
+        } catch (err) {
+          showToast("⚠ No se pudo acceder al portapapeles; selecciona y copia manualmente.");
+        }
+        document.body.removeChild(ta);
+      };
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text)
+          .then(() => showToast(`✔ ${label} copiado exactamente al portapapeles`))
+          .catch(() => fallbackCopy());
+      } else {
+        fallbackCopy();
+      }
+    }
+
+    /* ==========================================================================
+       GESTIÓN DE SVG HERO COMPARTIDO (PLANTILLA ÚNICA, IDS ÚNICOS, AUTORREPARACIÓN)
+       ========================================================================== */
+    let masterSvgTemplate = "";
+    const svgFallbackDataUri = (() => {
+      const simpleSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500"><rect width="400" height="500" fill="#060d1f"/><rect x="16" y="16" width="368" height="468" rx="14" fill="none" stroke="#38bdf8" stroke-width="2"/><text x="200" y="235" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="18" font-weight="bold">DISEÑO PARAMÉTRICO DE COCINAS</text><text x="200" y="265" text-anchor="middle" fill="#f59e0b" font-family="monospace" font-size="13">NKBA · DESPIECE · ESTÁNDAR TÉCNICO</text></svg>`;
+      return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(simpleSvg);
+    })();
+
+    function initSvgTemplate() {
+      const tpl = document.getElementById("hero-svg-template");
+      if (tpl) {
+        masterSvgTemplate = tpl.innerHTML.trim();
+        tpl.remove(); // Se elimina del DOM tras extraer plantilla
+      }
+    }
+
+    function mountSvgInstance(containerId) {
+      const container = document.getElementById(containerId);
+      if (!container || !masterSvgTemplate) return;
+      const uid = containerId + "_" + Math.random().toString(36).slice(2, 7);
+      const html = masterSvgTemplate.replace(/__UID__/g, uid);
+      try {
+        container.innerHTML = html;
+        if (!container.querySelector("svg")) {
+          throw new Error("SVG no renderizado");
+        }
+      } catch (e) {
+        container.innerHTML = `<img src="${svgFallbackDataUri}" alt="Ilustración técnica de diseño de cocinas" style="width:100%;display:block;">`;
+      }
+    }
+
+    function ensureVisibleSvgsMounted() {
+      ["hero-svg-inicio", "hero-svg-creditos"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.offsetParent !== null && !el.querySelector("svg, img")) {
+          mountSvgInstance(id);
+        }
+      });
+    }
+
+    /* ==========================================================================
+       RENDERIZADO DINÁMICO DE SECCIONES RICAS (CASOS, PROYECTOS, Q&A, PROMPTS, FUENTES)
+       ========================================================================== */
+    function renderAllDynamicBlocks() {
+      // 1. Casos Prácticos
+      const casosEl = document.getElementById("casos-container");
+      CASOS_PRACTICOS.forEach((caso, idx) => {
+        const item = document.createElement("div");
+        item.className = "accordion-item" + (idx === 0 ? " open" : "");
+        item.innerHTML = `
+          <button type="button" class="accordion-trigger" aria-expanded="${idx === 0}">
+            <span>${caso.titulo}</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-panel">${caso.contenido}</div>
+        `;
+        item.querySelector(".accordion-trigger").addEventListener("click", () => toggleAccordion(item));
+        casosEl.appendChild(item);
+      });
+
+      // 2. Proyectos Integradores
+      const proyEl = document.getElementById("proyectos-container");
+      PROYECTOS_INTEGRADORES.forEach((proy, idx) => {
+        const item = document.createElement("div");
+        item.className = "accordion-item" + (idx === 0 ? " open" : "");
+        item.innerHTML = `
+          <button type="button" class="accordion-trigger" aria-expanded="${idx === 0}">
+            <span>${proy.titulo}</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-panel">${proy.contenido}</div>
+        `;
+        item.querySelector(".accordion-trigger").addEventListener("click", () => toggleAccordion(item));
+        proyEl.appendChild(item);
+      });
+
+      // 3. Glosario
+      const glosEl = document.getElementById("glosario-container");
+      GLOSARIO_TERMINOS.forEach(([term, def]) => {
+        const p = document.createElement("p");
+        p.innerHTML = `<strong style="color:var(--accent);">${term}:</strong> ${def}`;
+        glosEl.appendChild(p);
+      });
+
+      // 4. 33 Preguntas (Q&A) ordenadas por Nivel 1, Nivel 2 y Nivel 3 — DEFAULT TODAS PLEGADAS
+      const qaEl = document.getElementById("qa-container");
+      PREGUNTAS_QA.forEach(grupo => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `<h3>${grupo.nivel}</h3>`;
+        grupo.items.forEach(qa => {
+          const item = document.createElement("div");
+          item.className = "accordion-item qa-item"; // Plegado por defecto (sin clase open)
+          item.innerHTML = `
+            <button type="button" class="accordion-trigger" aria-expanded="false">
+              <span>${qa.q}</span>
+              <span class="accordion-icon">+</span>
+            </button>
+            <div class="accordion-panel">
+              <p style="margin-bottom:0;"><strong>Respuesta:</strong> ${qa.a}</p>
+            </div>
+          `;
+          item.querySelector(".accordion-trigger").addEventListener("click", () => toggleAccordion(item));
+          card.appendChild(item);
+        });
+        qaEl.appendChild(card);
+      });
+
+      // Botones globales de Q&A
+      document.getElementById("btn-expand-qa").addEventListener("click", () => {
+        document.querySelectorAll("#qa-container .qa-item").forEach(item => {
+          item.classList.add("open");
+          item.querySelector(".accordion-trigger").setAttribute("aria-expanded", "true");
+        });
+      });
+
+      document.getElementById("btn-collapse-qa").addEventListener("click", () => {
+        document.querySelectorAll("#qa-container .qa-item").forEach(item => {
+          item.classList.remove("open");
+          item.querySelector(".accordion-trigger").setAttribute("aria-expanded", "false");
+        });
+      });
+
+      // 5. Fuentes Oficiales (todos los enlaces con botón "Abrir enlace en nueva ventana")
+      const fuentesEl = document.getElementById("fuentes-container");
+      FUENTES_OFICIALES.forEach(src => {
+        const div = document.createElement("div");
+        div.className = "source-item";
+        let actionsHtml = "";
+        if (src.url) {
+          actionsHtml = `
+            <div class="url-display">${src.url}</div>
+            <div class="source-actions">
+              <a href="${src.url}" target="_blank" rel="noopener noreferrer" class="btn-ext-link">↗ Abrir enlace en nueva ventana</a>
+              <button type="button" class="btn-copy">📋 COPIAR URL</button>
+            </div>
+          `;
+        } else {
+          actionsHtml = `<div class="callout gold" style="margin-top:8px; margin-bottom:0;">Fuente documental y audiovisual de referencia del autor (sin enlace externo en el documento fuente).</div>`;
+        }
+        div.innerHTML = `
+          <h4 style="margin-top:0; color:var(--accent);">${src.nombre}</h4>
+          <p style="font-size:0.9rem; margin-bottom:6px;">${src.desc}</p>
+          ${actionsHtml}
+        `;
+        if (src.url) {
+          div.querySelector(".btn-copy").addEventListener("click", () => copyTextClean(src.url, "Enlace URL"));
+        }
+        fuentesEl.appendChild(div);
+      });
+
+      // 7. Checklist persistente de buenas prácticas
+      const chkEl = document.getElementById("obra-checklist");
+      const savedChecks = safeStorage.get("cocinas_checklist_v1", {});
+      CHECKLIST_OBRA.forEach((label, idx) => {
+        const row = document.createElement("label");
+        row.className = "checklist-item" + (savedChecks[idx] ? " checked" : "");
+        row.innerHTML = `<input type="checkbox" ${savedChecks[idx] ? "checked" : ""}><span>${label}</span>`;
+        const cb = row.querySelector("input");
+        cb.addEventListener("change", () => {
+          row.classList.toggle("checked", cb.checked);
+          savedChecks[idx] = cb.checked;
+          safeStorage.set("cocinas_checklist_v1", savedChecks);
+        });
+        chkEl.appendChild(row);
+      });
+    }
+
+    function toggleAccordion(item) {
+      const isOpen = item.classList.toggle("open");
+      const btn = item.querySelector(".accordion-trigger");
+      if (btn) btn.setAttribute("aria-expanded", String(isOpen));
+    }
+
+    /* ==========================================================================
+       NAVEGACIÓN SPA, PANEL LATERAL DE ÍNDICE (#dr) Y PAGINACIÓN INFERIOR
+       ========================================================================== */
+    const secs = Array.from(document.querySelectorAll(".tab-section"));
+    let currentTabIndex = 0;
+
+    function go(index) {
+      if (index < 0 || index >= secs.length) return;
+      currentTabIndex = index;
+
+      secs.forEach((sec, i) => sec.classList.toggle("active", i === index));
+
+      const navChips = document.querySelectorAll("#nav-chips .chip");
+      navChips.forEach((chip, i) => chip.classList.toggle("active", i === index));
+
+      // Resaltar entrada activa en el panel lateral #dr
+      const drLinks = document.querySelectorAll("#dr-list a");
+      drLinks.forEach((a, j) => a.classList.toggle("on", j === index));
+
+      // Asegurar que la chip activa sea visible en la barra horizontal
+      if (navChips[index]) {
+        navChips[index].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      }
+
+      // Montar SVG compartido si la pestaña activa lo contiene
+      if (secs[index].id === "tab-inicio") mountSvgInstance("hero-svg-inicio");
+      if (secs[index].id === "tab-creditos") mountSvgInstance("hero-svg-creditos");
+
+      // Actualizar URL hash y guardar progreso
+      try {
+        history.replaceState(null, "", "#" + secs[index].id);
+      } catch (e) {}
+      safeStorage.set("cocinas_active_tab", index);
+
+      // Volver al inicio de la pestaña actual
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      updateReadingProgress();
+    }
+
+    function buildNavigationAndDrawer() {
+      const chipsWrap = document.getElementById("nav-chips");
+      const drList = document.getElementById("dr-list");
+      const dr = document.getElementById("dr");
+      const mb = document.getElementById("mb");
+
+      const toggleDrawer = (forceState) => {
+        const isOpen = typeof forceState === "boolean" ? forceState : !dr.classList.contains("o");
+        dr.classList.toggle("o", isOpen);
+        mb.setAttribute("aria-expanded", String(isOpen));
+      };
+
+      secs.forEach((sec, i) => {
+        // Chip en barra superior
+        const chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = "chip" + (i === 0 ? " active" : "");
+        chip.textContent = sec.dataset.tabLabel || sec.dataset.t;
+        chip.addEventListener("click", () => {
+          go(i);
+          toggleDrawer(false);
+        });
+        chipsWrap.appendChild(chip);
+
+        // Entrada en panel lateral de Índice (#dr) numerada salvo INICIO
+        const a = document.createElement("a");
+        a.href = "#" + sec.id;
+        a.textContent = (i ? i + ". " : "") + (sec.dataset.t || sec.querySelector("h2")?.textContent || "");
+        if (i === 0) a.classList.add("on");
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
+          go(i);
+          toggleDrawer(false);
+        });
+        drList.appendChild(a);
+
+        // Botones fijos al final de cada pestaña (Anterior / Próxima)
+        const pager = sec.querySelector("[data-pager]");
+        if (pager) {
+          if (i > 0) {
+            const prevLabel = secs[i - 1].dataset.tabLabel;
+            const btnPrev = document.createElement("button");
+            btnPrev.type = "button";
+            btnPrev.className = "pager-btn";
+            btnPrev.textContent = `← Anterior: ${prevLabel}`;
+            btnPrev.addEventListener("click", () => go(i - 1));
+            pager.appendChild(btnPrev);
+          }
+          if (i < secs.length - 1) {
+            const nextLabel = secs[i + 1].dataset.tabLabel;
+            const btnNext = document.createElement("button");
+            btnNext.type = "button";
+            btnNext.className = "pager-btn next";
+            btnNext.textContent = `Siguiente: ${nextLabel} →`;
+            btnNext.addEventListener("click", () => go(i + 1));
+            pager.appendChild(btnNext);
+          }
+        }
+      });
+
+      mb.addEventListener("click", () => toggleDrawer());
+      document.getElementById("close-dr-btn").addEventListener("click", () => toggleDrawer(false));
+
+      const ixBtn = document.getElementById("ix");
+      if (ixBtn) ixBtn.addEventListener("click", () => toggleDrawer(true));
+
+      document.getElementById("start-course-btn").addEventListener("click", () => go(1));
+      document.getElementById("logo-home-btn").addEventListener("click", () => go(0));
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") toggleDrawer(false);
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest("#dr, #mb, #ix")) toggleDrawer(false);
+      });
+    }
+
+    /* ==========================================================================
+       CALCULADORA INTERACTIVA DE DESPIECE PARAMÉTRICO
+       ========================================================================== */
+    function initCalculator() {
+      const ids = ["calc-ancho", "calc-alto", "calc-fondo", "calc-esp"];
+      const out = document.getElementById("calc-output");
+      if (!out) return;
+
+      const update = () => {
+        const A = Math.max(200, Number(document.getElementById("calc-ancho").value) || 600);
+        const H = Math.max(300, Number(document.getElementById("calc-alto").value) || 720);
+        const F = Math.max(250, Number(document.getElementById("calc-fondo").value) || 580);
+        const E = Number(document.getElementById("calc-esp").value) || 18;
+
+        const vanoInt = A - 2 * E;
+        const traseraW = vanoInt + 12;
+        const traseraH = H - 20;
+        const estanteW = vanoInt - 2;
+        const estanteF = F - 20;
+        const puertaW = A - 4;
+        const puertaH = H - 4;
+        const cajonExtW = vanoInt - 26;
+        const cajonTesteroW = cajonExtW - 2 * E;
+
+        out.textContent =
+`• 2 Laterales: ${H} × ${F} mm (canto frente 1 mm)
+• 1 Base + 2 Amarres (100 mm): ${vanoInt} × ${F} mm y ${vanoInt} × 100 mm
+• 1 Trasera HDF 8 mm (ranura 6 mm): ${traseraW} × ${traseraH} mm
+• 1 Estante regulable: ${estanteW} × ${estanteF} mm
+• 1 Puerta solapa total (-4 mm): ${puertaW} × ${puertaH} mm
+• Cajón interior (-26 mm corredera): Ancho ext. ${cajonExtW} mm | Testeros ${cajonTesteroW} mm`;
+      };
+
+      ids.forEach(id => document.getElementById(id).addEventListener("input", update));
+      update();
+    }
+
+    /* ==========================================================================
+       BUSCADOR INTERNO EN TIEMPO REAL
+       ========================================================================== */
+    function initSearch() {
+      const input = document.getElementById("search-input");
+      const clearBtn = document.getElementById("search-clear");
+      const panel = document.getElementById("search-results-panel");
+
+      const runSearch = () => {
+        const q = input.value.trim().toLowerCase();
+        clearBtn.style.display = q ? "block" : "none";
+        if (q.length < 2) {
+          panel.style.display = "none";
+          return;
+        }
+
+        const matches = [];
+        secs.forEach((sec, idx) => {
+          const text = sec.innerText;
+          const pos = text.toLowerCase().indexOf(q);
+          if (pos !== -1) {
+            const start = Math.max(0, pos - 55);
+            const snippet = text.slice(start, pos + 115).replace(/\s+/g, " ");
+            matches.push({ idx, title: sec.dataset.t || sec.dataset.tabLabel, snippet });
+          }
+        });
+
+        panel.style.display = "block";
+        if (!matches.length) {
+          panel.innerHTML = `<strong>Sin coincidencias para "${input.value}".</strong>`;
+          return;
+        }
+
+        panel.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;"><strong>Resultados (${matches.length} pestañas):</strong><button type="button" class="tool-btn" id="close-search-res">Cerrar</button></div>`;
+        panel.querySelector("#close-search-res").addEventListener("click", () => {
+          panel.style.display = "none";
+        });
+
+        matches.forEach(m => {
+          const div = document.createElement("div");
+          div.className = "search-result-item";
+          div.innerHTML = `<strong style="color:var(--accent);">${m.title}</strong><p style="font-size:0.84rem;color:var(--text-muted);margin:4px 0 0;">…${m.snippet}…</p>`;
+          div.addEventListener("click", () => {
+            go(m.idx);
+            panel.style.display = "none";
+          });
+          panel.appendChild(div);
+        });
+      };
+
+      input.addEventListener("input", runSearch);
+      clearBtn.addEventListener("click", () => {
+        input.value = "";
+        runSearch();
+      });
+    }
+
+    /* ==========================================================================
+       BOTONES FLOTANTES ARRASTRABLES (INICIO Y ARRIBA) SIN CONFLICTO CON CLIC
+       ========================================================================== */
+    function makeDraggableFab(el, onTapAction) {
+      let isDragging = false;
+      let hasMoved = false;
+      let startX = 0, startY = 0, origLeft = 0, origTop = 0;
+
+      const onPointerDown = (e) => {
+        isDragging = true;
+        hasMoved = false;
+        const rect = el.getBoundingClientRect();
+        startX = e.clientX;
+        startY = e.clientY;
+        origLeft = rect.left;
+        origTop = rect.top;
+        el.style.right = "auto";
+        el.style.bottom = "auto";
+        el.style.left = origLeft + "px";
+        el.style.top = origTop + "px";
+        el.setPointerCapture(e.pointerId);
+      };
+
+      const onPointerMove = (e) => {
+        if (!isDragging) return;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        if (Math.abs(dx) > 5 || Math.abs(dy) > 5) hasMoved = true;
+        if (!hasMoved) return;
+
+        const maxLeft = window.innerWidth - el.offsetWidth - 6;
+        const maxTop = window.innerHeight - el.offsetHeight - 6;
+        const nextLeft = Math.min(Math.max(6, origLeft + dx), maxLeft);
+        const nextTop = Math.min(Math.max(62, origTop + dy), maxTop);
+        el.style.left = nextLeft + "px";
+        el.style.top = nextTop + "px";
+      };
+
+      const onPointerUp = (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        el.releasePointerCapture(e.pointerId);
+        if (!hasMoved) {
+          onTapAction();
+        }
+      };
+
+      el.addEventListener("pointerdown", onPointerDown);
+      el.addEventListener("pointermove", onPointerMove);
+      el.addEventListener("pointerup", onPointerUp);
+    }
+
+    /* ==========================================================================
+       CONTROLES DE ACCESIBILIDAD, TEMA, BARRA DE LECTURA E IMPRESIÓN A4
+       ========================================================================== */
+    function initReadingTools() {
+      let scale = safeStorage.get("cocinas_font_scale", 1);
+      const applyScale = () => {
+        document.documentElement.style.setProperty("--font-scale", scale.toFixed(2));
+        safeStorage.set("cocinas_font_scale", scale);
+      };
+      applyScale();
+
+      document.getElementById("font-dec").addEventListener("click", () => {
+        scale = Math.max(0.85, scale - 0.08);
+        applyScale();
+      });
+
+      document.getElementById("font-inc").addEventListener("click", () => {
+        scale = Math.min(1.35, scale + 0.08);
+        applyScale();
+      });
+
+      const savedLight = safeStorage.get("cocinas_light_theme", false);
+      if (savedLight) document.body.classList.add("light-theme");
+
+      document.getElementById("theme-toggle").addEventListener("click", () => {
+        const isLight = document.body.classList.toggle("light-theme");
+        safeStorage.set("cocinas_light_theme", isLight);
+      });
+
+      // Pausar / reanudar animaciones SVG manualmente
+      document.querySelectorAll(".toggle-svg-anim").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const target = document.getElementById(btn.dataset.target);
+          if (target) target.classList.toggle("svg-paused");
+        });
+      });
+
+      // Preparación e impresión A4 real
+      const prepareForPrint = () => {
+        mountSvgInstance("hero-svg-inicio");
+        mountSvgInstance("hero-svg-creditos");
+        const closedItems = [];
+        document.querySelectorAll(".accordion-item").forEach((item, idx) => {
+          if (!item.classList.contains("open")) {
+            closedItems.push(idx);
+            item.classList.add("open");
+          }
+        });
+        window.__closedBeforePrint = closedItems;
+      };
+
+      const restoreAfterPrint = () => {
+        const closedItems = window.__closedBeforePrint || [];
+        const all = document.querySelectorAll(".accordion-item");
+        closedItems.forEach(idx => {
+          if (all[idx]) all[idx].classList.remove("open");
+        });
+      };
+
+      window.addEventListener("beforeprint", prepareForPrint);
+      window.addEventListener("afterprint", restoreAfterPrint);
+
+      document.getElementById("print-btn").addEventListener("click", () => {
+        prepareForPrint();
+        try {
+          window.print();
+        } catch (err) {
+          showToast("Abre este archivo directamente en el navegador y utiliza Ctrl+P o Cmd+P");
+        }
+      });
+    }
+
+    function updateReadingProgress() {
+      const bar = document.getElementById("reading-progress");
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docHeight > 0 ? Math.min(100, Math.max(0, (window.scrollY / docHeight) * 100)) : 0;
+      bar.style.width = pct + "%";
+    }
+
+    /* ==========================================================================
+       INICIALIZACIÓN GENERAL AL CARGAR EL DOCUMENTO
+       ========================================================================== */
+    document.addEventListener("DOMContentLoaded", () => {
+      initSvgTemplate();
+      renderAllDynamicBlocks();
+      buildNavigationAndDrawer();
+      initCalculator();
+      initSearch();
+      initReadingTools();
+
+      // Montar SVG inicial y vigilancia periódica de autorreparación
+      mountSvgInstance("hero-svg-inicio");
+      setInterval(ensureVisibleSvgsMounted, 2500);
+
+      // Botones flotantes arrastrables: INICIO y ARRIBA
+      makeDraggableFab(document.getElementById("fab-home"), () => go(0));
+      makeDraggableFab(document.getElementById("fab-top"), () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      window.addEventListener("scroll", updateReadingProgress, { passive: true });
+
+      // Resolver acceso directo por hash o progreso guardado
+      const hashId = window.location.hash.replace("#", "");
+      const hashIndex = secs.findIndex(s => s.id === hashId);
+      if (hashIndex !== -1) {
+        go(hashIndex);
+      } else {
+        const savedTab = safeStorage.get("cocinas_active_tab", 0);
+        if (typeof savedTab === "number" && savedTab >= 0 && savedTab < secs.length) {
+          go(savedTab);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
