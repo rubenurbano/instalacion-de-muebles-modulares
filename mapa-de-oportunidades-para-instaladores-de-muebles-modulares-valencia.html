@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="es" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Mapa de Oportunidades - Instaladores de Muebles Modulares | Valencia</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            950: '#040914',
+                            900: '#081226',
+                            800: '#0f2142',
+                            cyan: '#00e5ff',
+                            blue: '#2979ff',
+                            purple: '#9d4edd',
+                            amber: '#f59e0b'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Estilos personalizados para barra de desplazamiento y experiencia táctil fluida en móviles como Samsung Galaxy A02s */
+        body {
+            background-color: #040914;
+            color: #f1f5f9;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Ocultar scrollbar en la barra de pestañas manteniendo el desplazamiento táctil horizontal */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Efecto Glassmorphism de Agencia Digital */
+        .glass-header {
+            background: rgba(4, 9, 20, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0, 229, 255, 0.15);
+        }
+
+        .glass-card {
+            background: linear-gradient(145deg, rgba(15, 33, 66, 0.55) 0%, rgba(8, 18, 38, 0.85) 100%);
+            border: 1px solid rgba(56, 189, 248, 0.16);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+        }
+
+        .glass-card-highlight {
+            background: linear-gradient(145deg, rgba(16, 42, 84, 0.7) 0%, rgba(11, 24, 52, 0.92) 100%);
+            border: 1px solid rgba(0, 229, 255, 0.35);
+            box-shadow: 0 0 25px rgba(0, 229, 255, 0.1);
+        }
+
+        /* Botones flotantes arrastrables */
+        .floating-draggable {
+            touch-action: none;
+            user-select: none;
+            transition: transform 0.15s ease, box-shadow 0.2s ease;
+        }
+        .floating-draggable:active {
+            transform: scale(0.95);
+        }
+
+        /* Animación de entrada suave entre pestañas */
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .tab-panel-active {
+            animation: fadeSlideUp 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Gradientes de texto */
+        .text-gradient-cyan {
+            background: linear-gradient(90deg, #38bdf8 0%, #00e5ff 50%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-slate-950">
+
+    <!-- Definición SVG reutilizable del Logotipo "IA TUTORIALES" (basado en logo tutoriales IA.jpeg) -->
+    <svg width="0" height="0" class="hidden" aria-hidden="true">
+        <defs>
+            <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00f2fe" />
+                <stop offset="50%" stop-color="#4facfe" />
+                <stop offset="100%" stop-color="#9d4edd" />
+            </linearGradient>
+            <linearGradient id="brainLeftGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#38bdf8" />
+                <stop offset="100%" stop-color="#0284c7" />
+            </linearGradient>
+            <linearGradient id="circuitRightGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00e5ff" />
+                <stop offset="100%" stop-color="#a855f7" />
+            </linearGradient>
+            <symbol id="logo-ia-tutoriales" viewBox="0 0 120 130">
+                <!-- Fondo escudo oscuro -->
+                <path d="M60 6 L108 24 C110 68 94 102 60 120 C26 102 10 68 12 24 Z" fill="#040b1a" stroke="url(#shieldGrad)" stroke-width="4.5" stroke-linejoin="round"/>
+                <path d="M60 12 L102 28 C103 66 89 96 60 113 C31 96 17 66 18 28 Z" fill="none" stroke="#00e5ff" stroke-opacity="0.35" stroke-width="1.2"/>
+                
+                <!-- Hemisferio Izquierdo (Cerebro orgánico) -->
+                <path d="M56 32 C42 32 33 41 33 52 C28 55 27 64 32 69 C30 77 37 85 46 85 C50 88 55 87 56 83 Z" fill="none" stroke="url(#brainLeftGrad)" stroke-width="3.2" stroke-linecap="round"/>
+                <path d="M40 45 C45 45 47 50 43 54 M36 60 C42 60 45 65 40 70 M44 74 C49 74 51 78 48 81" fill="none" stroke="#38bdf8" stroke-width="2.4" stroke-linecap="round"/>
+                
+                <!-- Hemisferio Derecho (Circuito neuronal IA) -->
+                <path d="M64 32 C78 32 87 41 87 52 C92 55 93 64 88 69 C90 77 83 85 74 85 C70 88 65 87 64 83" fill="none" stroke="url(#circuitRightGrad)" stroke-width="2.5" stroke-dasharray="3 2"/>
+                <polyline points="68,42 78,42 83,48" fill="none" stroke="#00e5ff" stroke-width="2.2" stroke-linecap="round"/>
+                <circle cx="84" cy="49" r="2.5" fill="#00e5ff"/>
+                <polyline points="72,58 85,58 89,63" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round"/>
+                <circle cx="90" cy="64" r="2.5" fill="#a855f7"/>
+                <polyline points="68,74 79,74 83,79" fill="none" stroke="#a855f7" stroke-width="2.2" stroke-linecap="round"/>
+                <circle cx="84" cy="80" r="2.5" fill="#00e5ff"/>
+                
+                <!-- Botón Central Play -->
+                <circle cx="60" cy="59" r="14" fill="#06142e" stroke="url(#shieldGrad)" stroke-width="2.8"/>
+                <polygon points="56,52 68,59 56,66" fill="url(#shieldGrad)"/>
+                
+                <!-- Texto IA TUTORIALES integrado -->
+                <rect x="28" y="88" width="64" height="24" rx="4" fill="#040914" fill-opacity="0.88"/>
+                <text x="60" y="103" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="17" fill="url(#shieldGrad)" letter-spacing="1">IA</text>
+                <text x="60" y="113" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="6.8" fill="#bae6fd" letter-spacing="1.2">TUTORIALES</text>
+            </symbol>
+        </defs>
+    </svg>
+
+    <!-- BARRA SUPERIOR FIJA PERMANENTE -->
+    <header class="fixed top-0 left-0 right-0 z-40 glass-header">
+        <!-- Fila Superior: Logo SVG + Título breve + Botón ÍNDICE (Menú Sándwich) -->
+        <div class="max-w-5xl mx-auto px-3 sm:px-6 h-14 flex items-center justify-between gap-2">
+            <button onclick="switchTab(0)" class="flex items-center gap-2.5 text-left focus:outline-none group min-w-0">
+                <svg class="w-9 h-10 shrink-0 drop-shadow-[0_0_8px_rgba(0,229,255,0.45)] group-hover:scale-105 transition-transform">
+                    <use href="#logo-ia-tutoriales"></use>
+                </svg>
+                <div class="truncate">
+                    <span class="block text-[10px] font-bold uppercase tracking-widest text-cyan-400">Nova Llar · Valencia</span>
+                    <span class="block text-xs sm:text-sm font-display font-bold text-white truncate">Mapa de Oportunidades</span>
+                </div>
+            </button>
+
+            <!-- Botón ÍNDICE (Menú Sándwich) -->
+            <button id="btn-open-index" onclick="toggleIndexModal(true)" aria-label="Abrir índice completo"
+                class="shrink-0 flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-800/90 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 text-xs font-semibold transition-all active:scale-95 shadow-sm">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+                <span>ÍNDICE</span>
+            </button>
+        </div>
+
+        <!-- Barra de Pestañas Horizontal con Desplazamiento Táctil y Auto-Centrado -->
+        <nav aria-label="Navegación de secciones" class="border-t border-slate-800/80 bg-slate-950/60">
+            <div id="tabs-scroller" class="max-w-5xl mx-auto flex items-center gap-1.5 px-3 py-2 overflow-x-auto no-scrollbar scroll-smooth">
+                <!-- Las pestañas se inyectan dinámicamente vía JS con nombres descriptivos del contenido -->
+            </div>
+        </nav>
+    </header>
+
+    <!-- MODAL ÍNDICE VERTICAL COMPLETO (MENÚ SÁNDWICH) -->
+    <div id="index-modal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="index-modal-title">
+        <!-- Backdrop -->
+        <div onclick="toggleIndexModal(false)" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm transition-opacity"></div>
+        
+        <!-- Panel deslizante -->
+        <div class="fixed inset-y-0 right-0 w-full max-w-sm bg-slate-900 border-l border-cyan-500/25 shadow-2xl flex flex-col z-10">
+            <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/70">
+                <div class="flex items-center gap-2.5">
+                    <svg class="w-8 h-9 shrink-0">
+                        <use href="#logo-ia-tutoriales"></use>
+                    </svg>
+                    <div>
+                        <h2 id="index-modal-title" class="font-display font-bold text-base text-white">Índice del Estudio</h2>
+                        <p class="text-[11px] text-slate-400">Acceso directo a todas las secciones</p>
+                    </div>
+                </div>
+                <button onclick="toggleIndexModal(false)" class="p-2.5 rounded-xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors" aria-label="Cerrar índice">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div id="index-vertical-list" class="flex-1 overflow-y-auto p-3 space-y-1.5">
+                <!-- Lista vertical generada por JS -->
+            </div>
+
+            <div class="p-3 border-t border-slate-800 bg-slate-950/80 text-center">
+                <span class="text-[11px] text-slate-400">Autor: <strong class="text-cyan-400">Rubén Sbarsky</strong> · 28/11/2026</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL (Con padding superior para compensar la barra fija de 2 niveles) -->
+    <main id="main-content" class="flex-1 max-w-4xl w-full mx-auto px-3.5 sm:px-6 pt-28 pb-28">
+        <!-- Contenedor dinámico de la pestaña activa -->
+        <div id="tab-content-container"></div>
+
+        <!-- BOTONES FIJOS DE NAVEGACIÓN AL FINAL DE CADA PESTAÑA (ANTERIOR / PRÓXIMA) -->
+        <div id="bottom-tab-navigation" class="mt-10 pt-6 border-t border-slate-800/90 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+            <!-- Inyectado dinámicamente según la pestaña actual -->
+        </div>
+    </main>
+
+    <!-- BOTONES FLOTANTES ARRASTRABLES (MOVIBLES CON EL DEDO O RATÓN) -->
+    <!-- Botón Flotante 1: Ir a INICIO -->
+    <button id="float-btn-home" title="Arrastrar o tocar para ir a INICIO"
+        class="floating-draggable fixed bottom-20 right-3.5 z-30 flex items-center gap-1.5 px-3.5 py-2.5 rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 text-slate-950 font-bold text-xs shadow-[0_6px_20px_rgba(0,229,255,0.4)] border border-white/30 cursor-grab active:cursor-grabbing">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+        </svg>
+        <span>INICIO</span>
+    </button>
+
+    <!-- Botón Flotante 2: Ir ARRIBA (Comienzo de la pestaña actual) -->
+    <button id="float-btn-top" title="Arrastrar o tocar para subir al inicio de esta pestaña"
+        class="floating-draggable fixed bottom-6 right-3.5 z-30 flex items-center gap-1.5 px-3.5 py-2.5 rounded-full bg-slate-900/95 text-cyan-300 font-bold text-xs shadow-[0_6px_20px_rgba(0,0,0,0.75)] border border-cyan-400/50 cursor-grab active:cursor-grabbing">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/>
+        </svg>
+        <span>ARRIBA</span>
+    </button>
+
+    <script>
+        /**
+         * Helper para generar el bloque estándar de enlace URL con su botón obligatorio
+         * "Abrir en otra Ventana" que abre exactamente en una nueva pestaña/ventana.
+         */
+        function renderExternalLinkCard(label, url, badgeText = "Enlace Oficial") {
+            return `
+                <div class="mt-3 p-3 rounded-xl bg-slate-950/80 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                    <div class="min-w-0 flex-1">
+                        <span class="inline-block text-[10px] font-bold uppercase tracking-wider text-cyan-400 mb-0.5">${badgeText}</span>
+                        <p class="text-xs font-medium text-slate-200 truncate">${label}</p>
+                        <p class="text-[11px] text-slate-400 truncate font-mono mt-0.5">${url}</p>
+                    </div>
+                    <a href="${url}" target="_blank" rel="noopener noreferrer"
+                       class="shrink-0 inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-cyan-500/15 hover:bg-cyan-500 text-cyan-300 hover:text-slate-950 border border-cyan-500/40 font-semibold text-xs transition-all active:scale-95">
+                        <span>Abrir en otra Ventana</span>
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                        </svg>
+                    </a>
+                </div>
+            `;
+        }
+
+        /**
+         * Definición completa de las pestañas con nombres descriptivos relacionados con su contenido
+         * (Sin nombres genéricos como "Cap. 01" o "Módulo 01") y el 100% del documento original.
+         */
+        const TABS_DATA = [
+            {
+                id: 'inicio',
+                tabName: 'Inicio y Objetivo',
+                subtitle: 'Presentación, Alcance y Propósito Estratégico',
+                content: `
+                    <!-- HERO DE INICIO CON LOGOTIPO SVG A LA IZQUIERDA DEL TÍTULO PRINCIPAL Y "by Rubén Sbarsky" -->
+                    <div class="glass-card-highlight rounded-2xl p-5 sm:p-7 mb-6 relative overflow-hidden">
+                        <div class="absolute -right-12 -top-12 w-44 h-44 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none"></div>
+                        
+                        <div class="flex flex-wrap items-center gap-2 mb-4">
+                            <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                                Provincia de Valencia — Investigación preliminar
+                            </span>
+                            <span class="px-2.5 py-1 rounded-full text-[11px] font-medium bg-slate-800 text-slate-300 border border-slate-700">
+                                28 de noviembre de 2026
+                            </span>
+                        </div>
+
+                        <!-- Bloque Título Principal con Logo SVG a la izquierda -->
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-5">
+                            <div class="shrink-0 p-2 rounded-2xl bg-slate-950/90 border border-cyan-400/30 shadow-[0_0_20px_rgba(0,229,255,0.2)]">
+                                <svg class="w-16 h-18 sm:w-20 sm:h-22" aria-label="Logo Tutoriales IA">
+                                    <use href="#logo-ia-tutoriales"></use>
+                                </svg>
+                            </div>
+                            <div>
+                                <h1 class="font-display font-extrabold text-xl sm:text-3xl leading-tight text-white">
+                                    MAPA DE OPORTUNIDADES PARA INSTALADORES DE MUEBLES MODULARES <span class="text-gradient-cyan block sm:inline mt-1 sm:mt-0">by Rubén Sbarsky</span>
+                                </h1>
+                                <p class="text-sm text-cyan-300 font-medium mt-1.5">
+                                    Provincia de Valencia — Investigación preliminar
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Metadatos del Estudio -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-4 border-t border-slate-700/60 text-xs">
+                            <div class="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800">
+                                <span class="text-slate-400 block">Autor:</span>
+                                <strong class="text-white font-semibold">Rubén Sbarsky</strong>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800">
+                                <span class="text-slate-400 block">Fecha:</span>
+                                <strong class="text-white font-semibold">28 de noviembre de 2026</strong>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800">
+                                <span class="text-slate-400 block">Ámbito:</span>
+                                <strong class="text-white font-semibold">Provincia de Valencia, España.</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECCIÓN 1: OBJETIVO -->
+                    <section class="glass-card rounded-2xl p-5 sm:p-6">
+                        <div class="flex items-center gap-2.5 mb-4">
+                            <span class="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 font-display font-bold text-sm flex items-center justify-center">1</span>
+                            <h2 class="font-display font-bold text-lg sm:text-xl text-white">1. OBJETIVO</h2>
+                        </div>
+
+                        <p class="text-sm sm:text-base text-slate-200 leading-relaxed mb-4">
+                            Identificar los municipios de la provincia de Valencia donde existen mayores oportunidades laborales y comerciales para profesionales especializados en:
+                        </p>
+
+                        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-5">
+                            <li class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-xs sm:text-sm text-slate-200">
+                                <span class="text-cyan-400 font-bold mt-0.5">✓</span>
+                                <span>Instalación de muebles modulares.</span>
+                            </li>
+                            <li class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-xs sm:text-sm text-slate-200">
+                                <span class="text-cyan-400 font-bold mt-0.5">✓</span>
+                                <span>Montaje de cocinas.</span>
+                            </li>
+                            <li class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-xs sm:text-sm text-slate-200">
+                                <span class="text-cyan-400 font-bold mt-0.5">✓</span>
+                                <span>Montaje de armarios.</span>
+                            </li>
+                            <li class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-xs sm:text-sm text-slate-200">
+                                <span class="text-cyan-400 font-bold mt-0.5">✓</span>
+                                <span>Instalación de mobiliario de IKEA y similares.</span>
+                            </li>
+                            <li class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-xs sm:text-sm text-slate-200">
+                                <span class="text-cyan-400 font-bold mt-0.5">✓</span>
+                                <span>Montaje de muebles en kit.</span>
+                            </li>
+                            <li class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-xs sm:text-sm text-slate-200">
+                                <span class="text-cyan-400 font-bold mt-0.5">✓</span>
+                                <span>Instalación de mobiliario comercial.</span>
+                            </li>
+                            <li class="sm:col-span-2 flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-xs sm:text-sm text-slate-200">
+                                <span class="text-cyan-400 font-bold mt-0.5">✓</span>
+                                <span>Colaboración con tiendas de muebles, distribuidores y empresas de reformas.</span>
+                            </li>
+                        </ul>
+
+                        <div class="p-4 rounded-xl bg-gradient-to-r from-blue-950/80 to-slate-900 border-l-4 border-cyan-400 space-y-2.5">
+                            <p class="text-sm font-semibold text-white">
+                                El objetivo no es encontrar simplemente los municipios más poblados.
+                            </p>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                Buscamos identificar dónde existe una concentración de clientes, empresas y necesidades de instalación que pueda traducirse en oportunidades profesionales para un instalador independiente o una empresa como <strong class="text-cyan-300">Nova Llar</strong>.
+                            </p>
+                        </div>
+                    </section>
+                `
+            },
+            {
+                id: 'conclusion-demanda',
+                tabName: 'Conclusión y Demanda',
+                subtitle: 'Priorización Metropolitana y Tipos de Demanda',
+                content: `
+                    <!-- SECCIÓN 2: CONCLUSIÓN EJECUTIVA -->
+                    <section class="glass-card rounded-2xl p-5 sm:p-6 mb-6">
+                        <div class="flex items-center gap-2.5 mb-4">
+                            <span class="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 font-display font-bold text-sm flex items-center justify-center">2</span>
+                            <h2 class="font-display font-bold text-lg sm:text-xl text-white">2. CONCLUSIÓN EJECUTIVA</h2>
+                        </div>
+
+                        <p class="text-sm sm:text-base text-slate-200 leading-relaxed mb-4">
+                            La primera investigación apunta a una concentración de oportunidades en el cinturón metropolitano de Valencia.
+                        </p>
+
+                        <p class="text-xs sm:text-sm font-semibold text-cyan-300 mb-3">
+                            Los municipios que merecen mayor atención inicial son:
+                        </p>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-5">
+                            ${[
+                                '1. Beniparrell.', '2. Paterna.', '3. Xirivella.', '4. Bétera.', '5. Catarroja.',
+                                '6. Alcàsser.', '7. Silla.', '8. Torrent.', '9. Manises.', '10. La Pobla de Vallbona.'
+                            ].map((item, idx) => `
+                                <div class="p-2.5 rounded-xl ${idx < 4 ? 'bg-cyan-500/15 border-cyan-400/40 text-white' : 'bg-slate-900/90 border-slate-800 text-slate-200'} border text-xs font-semibold">
+                                    ${item}
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <div class="space-y-2.5 text-xs sm:text-sm text-slate-300 bg-slate-950/70 p-4 rounded-xl border border-slate-800">
+                            <p>• Es importante distinguir entre ofertas específicas de montaje de cocinas y ofertas generales de carpintería o montaje de mobiliario.</p>
+                            <p>• No todas las ofertas representan exactamente el mismo oficio.</p>
+                            <p class="text-amber-300 font-medium">• El orden anterior es una priorización para investigar, no un ranking estadístico definitivo de demanda.</p>
+                        </div>
+                    </section>
+
+                    <!-- SECCIÓN 3: TRES TIPOS DE DEMANDA -->
+                    <section class="glass-card rounded-2xl p-5 sm:p-6">
+                        <div class="flex items-center gap-2.5 mb-3">
+                            <span class="w-8 h-8 rounded-xl bg-purple-500/20 border border-purple-400/40 text-purple-300 font-display font-bold text-sm flex items-center justify-center">3</span>
+                            <h2 class="font-display font-bold text-lg sm:text-xl text-white">3. TRES TIPOS DE DEMANDA</h2>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-300 mb-4">
+                            Para comprender el mercado debemos diferenciar tres situaciones.
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 mb-4">
+                            <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+                                <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-300 mb-2">TIPO A</span>
+                                <h3 class="font-display font-bold text-sm sm:text-base text-white mb-1.5">A. Demanda laboral</h3>
+                                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                    Empresas que buscan trabajadores para montar muebles, cocinas, armarios o mobiliario comercial.
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+                                <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/20 text-purple-300 mb-2">TIPO B</span>
+                                <h3 class="font-display font-bold text-sm sm:text-base text-white mb-1.5">B. Demanda subcontratable</h3>
+                                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                    Tiendas, estudios de cocina y empresas de reformas que venden productos y necesitan profesionales externos para instalarlos.
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-gradient-to-b from-cyan-950/60 to-slate-900 border border-cyan-400/40">
+                                <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500/25 text-cyan-300 mb-2">TIPO C · CLAVE NOVA LLAR</span>
+                                <h3 class="font-display font-bold text-sm sm:text-base text-white mb-1.5">C. Demanda del cliente final</h3>
+                                <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">
+                                    Particulares que compran muebles modulares, cocinas o armarios y necesitan contratar directamente a alguien para montarlos.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-400/30 text-xs sm:text-sm text-cyan-200 font-medium">
+                            La tercera posibilidad es especialmente interesante para desarrollar <strong>Nova Llar</strong>.
+                        </div>
+                    </section>
+                `
+            },
+            {
+                id: 'municipios-prioritarios',
+                tabName: 'Municipios con Demanda',
+                subtitle: 'Análisis detallado de las 10 localidades y zonas complementarias',
+                content: `
+                    <!-- SECCIÓN 4: MUNICIPIOS CON SEÑALES DE DEMANDA -->
+                    <section class="mb-6">
+                        <div class="glass-card rounded-2xl p-4 sm:p-5 mb-4">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 font-display font-bold text-sm flex items-center justify-center">4</span>
+                                <div>
+                                    <h2 class="font-display font-bold text-lg sm:text-xl text-white">4. MUNICIPIOS CON SEÑALES DE DEMANDA</h2>
+                                    <p class="text-xs text-slate-400">Fichas detalladas con códigos LABORA y enlaces directos de inscripción</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <!-- 4.1 BENIPARRELL -->
+                            <article class="glass-card-highlight rounded-2xl p-4 sm:p-5">
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                                    <h3 class="font-display font-bold text-base sm:text-lg text-white">4.1. BENIPARRELL</h3>
+                                    <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">Prioridad: muy alta.</span>
+                                </div>
+                                <p class="text-xs sm:text-sm text-slate-200 mb-3">Se ha localizado una oferta específica de montadores de muebles de cocina.</p>
+                                <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 mb-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                                    <li>• <strong class="text-white">Código LABORA:</strong> 102026576822.</li>
+                                    <li>• <strong class="text-white">Fecha indicada:</strong> 28/10/2026.</li>
+                                    <li>• <strong class="text-white">Oficina gestora:</strong> LABORA Silla.</li>
+                                </ul>
+                                <p class="text-xs sm:text-sm text-cyan-200 font-medium mb-2">Es una de las señales más interesantes porque se refiere expresamente a montaje de muebles de cocina.</p>
+                                ${renderExternalLinkCard('Inscripción Punt LABORA — Beniparrell (Cód. 102026576822)', 'https://puntlabora.gva.es/puntlabora?app=ofertas-consultar&cod1=712722&cod2=0&t=EMP&lang', 'Inscripción LABORA')}
+                            </article>
+
+                            <!-- 4.2 PATERNA -->
+                            <article class="glass-card-highlight rounded-2xl p-4 sm:p-5">
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                                    <h3 class="font-display font-bold text-base sm:text-lg text-white">4.2. PATERNA</h3>
+                                    <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">Prioridad: muy alta.</span>
+                                </div>
+                                <p class="text-xs sm:text-sm text-slate-200 mb-3">Se han localizado dos señales relacionadas con el sector:</p>
+                                <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 mb-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                                    <li>• Una oferta de montadores de muebles de cocina publicada el 02/09/2026.</li>
+                                    <li>• Otra oferta de carpintería, código 102026576710, fechada el 27/10/2026.</li>
+                                </ul>
+                                <p class="text-xs sm:text-sm text-slate-200 mb-2">Las actividades incluyen instalación de cocinas, armarios, puertas y mobiliario.</p>
+                                ${renderExternalLinkCard('Fuente 1: Sistema Nacional de Empleo (Oferta Cocina)', 'https://www.sistemanacionalempleo.es/SNE_ListadoOfertasDifusionWEB/consultarOfertasFrm.do?CA=13&filtroCA=10&idFlujo=gH4hM3LpU3mOHegoAxXa-SF3728&modo=verPDF', 'Fuente Oficial SNE')}
+                                ${renderExternalLinkCard('Fuente 2: Sistema Nacional de Empleo (Oferta Carpintería)', 'https://www.sistemanacionalempleo.es/SNE_ListadoOfertasDifusionWEB/consultarOfertasFrm.do?CA=&filtroCA=10&idFlujo=XoarNdgHHU2cw6KhghdZzaB1604&modo=verPDF', 'Fuente Oficial SNE')}
+                            </article>
+
+                            <!-- 4.3 XIRIVELLA -->
+                            <article class="glass-card-highlight rounded-2xl p-4 sm:p-5">
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                                    <h3 class="font-display font-bold text-base sm:text-lg text-white">4.3. XIRIVELLA</h3>
+                                    <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">Prioridad: muy alta.</span>
+                                </div>
+                                <p class="text-xs sm:text-sm text-slate-200 mb-3">Oferta de oficial de carpintería de madera y montador.</p>
+                                <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 mb-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                                    <li>• <strong class="text-white">Código LABORA:</strong> 102026577993.</li>
+                                    <li>• <strong class="text-white">Fecha:</strong> 18/11/2026.</li>
+                                    <li>• <strong class="text-white">Funciones:</strong> interpretación de planos, ensamblaje de muebles, armarios y cocinas, medidas y acabados.</li>
+                                    <li>• <strong class="text-white">Contrato anunciado:</strong> indefinido tras periodo de prueba.</li>
+                                </ul>
+                                <p class="text-xs sm:text-sm text-slate-300 mb-2">Es una oportunidad relacionada con el montaje profesional de mobiliario, aunque exige conocimientos de carpintería.</p>
+                                ${renderExternalLinkCard('Inscripción Punt LABORA — Xirivella (Cód. 102026577993)', 'https://puntlabora.gva.es/puntlabora?app=ofertas-consultar&cod1=714029&cod2=0&t=EMP&lang=es', 'Inscripción LABORA')}
+                            </article>
+
+                            <!-- 4.4 BÉTERA -->
+                            <article class="glass-card-highlight rounded-2xl p-4 sm:p-5">
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                                    <h3 class="font-display font-bold text-base sm:text-lg text-white">4.4. BÉTERA</h3>
+                                    <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">Prioridad: muy alta.</span>
+                                </div>
+                                <p class="text-xs sm:text-sm text-slate-200 mb-3">Oferta de carpinteros-montadores.</p>
+                                <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 mb-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                                    <li>• <strong class="text-white">Código LABORA:</strong> 102026578296.</li>
+                                    <li>• <strong class="text-white">Fecha:</strong> 24/11/2026.</li>
+                                    <li>• <strong class="text-white">Número de personas anunciado:</strong> cuatro.</li>
+                                    <li>• <strong class="text-white">Funciones:</strong> instalación de puertas, ventanas, cocinas, paneles y suelos laminados.</li>
+                                    <li>• <strong class="text-white">Contrato anunciado:</strong> indefinido.</li>
+                                </ul>
+                                <p class="text-xs sm:text-sm text-slate-300 mb-1">Es interesante por el número de incorporaciones solicitadas.</p>
+                                <p class="text-xs sm:text-sm text-slate-400 mb-2">No se trata exclusivamente de montaje de muebles modulares.</p>
+                                ${renderExternalLinkCard('Inscripción Punt LABORA — Bétera (Cód. 102026578296)', 'https://puntlabora.gva.es/puntlabora?app=ofertas-consultar&cod1=714440&cod2=0&t=EMP&lang', 'Inscripción LABORA')}
+                            </article>
+
+                            <!-- 4.5 CATARROJA -->
+                            <article class="glass-card rounded-2xl p-4 sm:p-5">
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                                    <h3 class="font-display font-bold text-base sm:text-lg text-white">4.5. CATARROJA</h3>
+                                    <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">Prioridad: alta.</span>
+                                </div>
+                                <p class="text-xs sm:text-sm text-slate-200 mb-3">Oferta de montaje y reparto de muebles.</p>
+                                <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 mb-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                                    <li>• <strong class="text-white">Código LABORA:</strong> 102026576238.</li>
+                                    <li>• <strong class="text-white">Fecha:</strong> 20/10/2026.</li>
+                                    <li>• <strong class="text-white">Funciones:</strong> reparto, descarga, desembalaje, montaje de muebles y retirada de embalajes.</li>
+                                    <li>• <strong class="text-white">Requisito:</strong> experiencia en montaje de muebles y carné de conducir.</li>
+                                </ul>
+                                <p class="text-xs sm:text-sm text-slate-300">Es una señal de actividad de montaje general.</p>
+                            </article>
+
+                            <!-- 4.6 ALCÀSSER -->
+                            <article class="glass-card rounded-2xl p-4 sm:p-5">
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                                    <h3 class="font-display font-bold text-base sm:text-lg text-white">4.6. ALCÀSSER</h3>
+                                    <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">Prioridad: alta.</span>
+                                </div>
+                                <p class="text-xs sm:text-sm text-slate-200 mb-3">Oferta de montadores de muebles de madera o similares.</p>
+                                <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 mb-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                                    <li>• <strong class="text-white">Código:</strong> 102026577515.</li>
+                                    <li>• <strong class="text-white">Fecha:</strong> 10/11/2026.</li>
+                                    <li>• <strong class="text-white">Oficina gestora:</strong> LABORA Silla.</li>
+                                </ul>
+                                <p class="text-xs sm:text-sm text-slate-300 mb-2">La oferta es compatible con el oficio, aunque no se ha podido confirmar que se trate específicamente de cocinas modulares.</p>
+                                ${renderExternalLinkCard('Inscripción Punt LABORA — Alcàsser (Cód. 102026577515)', 'https://puntlabora.gva.es/puntlabora?app=ofertas-consultar&cod1=713468&cod2=0&t=EMP&lang', 'Inscripción LABORA')}
+                            </article>
+
+                            <!-- 4.7 SILLA -->
+                            <article class="glass-card rounded-2xl p-4 sm:p-5">
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                                    <h3 class="font-display font-bold text-base sm:text-lg text-white">4.7. SILLA</h3>
+                                    <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">Prioridad: media-alta.</span>
+                                </div>
+                                <p class="text-xs sm:text-sm text-slate-200 mb-3">Oferta de montaje de mobiliario metálico y de madera.</p>
+                                <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 mb-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                                    <li>• <strong class="text-white">Código:</strong> 102026577933.</li>
+                                    <li>• <strong class="text-white">Fecha:</strong> 17/11/2026.</li>
+                                    <li>• <strong class="text-white">Funciones:</strong> equipamiento de salas de venta de locales comerciales y pequeñas reparaciones de mobiliario.</li>
+                                </ul>
+                                <p class="text-xs sm:text-sm text-slate-300 mb-2">Es una oportunidad relacionada con mobiliario comercial.</p>
+                                ${renderExternalLinkCard('Inscripción Punt LABORA — Silla (Cód. 102026577933)', 'https://puntlabora.gva.es/puntlabora?app=ofertas-consultar&cod1=713951&cod2=0&t=EMP&lang', 'Inscripción LABORA')}
+                            </article>
+
+                            <!-- 4.8 TORRENT -->
+                            <article class="glass-card rounded-2xl p-4 sm:p-5">
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                                    <h3 class="font-display font-bold text-base sm:text-lg text-white">4.8. TORRENT</h3>
+                                    <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">Prioridad: media-alta.</span>
+                                </div>
+                                <p class="text-xs sm:text-sm text-slate-200 mb-3">Oferta de montador de muebles de madera o similares.</p>
+                                <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 mb-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                                    <li>• <strong class="text-white">Código:</strong> 102026578321.</li>
+                                    <li>• <strong class="text-white">Fecha:</strong> 24/11/2026.</li>
+                                    <li>• <strong class="text-white">Experiencia mínima:</strong> un año.</li>
+                                    <li>• <strong class="text-white">Requisitos:</strong> carné de conducir y vehículo propio.</li>
+                                    <li>• <strong class="text-white">Disponibilidad:</strong> para trabajar fuera de Valencia de lunes a viernes.</li>
+                                </ul>
+                                <p class="text-xs sm:text-sm text-slate-300 mb-2">Es una señal de actividad de montaje, aunque el puesto exige movilidad geográfica.</p>
+                                ${renderExternalLinkCard('Inscripción Punt LABORA — Torrent (Cód. 102026578321)', 'https://puntlabora.gva.es/puntlabora?app=ofertas-consultar&cod1=714463&cod2=0&t=EMP&lang', 'Inscripción LABORA')}
+                            </article>
+
+                            <!-- 4.9 MANISES -->
+                            <article class="glass-card rounded-2xl p-4 sm:p-5">
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                                    <h3 class="font-display font-bold text-base sm:text-lg text-white">4.9. MANISES</h3>
+                                    <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">Prioridad: media-alta.</span>
+                                </div>
+                                <p class="text-xs sm:text-sm text-slate-200 mb-3">Oferta de oficial de carpintería.</p>
+                                <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 mb-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                                    <li>• <strong class="text-white">Código:</strong> 102026578045.</li>
+                                    <li>• <strong class="text-white">Fecha:</strong> 19/11/2026.</li>
+                                    <li>• <strong class="text-white">Actividad:</strong> relacionada con muebles de cocina y puertas.</li>
+                                    <li>• <strong class="text-white">Experiencia mínima:</strong> 12 meses.</li>
+                                    <li>• <strong class="text-white">Posibilidad:</strong> de contrato indefinido.</li>
+                                </ul>
+                                <p class="text-xs sm:text-sm text-slate-300 mb-2">Es una señal interesante de actividad profesional relacionada.</p>
+                                ${renderExternalLinkCard('Inscripción Punt LABORA — Manises (Cód. 102026578045)', 'https://puntlabora.gva.es/puntlabora?app=ofertas-consultar&cod1=714113&cod2=0&t=EMP&lang', 'Inscripción LABORA')}
+                            </article>
+
+                            <!-- 4.10 LA POBLA DE VALLBONA -->
+                            <article class="glass-card rounded-2xl p-4 sm:p-5">
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                                    <h3 class="font-display font-bold text-base sm:text-lg text-white">4.10. LA POBLA DE VALLBONA</h3>
+                                    <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-700 text-slate-200 border border-slate-600">Prioridad: media.</span>
+                                </div>
+                                <p class="text-xs sm:text-sm text-slate-200 mb-3">Oferta de carpintería relacionada con:</p>
+                                <ul class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs sm:text-sm text-slate-300 mb-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                                    <li>• Corte.</li>
+                                    <li>• Lijado.</li>
+                                    <li>• Montaje.</li>
+                                    <li>• Acabado de mobiliario.</li>
+                                    <li>• Transporte de materiales.</li>
+                                    <li>• Mantenimiento de taller.</li>
+                                </ul>
+                                <p class="text-xs sm:text-sm text-slate-300">Se trata de una señal de actividad de fabricación y carpintería, no de una demanda específica de instaladores de cocinas.</p>
+                            </article>
+                        </div>
+                    </section>
+
+                    <!-- SECCIÓN 5: MUNICIPIOS COMPLEMENTARIOS -->
+                    <section class="glass-card rounded-2xl p-5 sm:p-6">
+                        <div class="flex items-center gap-2.5 mb-3">
+                            <span class="w-8 h-8 rounded-xl bg-blue-500/20 border border-blue-400/40 text-blue-300 font-display font-bold text-sm flex items-center justify-center">5</span>
+                            <h2 class="font-display font-bold text-lg sm:text-xl text-white">5. MUNICIPIOS COMPLEMENTARIOS</h2>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-200 mb-3">También merece la pena investigar:</p>
+
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            ${['Náquera.', 'La Font de la Figuera.', 'Carlet.', 'Agullent.', 'Alginet.', 'Llombai.'].map(m => `
+                                <span class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs sm:text-sm font-medium text-cyan-200">${m}</span>
+                            `).join('')}
+                        </div>
+
+                        <div class="space-y-2 text-xs sm:text-sm text-slate-300 bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+                            <p>En estas localidades aparecen señales de actividad de carpintería, fabricación, mobiliario o montaje.</p>
+                            <p class="text-slate-400">Sin embargo, no hay evidencia suficiente para considerarlas prioritarias en la búsqueda específica de instalación de cocinas modulares.</p>
+                        </div>
+                    </section>
+                `
+            },
+            {
+                id: 'boconni-corredores',
+                tabName: 'Boconni y Corredores',
+                subtitle: 'Oferta destacada en Cámara Valencia y 3 Corredores Comerciales',
+                content: `
+                    <!-- SECCIÓN 6: UNA OFERTA ESPECIALMENTE INTERESANTE -->
+                    <section class="glass-card-highlight rounded-2xl p-5 sm:p-6 mb-6">
+                        <div class="flex items-center gap-2.5 mb-3">
+                            <span class="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 font-display font-bold text-sm flex items-center justify-center">6</span>
+                            <h2 class="font-display font-bold text-lg sm:text-xl text-white">6. UNA OFERTA ESPECIALMENTE INTERESANTE</h2>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-950/80 border border-cyan-400/30 mb-4">
+                            <span class="inline-block px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-cyan-500/20 text-cyan-300 mb-2">Cámara de Comercio de Valencia</span>
+                            <h3 class="font-display font-extrabold text-base sm:text-lg text-white mb-2">
+                                BOCONNI — MONTADOR DE COCINAS, ARMARIOS Y MOBILIARIO
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-300 mb-3">
+                                La Cámara de Comercio de Valencia publica una oferta de esta empresa.
+                            </p>
+
+                            <ul class="space-y-1.5 text-xs sm:text-sm text-slate-200 mb-4">
+                                <li>• <strong class="text-cyan-300">Publicación:</strong> 01/10/2026.</li>
+                                <li>• <strong class="text-cyan-300">Finalización anunciada:</strong> 01/04/2027.</li>
+                                <li>• <strong class="text-cyan-300">Funciones:</strong> instalación de cocinas, armarios y mobiliario.</li>
+                                <li>• <strong class="text-cyan-300">Especialidad:</strong> Ajuste de puertas, cajones, herrajes y accesorios.</li>
+                                <li>• <strong class="text-cyan-300">Calidad:</strong> Remates y resolución de incidencias.</li>
+                                <li>• <strong class="text-cyan-300">Experiencia requerida:</strong> dos años.</li>
+                                <li>• <strong class="text-cyan-300">Requisito adicional:</strong> Carné de conducir B.</li>
+                            </ul>
+
+                            <div class="text-xs sm:text-sm text-slate-300 space-y-1 border-t border-slate-800 pt-3 mb-3">
+                                <p>La ubicación municipal no aparece claramente en la ficha consultada.</p>
+                                <p class="text-cyan-200 font-medium">Es una oferta muy relacionada con el oficio que estamos estudiando.</p>
+                            </div>
+
+                            ${renderExternalLinkCard('Oferta BOCONNI — Cámara de Comercio de Valencia', 'https://empleo.camaravalencia.com/ofertas/ver/14077', 'Oferta Cámara Valencia')}
+                        </div>
+                    </section>
+
+                    <!-- SECCIÓN 7: LOS TRES CORREDORES COMERCIALES QUE INVESTIGARÍA -->
+                    <section class="glass-card rounded-2xl p-5 sm:p-6">
+                        <div class="flex items-center gap-2.5 mb-4">
+                            <span class="w-8 h-8 rounded-xl bg-purple-500/20 border border-purple-400/40 text-purple-300 font-display font-bold text-sm flex items-center justify-center">7</span>
+                            <h2 class="font-display font-bold text-lg sm:text-xl text-white">7. LOS TRES CORREDORES COMERCIALES QUE INVESTIGARÍA</h2>
+                        </div>
+
+                        <div class="space-y-4 mb-5">
+                            <!-- Corredor A -->
+                            <div class="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/30">
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-cyan-400">Eje Logístico y Comercial Sur</span>
+                                <h3 class="font-display font-bold text-base text-white mt-0.5 mb-1">CORREDOR A: SUR METROPOLITANO</h3>
+                                <p class="text-xs sm:text-sm font-semibold text-cyan-200 mb-2.5">
+                                    Beniparrell – Silla – Alcàsser – Catarroja – Alfafar – Picassent.
+                                </p>
+                                <p class="text-xs font-bold text-slate-400 uppercase mb-1.5">Motivos:</p>
+                                <ul class="space-y-1 text-xs sm:text-sm text-slate-300">
+                                    <li>• Ofertas relacionadas con montaje de muebles.</li>
+                                    <li>• Actividad comercial y logística.</li>
+                                    <li>• Proximidad entre municipios.</li>
+                                    <li>• Posibilidad de trabajar en varios municipios sin grandes desplazamientos.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Corredor B -->
+                            <div class="p-4 rounded-xl bg-slate-900/90 border border-blue-500/30">
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-blue-400">Eje Industrial y Reformas Oeste</span>
+                                <h3 class="font-display font-bold text-base text-white mt-0.5 mb-1">CORREDOR B: OESTE METROPOLITANO</h3>
+                                <p class="text-xs sm:text-sm font-semibold text-blue-200 mb-2.5">
+                                    Paterna – Manises – Xirivella – Alaquàs – Aldaia.
+                                </p>
+                                <p class="text-xs font-bold text-slate-400 uppercase mb-1.5">Motivos:</p>
+                                <ul class="space-y-1 text-xs sm:text-sm text-slate-300">
+                                    <li>• Ofertas de carpintería y montaje.</li>
+                                    <li>• Instalación de armarios y cocinas.</li>
+                                    <li>• Empresas de reformas y mobiliario.</li>
+                                    <li>• Posibilidad de establecer relaciones comerciales con distribuidores.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Corredor C -->
+                            <div class="p-4 rounded-xl bg-slate-900/90 border border-purple-500/30">
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-purple-400">Eje Residencial Norte y Noroeste</span>
+                                <h3 class="font-display font-bold text-base text-white mt-0.5 mb-1">CORREDOR C: NORTE Y NOROESTE</h3>
+                                <p class="text-xs sm:text-sm font-semibold text-purple-200 mb-2.5">
+                                    Bétera – Náquera – La Pobla de Vallbona – L'Eliana – Paterna.
+                                </p>
+                                <p class="text-xs font-bold text-slate-400 uppercase mb-1.5">Motivos:</p>
+                                <ul class="space-y-1 text-xs sm:text-sm text-slate-300">
+                                    <li>• Actividad de carpintería y montaje.</li>
+                                    <li>• Una oferta de cuatro incorporaciones en Bétera.</li>
+                                    <li>• Posibles oportunidades en viviendas particulares y reformas.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs sm:text-sm text-slate-300">
+                            Estos corredores son zonas de prospección, no áreas cuya demanda haya sido cuantificada estadísticamente.
+                        </div>
+                    </section>
+                `
+            },
+            {
+                id: 'clientes-preguntas',
+                tabName: 'Clientes y Preguntas',
+                subtitle: 'Comercios a prospectar y Cuestionario Comercial interactivo',
+                content: `
+                    <!-- SECCIÓN 8: POSIBLES CLIENTES Y COLABORADORES COMERCIALES -->
+                    <section class="glass-card rounded-2xl p-5 sm:p-6 mb-6">
+                        <div class="flex items-center gap-2.5 mb-3">
+                            <span class="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 font-display font-bold text-sm flex items-center justify-center">8</span>
+                            <h2 class="font-display font-bold text-lg sm:text-xl text-white">8. POSIBLES CLIENTES Y COLABORADORES COMERCIALES</h2>
+                        </div>
+
+                        <div class="space-y-2 text-xs sm:text-sm text-slate-200 mb-5">
+                            <p>Una oportunidad muy interesante consiste en investigar empresas que venden muebles y cocinas, pero que podrían necesitar instaladores externos.</p>
+                            <p class="text-cyan-300 font-medium">No debemos asumir que externalizan el montaje: hay que preguntárselo directamente.</p>
+                            <p class="font-semibold text-white pt-1">Empresas y comercios para investigar:</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 mb-6">
+                            <!-- Comercio 1 -->
+                            <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col justify-between">
+                                <div>
+                                    <span class="text-[11px] font-bold text-cyan-400 uppercase">Alfafar.</span>
+                                    <h3 class="font-display font-bold text-base text-white mt-0.5">Muebles Quique Chaqués</h3>
+                                </div>
+                                ${renderExternalLinkCard('Ubicación en Google Maps', 'https://www.google.com/maps/search/?api=1&query=Muebles+Quique+Chaques+Alfafar', 'Google Maps')}
+                            </div>
+
+                            <!-- Comercio 2 -->
+                            <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col justify-between">
+                                <div>
+                                    <span class="text-[11px] font-bold text-cyan-400 uppercase">Alfafar.</span>
+                                    <h3 class="font-display font-bold text-base text-white mt-0.5">Muebles Bianca</h3>
+                                </div>
+                                ${renderExternalLinkCard('Ubicación en Google Maps', 'https://www.google.com/maps/search/?api=1&query=Muebles+Bianca+Alfafar', 'Google Maps')}
+                            </div>
+
+                            <!-- Comercio 3 -->
+                            <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col justify-between">
+                                <div>
+                                    <span class="text-[11px] font-bold text-cyan-400 uppercase">Valencia.</span>
+                                    <h3 class="font-display font-bold text-base text-white mt-0.5">Cocinas Valencia</h3>
+                                </div>
+                                ${renderExternalLinkCard('Ubicación en Google Maps', 'https://www.google.com/maps/search/?api=1&query=Cocinas+Valencia+Calle+Conca', 'Google Maps')}
+                            </div>
+
+                            <!-- Comercio 4 -->
+                            <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col justify-between">
+                                <div>
+                                    <span class="text-[11px] font-bold text-cyan-400 uppercase">Valencia.</span>
+                                    <h3 class="font-display font-bold text-base text-white mt-0.5">SCHMIDT Valencia</h3>
+                                </div>
+                                ${renderExternalLinkCard('Ubicación en Google Maps', 'https://www.google.com/maps/search/?api=1&query=Schmidt+Cocinas+Valencia', 'Google Maps')}
+                            </div>
+
+                            <!-- Comercio 5 -->
+                            <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col justify-between">
+                                <div>
+                                    <span class="text-[11px] font-bold text-cyan-400 uppercase">Valencia.</span>
+                                    <h3 class="font-display font-bold text-base text-white mt-0.5">Novacuin</h3>
+                                </div>
+                                ${renderExternalLinkCard('Ubicación en Google Maps', 'https://www.google.com/maps/search/?api=1&query=Novacuin+Valencia', 'Google Maps')}
+                            </div>
+
+                            <!-- Comercio 6 -->
+                            <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col justify-between">
+                                <div>
+                                    <span class="text-[11px] font-bold text-cyan-400 uppercase">Valencia.</span>
+                                    <h3 class="font-display font-bold text-base text-white mt-0.5">Muebles El Chollazo</h3>
+                                </div>
+                                ${renderExternalLinkCard('Ubicación en Google Maps', 'https://www.google.com/maps/search/?api=1&query=Muebles+El+Chollazo+Valencia', 'Google Maps')}
+                            </div>
+                        </div>
+
+                        <!-- SUBSECCIÓN DE PREGUNTAS Y RESPUESTAS CON BOTONES OBLIGATORIOS (+ Desplegar / - Plegar, default Plegado) -->
+                        <div class="pt-5 border-t border-slate-800">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                                <div>
+                                    <h3 class="font-display font-bold text-base sm:text-lg text-white">Preguntas comerciales fundamentales</h3>
+                                    <p class="text-xs text-slate-400">Guía de calificación comercial para tiendas y distribuidores</p>
+                                </div>
+
+                                <!-- Botones de control de despliegue (Default: - Plegar todas las respuestas) -->
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <button type="button" onclick="toggleAllQA(true)"
+                                        class="px-3 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-xs font-bold transition-all active:scale-95">
+                                        + Desplegar todas las respuestas
+                                    </button>
+                                    <button type="button" onclick="toggleAllQA(false)"
+                                        class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 text-xs font-bold transition-all active:scale-95">
+                                        - Plegar todas las respuestas
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="qa-accordion-list" class="space-y-2.5">
+                                ${[
+                                    {
+                                        q: '1. ¿Realizan ustedes mismos todos los montajes?',
+                                        a: 'Permite detectar de inmediato si cuentan con plantilla propia saturada o si dependen de terceros para cumplir plazos de entrega.'
+                                    },
+                                    {
+                                        q: '2. ¿Trabajan con instaladores autónomos externos?',
+                                        a: 'Confirma si la empresa ya dispone de un modelo operativo y contractual preparado para colaborar con profesionales externos como Nova Llar.'
+                                    },
+                                    {
+                                        q: '3. ¿Tienen lista de espera para instalar cocinas y armarios?',
+                                        a: 'Una respuesta afirmativa o una lista de espera serían señales comerciales especialmente valiosas de demanda insatisfecha inmediata.'
+                                    },
+                                    {
+                                        q: '4. ¿Qué municipios cubren?',
+                                        a: 'Delimita el radio de acción real de la tienda para cruzarlo con los Corredores A, B y C del área metropolitana de Valencia.'
+                                    },
+                                    {
+                                        q: '5. ¿Qué tipo de instalaciones externalizan?',
+                                        a: 'Diferencia entre montaje de muebles en kit, armarios a medida o cocinas modulares completas con ajuste de herrajes y encimeras.'
+                                    },
+                                    {
+                                        q: '6. ¿Cómo seleccionan a sus instaladores colaboradores?',
+                                        a: 'Revela los requisitos exigidos (seguro RC, herramientas propias, vehículo, experiencia demostrable o prueba piloto) para cerrar acuerdo.'
+                                    }
+                                ].map((item, idx) => `
+                                    <div class="qa-item rounded-xl bg-slate-900/95 border border-slate-800 overflow-hidden">
+                                        <button type="button" onclick="toggleSingleQA(${idx})"
+                                            class="w-full p-3.5 text-left flex items-center justify-between gap-3 hover:bg-slate-800/60 transition-colors">
+                                            <span class="text-xs sm:text-sm font-semibold text-white">${item.q}</span>
+                                            <span id="qa-icon-${idx}" class="shrink-0 w-6 h-6 rounded-lg bg-slate-800 text-cyan-400 font-bold text-sm flex items-center justify-center">+</span>
+                                        </button>
+                                        <div id="qa-answer-${idx}" class="hidden px-3.5 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/70 bg-slate-950/50">
+                                            ${item.a}
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+
+                            <div class="mt-4 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs sm:text-sm text-emerald-200 font-medium">
+                                Una respuesta afirmativa a la externalización o una lista de espera serían señales comerciales especialmente valiosas.
+                            </div>
+                        </div>
+                    </section>
+                `
+            },
+            {
+                id: 'indice-plan',
+                tabName: 'Índice y Plan 2 Semanas',
+                subtitle: 'Matriz de puntuación 0-100 y Hoja de Ruta operativa en 10 días',
+                content: `
+                    <!-- SECCIÓN 9: CÓMO CONSTRUIR UN ÍNDICE DE OPORTUNIDAD -->
+                    <section class="glass-card rounded-2xl p-5 sm:p-6 mb-6">
+                        <div class="flex items-center gap-2.5 mb-3">
+                            <span class="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 font-display font-bold text-sm flex items-center justify-center">9</span>
+                            <h2 class="font-display font-bold text-lg sm:text-xl text-white">9. CÓMO CONSTRUIR UN ÍNDICE DE OPORTUNIDAD</h2>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-200 mb-4">
+                            Propongo desarrollar un índice de <strong class="text-cyan-300">0 a 100 puntos</strong>. La ponderación inicial sería:
+                        </p>
+
+                        <!-- Tabla de Ponderación -->
+                        <div class="overflow-hidden rounded-xl border border-slate-800 mb-4">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-950 text-cyan-300 text-xs uppercase">
+                                        <th class="p-3 font-bold">Variable</th>
+                                        <th class="p-3 font-bold text-right">Peso</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-800 text-xs sm:text-sm bg-slate-900/70">
+                                    <tr>
+                                        <td class="p-3 text-slate-200">Ofertas específicas de montaje de cocinas y armarios</td>
+                                        <td class="p-3 text-right font-bold text-cyan-400">30 %</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 text-slate-200">Empresas que venden cocinas y mobiliario modular</td>
+                                        <td class="p-3 text-right font-bold text-cyan-400">20 %</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 text-slate-200">Parque de viviendas y hogares</td>
+                                        <td class="p-3 text-right font-bold text-blue-400">15 %</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 text-slate-200">Actividad de reformas y construcción</td>
+                                        <td class="p-3 text-right font-bold text-blue-400">15 %</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 text-slate-200">Empresas que externalizan montajes</td>
+                                        <td class="p-3 text-right font-bold text-purple-400">15 %</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 text-slate-200">Competencia local verificable</td>
+                                        <td class="p-3 text-right font-bold text-slate-300">5 %</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800 text-xs sm:text-sm text-slate-300 space-y-1 mb-5">
+                            <p>No asignamos todavía puntuaciones municipales porque faltan datos comparables.</p>
+                            <p class="text-amber-300">Inventar puntuaciones daría una apariencia de precisión que no tenemos.</p>
+                        </div>
+
+                        <!-- Clasificación de oportunidades -->
+                        <h3 class="font-display font-bold text-base text-white mb-3">Clasificación de oportunidades</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                            <div class="p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/40 flex items-center gap-2.5">
+                                <span class="w-3.5 h-3.5 rounded-full bg-emerald-400 shrink-0"></span>
+                                <span class="text-xs sm:text-sm text-emerald-200"><strong>VERDE:</strong> oportunidad alta.</span>
+                            </div>
+                            <div class="p-3 rounded-xl bg-amber-500/15 border border-amber-500/40 flex items-center gap-2.5">
+                                <span class="w-3.5 h-3.5 rounded-full bg-amber-400 shrink-0"></span>
+                                <span class="text-xs sm:text-sm text-amber-200"><strong>AMARILLO:</strong> oportunidad intermedia.</span>
+                            </div>
+                            <div class="p-3 rounded-xl bg-rose-500/15 border border-rose-500/40 flex items-center gap-2.5">
+                                <span class="w-3.5 h-3.5 rounded-full bg-rose-500 shrink-0"></span>
+                                <span class="text-xs sm:text-sm text-rose-200"><strong>ROJO:</strong> oportunidad baja o competencia elevada.</span>
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-700/30 border border-slate-600 flex items-center gap-2.5">
+                                <span class="w-3.5 h-3.5 rounded-full bg-slate-400 shrink-0"></span>
+                                <span class="text-xs sm:text-sm text-slate-200"><strong>GRIS:</strong> información insuficiente.</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SECCIÓN 10: PLAN DE INVESTIGACIÓN EN DOS SEMANAS -->
+                    <section class="glass-card rounded-2xl p-5 sm:p-6">
+                        <div class="flex items-center gap-2.5 mb-4">
+                            <span class="w-8 h-8 rounded-xl bg-purple-500/20 border border-purple-400/40 text-purple-300 font-display font-bold text-sm flex items-center justify-center">10</span>
+                            <h2 class="font-display font-bold text-lg sm:text-xl text-white">10. PLAN DE INVESTIGACIÓN EN DOS SEMANAS</h2>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                            <!-- DÍAS 1 Y 2 -->
+                            <div class="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/30">
+                                <span class="inline-block px-2.5 py-0.5 rounded text-[10px] font-bold bg-cyan-500/20 text-cyan-300 mb-1.5">FASE 1</span>
+                                <h3 class="font-display font-bold text-sm sm:text-base text-white mb-2">DÍAS 1 Y 2: VALIDAR OFERTAS</h3>
+                                <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300">
+                                    <li>• Abrir las ofertas LABORA.</li>
+                                    <li>• Comprobar cuáles siguen activas.</li>
+                                    <li>• Registrar empresas y contactos.</li>
+                                    <li>• Identificar requisitos y salarios.</li>
+                                    <li>• Separar cocinas modulares de carpintería general.</li>
+                                </ul>
+                            </div>
+
+                            <!-- DÍAS 3 A 5 -->
+                            <div class="p-4 rounded-xl bg-slate-900/90 border border-blue-500/30">
+                                <span class="inline-block px-2.5 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-300 mb-1.5">FASE 2</span>
+                                <h3 class="font-display font-bold text-sm sm:text-base text-white mb-2">DÍAS 3 A 5: INVESTIGAR EMPRESAS</h3>
+                                <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300">
+                                    <li>• Localizar tiendas de cocinas.</li>
+                                    <li>• Localizar tiendas de armarios.</li>
+                                    <li>• Localizar distribuidores de mobiliario.</li>
+                                    <li>• Localizar empresas de reformas.</li>
+                                    <li>• Contactar con cinco negocios como mínimo.</li>
+                                </ul>
+                            </div>
+
+                            <!-- DÍAS 6 A 8 -->
+                            <div class="p-4 rounded-xl bg-slate-900/90 border border-purple-500/30">
+                                <span class="inline-block px-2.5 py-0.5 rounded text-[10px] font-bold bg-purple-500/20 text-purple-300 mb-1.5">FASE 3</span>
+                                <h3 class="font-display font-bold text-sm sm:text-base text-white mb-2">DÍAS 6 A 8: INVESTIGAR COMPETENCIA</h3>
+                                <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300">
+                                    <li>• Buscar instaladores independientes.</li>
+                                    <li>• Identificar empresas de montaje.</li>
+                                    <li>• Revisar servicios y tarifas públicas.</li>
+                                    <li>• Analizar reseñas de clientes.</li>
+                                    <li>• Comprobar tiempos de espera cuando sea posible.</li>
+                                </ul>
+                            </div>
+
+                            <!-- DÍAS 9 Y 10 -->
+                            <div class="p-4 rounded-xl bg-slate-900/90 border border-emerald-500/30">
+                                <span class="inline-block px-2.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 mb-1.5">FASE 4</span>
+                                <h3 class="font-display font-bold text-sm sm:text-base text-white mb-2">DÍAS 9 Y 10: ELEGIR ZONA PILOTO</h3>
+                                <p class="text-xs font-semibold text-slate-400 mb-1.5">Comparar:</p>
+                                <ul class="space-y-1 text-xs sm:text-sm text-slate-300 mb-2.5">
+                                    <li>• Trabajo potencial.</li>
+                                    <li>• Distancias.</li>
+                                    <li>• Competencia.</li>
+                                    <li>• Coste de captación de clientes.</li>
+                                    <li>• Posibilidad de acuerdos con distribuidores.</li>
+                                    <li>• Facilidad de desplazamiento.</li>
+                                </ul>
+                                <p class="text-xs font-bold text-emerald-300">Elegir una zona inicial y otra de reserva.</p>
+                            </div>
+                        </div>
+                    </section>
+                `
+            },
+            {
+                id: 'fuentes-veredicto',
+                tabName: 'Fuentes y Veredicto',
+                subtitle: 'Enlaces oficiales consultados, Limitaciones y Veredicto Final',
+                content: `
+                    <!-- SECCIÓN 11: FUENTES CONSULTADAS -->
+                    <section class="glass-card rounded-2xl p-5 sm:p-6 mb-6">
+                        <div class="flex items-center gap-2.5 mb-4">
+                            <span class="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 font-display font-bold text-sm flex items-center justify-center">11</span>
+                            <h2 class="font-display font-bold text-lg sm:text-xl text-white">11. FUENTES CONSULTADAS</h2>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <h3 class="font-display font-bold text-sm sm:text-base text-white">Sistema Nacional de Empleo</h3>
+                                <p class="text-xs text-slate-300 mt-1">Listado oficial de ofertas en difusión del 28/11/2026.</p>
+                                ${renderExternalLinkCard('Listado oficial SNE — 28/11/2026', 'https://www.sistemanacionalempleo.es/SNE_ListadoOfertasDifusionWEB/consultarOfertasFrm.do?CA=&filtroCA=10&idFlujo=XoarNdgHHU2cw6KhghdZzaB1604&modo=verPDF', 'PDF Oficial SNE')}
+                                
+                                <p class="text-xs text-slate-300 mt-3">Listado de ofertas del 15/11/2026.</p>
+                                ${renderExternalLinkCard('Listado oficial SNE — 15/11/2026', 'https://www.sistemanacionalempleo.es/SNE_ListadoOfertasDifusionWEB/consultarOfertasFrm.do?CA=&filtroCA=10&idFlujo=vxDQPZP_YQAXr8-QO_hauDl6400&modo=verPDF', 'PDF Oficial SNE')}
+                            </div>
+
+                            <div class="pt-2 border-t border-slate-800">
+                                <h3 class="font-display font-bold text-sm sm:text-base text-white">Punt LABORA</h3>
+                                ${renderExternalLinkCard('Portal Oficial Punt LABORA GVA', 'https://puntlabora.gva.es/', 'Portal Público')}
+                            </div>
+
+                            <div class="pt-2 border-t border-slate-800">
+                                <h3 class="font-display font-bold text-sm sm:text-base text-white">Workeo</h3>
+                                <p class="text-xs text-slate-300 mt-1">Ofertas de montaje e instalaciones en la Comunitat Valenciana.</p>
+                                ${renderExternalLinkCard('Workeo — Montaje e Instalaciones Comunitat Valenciana', 'https://workeo.es/empleo/montaje-e-instalaciones/comunitat-valenciana/', 'Agregador Empleo')}
+                            </div>
+
+                            <div class="pt-2 border-t border-slate-800">
+                                <h3 class="font-display font-bold text-sm sm:text-base text-white">Cámara Valencia</h3>
+                                <p class="text-xs text-slate-300 mt-1">Oferta BOCONNI.</p>
+                                ${renderExternalLinkCard('Cámara Valencia — Oferta BOCONNI (14077)', 'https://empleo.camaravalencia.com/ofertas/ver/14077', 'Cámara de Comercio')}
+                            </div>
+
+                            <div class="pt-2 border-t border-slate-800">
+                                <h3 class="font-display font-bold text-sm sm:text-base text-white">Indeed</h3>
+                                <p class="text-xs text-slate-300 mt-1">Empleos de muebles en Valencia provincia.</p>
+                                ${renderExternalLinkCard('Indeed — Empleos de muebles en Valencia provincia', 'https://es.indeed.com/q-muebles-l-valencia-provincia-empleos.html', 'Portal Empleo')}
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SECCIÓN 12: LIMITACIONES DEL ESTUDIO -->
+                    <section class="glass-card rounded-2xl p-5 sm:p-6 mb-6">
+                        <div class="flex items-center gap-2.5 mb-3">
+                            <span class="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-400/40 text-amber-300 font-display font-bold text-sm flex items-center justify-center">12</span>
+                            <h2 class="font-display font-bold text-lg sm:text-xl text-white">12. LIMITACIONES DEL ESTUDIO</h2>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-200 mb-3">
+                            Esta investigación constituye una primera radiografía del mercado. Todavía no podemos demostrar:
+                        </p>
+
+                        <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 bg-slate-950/70 p-4 rounded-xl border border-slate-800 mb-3.5">
+                            <li>• Cuántos instaladores existen en cada municipio.</li>
+                            <li>• Cuántas vacantes siguen abiertas.</li>
+                            <li>• Cuántas tiendas externalizan realmente sus montajes.</li>
+                            <li>• Cuántas cocinas se venden anualmente por municipio.</li>
+                            <li>• Cuántas instalaciones están pendientes.</li>
+                            <li>• Cuál es la demanda por cada 1.000 viviendas.</li>
+                        </ul>
+
+                        <div class="space-y-2 text-xs sm:text-sm text-slate-300">
+                            <p>Los agregadores pueden mostrar ofertas duplicadas, cerradas o incompletas.</p>
+                            <p>Por tanto, no sería correcto afirmar que ya conocemos el municipio con mayor escasez de instaladores.</p>
+                            <p class="text-cyan-300 font-medium">Sí podemos identificar zonas con señales concretas que justifican una investigación comercial más profunda.</p>
+                        </div>
+                    </section>
+
+                    <!-- SECCIÓN 13: VEREDICTO FINAL -->
+                    <section class="glass-card-highlight rounded-2xl p-5 sm:p-6">
+                        <div class="flex items-center gap-2.5 mb-3">
+                            <span class="w-8 h-8 rounded-xl bg-cyan-500/25 border border-cyan-400/50 text-cyan-300 font-display font-bold text-sm flex items-center justify-center">13</span>
+                            <h2 class="font-display font-bold text-lg sm:text-xl text-white">13. VEREDICTO FINAL</h2>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-200 mb-4">
+                            La primera evidencia se concentra en el área metropolitana de Valencia.
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-5">
+                            <div class="p-4 rounded-xl bg-slate-950/80 border border-emerald-500/40">
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-400">Primera Línea de Acción</span>
+                                <h3 class="font-display font-bold text-sm text-white mt-0.5 mb-2.5">Los cuatro municipios que investigaría primero son:</h3>
+                                <ol class="space-y-1.5 text-xs sm:text-sm font-bold text-emerald-200">
+                                    <li>1. BENIPARRELL.</li>
+                                    <li>2. PATERNA.</li>
+                                    <li>3. XIRIVELLA.</li>
+                                    <li>4. BÉTERA.</li>
+                                </ol>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-950/80 border border-cyan-500/30">
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-cyan-400">Segunda Línea de Investigación</span>
+                                <h3 class="font-display font-bold text-sm text-white mt-0.5 mb-2.5">Como segunda línea de investigación:</h3>
+                                <ol start="5" class="space-y-1.5 text-xs sm:text-sm font-semibold text-slate-200">
+                                    <li>5. CATARROJA.</li>
+                                    <li>6. ALCÀSSER.</li>
+                                    <li>7. SILLA.</li>
+                                    <li>8. TORRENT.</li>
+                                    <li>9. MANISES.</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-gradient-to-r from-cyan-950/90 via-blue-950/80 to-slate-900 border border-cyan-400/40 space-y-2.5">
+                            <p class="text-xs sm:text-sm text-slate-200">
+                                Para <strong class="text-white">Nova Llar</strong>, el dato decisivo no será cuántas ofertas de empleo aparecen.
+                            </p>
+                            <p class="text-xs sm:text-sm text-cyan-200">
+                                Será descubrir cuántas empresas venden cocinas, armarios y muebles modulares y necesitan profesionales fiables para realizar las instalaciones.
+                            </p>
+                            <p class="text-sm sm:text-base font-display font-bold text-white pt-1">
+                                No buscamos simplemente municipios grandes.
+                            </p>
+                            <p class="text-sm sm:text-base font-display font-bold text-cyan-300">
+                                Buscamos concentraciones de clientes, distribuidores y trabajo de montaje que todavía no estén bien atendidas.
+                            </p>
+                            <p class="text-xs sm:text-sm font-semibold text-emerald-300 pt-1">
+                                Ese es el mercado que merece la pena conquistar.
+                            </p>
+                        </div>
+                    </section>
+                `
+            },
+            {
+                id: 'creditos',
+                tabName: 'Créditos',
+                subtitle: 'Autoría y Marca Temporal del Documento',
+                content: `
+                    <!-- ÚLTIMA PESTAÑA OBLIGATORIA: CRÉDITOS -->
+                    <section class="glass-card-highlight rounded-2xl p-6 sm:p-10 text-center max-w-xl mx-auto my-4">
+                        <div class="w-20 h-24 mx-auto mb-4 p-2 rounded-2xl bg-slate-950 border border-cyan-400/40 shadow-[0_0_25px_rgba(0,229,255,0.25)]">
+                            <svg class="w-full h-full">
+                                <use href="#logo-ia-tutoriales"></use>
+                            </svg>
+                        </div>
+
+                        <span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 mb-3">
+                            Ficha Técnica y Autoría
+                        </span>
+
+                        <h2 class="font-display font-extrabold text-2xl sm:text-3xl text-white mb-6">
+                            CRÉDITOS
+                        </h2>
+
+                        <div class="space-y-3 text-left bg-slate-950/85 p-5 rounded-2xl border border-slate-800">
+                            <div class="flex items-center justify-between py-2 border-b border-slate-800/80">
+                                <span class="text-xs sm:text-sm text-slate-400">Autor:</span>
+                                <span class="text-sm sm:text-base font-bold text-white">Rubén Sbarsky</span>
+                            </div>
+                            <div class="flex items-center justify-between py-2 border-b border-slate-800/80">
+                                <span class="text-xs sm:text-sm text-slate-400">Fecha 📆:</span>
+                                <span class="text-sm sm:text-base font-bold text-cyan-300">28/11/2026</span>
+                            </div>
+                            <div class="flex items-center justify-between py-2">
+                                <span class="text-xs sm:text-sm text-slate-400">Hora 🕰:</span>
+                                <span class="text-sm sm:text-base font-bold text-cyan-300 font-mono">16:20:51</span>
+                            </div>
+                        </div>
+
+                        <p class="mt-6 text-xs text-slate-400">
+                            Mapa de Oportunidades para Instaladores de Muebles Modulares · Provincia de Valencia (Nova Llar)
+                        </p>
+                    </section>
+                `
+            }
+        ];
+
+        let currentTabIndex = 0;
+
+        /**
+         * Renderiza la barra superior de pestañas e Índice vertical
+         */
+        function initNavigation() {
+            const scroller = document.getElementById('tabs-scroller');
+            const verticalList = document.getElementById('index-vertical-list');
+
+            scroller.innerHTML = TABS_DATA.map((tab, index) => `
+                <button id="top-tab-${index}" onclick="switchTab(${index})"
+                    class="shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all whitespace-nowrap border ${
+                        index === currentTabIndex
+                        ? 'bg-cyan-500 text-slate-950 border-cyan-300 shadow-[0_0_15px_rgba(0,229,255,0.35)]'
+                        : 'bg-slate-900/80 text-slate-300 border-slate-800 hover:border-slate-600 hover:text-white'
+                    }">
+                    ${tab.tabName}
+                </button>
+            `).join('');
+
+            verticalList.innerHTML = TABS_DATA.map((tab, index) => `
+                <button onclick="switchTab(${index}); toggleIndexModal(false);"
+                    class="w-full p-3 rounded-xl text-left flex items-center justify-between gap-3 transition-all border ${
+                        index === currentTabIndex
+                        ? 'bg-cyan-500/20 border-cyan-400/50 text-white'
+                        : 'bg-slate-950/60 border-slate-800/80 text-slate-300 hover:bg-slate-800/80'
+                    }">
+                    <div>
+                        <span class="block text-xs sm:text-sm font-bold ${index === currentTabIndex ? 'text-cyan-300' : 'text-white'}">${tab.tabName}</span>
+                        <span class="block text-[11px] text-slate-400 mt-0.5">${tab.subtitle}</span>
+                    </div>
+                    <svg class="w-4 h-4 shrink-0 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </button>
+            `).join('');
+        }
+
+        /**
+         * Cambia a la pestaña seleccionada, auto-centra el botón en la barra superior
+         * y actualiza los botones de navegación inferior (Anterior / Próxima).
+         */
+        function switchTab(index) {
+            if (index < 0 || index >= TABS_DATA.length) return;
+            currentTabIndex = index;
+
+            const container = document.getElementById('tab-content-container');
+            container.innerHTML = `<div class="tab-panel-active">${TABS_DATA[index].content}</div>`;
+
+            // Actualizar estilos de pestañas e índice
+            initNavigation();
+
+            // Auto-centrado horizontal suave en la pestaña activa
+            const activeTabBtn = document.getElementById(`top-tab-${index}`);
+            if (activeTabBtn) {
+                activeTabBtn.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest',
+                    inline: 'center'
+                });
+            }
+
+            // Renderizar botones fijos al final de cada pestaña (Anterior / Próxima)
+            renderBottomNavButtons(index);
+
+            // Desplazar suavemente al comienzo de la pestaña actual
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /**
+         * Genera los botones fijos al final de cada pestaña para ir a la anterior (si existe) y a la próxima
+         */
+        function renderBottomNavButtons(index) {
+            const bottomNav = document.getElementById('bottom-tab-navigation');
+            const prevTab = index > 0 ? TABS_DATA[index - 1] : null;
+            const nextTab = index < TABS_DATA.length - 1 ? TABS_DATA[index + 1] : null;
+
+            let html = '';
+
+            if (prevTab) {
+                html += `
+                    <button onclick="switchTab(${index - 1})"
+                        class="flex-1 sm:flex-initial flex items-center justify-center sm:justify-start gap-2.5 px-4 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs sm:text-sm font-semibold transition-all active:scale-95">
+                        <svg class="w-4 h-4 text-cyan-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                        <div class="text-left">
+                            <span class="block text-[10px] uppercase tracking-wider text-slate-400">Pestaña Anterior</span>
+                            <span class="block text-white font-bold">${prevTab.tabName}</span>
+                        </div>
+                    </button>
+                `;
+            } else {
+                html += `<div></div>`;
+            }
+
+            if (nextTab) {
+                html += `
+                    <button onclick="switchTab(${index + 1})"
+                        class="flex-1 sm:flex-initial flex items-center justify-center sm:justify-end gap-2.5 px-4 py-3.5 rounded-2xl bg-gradient-to-r from-blue-600/30 to-cyan-500/30 hover:from-blue-600/45 hover:to-cyan-500/45 border border-cyan-400/50 text-white text-xs sm:text-sm font-semibold transition-all active:scale-95 shadow-lg">
+                        <div class="text-right">
+                            <span class="block text-[10px] uppercase tracking-wider text-cyan-300">Próxima Pestaña</span>
+                            <span class="block text-white font-bold">${nextTab.tabName}</span>
+                        </div>
+                        <svg class="w-4 h-4 text-cyan-300 shrink-0" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                `;
+            }
+
+            bottomNav.innerHTML = html;
+        }
+
+        /**
+         * Control del Modal de Índice (Menú Sándwich)
+         */
+        function toggleIndexModal(show) {
+            const modal = document.getElementById('index-modal');
+            if (show) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            } else {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+
+        /**
+         * Control individual y masivo de Preguntas y Respuestas
+         * Default: Plegadas
+         */
+        function toggleSingleQA(idx) {
+            const answerEl = document.getElementById(`qa-answer-${idx}`);
+            const iconEl = document.getElementById(`qa-icon-${idx}`);
+            if (!answerEl || !iconEl) return;
+
+            const isHidden = answerEl.classList.contains('hidden');
+            if (isHidden) {
+                answerEl.classList.remove('hidden');
+                iconEl.textContent = '−';
+            } else {
+                answerEl.classList.add('hidden');
+                iconEl.textContent = '+';
+            }
+        }
+
+        function toggleAllQA(expand) {
+            for (let i = 0; i < 6; i++) {
+                const answerEl = document.getElementById(`qa-answer-${i}`);
+                const iconEl = document.getElementById(`qa-icon-${i}`);
+                if (answerEl && iconEl) {
+                    if (expand) {
+                        answerEl.classList.remove('hidden');
+                        iconEl.textContent = '−';
+                    } else {
+                        answerEl.classList.add('hidden');
+                        iconEl.textContent = '+';
+                    }
+                }
+            }
+        }
+
+        /**
+         * Sistema de arrastre táctil y con ratón para los botones flotantes (INICIO y ARRIBA)
+         * Distingue perfectamente entre arrastrar el botón y tocarlo para ejecutar su acción.
+         */
+        function makeButtonDraggable(btnElement, onTapCallback) {
+            let isDragging = false;
+            let hasMoved = false;
+            let startX, startY, initialLeft, initialTop;
+
+            function onPointerDown(e) {
+                isDragging = true;
+                hasMoved = false;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                const rect = btnElement.getBoundingClientRect();
+
+                startX = clientX;
+                startY = clientY;
+                initialLeft = rect.left;
+                initialTop = rect.top;
+
+                btnElement.style.right = 'auto';
+                btnElement.style.bottom = 'auto';
+                btnElement.style.left = `${initialLeft}px`;
+                btnElement.style.top = `${initialTop}px`;
+            }
+
+            function onPointerMove(e) {
+                if (!isDragging) return;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                const dx = clientX - startX;
+                const dy = clientY - startY;
+
+                if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+                    hasMoved = true;
+                }
+
+                if (hasMoved) {
+                    e.preventDefault();
+                    const rect = btnElement.getBoundingClientRect();
+                    const maxLeft = window.innerWidth - rect.width - 8;
+                    const maxTop = window.innerHeight - rect.height - 8;
+
+                    const newLeft = Math.min(Math.max(8, initialLeft + dx), maxLeft);
+                    const newTop = Math.min(Math.max(96, initialTop + dy), maxTop);
+
+                    btnElement.style.left = `${newLeft}px`;
+                    btnElement.style.top = `${newTop}px`;
+                }
+            }
+
+            function onPointerUp() {
+                if (!isDragging) return;
+                isDragging = false;
+                if (!hasMoved && typeof onTapCallback === 'function') {
+                    onTapCallback();
+                }
+            }
+
+            btnElement.addEventListener('mousedown', onPointerDown);
+            window.addEventListener('mousemove', onPointerMove, { passive: false });
+            window.addEventListener('mouseup', onPointerUp);
+
+            btnElement.addEventListener('touchstart', onPointerDown, { passive: true });
+            window.addEventListener('touchmove', onPointerMove, { passive: false });
+            window.addEventListener('touchend', onPointerUp);
+        }
+
+        // Inicialización al cargar el DOM
+        document.addEventListener('DOMContentLoaded', () => {
+            switchTab(0);
+
+            // Configurar botón flotante movible INICIO
+            const floatHome = document.getElementById('float-btn-home');
+            makeButtonDraggable(floatHome, () => {
+                switchTab(0);
+            });
+
+            // Configurar botón flotante movible ARRIBA (comienzo de la pestaña actual)
+            const floatTop = document.getElementById('float-btn-top');
+            makeButtonDraggable(floatTop, () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
